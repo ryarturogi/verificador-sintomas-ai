@@ -62,7 +62,7 @@ Make sure options are:
     try {
       const response = await createChatCompletion(
         [{ role: 'user', content: prompt }],
-        'gpt-5-mini',
+        'gpt-5-nano',
         {
           temperature: 0.4,
           maxTokens: 800,
@@ -165,7 +165,7 @@ Include 8-10 most common symptoms for this context.
     try {
       const response = await createChatCompletion(
         [{ role: 'user', content: prompt }],
-        'gpt-5-mini',
+        'gpt-5-nano',
         {
           temperature: 0.3,
           maxTokens: 600,

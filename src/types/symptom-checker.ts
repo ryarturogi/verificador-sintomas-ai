@@ -51,7 +51,7 @@ export const EmergencySymptoms = [
 export type EmergencySymptom = typeof EmergencySymptoms[number]
 
 export interface GPTModelConfig {
-  model: 'gpt-5' | 'gpt-5-mini' | 'gpt-5-nano'
+  model: 'gpt-5-nano'
   temperature: number
   maxTokens: number
   useCase: 'primary' | 'quick' | 'emergency'

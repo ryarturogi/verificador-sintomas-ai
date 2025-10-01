@@ -18,7 +18,7 @@ function getOpenAIClient(): OpenAI {
 
 export async function createChatCompletion(
   messages: OpenAI.Chat.ChatCompletionMessageParam[],
-  model: 'gpt-5' | 'gpt-5-mini' | 'gpt-5-nano' = 'gpt-5',
+  model: 'gpt-5-nano' = 'gpt-5-nano',
   options: {
     temperature?: number
     maxTokens?: number
@@ -50,17 +50,13 @@ export async function createChatCompletion(
 
       return completion.choices[0]?.message?.content || ''
     } catch (modelError: unknown) {
-      // If GPT-5 models are not available, fall back to GPT-4
+      // If GPT-5-nano is not available, fall back to GPT-4o-mini
       const error = modelError as { status?: number; message?: string }
       if (error?.status === 404 || error?.message?.includes('model') || error?.message?.includes('does not exist')) {
-        console.log(`GPT-5 model ${model} not available, falling back to GPT-4o`)
-        
-        const fallbackModel = model === 'gpt-5' ? 'gpt-4o' : 
-                            model === 'gpt-5-mini' ? 'gpt-4o-mini' : 
-                            'gpt-4o-mini'
+        console.log(`GPT-5-nano model not available, falling back to GPT-4o-mini`)
         
         const completion = await openai.chat.completions.create({
-          model: fallbackModel,
+          model: 'gpt-4o-mini',
           messages,
           temperature,
           max_tokens: maxTokens,

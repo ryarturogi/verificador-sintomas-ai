@@ -31,7 +31,7 @@ Return a JSON object with this exact structure:
     try {
       const response = await createChatCompletion(
         [{ role: 'user', content: prompt }],
-        'gpt-5',
+        'gpt-5-nano',
         {
           temperature: 0.3,
           maxTokens: 500,
@@ -129,7 +129,7 @@ Make sure the question is medically relevant and builds on previous responses.
     try {
       const response = await createChatCompletion(
         [{ role: 'user', content: prompt }],
-        'gpt-5-mini',
+        'gpt-5-nano',
         {
           temperature: 0.4,
           maxTokens: 800,
