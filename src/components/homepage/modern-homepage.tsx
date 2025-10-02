@@ -20,7 +20,6 @@ import {
   Shield, 
   Stethoscope,
   ArrowLeft,
-  Loader2,
   UserCheck,
   ClipboardList,
   FileText,
@@ -29,6 +28,7 @@ import {
   CheckCircle,
   Info
 } from 'lucide-react'
+import { LoadingCard } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
 
 type AppState = 'disclaimer' | 'homepage' | 'questionnaire' | 'loading' | 'results' | 'error' | 'declined'
@@ -370,16 +370,17 @@ export function ModernHomepage() {
                 </div>
 
                 <div className="relative z-10 w-full">
-                  {/* Desktop: Two Column Layout */}
-                  <div className="hidden xl:grid xl:grid-cols-2 xl:gap-8 2xl:gap-12 xl:items-start w-full">
+                  {/* Main Hero Section - Responsive Layout */}
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 2xl:gap-12 xl:items-start w-full">
                     {/* Left Column - Main Content */}
                     <motion.div
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.6, delay: 0.2 }}
+                      className="text-center xl:text-left"
                     >
                       <motion.h1 
-                        className="text-4xl xl:text-6xl font-bold mb-6 text-left"
+                        className="text-4xl xl:text-6xl font-bold mb-6"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
@@ -399,7 +400,7 @@ export function ModernHomepage() {
                         </motion.span>
                       </motion.h1>
                       <motion.p 
-                        className="text-xl text-gray-600 leading-relaxed font-light mb-6 text-left"
+                        className="text-xl text-gray-600 leading-relaxed font-light mb-6"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
@@ -690,507 +691,6 @@ export function ModernHomepage() {
                     </motion.div>
                   </div>
 
-                  {/* Tablet: Optimized Single Column Layout */}
-                  <div className="hidden lg:block xl:hidden w-full">
-                    <div className="max-w-4xl mx-auto">
-                      <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="text-center mb-12"
-                      >
-                        <motion.h1 
-                          className="text-3xl lg:text-4xl font-bold mb-6"
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.8, delay: 0.2 }}
-                        >
-                          <motion.span 
-                            className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent"
-                            animate={{ 
-                              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
-                            }}
-                            transition={{ 
-                              duration: 3, 
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          >
-                            {t.homepage.mainTitle}
-                          </motion.span>
-                        </motion.h1>
-                        <motion.p 
-                          className="text-lg text-gray-600 leading-relaxed font-light mb-8 max-w-2xl mx-auto"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.8, delay: 0.4 }}
-                        >
-                          {t.homepage.mainSubtitle}
-                        </motion.p>
-                        
-                        {/* Tablet Enhanced Description */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.6 }}
-                          className="mb-8"
-                        >
-                          <p className="text-base text-gray-700 leading-relaxed mb-4 max-w-3xl mx-auto">
-                            Get instant, personalized health insights powered by advanced AI technology. 
-                            Our intelligent questionnaire adapts to your responses, providing accurate 
-                            medical assessments tailored to your specific symptoms.
-                          </p>
-                          <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600">
-                            <div className="flex items-center space-x-2">
-                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                              <span>Instant Results</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                              <span>Privacy Protected</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                              <span>{t.homepage.medicalAccuracy}</span>
-                            </div>
-                          </div>
-                        </motion.div>
-                      </motion.div>
-
-                      {/* Tablet Search Panel */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.8 }}
-                        className="max-w-2xl mx-auto"
-                      >
-                        <Card className="p-8 bg-white/80 backdrop-blur-lg border border-white/30 shadow-2xl rounded-2xl hover:shadow-3xl transition-all duration-500 group">
-                          <div className="text-center mb-8">
-                            <motion.div
-                              initial={{ scale: 0.9, rotate: -10 }}
-                              animate={{ scale: 1, rotate: 0 }}
-                              transition={{ duration: 0.5, delay: 1, type: "spring", stiffness: 200 }}
-                              whileHover={{ 
-                                scale: 1.1, 
-                                rotate: 5,
-                                transition: { duration: 0.3 }
-                              }}
-                              className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl mb-4 shadow-lg group-hover:shadow-xl transition-shadow duration-300"
-                            >
-                              <motion.div
-                                animate={{ 
-                                  scale: [1, 1.1, 1],
-                                  rotate: [0, 5, 0]
-                                }}
-                                transition={{ 
-                                  duration: 2, 
-                                  repeat: Infinity,
-                                  ease: "easeInOut"
-                                }}
-                              >
-                                <Stethoscope className="h-8 w-8 text-white" />
-                              </motion.div>
-                            </motion.div>
-                            <motion.h2 
-                              className="text-2xl font-bold text-gray-900 mb-3"
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 1.1 }}
-                            >
-                              {t.homepage.describeYourSymptoms}
-                            </motion.h2>
-                            <motion.p 
-                              className="text-base text-gray-600"
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 1.2 }}
-                            >
-                              {t.homepage.startMedicalAssessmentDescription}
-                            </motion.p>
-                          </div>
-                          <div className="flex flex-col sm:flex-row gap-4">
-                            <motion.div 
-                              className="flex-1 relative"
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 1.3 }}
-                            >
-                              <SearchAutocomplete
-                                value={searchQuery}
-                                onChange={setSearchQuery}
-                                onSelect={handleSearchSelect}
-                                placeholder={t.homepage.searchPlaceholder}
-                                className="h-14 text-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 rounded-xl pl-4 pr-4 bg-white/90 backdrop-blur-sm transition-all duration-300 hover:border-blue-300 hover:shadow-lg"
-                              />
-                            </motion.div>
-                            <motion.div
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 1.4 }}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                            >
-                              <Button 
-                                onClick={handleSearch}
-                                className="h-14 px-8 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
-                              >
-                                <motion.span
-                                  className="relative z-10 flex items-center space-x-2"
-                                  animate={{ opacity: [0.8, 1, 0.8] }}
-                                  transition={{ 
-                                    duration: 2, 
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                  }}
-                                >
-                                  <span>{t.homepage.assessButton}</span>
-                                  <motion.div
-                                    animate={{ x: [0, 3, 0] }}
-                                    transition={{ 
-                                      duration: 1.5, 
-                                      repeat: Infinity,
-                                      ease: "easeInOut"
-                                    }}
-                                  >
-                                    →
-                                  </motion.div>
-                                </motion.span>
-                                <motion.div
-                                  className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                  initial={{ x: "-100%" }}
-                                  whileHover={{ x: "100%" }}
-                                  transition={{ duration: 0.6 }}
-                                />
-                              </Button>
-                            </motion.div>
-                          </div>
-                        </Card>
-                      </motion.div>
-                    </div>
-                  </div>
-
-                  {/* Mobile: Single Column Layout */}
-                  <div className="xl:hidden text-center w-full flex flex-col justify-start min-h-[90vh] px-4 sm:px-6">
-                    <motion.div
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
-                      className="mb-8"
-                    >
-                      <motion.h1 
-                        className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                      >
-                        <motion.span 
-                          className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent"
-                          animate={{ 
-                            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
-                          }}
-                          transition={{ 
-                            duration: 3, 
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        >
-                          {t.homepage.mainTitle}
-                        </motion.span>
-                      </motion.h1>
-                      <motion.p 
-                        className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed font-light mb-4 sm:mb-6"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                      >
-                        {t.homepage.mainSubtitle}
-                      </motion.p>
-                      
-                      {/* Mobile Enhanced Description */}
-                      <div className="max-w-2xl mx-auto mb-8">
-                        <p className="text-base text-gray-700 leading-relaxed mb-4">
-                          Get instant, personalized health insights powered by advanced AI technology. 
-                          Our intelligent questionnaire adapts to your responses, providing accurate 
-                          medical assessments tailored to your specific symptoms.
-                        </p>
-                        <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span>Instant Results</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                            <span>Privacy Protected</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                            <span>{t.homepage.medicalAccuracy}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                    
-                    {/* Mobile Status Indicators */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.4 }}
-                      className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-6"
-                    >
-                      {[
-                        { icon: CheckCircle, label: t.homepage.aiPowered, color: "green", bgColor: "bg-green-100", textColor: "text-green-600" },
-                        { icon: Shield, label: t.homepage.hipaaCompliant, color: "blue", bgColor: "bg-blue-100", textColor: "text-blue-600" },
-                        { icon: FileText, label: t.homepage.medicalGrade, color: "purple", bgColor: "bg-purple-100", textColor: "text-purple-600" }
-                      ].map((item, index) => (
-                        <motion.div
-                          key={item.label}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                          whileHover={{ 
-                            scale: 1.05, 
-                            y: -2,
-                            transition: { duration: 0.2 }
-                          }}
-                          whileTap={{ scale: 0.95 }}
-                          className="flex items-center space-x-2 bg-white/70 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl border border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
-                        >
-                          <motion.div 
-                            className={`p-1.5 ${item.bgColor} rounded-lg group-hover:scale-110 transition-transform duration-300`}
-                            whileHover={{ rotate: 5 }}
-                          >
-                            <item.icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${item.textColor}`} />
-                          </motion.div>
-                          <span className="text-xs sm:text-sm font-semibold text-gray-700 group-hover:text-gray-900 transition-colors duration-300">
-                            {item.label}
-                          </span>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-
-                    {/* Mobile Trust Indicators */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.6 }}
-                      className="grid grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8 max-w-sm sm:max-w-md mx-auto"
-                    >
-                      {[
-                        { value: "98%", label: t.homepage.accuracy, color: "text-blue-600", bgColor: "bg-blue-50" },
-                        { value: "50K+", label: t.homepage.users, color: "text-green-600", bgColor: "bg-green-50" },
-                        { value: "24/7", label: t.homepage.available, color: "text-purple-600", bgColor: "bg-purple-50" }
-                      ].map((stat, index) => (
-                        <motion.div
-                          key={stat.label}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                          whileHover={{ 
-                            scale: 1.05, 
-                            y: -3,
-                            transition: { duration: 0.2 }
-                          }}
-                          className={`text-center p-3 sm:p-4 rounded-xl ${stat.bgColor} border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group`}
-                        >
-                          <motion.div 
-                            className={`text-lg sm:text-xl font-bold ${stat.color} mb-1 group-hover:scale-110 transition-transform duration-300`}
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ 
-                              duration: 0.8, 
-                              delay: 0.8 + index * 0.2,
-                              type: "spring",
-                              stiffness: 200
-                            }}
-                          >
-                            {stat.value}
-                          </motion.div>
-                          <div className="text-xs sm:text-sm text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
-                            {stat.label}
-                          </div>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-
-                    {/* Mobile Call to Action */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.8 }}
-                      className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8 max-w-sm sm:max-w-md mx-auto"
-                    >
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <Button 
-                          onClick={handleSearch}
-                          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 sm:py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
-                        >
-                          <motion.span
-                            className="relative z-10 flex items-center justify-center space-x-2"
-                            animate={{ opacity: [0.8, 1, 0.8] }}
-                            transition={{ 
-                              duration: 2, 
-                              repeat: Infinity,
-                              ease: "easeInOut"
-                            }}
-                          >
-                            <span>Start Free Assessment</span>
-                            <motion.div
-                              animate={{ x: [0, 3, 0] }}
-                              transition={{ 
-                                duration: 1.5, 
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                              }}
-                            >
-                              →
-                            </motion.div>
-                          </motion.span>
-                          <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            initial={{ x: "-100%" }}
-                            whileHover={{ x: "100%" }}
-                            transition={{ duration: 0.6 }}
-                          />
-                        </Button>
-                      </motion.div>
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <Button 
-                          variant="outline"
-                          className="w-full border-2 border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 px-6 py-3 sm:py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-blue-50 group"
-                        >
-                          <span className="flex items-center justify-center space-x-2">
-                            <span>Learn More</span>
-                            <motion.div
-                              animate={{ rotate: [0, 10, -10, 0] }}
-                              transition={{ 
-                                duration: 2, 
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                              }}
-                            >
-                              ℹ️
-                            </motion.div>
-                          </span>
-                        </Button>
-                      </motion.div>
-                    </motion.div>
-
-                    {/* Mobile Search Panel */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 1.0 }}
-                      className="max-w-sm sm:max-w-md mx-auto"
-                    >
-                      <Card className="p-4 sm:p-6 bg-white/80 backdrop-blur-lg border border-white/30 shadow-2xl rounded-2xl hover:shadow-3xl transition-all duration-500 group">
-                        <div className="text-center mb-4 sm:mb-6">
-                          <motion.div
-                            initial={{ scale: 0.9, rotate: -10 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ duration: 0.5, delay: 1.1, type: "spring", stiffness: 200 }}
-                            whileHover={{ 
-                              scale: 1.1, 
-                              rotate: 5,
-                              transition: { duration: 0.3 }
-                            }}
-                            className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl mb-3 shadow-lg group-hover:shadow-xl transition-shadow duration-300"
-                          >
-                            <motion.div
-                              animate={{ 
-                                scale: [1, 1.1, 1],
-                                rotate: [0, 5, 0]
-                              }}
-                              transition={{ 
-                                duration: 2, 
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                              }}
-                            >
-                              <Stethoscope className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                            </motion.div>
-                          </motion.div>
-                          <motion.h2 
-                            className="text-lg sm:text-xl font-bold text-gray-900 mb-2"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1.2 }}
-                          >
-                            {t.homepage.describeYourSymptoms}
-                          </motion.h2>
-                          <motion.p 
-                            className="text-sm text-gray-600"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1.3 }}
-                          >
-                            {t.homepage.startMedicalAssessment}
-                          </motion.p>
-                        </div>
-                        <div className="flex flex-col gap-3 sm:gap-4">
-                          <motion.div 
-                            className="relative"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1.4 }}
-                          >
-                            <SearchAutocomplete
-                              value={searchQuery}
-                              onChange={setSearchQuery}
-                              onSelect={handleSearchSelect}
-                              placeholder={t.homepage.searchPlaceholder}
-                              className="h-11 sm:h-12 text-sm sm:text-base border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 rounded-xl pl-4 pr-4 bg-white/90 backdrop-blur-sm transition-all duration-300 hover:border-blue-300 hover:shadow-lg"
-                            />
-                          </motion.div>
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1.5 }}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <Button 
-                              onClick={handleSearch}
-                              className="w-full h-11 sm:h-12 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
-                            >
-                              <motion.span
-                                className="relative z-10 flex items-center justify-center space-x-2"
-                                animate={{ opacity: [0.8, 1, 0.8] }}
-                                transition={{ 
-                                  duration: 2, 
-                                  repeat: Infinity,
-                                  ease: "easeInOut"
-                                }}
-                              >
-                                <span>{t.homepage.assessButton}</span>
-                                <motion.div
-                                  animate={{ x: [0, 3, 0] }}
-                                  transition={{ 
-                                    duration: 1.5, 
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                  }}
-                                >
-                                  →
-                                </motion.div>
-                              </motion.span>
-                              <motion.div
-                                className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                initial={{ x: "-100%" }}
-                                whileHover={{ x: "100%" }}
-                                transition={{ duration: 0.6 }}
-                              />
-                            </Button>
-                          </motion.div>
-                        </div>
-                      </Card>
-                    </motion.div>
-                  </div>
                 </div>
               </motion.div>
 
@@ -1421,30 +921,16 @@ export function ModernHomepage() {
           )}
 
           {appState === 'loading' && (
-            <motion.div
-              key="loading"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="max-w-md mx-auto"
-            >
-              <Card>
-                <CardContent className="p-8 text-center">
-                  <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-blue-500" />
-                  <h3 className="text-lg font-semibold mb-2">
-                    {t.questionnaire.analyzing}
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    {t.questionnaire.generatingAssessment}
-                  </p>
-                  <div className="mt-4 space-y-2 text-xs text-gray-500">
-                    <p>✓ {t.questionnaire.processing} {responses.length} {t.questionnaire.questionsAnswered}</p>
-                    <p>✓ {t.questionnaire.checkingDatabases}</p>
-                    <p>✓ {t.questionnaire.generatingAssessment}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <LoadingCard
+              title={t.questionnaire.analyzing}
+              description={t.questionnaire.generatingAssessment}
+              showSteps={true}
+              steps={[
+                `${t.questionnaire.processing} ${responses.length} ${t.questionnaire.questionsAnswered}`,
+                t.questionnaire.checkingDatabases,
+                t.questionnaire.generatingAssessment
+              ]}
+            />
           )}
 
           {appState === 'results' && results && (

@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Check, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Check, ArrowRight, ArrowLeft, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useTranslations } from '@/contexts/language-context'
 import { AIAutocompleteInput } from './ai-autocomplete-input'
 import { AIAnswerSelector } from './ai-answer-selector'
+import { medicalDesignTokens as designTokens } from '@/lib/design-tokens'
 
 interface DynamicQuestionProps {
   question: Question
@@ -42,6 +43,9 @@ export function DynamicQuestion({
 
   const handleSubmit = () => {
     setError('')
+    
+    // Scroll to top when submitting answer
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 
     let finalAnswer: string | number | boolean | string[]
 
@@ -161,33 +165,35 @@ export function DynamicQuestion({
 
       case 'single_choice':
         return (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {question.options?.map((option, index) => (
               <motion.div
                 key={option.id}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
               >
                 <Button
                   type="button"
                   onClick={() => setAnswer(option.value)}
-                  variant={answer === option.value ? "default" : "outline"}
-                  className={`w-full p-6 text-left rounded-xl transition-all duration-300 shadow-sm ${
+                  variant="outline"
+                  className={`w-full p-4 text-left ${
                     answer === option.value
-                      ? 'bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-400 shadow-lg transform scale-[1.02]'
-                      : 'bg-white border-2 border-gray-200 hover:border-blue-300 hover:shadow-lg hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 hover:scale-[1.01]'
+                      ? `${designTokens.cards.interactive} border-blue-500 bg-blue-50 shadow-md`
+                      : `${designTokens.cards.interactive} hover:border-blue-300`
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className={`font-medium ${answer === option.value ? 'text-blue-700' : 'text-gray-700'}`}>
+                    <span className={`${designTokens.typography.bodySmall} font-medium ${
+                      answer === option.value ? 'text-blue-700' : 'text-slate-700'
+                    }`}>
                       {option.label}
                     </span>
                     {answer === option.value && (
-                      <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                        <Check className="h-4 w-4 text-white" />
+                      <div className={designTokens.iconContainers.primary}>
+                        <Check className="h-3 w-3" />
                       </div>
                     )}
                   </div>
@@ -199,7 +205,7 @@ export function DynamicQuestion({
 
       case 'multiple_choice':
         return (
-          <div className="space-y-1">
+          <div className="space-y-2">
             {question.options?.map((option, index) => (
               <motion.div
                 key={option.id}
@@ -212,20 +218,22 @@ export function DynamicQuestion({
                 <Button
                   type="button"
                   onClick={() => handleMultipleChoice(option.value)}
-                  variant={selectedOptions.includes(option.value) ? "default" : "outline"}
-                  className={`w-full p-2 text-left rounded-md transition-all duration-150 border ${
+                  variant="outline"
+                  className={`w-full p-3 text-left ${
                     selectedOptions.includes(option.value)
-                      ? 'bg-green-50 border-green-300 text-green-800'
-                      : 'bg-white border-gray-200 hover:border-green-300 hover:bg-gray-50 text-gray-700'
+                      ? `${designTokens.cards.success} border-emerald-300`
+                      : `${designTokens.cards.interactive} hover:border-emerald-300`
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className={`text-xs font-medium ${selectedOptions.includes(option.value) ? 'text-green-700' : 'text-gray-700'}`}>
+                    <span className={`${designTokens.typography.bodySmall} font-medium ${
+                      selectedOptions.includes(option.value) ? 'text-emerald-700' : 'text-slate-700'
+                    }`}>
                       {option.label}
                     </span>
                     {selectedOptions.includes(option.value) && (
-                      <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
-                        <Check className="h-2.5 w-2.5 text-white" />
+                      <div className={designTokens.iconContainers.success}>
+                        <Check className="h-3 w-3" />
                       </div>
                     )}
                   </div>
@@ -237,7 +245,7 @@ export function DynamicQuestion({
 
       case 'boolean':
         return (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-3">
             {[
               { label: t.common.yes, value: true },
               { label: t.common.no, value: false }
@@ -251,10 +259,10 @@ export function DynamicQuestion({
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
                 onClick={() => setAnswer(option.value)}
-                className={`p-3 rounded-md font-medium text-sm transition-all duration-150 border ${
+                className={`p-4 rounded-lg font-medium text-sm ${designTokens.animations.transitionFast} border ${
                   answer === option.value
-                    ? 'bg-blue-500 text-white border-blue-500 shadow-sm'
-                    : 'bg-white border-gray-200 text-gray-700 hover:border-blue-300 hover:bg-blue-50'
+                    ? `${designTokens.buttons.primary.replace('border border-blue-600', 'border-2 border-blue-600')}`
+                    : `${designTokens.buttons.secondary} hover:border-blue-300 hover:bg-blue-50`
                 }`}
               >
                 {option.label}
@@ -267,11 +275,14 @@ export function DynamicQuestion({
         return (
           <div className="space-y-4">
             <div className="text-center">
-              <span className="text-3xl font-bold text-blue-600">
+              <span className={`${designTokens.typography.h2} text-blue-600 scale-number`}>
                 {answer || question.min || 1}
               </span>
-              <p className="text-sm text-gray-600 mt-1">
-                {t.scale.scaleLabel}: {question.min || 1} to {question.max || 10}
+              <p className={`${designTokens.typography.bodySecondary} mt-1`}>
+                <span>{t.scale.scaleLabel}: </span>
+                <span className="font-medium scale-number">{question.min || 1}</span>
+                <span> to </span>
+                <span className="font-medium scale-number">{question.max || 10}</span>
               </p>
             </div>
             <input
@@ -280,11 +291,17 @@ export function DynamicQuestion({
               max={question.max || 10}
               value={answer as number || question.min || 1}
               onChange={(e) => setAnswer(Number(e.target.value))}
-              className="w-full h-4 bg-gray-200 rounded-lg appearance-none cursor-pointer slider hover:bg-gray-300 transition-colors"
+              className={`w-full h-3 bg-slate-200 rounded-lg appearance-none cursor-pointer slider ${designTokens.animations.transitionFast}`}
             />
-            <div className="flex justify-between text-sm text-gray-500">
-              <span>{t.scale.lowLabel} ({question.min || 1})</span>
-              <span>{t.scale.highLabel} ({question.max || 10})</span>
+            <div className="flex justify-between">
+              <span className={`${designTokens.typography.bodySmall} text-slate-600`}>
+                <span>{t.scale.lowLabel} </span>
+                <span className="font-medium scale-number">({question.min || 1})</span>
+              </span>
+              <span className={`${designTokens.typography.bodySmall} text-slate-600`}>
+                <span>{t.scale.highLabel} </span>
+                <span className="font-medium scale-number">({question.max || 10})</span>
+              </span>
             </div>
           </div>
         )
@@ -298,7 +315,7 @@ export function DynamicQuestion({
             placeholder={question.placeholder}
             value={answer as number || ''}
             onChange={(e) => setAnswer(Number(e.target.value))}
-            className="text-lg"
+            className={designTokens.forms.input}
           />
         )
 
@@ -309,7 +326,7 @@ export function DynamicQuestion({
             value={answer as string}
             onChange={(e) => setAnswer(e.target.value)}
             rows={4}
-            className="text-base"
+            className={designTokens.forms.textarea}
           />
         ) : (
           <Input
@@ -317,7 +334,7 @@ export function DynamicQuestion({
             placeholder={question.placeholder}
             value={answer as string}
             onChange={(e) => setAnswer(e.target.value)}
-            className="text-lg"
+            className={designTokens.forms.input}
           />
         )
 
@@ -331,52 +348,52 @@ export function DynamicQuestion({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       className="max-w-2xl lg:max-w-4xl mx-auto"
     >
-      {/* Modern Progress Section */}
+      {/* Medical Progress Section */}
       <motion.div 
-        className="mb-6 sm:mb-8"
+        className="mb-6"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <div className="flex justify-between items-center mb-4">
-          <div className="text-sm sm:text-base text-gray-600">
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent font-bold">
+        <div className="flex justify-between items-center mb-3">
+          <div className={designTokens.typography.label}>
+            <span className={`${designTokens.typography.emphasis} text-blue-600`}>
               Question {questionNumber} of {totalQuestions}
             </span>
           </div>
-          <div className="text-sm sm:text-base text-gray-600">
-            <span className="bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/20 shadow-sm font-medium">
+          <div>
+            <span className={designTokens.badges.status.inProgress}>
               {Math.round(progress)}% Complete
             </span>
           </div>
         </div>
-        <div className="w-full bg-gray-200/60 rounded-full h-3 overflow-hidden shadow-inner">
+        <div className={designTokens.progress.barLarge}>
           <motion.div 
-            className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full shadow-sm"
+            className={designTokens.progress.fill}
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           />
         </div>
       </motion.div>
 
-      {/* Modern Question Card */}
-      <Card className="bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl rounded-2xl overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6">
+      {/* Medical Question Card */}
+      <Card className={designTokens.cards.clinical}>
+        <CardHeader className="bg-blue-50 p-4 sm:p-6 border-b border-blue-200">
           <div className="flex items-start space-x-3">
             <motion.div 
-              className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg"
-              whileHover={{ scale: 1.05, rotate: 5 }}
+              className={`${designTokens.iconContainers.primary} flex-shrink-0`}
+              whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
-              <span className="text-white font-bold text-sm">{questionNumber}</span>
+              <MessageCircle className="h-4 w-4 text-blue-600" />
             </motion.div>
             <div className="flex-1">
               <motion.h2 
-                className="text-lg sm:text-xl font-bold text-gray-900 mb-2 leading-tight"
+                className={`${designTokens.typography.h4} mb-2`}
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
@@ -385,7 +402,7 @@ export function DynamicQuestion({
               </motion.h2>
               {question.description && (
                 <motion.p 
-                  className="text-gray-600 text-sm sm:text-base leading-relaxed"
+                  className={designTokens.typography.bodySecondary}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
@@ -397,9 +414,9 @@ export function DynamicQuestion({
           </div>
         </CardHeader>
 
-        <CardContent className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+        <CardContent className="p-4 sm:p-6 space-y-4">
           <motion.div 
-            className="min-h-[100px] sm:min-h-[120px]"
+            className="min-h-[80px]"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
@@ -411,13 +428,13 @@ export function DynamicQuestion({
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-xl p-4 shadow-lg"
+              className={designTokens.alerts.error}
             >
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-white text-sm">!</span>
+                <div className={designTokens.iconContainers.emergency}>
+                  <span className="text-white text-sm font-bold">!</span>
                 </div>
-                <span className="text-red-700 font-medium">{error}</span>
+                <span className={`${designTokens.typography.bodySmall} font-medium`}>{error}</span>
               </div>
             </motion.div>
           )}
@@ -431,14 +448,13 @@ export function DynamicQuestion({
             {/* Back Button */}
             {canGoBack && onGoBack && (
               <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
                 className="flex-shrink-0"
               >
                 <Button
                   onClick={onGoBack}
-                  variant="outline"
-                  className="h-12 sm:h-14 border-2 border-gray-300 bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 font-semibold rounded-xl transition-all duration-300 px-6"
+                  className={`${designTokens.buttons.secondary} h-10 px-4`}
                 >
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   {t.common.back}
@@ -448,24 +464,28 @@ export function DynamicQuestion({
 
             {/* Submit Button */}
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
               className="flex-1"
             >
               <Button
                 onClick={handleSubmit}
                 disabled={isLoading}
-                className={`w-full h-12 sm:h-14 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 ${isLoading ? 'opacity-75 cursor-not-allowed' : 'hover:scale-[1.01]'}`}
+                className={`w-full h-10 ${
+                  isLoading 
+                    ? designTokens.buttons.disabled 
+                    : designTokens.buttons.primary
+                }`}
               >
                 {isLoading ? (
-                  <span className="flex items-center">
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3" />
+                  <span className="flex items-center justify-center">
+                    <div className={`${designTokens.progress.ringSmall} mr-2`} />
                     {t.common.processing}
                   </span>
                 ) : (
                   <span className="flex items-center justify-center">
                     {t.common.continue}
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </span>
                 )}
               </Button>

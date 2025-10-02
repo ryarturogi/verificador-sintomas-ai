@@ -160,7 +160,9 @@ export function AIAutocompleteInput({
         
         {isLoading && (
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+            <div className="w-4 h-4 bg-blue-100 rounded-full flex items-center justify-center">
+              <Loader2 className="h-3 w-3 animate-spin text-blue-600" />
+            </div>
           </div>
         )}
       </div>
