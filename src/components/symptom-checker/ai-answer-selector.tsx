@@ -5,7 +5,8 @@ import { Question, QuestionOption, QuestionResponse } from '@/types/dynamic-ques
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { useLanguage, useTranslations } from '@/contexts/language-context'
-import { Loader2, Check, Sparkles, RefreshCw } from 'lucide-react'
+import { Check, Sparkles, RefreshCw } from 'lucide-react'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface AIAnswerSelectorProps {
@@ -95,35 +96,16 @@ export function AIAnswerSelector({
   if (isLoading) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.2 }}
       >
-        <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-0 shadow-lg p-8">
-          <div className="flex items-center justify-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-              <Loader2 className="h-6 w-6 animate-spin text-white" />
-            </div>
-            <div className="text-center">
-              <p className="text-lg font-semibold text-gray-900 mb-1">
-                {t.ai.generatingOptions}
-              </p>
-              <p className="text-sm text-gray-600">
-                {t.ai.intelligentlyGenerated}
-              </p>
-            </div>
-          </div>
-          <div className="mt-6 flex justify-center">
-            <div className="flex space-x-2">
-              {[1,2,3].map((dot) => (
-                <div 
-                  key={dot}
-                  className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"
-                  style={{ animationDelay: `${dot * 0.2}s` }}
-                />
-              ))}
-            </div>
-          </div>
+        <Card className="bg-blue-50 border-blue-200 shadow-sm p-6">
+          <LoadingSpinner 
+            size="small"
+            text={t.ai.generatingOptions}
+            subtext={t.ai.intelligentlyGenerated}
+          />
         </Card>
       </motion.div>
     )

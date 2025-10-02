@@ -9,11 +9,11 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Progress } from '@/components/ui/progress'
 import { SymptomData, SymptomSeverity } from '@/types/symptom-checker'
 import { MEDICAL_DISCLAIMER } from '@/constants/symptom-checker'
 import { useTranslations } from '@/contexts/language-context'
-import { AlertTriangle, Heart, Clock, User } from 'lucide-react'
+import { AlertTriangle, Stethoscope, User, FileText, Activity } from 'lucide-react'
+import { medicalDesignTokens as designTokens } from '@/lib/design-tokens'
 
 interface SymptomFormProps {
   onSubmit: (data: SymptomData) => Promise<void>
@@ -61,27 +61,36 @@ export function SymptomForm({ onSubmit, isLoading }: SymptomFormProps) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <Alert className="border-amber-200 bg-amber-50">
-        <AlertTriangle className="h-4 w-4 text-amber-600" />
-        <AlertDescription className="text-amber-800 text-sm">
+    <div className={`${designTokens.spacing.containerNarrow} space-y-6`}>
+      <Alert className={designTokens.alerts.warning}>
+        <AlertTriangle className="h-4 w-4" />
+        <AlertDescription className={designTokens.typography.bodySmall}>
           <strong>Medical Disclaimer:</strong> This tool is for informational purposes only. 
           In case of emergency, call 911 immediately.
         </AlertDescription>
       </Alert>
 
-      <Card>
+      <Card className={designTokens.cards.clinical}>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Heart className="h-5 w-5 text-red-500" />
-            AI Symptom Assessment
-          </CardTitle>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm text-gray-600">
-              <span>Step {step} of {totalSteps}</span>
-              <span>{Math.round(progress)}% Complete</span>
+          <CardTitle className={`${designTokens.typography.h3} flex items-center gap-3`}>
+            <div className={designTokens.iconContainers.primary}>
+              <Stethoscope className="h-5 w-5" />
             </div>
-            <Progress value={progress} className="w-full" />
+            Medical Symptom Assessment
+          </CardTitle>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className={designTokens.typography.label}>Step {step} of {totalSteps}</span>
+              <span className={`${designTokens.badges.status.inProgress}`}>
+                {Math.round(progress)}% Complete
+              </span>
+            </div>
+            <div className={designTokens.progress.barLarge}>
+              <div 
+                className={designTokens.progress.fill}
+                style={{ width: `${progress}%` }}
+              />
+            </div>
           </div>
         </CardHeader>
 
@@ -89,48 +98,50 @@ export function SymptomForm({ onSubmit, isLoading }: SymptomFormProps) {
           <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
             
             {step === 1 && (
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5" />
+              <div className={designTokens.forms.formGroup}>
+                <h3 className={`${designTokens.typography.h4} flex items-center gap-3 mb-4`}>
+                  <div className={designTokens.iconContainers.warning}>
+                    <Activity className="h-5 w-5" />
+                  </div>
                   {t.forms.primarySymptomsLabel}
                 </h3>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className={designTokens.forms.label}>
                     {t.questions.mainConcern}
                   </label>
                   <Input
                     {...register('primarySymptom')}
                     placeholder={t.forms.primarySymptomPlaceholder}
-                    className={errors.primarySymptom ? 'border-red-500' : ''}
+                    className={errors.primarySymptom ? designTokens.forms.inputError : designTokens.forms.input}
                   />
                   {errors.primarySymptom && (
-                    <p className="text-red-500 text-sm mt-1">{errors.primarySymptom.message}</p>
+                    <p className={designTokens.forms.error}>{errors.primarySymptom.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className={designTokens.forms.label}>
                     {t.forms.describeSymptomsLabel}
                   </label>
                   <Textarea
                     {...register('description')}
                     placeholder={t.forms.descriptionPlaceholder}
                     rows={4}
-                    className={errors.description ? 'border-red-500' : ''}
+                    className={errors.description ? designTokens.forms.inputError : designTokens.forms.textarea}
                   />
                   {errors.description && (
-                    <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+                    <p className={designTokens.forms.error}>{errors.description.message}</p>
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className={designTokens.forms.formRow}>
                   <div>
-                    <label className="block text-sm font-medium mb-2">
+                    <label className={designTokens.forms.label}>
                       {t.forms.howLongSymptomsLabel}
                     </label>
                     <Select onValueChange={(value) => setValue('duration', value)}>
-                      <SelectTrigger>
+                      <SelectTrigger className={designTokens.forms.select}>
                         <SelectValue placeholder={t.forms.durationPlaceholder} />
                       </SelectTrigger>
                       <SelectContent>
@@ -147,11 +158,11 @@ export function SymptomForm({ onSubmit, isLoading }: SymptomFormProps) {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">
+                    <label className={designTokens.forms.label}>
                       {t.questions.severity}
                     </label>
                     <Select onValueChange={(value) => setValue('severity', value as SymptomSeverity)}>
-                      <SelectTrigger>
+                      <SelectTrigger className={designTokens.forms.select}>
                         <SelectValue placeholder={t.forms.severityPlaceholder} />
                       </SelectTrigger>
                       <SelectContent>
@@ -167,31 +178,33 @@ export function SymptomForm({ onSubmit, isLoading }: SymptomFormProps) {
             )}
 
             {step === 2 && (
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <User className="h-5 w-5" />
+              <div className={designTokens.forms.formGroup}>
+                <h3 className={`${designTokens.typography.h4} flex items-center gap-3 mb-4`}>
+                  <div className={designTokens.iconContainers.secondary}>
+                    <User className="h-5 w-5" />
+                  </div>
                   {t.forms.personalInformationLabel}
                 </h3>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className={designTokens.forms.formRow}>
                   <div>
-                    <label className="block text-sm font-medium mb-2">{t.forms.ageLabel}</label>
+                    <label className={designTokens.forms.label}>{t.forms.ageLabel}</label>
                     <Input
                       type="number"
                       {...register('age', { valueAsNumber: true })}
                       min="1"
                       max="120"
-                      className={errors.age ? 'border-red-500' : ''}
+                      className={errors.age ? designTokens.forms.inputError : designTokens.forms.input}
                     />
                     {errors.age && (
-                      <p className="text-red-500 text-sm mt-1">{errors.age.message}</p>
+                      <p className={designTokens.forms.error}>{errors.age.message}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">{t.questions.gender}</label>
+                    <label className={designTokens.forms.label}>{t.questions.gender}</label>
                     <Select onValueChange={(value) => setValue('gender', value as 'male' | 'female' | 'other' | 'prefer_not_to_say')}>
-                      <SelectTrigger>
+                      <SelectTrigger className={designTokens.forms.select}>
                         <SelectValue placeholder={t.forms.genderPlaceholder} />
                       </SelectTrigger>
                       <SelectContent>
@@ -206,13 +219,13 @@ export function SymptomForm({ onSubmit, isLoading }: SymptomFormProps) {
 
                 {watchedValues.gender === 'female' && (
                   <div>
-                    <label className="flex items-center space-x-2">
+                    <label className="flex items-center space-x-3">
                       <input
                         type="checkbox"
                         {...register('isPregnant')}
-                        className="rounded"
+                        className={designTokens.forms.checkbox}
                       />
-                      <span className="text-sm">Are you currently pregnant?</span>
+                      <span className={designTokens.typography.bodySmall}>Are you currently pregnant?</span>
                     </label>
                   </div>
                 )}
@@ -220,20 +233,22 @@ export function SymptomForm({ onSubmit, isLoading }: SymptomFormProps) {
             )}
 
             {step === 3 && (
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <Clock className="h-5 w-5" />
+              <div className={designTokens.forms.formGroup}>
+                <h3 className={`${designTokens.typography.h4} flex items-center gap-3 mb-4`}>
+                  <div className={designTokens.iconContainers.info}>
+                    <FileText className="h-5 w-5" />
+                  </div>
                   Medical History
                 </h3>
 
                 <div>
-                  <label className="flex items-center space-x-2 mb-4">
+                  <label className="flex items-center space-x-3 mb-4">
                     <input
                       type="checkbox"
                       {...register('hasChronicConditions')}
-                      className="rounded"
+                      className={designTokens.forms.checkbox}
                     />
-                    <span className="text-sm">Do you have any chronic medical conditions?</span>
+                    <span className={designTokens.typography.bodySmall}>Do you have any chronic medical conditions?</span>
                   </label>
 
                   {watchedValues.hasChronicConditions && (
@@ -241,73 +256,97 @@ export function SymptomForm({ onSubmit, isLoading }: SymptomFormProps) {
                       {...register('chronicConditions')}
                       placeholder={t.forms.chronicConditionsPlaceholder}
                       rows={3}
+                      className={designTokens.forms.textarea}
                     />
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className={designTokens.forms.label}>
                     {t.forms.medicationsLabel}
                   </label>
                   <Textarea
                     {...register('currentMedications')}
                     placeholder={t.forms.medicationsPlaceholder}
                     rows={3}
+                    className={designTokens.forms.textarea}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">
+                  <label className={designTokens.forms.label}>
                     {t.forms.allergiesLabel}
                   </label>
                   <Textarea
                     {...register('allergies')}
                     placeholder={t.forms.allergiesPlaceholder}
                     rows={2}
+                    className={designTokens.forms.textarea}
                   />
                 </div>
               </div>
             )}
 
             {step === 4 && (
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">{t.forms.reviewSubmitLabel}</h3>
+              <div className={designTokens.forms.formGroup}>
+                <h3 className={`${designTokens.typography.h4} mb-4`}>{t.forms.reviewSubmitLabel}</h3>
                 
-                <div className="bg-gray-50 p-4 rounded-lg space-y-2 text-sm">
-                  <p><strong>{t.forms.primarySymptomField}:</strong> {watchedValues.primarySymptom}</p>
-                  <p><strong>{t.forms.durationField}:</strong> {watchedValues.duration}</p>
-                  <p><strong>{t.forms.severityField}:</strong> {watchedValues.severity}</p>
-                  <p><strong>{t.forms.ageField}:</strong> {watchedValues.age}</p>
-                  <p><strong>{t.questions.gender}:</strong> {watchedValues.gender}</p>
+                <div className={`${designTokens.cards.neutral} p-4 space-y-3`}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                      <span className={designTokens.typography.label}>{t.forms.primarySymptomField}:</span>
+                      <p className={designTokens.typography.bodySmall}>{watchedValues.primarySymptom}</p>
+                    </div>
+                    <div>
+                      <span className={designTokens.typography.label}>{t.forms.durationField}:</span>
+                      <p className={designTokens.typography.bodySmall}>{watchedValues.duration}</p>
+                    </div>
+                    <div>
+                      <span className={designTokens.typography.label}>{t.forms.severityField}:</span>
+                      <p className={designTokens.typography.bodySmall}>{watchedValues.severity}</p>
+                    </div>
+                    <div>
+                      <span className={designTokens.typography.label}>{t.forms.ageField}:</span>
+                      <p className={designTokens.typography.bodySmall}>{watchedValues.age}</p>
+                    </div>
+                  </div>
                 </div>
 
-                <Alert>
+                <Alert className={designTokens.alerts.clinical}>
                   <AlertTriangle className="h-4 w-4" />
-                  <AlertDescription className="text-xs leading-relaxed">
+                  <AlertDescription className={designTokens.typography.caption}>
                     {MEDICAL_DISCLAIMER}
                   </AlertDescription>
                 </Alert>
               </div>
             )}
 
-            <div className="flex justify-between pt-6">
+            <div className="flex justify-between items-center pt-6 border-t border-slate-200">
               {step > 1 && (
-                <Button type="button" variant="outline" onClick={prevStep}>
+                <Button 
+                  type="button" 
+                  onClick={prevStep}
+                  className={designTokens.buttons.secondary}
+                >
                   Previous
                 </Button>
               )}
               
               {step < totalSteps ? (
-                <Button type="button" onClick={nextStep} className="ml-auto">
-                  Next
+                <Button 
+                  type="button" 
+                  onClick={nextStep} 
+                  className={`${designTokens.buttons.primary} ml-auto`}
+                >
+                  Next Step
                 </Button>
               ) : (
                 <Button 
                   type="submit" 
                   disabled={isLoading}
-                  className="ml-auto"
+                  className={`${isLoading ? designTokens.buttons.disabled : designTokens.buttons.success} ml-auto`}
                 >
-                  {isLoading ? 'Analyzing...' : 'Get Assessment'}
+                  {isLoading ? 'Analyzing Symptoms...' : 'Get Medical Assessment'}
                 </Button>
               )}
             </div>

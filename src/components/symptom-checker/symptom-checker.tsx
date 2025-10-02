@@ -13,7 +13,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { LanguageSwitcher } from '@/components/ui/language-switcher'
 import { useTranslations, useLanguage } from '@/contexts/language-context'
-import { Loader2, AlertTriangle, Settings } from 'lucide-react'
+import { AlertTriangle, Settings } from 'lucide-react'
+import { LoadingCard } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
 
 type AppState = 'disclaimer' | 'questionnaire' | 'loading' | 'results' | 'error' | 'config-error' | 'declined'
@@ -26,6 +27,11 @@ export function SymptomChecker() {
   const [responses, setResponses] = useState<QuestionResponse[]>([])
   const t = useTranslations()
   const { language } = useLanguage()
+
+  // Scroll to top when component mounts or state changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [state])
 
   useEffect(() => {
     // Check if disclaimer was previously accepted
@@ -256,29 +262,16 @@ export function SymptomChecker() {
           )}
 
           {state === 'loading' && (
-            <motion.div
-              key="loading"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-            >
-              <Card className="max-w-md mx-auto">
-                <CardContent className="p-8 text-center">
-                  <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-blue-500" />
-                  <h3 className="text-lg font-semibold mb-2">
-                    {t.questionnaire.analyzing}
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    {t.questionnaire.generatingAssessment}
-                  </p>
-                  <div className="mt-4 space-y-2 text-xs text-gray-500">
-                    <p>✓ {t.questionnaire.processing} {responses.length} {t.questionnaire.questionsAnswered}</p>
-                    <p>✓ {t.questionnaire.checkingDatabases}</p>
-                    <p>✓ {t.questionnaire.generatingAssessment}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <LoadingCard
+              title={t.questionnaire.analyzing}
+              description={t.questionnaire.generatingAssessment}
+              showSteps={true}
+              steps={[
+                `${t.questionnaire.processing} ${responses.length} ${t.questionnaire.questionsAnswered}`,
+                t.questionnaire.checkingDatabases,
+                t.questionnaire.generatingAssessment
+              ]}
+            />
           )}
 
           {state === 'results' && results && (

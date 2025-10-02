@@ -7,9 +7,10 @@ import { DynamicQuestion } from './dynamic-question'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useLanguage, useTranslations } from '@/contexts/language-context'
-import { Loader2, CheckCircle, AlertTriangle, Sparkles, Brain, Shield } from 'lucide-react'
+import { CheckCircle, AlertTriangle, Shield, Heart, Clock } from 'lucide-react'
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
-import { designTokens } from '@/lib/design-tokens'
+import { medicalDesignTokens as designTokens } from '@/lib/design-tokens'
 
 interface DynamicQuestionnaireProps {
   onComplete: (responses: QuestionResponse[]) => void
@@ -161,6 +162,11 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
     }
   }, [initializeQuestionnaire, initialTopic, initialQuery])
 
+  // Scroll to top when component mounts or state changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [state, questionNumber])
+
   // Cleanup effect for request cancellation
   useEffect(() => {
     const activeRequests = activeRequestsRef.current
@@ -262,6 +268,9 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
       return
     }
 
+    // Scroll to top when going back
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+
     // Remove the last response and question
     const newResponses = responses.slice(0, -1)
     const newQuestionHistory = questionHistory.slice(0, -1)
@@ -292,86 +301,19 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
       case 'initializing':
         return (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <Card className="max-w-lg lg:max-w-xl mx-auto bg-white/90 backdrop-blur-sm border border-white/20 shadow-xl rounded-2xl overflow-hidden">
-              <CardContent className="p-6 sm:p-8 text-center">
-                <div className="mb-6">
-                  {/* Modern animated loader */}
-                  <div className="relative mx-auto w-16 h-16 mb-4">
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full shadow-lg"
-                      animate={{ 
-                        scale: [1, 1.1, 1], 
-                        opacity: [0.8, 1, 0.8],
-                        rotate: [0, 180, 360]
-                      }}
-                      transition={{ 
-                        duration: 2, 
-                        repeat: Infinity, 
-                        ease: "easeInOut" 
-                      }}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <motion.div 
-                        animate={{ rotate: 360 }} 
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                      >
-                        <Loader2 className="h-6 w-6 text-white" />
-                      </motion.div>
-                    </div>
-                  </div>
-                </div>
-                
-                <motion.h3 
-                  className="text-xl sm:text-2xl font-bold text-gray-900 mb-3"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  {t.questionnaire.preparing}
-                </motion.h3>
-                <motion.p 
-                  className="text-base text-gray-600 mb-6"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  {t.questionnaire.generating}
-                </motion.p>
-                
-                {/* Modern progress indicator */}
-                <div className="space-y-4">
-                  <div className="w-full bg-gray-200/60 rounded-full h-2 overflow-hidden shadow-inner">
-                    <motion.div 
-                      className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full shadow-sm"
-                      initial={{ width: '0%' }}
-                      animate={{ width: '70%' }}
-                      transition={{ duration: 2.5, ease: "easeOut" }}
-                    />
-                  </div>
-                  
-                  {/* Modern loading dots */}
-                  <div className="flex justify-center space-x-2">
-                    {[0, 1, 2].map((index) => (
-                      <motion.div 
-                        key={index}
-                        className="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"
-                        animate={{ 
-                          scale: [1, 1.3, 1],
-                          opacity: [0.4, 1, 0.4]
-                        }}
-                        transition={{
-                          duration: 1.2,
-                          repeat: Infinity,
-                          delay: index * 0.2
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
+            <Card className={`${designTokens.cards.clinical} max-w-lg mx-auto`}>
+              <CardContent className={`${designTokens.spacing.md} text-center`}>
+                <LoadingSpinner 
+                  size="medium"
+                  text={t.questionnaire.preparing}
+                  subtext={t.questionnaire.generating}
+                  showProgress={true}
+                  progress={70}
+                />
               </CardContent>
             </Card>
           </motion.div>
@@ -395,93 +337,17 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.3 }}
           >
-            <Card className="max-w-lg mx-auto bg-white border border-gray-200 shadow-md rounded-lg overflow-hidden">
-              <CardContent className="p-4 text-center">
-                <div className="mb-4">
-                  {/* Compact AI processing loader */}
-                  <div className="relative mx-auto w-12 h-12 mb-3">
-                    <motion.div
-                      className="absolute inset-0 bg-green-500 rounded-full"
-                      animate={{ 
-                        scale: [1, 1.05, 1],
-                        opacity: [0.9, 1, 0.9]
-                      }}
-                      transition={{ 
-                        duration: 1.5, 
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ 
-                          duration: 1.5, 
-                          repeat: Infinity, 
-                          ease: "linear" 
-                        }}
-                      >
-                        <Brain className="h-5 w-5 text-white" />
-                      </motion.div>
-                    </div>
-                  </div>
-                </div>
-                
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  {t.questionnaire.analyzing}
-                </h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  {t.questionnaire.generatingAssessment}
-                </p>
-                
-                {/* Compact progress with AI indicator */}
-                <div className="space-y-3">
-                  <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
-                    <motion.div 
-                      className="h-full bg-green-500 rounded-full"
-                      initial={{ width: '30%' }}
-                      animate={{ width: '85%' }}
-                      transition={{ duration: 2.5, ease: "easeOut" }}
-                    />
-                  </div>
-                  
-                  <div className="flex items-center justify-center space-x-2 text-gray-600">
-                    <motion.div
-                      animate={{ 
-                        scale: [1, 1.1, 1],
-                        opacity: [0.7, 1, 0.7]
-                      }}
-                      transition={{
-                        duration: 1.2,
-                        repeat: Infinity
-                      }}
-                    >
-                      <Sparkles className="h-4 w-4 text-blue-500" />
-                    </motion.div>
-                    <span className="text-xs font-medium">AI processing...</span>
-                  </div>
-                  
-                  {/* Compact processing steps indicator */}
-                  <div className="flex justify-center space-x-1">
-                    {[0, 1, 2].map((index) => (
-                      <motion.div 
-                        key={index}
-                        className="w-1.5 h-1.5 bg-blue-500 rounded-full"
-                        animate={{ 
-                          scale: [1, 1.2, 1],
-                          opacity: [0.3, 1, 0.3]
-                        }}
-                        transition={{
-                          duration: 1.2,
-                          repeat: Infinity,
-                          delay: index * 0.1
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
+            <Card className={`${designTokens.cards.primary} max-w-lg mx-auto`}>
+              <CardContent className={`${designTokens.spacing.md} text-center`}>
+                <LoadingSpinner 
+                  size="medium"
+                  text={t.questionnaire.analyzing}
+                  subtext={t.questionnaire.generatingAssessment}
+                  showProgress={true}
+                  progress={85}
+                />
               </CardContent>
             </Card>
           </motion.div>
@@ -490,53 +356,43 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
       case 'completed':
         return (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <Card className={`max-w-2xl mx-auto bg-gradient-to-br from-green-50 to-emerald-50 border-0 shadow-xl rounded-2xl overflow-hidden`}>
-              <CardContent className={designTokens.spacing.lg + " text-center"}>
-                <div className="mb-8">
+            <Card className={`${designTokens.cards.success} max-w-lg mx-auto`}>
+              <CardContent className={`${designTokens.spacing.md} text-center`}>
+                <div className="mb-6">
                   <motion.div 
-                    className="relative mb-6"
+                    className="relative mb-4"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
+                    transition={{ delay: 0.2, ease: "easeOut" }}
                   >
-                    <div className="w-20 h-20 mx-auto bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center relative z-10">
-                      <CheckCircle className="h-10 w-10 text-white" />
+                    <div className={`${designTokens.iconContainers.success} w-16 h-16 mx-auto`}>
+                      <CheckCircle className="h-8 w-8" />
                     </div>
-                    <motion.div 
-                      className="absolute inset-0 w-20 h-20 mx-auto bg-green-400 rounded-full opacity-20"
-                      animate={{ scale: [1, 1.4, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
                   </motion.div>
                 </div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
+                  transition={{ delay: 0.3 }}
                 >
-                  <h3 className={designTokens.typography.h1 + " mb-4"}>
+                  <h3 className={`${designTokens.typography.h4} mb-3`}>
                     {t.questionnaire.completed}
                   </h3>
-                  <p className={designTokens.typography.body + " mb-8"}>
+                  <p className={`${designTokens.typography.bodySecondary} mb-4`}>
                     {t.questionnaire.generatingAssessment}
                   </p>
-                  <motion.div 
-                    className="bg-white/80 rounded-2xl px-8 py-4 inline-block border border-green-200"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6 }}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <Shield className="h-5 w-5 text-green-600" />
-                      <span className={designTokens.typography.body + " font-semibold"}>
+                  <div className={`${designTokens.cards.clinical} px-4 py-3 inline-block`}>
+                    <div className="flex items-center space-x-2">
+                      <Shield className="h-4 w-4 text-emerald-600" />
+                      <span className={`${designTokens.typography.bodySmall}`}>
                         {session.responses.length} {t.questionnaire.questionsAnswered}
                       </span>
                     </div>
-                  </motion.div>
+                  </div>
                 </motion.div>
               </CardContent>
             </Card>
@@ -546,26 +402,21 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
       case 'emergency':
         return (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <Card className={designTokens.cards.emergency + " max-w-2xl mx-auto overflow-hidden"}>
-              <CardContent className={designTokens.spacing.lg + " text-center"}>
+            <Card className={`${designTokens.cards.emergency} max-w-2xl mx-auto`}>
+              <CardContent className={`${designTokens.spacing.lg} text-center`}>
                 <div className="mb-8">
                   <motion.div 
                     className="relative mb-6"
-                    animate={{ scale: [1, 1.05, 1] }}
+                    animate={{ scale: [1, 1.02, 1] }}
                     transition={{ duration: 1, repeat: Infinity }}
                   >
-                    <div className={designTokens.iconContainers.emergency + " mx-auto"}>
-                      <AlertTriangle className="h-10 w-10 text-white animate-pulse" />
+                    <div className={`${designTokens.iconContainers.emergency} w-20 h-20 mx-auto`}>
+                      <AlertTriangle className="h-10 w-10" />
                     </div>
-                    <motion.div 
-                      className="absolute inset-0 w-20 h-20 mx-auto bg-red-400 rounded-full opacity-30"
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    />
                   </motion.div>
                 </div>
                 <motion.div
@@ -573,21 +424,21 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <h3 className="text-2xl font-bold text-red-800 mb-4">
-                    🚨 {t.emergency.alert}
+                  <h3 className={`${designTokens.typography.h2} text-red-800 mb-4`}>
+                    {t.emergency.alert}
                   </h3>
-                  <p className="text-red-700 text-lg leading-relaxed mb-8">
+                  <p className={`${designTokens.typography.bodyLarge} text-red-700 mb-8`}>
                     {t.emergency.message}
                   </p>
                   <motion.div 
-                    className="bg-red-100 border border-red-300 rounded-2xl px-8 py-4 inline-block"
+                    className={`${designTokens.alerts.emergency} inline-block`}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.4 }}
                   >
                     <div className="flex items-center space-x-3">
-                      <AlertTriangle className="h-5 w-5 text-red-700" />
-                      <span className="text-red-800 font-bold">
+                      <Heart className="h-5 w-5 text-red-700" />
+                      <span className={`${designTokens.typography.emphasis} text-red-800`}>
                         {t.emergency.call911}
                       </span>
                     </div>
@@ -601,30 +452,26 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
       case 'error':
         return (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            <Card className={`max-w-2xl mx-auto bg-gradient-to-br from-amber-50 to-orange-50 border-0 shadow-lg rounded-2xl`}>
-              <CardContent className={designTokens.spacing.md + " text-center"}>
+            <Card className={`${designTokens.cards.warning} max-w-2xl mx-auto`}>
+              <CardContent className={`${designTokens.spacing.md} text-center`}>
                 <div className="mb-8">
-                  <motion.div 
-                    className={designTokens.iconContainers.warning + " mx-auto mb-4"}
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  >
-                    <AlertTriangle className="h-8 w-8 text-white" />
-                  </motion.div>
+                  <div className={`${designTokens.iconContainers.warning} mx-auto mb-4`}>
+                    <AlertTriangle className="h-8 w-8" />
+                  </div>
                 </div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <h3 className={designTokens.typography.h2 + " mb-4"}>
+                  <h3 className={`${designTokens.typography.h3} mb-4`}>
                     {t.common.error}
                   </h3>
-                  <p className={designTokens.typography.body + " mb-8"}>{error}</p>
+                  <p className={`${designTokens.typography.body} mb-8`}>{error}</p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -633,7 +480,7 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
                     >
                       <Button
                         onClick={retryGeneration}
-                        className={designTokens.buttons.emergency + " px-6 py-3"}
+                        className={`${designTokens.buttons.primary} px-6 py-3`}
                       >
                         {t.questions.tryAgain}
                       </Button>
@@ -645,7 +492,7 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
                     >
                       <Button
                         onClick={initializeQuestionnaire}
-                        className={designTokens.buttons.secondary + " px-6 py-3"}
+                        className={`${designTokens.buttons.secondary} px-6 py-3`}
                       >
                         {t.questions.startOver}
                       </Button>
@@ -663,14 +510,14 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
   }, [state, currentQuestion, questionNumber, responses, session, t, error, retryGeneration, initializeQuestionnaire, progressPercentage, handleAnswer, handleGoBack, canGoBack]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl lg:max-w-4xl mx-auto">
+    <div className="min-h-screen bg-slate-50 py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
+      <div className={designTokens.spacing.containerLarge}>
         <div className="space-y-4 sm:space-y-6">
           <AnimatePresence mode="wait">
             {renderState()}
           </AnimatePresence>
 
-          {/* Modern Progress indicator */}
+          {/* Medical Progress indicator */}
           {state === 'questioning' && responses.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -678,21 +525,21 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
               transition={{ delay: 0.2, duration: 0.3 }}
               className="max-w-lg lg:max-w-xl mx-auto"
             >
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/20 shadow-lg text-center">
+              <div className={`${designTokens.cards.clinical} p-4 sm:p-6 text-center`}>
                 <div className="flex items-center justify-center space-x-3 mb-4">
-                  <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center shadow-md">
-                    <CheckCircle className="h-4 w-4 text-white" />
+                  <div className={designTokens.iconContainers.primary}>
+                    <Clock className="h-4 w-4" />
                   </div>
-                  <p className="text-sm sm:text-base font-semibold text-gray-800">
+                  <p className={`${designTokens.typography.emphasis}`}>
                     {responses.length} {t.questionnaire.questionsAnswered}
                   </p>
                 </div>
                 
-                {/* Modern progress bar */}
+                {/* Medical progress bar */}
                 <div className="space-y-3">
-                  <div className="w-full bg-gray-200/60 rounded-full h-3 overflow-hidden shadow-inner">
+                  <div className={designTokens.progress.barLarge}>
                     <motion.div 
-                      className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full shadow-sm"
+                      className={designTokens.progress.fill}
                       initial={{ width: '0%' }}
                       animate={{ width: `${progressPercentage}%` }}
                       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -700,9 +547,11 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
                   </div>
                   
                   {/* Progress percentage */}
-                  <div className="flex justify-between items-center text-sm text-gray-600">
-                    <span className="font-medium">Progress</span>
-                    <span className="font-bold text-blue-600">{Math.round(progressPercentage)}%</span>
+                  <div className="flex justify-between items-center">
+                    <span className={designTokens.typography.label}>Assessment Progress</span>
+                    <span className={`${designTokens.typography.emphasis} text-blue-600`}>
+                      {Math.round(progressPercentage)}%
+                    </span>
                   </div>
                 </div>
               </div>

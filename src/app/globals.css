@@ -188,7 +188,209 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
   body {
     @apply bg-background text-foreground;
+    /* Medical-grade typography for optimal readability */
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Improved focus management for accessibility */
+    scroll-behavior: smooth;
+  }
+  
+  /* Medical accessibility enhancements */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* High contrast focus indicators for medical accessibility */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-600;
+    outline-style: solid;
+  }
+  
+  /* Medical button focus styles */
+  button:focus-visible {
+    @apply ring-2 ring-blue-500 ring-offset-2;
+  }
+  
+  /* Medical input focus styles */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply ring-2 ring-blue-500 ring-offset-1 border-blue-500;
+  }
+  
+  /* Medical card hover states */
+  [data-medical-card] {
+    @apply transition-all duration-200 ease-in-out;
+  }
+  
+  [data-medical-card]:hover {
+    @apply shadow-md transform-gpu translate-y-[-1px];
+  }
+  
+  /* Clinical severity indicators */
+  [data-severity="low"] {
+    @apply bg-emerald-50 text-emerald-800 border-emerald-200;
+  }
+  
+  [data-severity="moderate"] {
+    @apply bg-amber-50 text-amber-800 border-amber-200;
+  }
+  
+  [data-severity="high"] {
+    @apply bg-orange-50 text-orange-800 border-orange-200;
+  }
+  
+  [data-severity="critical"] {
+    @apply bg-red-50 text-red-800 border-red-200;
+  }
+  
+  [data-severity="emergency"] {
+    @apply bg-red-100 text-red-900 border-red-300 shadow-md;
+  }
+  
+  /* Medical progress indicators */
+  [data-progress-ring] {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Medical scale slider customization */
+  .slider::-webkit-slider-thumb {
+    appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    transition: all 0.2s ease;
+  }
+  
+  /* Ensure numbers display normally (prevent fraction/superscript) */
+  .scale-number {
+    font-feature-settings: "kern" 1, "liga" 0, "calt" 0;
+    font-variant-numeric: normal;
+    font-variant: normal;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    border: 2px solid white;
+  }
+
+  .slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  }
+
+  .slider::-webkit-slider-thumb:active {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.6);
+  }
+
+  .slider::-moz-range-thumb {
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    transition: all 0.2s ease;
+  }
+
+  .slider::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  }
+  
+  /* Medical form validation styles */
+  .form-field-error {
+    @apply border-red-300 focus:border-red-500 focus:ring-red-100;
+  }
+  
+  .form-field-success {
+    @apply border-emerald-300 focus:border-emerald-500 focus:ring-emerald-100;
+  }
+  
+  /* Medical loading states */
+  .medical-loading {
+    @apply opacity-70 pointer-events-none;
+  }
+  
+  .medical-loading * {
+    @apply cursor-wait;
+  }
+  
+  /* Clinical animation preferences respect */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  
+  /* Medical high contrast mode support */
+  @media (prefers-contrast: high) {
+    :root {
+      --border: oklch(0.8 0.005 250);
+      --ring: oklch(0.4 0.2 250);
+    }
+    
+    .dark {
+      --border: oklch(0.3 0.01 250);
+      --ring: oklch(0.7 0.2 250);
+    }
+  }
+  
+  /* Medical print styles for clinical documentation */
+  @media print {
+    * {
+      background: white !important;
+      color: black !important;
+      box-shadow: none !important;
+    }
+    
+    .no-print {
+      display: none !important;
+    }
+    
+    .page-break {
+      page-break-before: always;
+    }
+    
+    .medical-header {
+      font-size: 18pt;
+      font-weight: bold;
+      margin-bottom: 12pt;
+    }
+    
+    .medical-section {
+      margin-bottom: 18pt;
+    }
+    
+    .medical-disclaimer {
+      font-size: 10pt;
+      color: #666 !important;
+      border-top: 1pt solid #ccc;
+      padding-top: 6pt;
+      margin-top: 12pt;
+    }
   }
 }
