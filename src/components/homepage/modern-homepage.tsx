@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useTranslations, useLanguage } from '@/contexts/language-context'
 import { LanguageSwitcher } from '@/components/ui/language-switcher'
 import { Card, CardContent } from '@/components/ui/card'
@@ -25,7 +26,7 @@ import {
   Phone,
   AlertTriangle,
   CheckCircle,
-  Info
+  // Info
 } from 'lucide-react'
 import { LoadingCard } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -54,8 +55,8 @@ export function ModernHomepage() {
       name: 'Dr. Henry',
       specialty: language === 'es' ? 'Medicina General' : 'General Medicine',
       description: language === 'es' 
-        ? 'MedicalAI te da las herramientas e información que necesitas para cuidar tu salud con el Dr. Henry.'
-        : 'MedicalAI gives you the tools and information you need to take care of your health with Dr. Henry.',
+        ? 'VitalCheck te da las herramientas e información que necesitas para cuidar tu salud con el Dr. Henry.'
+        : 'VitalCheck gives you the tools and information you need to take care of your health with Dr. Henry.',
       benefits: [
         language === 'es' ? 'Acceso 24/7 - comunícate cuando lo necesites' : '24/7 access - reach out whenever you need',
         language === 'es' ? 'Elimina tiempo de viaje y problemas de programación' : 'Eliminate commute time and scheduling hassles',
@@ -251,9 +252,9 @@ export function ModernHomepage() {
       title: t.healthTopics.physicalSymptoms,
       description: t.healthTopics.physicalDescription,
       icon: Activity,
-      iconColor: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200',
+      iconColor: 'text-cyan-600',
+      bgColor: 'bg-cyan-50',
+      borderColor: 'border-cyan-200',
       tags: [t.healthTopics.tags.pain, t.healthTopics.tags.fever, t.healthTopics.tags.fatigue]
     },
     {
@@ -261,9 +262,9 @@ export function ModernHomepage() {
       title: t.healthTopics.mentalWellness,
       description: t.healthTopics.mentalDescription,
       icon: Brain,
-      iconColor: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-200',
+      iconColor: 'text-cyan-600',
+      bgColor: 'bg-cyan-50',
+      borderColor: 'border-cyan-200',
       tags: [t.healthTopics.tags.anxiety, t.healthTopics.tags.mood, t.healthTopics.tags.stress]
     },
     {
@@ -310,7 +311,7 @@ export function ModernHomepage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-cyan-50 to-cyan-100">
       {/* Disclaimer Modal - Always render but control visibility */}
       <DisclaimerModal
         isOpen={appState === 'disclaimer'}
@@ -354,12 +355,12 @@ export function ModernHomepage() {
               <Button 
                 onClick={handleBackToHome}
                 variant="ghost"
-                className="flex items-center space-x-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 p-0 h-auto"
+                className="flex items-center space-x-3 text-xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent hover:from-cyan-700 hover:to-teal-700 transition-all duration-300 p-0 h-auto"
               >
-                <div className="p-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-lg">
+                <div className="p-2 bg-gradient-to-r from-cyan-600 to-teal-600 rounded-xl shadow-lg">
                   <Stethoscope className="h-6 w-6 text-white" />
                 </div>
-                <span>MedicalAI</span>
+                <span>VitalCheck</span>
               </Button>
               {appState !== 'homepage' && (
                 <Button
@@ -371,27 +372,30 @@ export function ModernHomepage() {
                   <span>{t.navigation.home}</span>
                 </Button>
               )}
-              <div className="hidden md:flex space-x-6">
-                <Button variant="ghost" className="text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
-                  {t.navigation.questionnaires}
+              <div className="flex space-x-6">
+                <Button asChild variant="ghost" className="text-gray-600 hover:text-cyan-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
+                  <Link href="/questionnaires">{t.navigation.questionnaires}</Link>
                 </Button>
-                <Button variant="ghost" className="text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
-                  {t.navigation.symptoms}
+                <Button asChild variant="ghost" className="text-gray-600 hover:text-cyan-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
+                  <Link href="/symptoms">{t.navigation.symptoms}</Link>
                 </Button>
-                <Button variant="ghost" className="text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
-                  {t.navigation.medicalAI}
+                <Button asChild variant="ghost" className="text-gray-600 hover:text-cyan-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
+                  <Link href="/vital-check">{t.navigation.vitalCheck}</Link>
                 </Button>
-                <Button variant="ghost" className="text-gray-600 hover:text-blue-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
-                  {t.navigation.help}
+                <Button asChild variant="ghost" className="text-gray-600 hover:text-cyan-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
+                  <Link href="/help">{t.navigation.help}</Link>
                 </Button>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <LanguageSwitcher />
-              <div className="flex items-center space-x-2 bg-white/50 px-4 py-2 rounded-xl backdrop-blur-sm">
-                <UserCheck className="h-5 w-5 text-blue-600" />
-                <span className="text-sm text-gray-700 hidden sm:block font-medium">Patient Portal</span>
-              </div>
+              <button 
+                onClick={() => window.location.href = '/auth/login'}
+                className="flex items-center space-x-2 bg-white/50 px-4 py-2 rounded-xl backdrop-blur-sm hover:bg-white/70 transition-all duration-300 cursor-pointer border-none hover:shadow-lg hover:shadow-cyan-200/20 hover:-translate-y-0.5"
+              >
+                <UserCheck className="h-5 w-5 text-cyan-600" />
+                <span className="text-sm text-slate-700 hidden sm:block font-medium">Patient Portal</span>
+              </button>
             </div>
           </div>
         </div>
@@ -418,14 +422,15 @@ export function ModernHomepage() {
                 <div className="absolute inset-0 -z-10 overflow-hidden">
                   {/* Subtle medical background */}
                   <div className="absolute inset-0 opacity-5">
-                    <img 
+                    <Image 
                       src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
                       alt="Medical Background"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                   <motion.div 
-                    className="absolute top-0 left-1/4 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl"
+                    className="absolute top-0 left-1/4 w-72 h-72 bg-cyan-400/20 rounded-full blur-3xl"
                     animate={{ 
                       scale: [1, 1.2, 1],
                       opacity: [0.3, 0.6, 0.3]
@@ -437,7 +442,7 @@ export function ModernHomepage() {
                     }}
                   />
                   <motion.div 
-                    className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl"
+                    className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl"
                     animate={{ 
                       scale: [1, 0.8, 1],
                       opacity: [0.4, 0.7, 0.4]
@@ -450,7 +455,7 @@ export function ModernHomepage() {
                     }}
                   />
                   <motion.div 
-                    className="absolute bottom-0 left-1/3 w-80 h-80 bg-purple-400/20 rounded-full blur-3xl"
+                    className="absolute bottom-0 left-1/3 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl"
                     animate={{ 
                       scale: [1, 1.1, 1],
                       opacity: [0.2, 0.5, 0.2]
@@ -495,7 +500,7 @@ export function ModernHomepage() {
                           transition={{ duration: 0.8, delay: 0.2 }}
                         >
                           <span className="block">{t.homepage.feelBetterAbout}</span>
-                          <span className="text-blue-600 block">
+                          <span className="text-cyan-600 block">
                             {t.homepage.findingHealthcare}
                           </span>
                         </motion.h1>
@@ -505,7 +510,7 @@ export function ModernHomepage() {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.8, delay: 0.4 }}
                         >
-                          At MedicalAI, {t.homepage.guessworkOut} {t.homepage.rightDoctors}
+                          At VitalCheck, {t.homepage.guessworkOut} {t.homepage.rightDoctors}
                         </motion.p>
                         
                         {/* Trust Badges */}
@@ -530,18 +535,19 @@ export function ModernHomepage() {
                       >
                         {/* Professional Doctor Hero Image */}
                         <div className="relative w-full max-w-xs lg:max-w-sm mx-auto">
-                          <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl p-4 lg:p-6 shadow-xl">
-                            <div className="w-full h-48 lg:h-60 rounded-xl overflow-hidden">
-                              <img 
+                          <div className="bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-2xl p-4 lg:p-6 shadow-xl">
+                            <div className="w-full h-48 lg:h-60 rounded-xl overflow-hidden relative">
+                              <Image 
                                 src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                                 alt="Professional Doctor with Stethoscope"
-                                className="w-full h-full object-cover object-center"
+                                fill
+                                className="object-cover object-center"
                               />
                             </div>
                           </div>
                           {/* Floating medical icons */}
                           <motion.div
-                            className="absolute -top-2 -right-2 bg-blue-500 p-2 rounded-full shadow-lg"
+                            className="absolute -top-2 -right-2 bg-cyan-500 p-2 rounded-full shadow-lg"
                             animate={{ y: [-3, 3, -3] }}
                             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                           >
@@ -555,7 +561,7 @@ export function ModernHomepage() {
                             <CheckCircle className="h-4 w-4 text-white" />
                           </motion.div>
                           <motion.div
-                            className="absolute top-1/2 -left-4 bg-purple-500 p-1.5 rounded-full shadow-lg"
+                            className="absolute top-1/2 -left-4 bg-cyan-500 p-1.5 rounded-full shadow-lg"
                             animate={{ x: [-2, 2, -2] }}
                             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                           >
@@ -580,14 +586,14 @@ export function ModernHomepage() {
                           onChange={setSearchQuery}
                           onSelect={handleSearchSelect}
                           placeholder={t.homepage.searchPlaceholder}
-                          className="h-14 text-base border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 rounded-xl pl-14 pr-4 bg-white transition-all duration-300 hover:border-blue-300 hover:shadow-lg w-full"
+                          className="h-14 text-base border-2 border-gray-200 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 rounded-xl pl-14 pr-4 bg-white transition-all duration-300 hover:border-cyan-300 hover:shadow-lg w-full"
                         />
                       </div>
                       <div className="flex-1 relative">
                         <input
                           type="text"
                           placeholder={t.homepage.setLocation}
-                          className="h-14 text-base border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 rounded-xl pl-12 pr-4 bg-white transition-all duration-300 hover:border-blue-300 hover:shadow-lg w-full"
+                          className="h-14 text-base border-2 border-gray-200 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 rounded-xl pl-12 pr-4 bg-white transition-all duration-300 hover:border-cyan-300 hover:shadow-lg w-full"
                         />
                         <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
                           <Activity className="h-4 w-4 text-gray-400" />
@@ -595,7 +601,7 @@ export function ModernHomepage() {
                       </div>
                       <Button 
                         onClick={handleSearch}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 lg:px-8 py-4 h-14 rounded-xl font-semibold transition-all duration-300 min-w-[100px] lg:min-w-[120px] flex items-center justify-center"
+                        className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 lg:px-8 py-4 h-14 rounded-xl font-semibold transition-all duration-300 min-w-[100px] lg:min-w-[120px] flex items-center justify-center"
                       >
                         <Activity className="h-4 w-4 mr-2" />
                         <span className="hidden sm:inline">Search</span>
@@ -623,7 +629,7 @@ export function ModernHomepage() {
                             <Activity className="h-2.5 w-2.5" />
                           </button>
                         ))}
-                        <button className="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full text-xs transition-colors duration-200">
+                        <button className="px-3 py-1.5 bg-cyan-100 hover:bg-cyan-200 text-cyan-600 rounded-full text-xs transition-colors duration-200">
                           {t.homepage.more}
                         </button>
                       </div>
@@ -642,19 +648,19 @@ export function ModernHomepage() {
                 
                 <div className="flex border-b border-gray-200 mb-6">
                   <button 
-                    className={`px-4 py-2 font-semibold text-sm transition-colors ${activeTab === 'specialties' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    className={`px-4 py-2 font-semibold text-sm transition-colors ${activeTab === 'specialties' ? 'text-cyan-600 border-b-2 border-cyan-600' : 'text-gray-500 hover:text-gray-700'}`}
                     onClick={() => setActiveTab('specialties')}
                   >
                     {t.homepage.specialties}
                   </button>
                   <button 
-                    className={`px-4 py-2 font-semibold text-sm transition-colors ${activeTab === 'conditions' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    className={`px-4 py-2 font-semibold text-sm transition-colors ${activeTab === 'conditions' ? 'text-cyan-600 border-b-2 border-cyan-600' : 'text-gray-500 hover:text-gray-700'}`}
                     onClick={() => setActiveTab('conditions')}
                   >
                     {t.homepage.conditions}
                   </button>
                   <button 
-                    className={`px-4 py-2 font-semibold text-sm transition-colors ${activeTab === 'procedures' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    className={`px-4 py-2 font-semibold text-sm transition-colors ${activeTab === 'procedures' ? 'text-cyan-600 border-b-2 border-cyan-600' : 'text-gray-500 hover:text-gray-700'}`}
                     onClick={() => setActiveTab('procedures')}
                   >
                     {t.homepage.procedures}
@@ -672,7 +678,7 @@ export function ModernHomepage() {
                   >
                     {(() => {
                       const specialties = [
-                        { name: t.homepage.dermatology, icon: Activity, color: 'bg-blue-100', selected: false },
+                        { name: t.homepage.dermatology, icon: Activity, color: 'bg-cyan-100', selected: false },
                         { name: t.homepage.internalMedicine, icon: Heart, color: 'bg-red-100', selected: false },
                         { name: t.homepage.neurology, icon: Brain, color: 'bg-gray-100', selected: false },
                         { name: t.homepage.generalMedicine, icon: Shield, color: 'bg-red-100', selected: true },
@@ -682,17 +688,17 @@ export function ModernHomepage() {
                       
                       const conditions = [
                         { name: 'Diabetes', icon: Heart, color: 'bg-red-100', selected: false },
-                        { name: 'Hypertension', icon: Activity, color: 'bg-blue-100', selected: false },
+                        { name: 'Hypertension', icon: Activity, color: 'bg-cyan-100', selected: false },
                         { name: 'Asthma', icon: Shield, color: 'bg-green-100', selected: false },
-                        { name: 'Migraine', icon: Brain, color: 'bg-purple-100', selected: false },
-                        { name: 'Depression', icon: UserCheck, color: 'bg-indigo-100', selected: false },
+                        { name: 'Migraine', icon: Brain, color: 'bg-cyan-100', selected: false },
+                        { name: 'Depression', icon: UserCheck, color: 'bg-cyan-100', selected: false },
                         { name: 'Anxiety', icon: Stethoscope, color: 'bg-teal-100', selected: false }
                       ]
                       
                       const procedures = [
                         { name: 'CT Scan', icon: Activity, color: 'bg-gray-100', selected: false },
-                        { name: 'MRI', icon: Brain, color: 'bg-purple-100', selected: false },
-                        { name: 'X-Ray', icon: Shield, color: 'bg-blue-100', selected: false },
+                        { name: 'MRI', icon: Brain, color: 'bg-cyan-100', selected: false },
+                        { name: 'X-Ray', icon: Shield, color: 'bg-cyan-100', selected: false },
                         { name: 'Blood Test', icon: Heart, color: 'bg-red-100', selected: false },
                         { name: 'Ultrasound', icon: UserCheck, color: 'bg-green-100', selected: false },
                         { name: 'Endoscopy', icon: Stethoscope, color: 'bg-teal-100', selected: false }
@@ -708,7 +714,7 @@ export function ModernHomepage() {
                         <motion.div
                           key={item.name}
                           className={`p-4 lg:p-6 rounded-xl lg:rounded-2xl text-center cursor-pointer transition-all duration-300 hover:shadow-lg ${
-                            item.selected ? 'bg-blue-100 border-2 border-blue-300' : item.color + ' border border-gray-200'
+                            item.selected ? 'bg-cyan-100 border-2 border-cyan-300' : item.color + ' border border-gray-200'
                           }`}
                           whileHover={{ y: -3, scale: 1.02 }}
                           onClick={() => handleStartAssessment(item.name.toLowerCase())}
@@ -744,7 +750,7 @@ export function ModernHomepage() {
                 </div>
 
                 {/* Search Section */}
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 mb-8">
+                <div className="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-3xl p-8 mb-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Find the best doctor you need</h3>
                   
                   <div className="space-y-4 mb-6">
@@ -753,20 +759,20 @@ export function ModernHomepage() {
                         value={searchQuery}
                         onChange={setSearchQuery}
                         onSelect={handleSearchSelect}
-                        placeholder="Search Doctor"
-                        className="h-12 text-base border border-gray-200 focus:border-blue-500 rounded-lg pl-12 pr-4 bg-white w-full"
+                        placeholder={t.homepage.searchDoctor}
+                        className="h-12 text-base border border-gray-200 focus:border-cyan-500 rounded-lg pl-12 pr-4 bg-white w-full"
                       />
                     </div>
                     <div className="relative">
                       <input
                         type="text"
-                        placeholder="Set Location"
-                        className="h-12 text-base border border-gray-200 focus:border-blue-500 rounded-lg pl-4 pr-4 bg-white w-full"
+                        placeholder={t.homepage.setLocation}
+                        className="h-12 text-base border border-gray-200 focus:border-cyan-500 rounded-lg pl-4 pr-4 bg-white w-full"
                       />
                     </div>
                   </div>
                   
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
+                  <Button className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg font-semibold">
                     Search Now
                   </Button>
                 </div>
@@ -774,12 +780,13 @@ export function ModernHomepage() {
                 {/* Features Section */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="flex items-start space-x-3">
-                    <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
-                      <div className="w-8 h-8 rounded overflow-hidden">
-                        <img 
+                    <div className="p-2 bg-cyan-100 rounded-lg overflow-hidden">
+                      <div className="w-8 h-8 rounded overflow-hidden relative">
+                        <Image 
                           src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
                           alt="Hospital Search"
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
                         />
                       </div>
                     </div>
@@ -790,12 +797,13 @@ export function ModernHomepage() {
                   </div>
                   
                   <div className="flex items-start space-x-3">
-                    <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
-                      <div className="w-8 h-8 rounded overflow-hidden">
-                        <img 
+                    <div className="p-2 bg-cyan-100 rounded-lg overflow-hidden">
+                      <div className="w-8 h-8 rounded overflow-hidden relative">
+                        <Image 
                           src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
                           alt="Doctor Appointment"
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
                         />
                       </div>
                     </div>
@@ -806,12 +814,13 @@ export function ModernHomepage() {
                   </div>
                   
                   <div className="flex items-start space-x-3">
-                    <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
-                      <div className="w-8 h-8 rounded overflow-hidden">
-                        <img 
+                    <div className="p-2 bg-cyan-100 rounded-lg overflow-hidden">
+                      <div className="w-8 h-8 rounded overflow-hidden relative">
+                        <Image 
                           src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
                           alt="Medical Consultation"
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
                         />
                       </div>
                     </div>
@@ -829,7 +838,7 @@ export function ModernHomepage() {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
                 <div className="relative">
                   <div className="bg-white rounded-3xl p-8 shadow-xl">
-                    <div className="w-full h-80 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-blue-100 to-indigo-100">
+                    <div className="w-full h-80 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-cyan-100 to-cyan-200">
                       <motion.img 
                         key={selectedDoctorIndex}
                         initial={{ opacity: 0, scale: 1.1 }}
@@ -858,7 +867,7 @@ export function ModernHomepage() {
                           onClick={() => setSelectedDoctorIndex(index)}
                           className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-300 ${
                             selectedDoctorIndex === index 
-                              ? 'bg-blue-600 text-white shadow-lg' 
+                              ? 'bg-cyan-600 text-white shadow-lg' 
                               : 'bg-gray-50 hover:bg-gray-100 text-gray-900'
                           }`}
                           whileHover={{ scale: 1.02 }}
@@ -866,15 +875,15 @@ export function ModernHomepage() {
                         >
                           <div className="flex items-center space-x-3">
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                              selectedDoctorIndex === index ? 'bg-white/20' : 'bg-blue-100'
+                              selectedDoctorIndex === index ? 'bg-white/20' : 'bg-cyan-100'
                             }`}>
                               <UserCheck className={`h-4 w-4 ${
-                                selectedDoctorIndex === index ? 'text-white' : 'text-blue-600'
+                                selectedDoctorIndex === index ? 'text-white' : 'text-cyan-600'
                               }`} />
                             </div>
                             <div className="text-left">
                               <div className="font-medium">{doctor.name}</div>
-                              <div className={`text-xs ${selectedDoctorIndex === index ? 'text-blue-100' : 'text-gray-500'}`}>
+                              <div className={`text-xs ${selectedDoctorIndex === index ? 'text-cyan-100' : 'text-gray-500'}`}>
                                 {doctor.specialty}
                               </div>
                             </div>
@@ -911,13 +920,13 @@ export function ModernHomepage() {
                           transition={{ duration: 0.3, delay: index * 0.1 }}
                           className="flex items-center space-x-2"
                         >
-                          <CheckCircle className="h-5 w-5 text-blue-600" />
+                          <CheckCircle className="h-5 w-5 text-cyan-600" />
                           <span className="text-gray-700 text-sm">{benefit}</span>
                         </motion.div>
                       ))}
                     </div>
                     
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold text-sm">
+                    <Button className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2.5 rounded-lg font-semibold text-sm">
                       {t.homepage.getFreeConsultation}
                     </Button>
                   </motion.div>
@@ -969,8 +978,8 @@ export function ModernHomepage() {
                               className="bg-white rounded-lg lg:rounded-xl p-3 lg:p-4 shadow-lg hover:shadow-xl transition-all duration-300"
                               whileHover={{ y: -3 }}
                             >
-                              <div className="w-full h-24 lg:h-32 rounded-md lg:rounded-lg mb-2 lg:mb-3 overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-100">
-                                <img 
+                              <div className="w-full h-24 lg:h-32 rounded-md lg:rounded-lg mb-2 lg:mb-3 overflow-hidden bg-gradient-to-br from-cyan-100 to-cyan-200 relative">
+                                <Image 
                                   src={(() => {
                                     const images = [
                                       'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
@@ -985,7 +994,8 @@ export function ModernHomepage() {
                                     return images[index % images.length]
                                   })()} 
                                   alt={doctor.name}
-                                  className="w-full h-full object-cover object-center"
+                                  fill
+                                  className="object-cover object-center"
                                 />
                               </div>
                               <h3 className="font-bold text-gray-900 mb-1 text-xs lg:text-sm leading-tight">{doctor.name}</h3>
@@ -1007,7 +1017,7 @@ export function ModernHomepage() {
                       className={`transition-all duration-300 rounded-full ${
                         specialistSlideIndex === index 
                           ? 'w-8 h-2 bg-pink-400' 
-                          : 'w-2 h-2 bg-blue-400 hover:bg-blue-500'
+                          : 'w-2 h-2 bg-cyan-400 hover:bg-cyan-500'
                       }`}
                     />
                   ))}
@@ -1028,10 +1038,11 @@ export function ModernHomepage() {
                   <div className="relative order-2 lg:order-1">
                     <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-xl">
                       <div className="w-full h-48 lg:h-60 rounded-lg lg:rounded-xl overflow-hidden relative">
-                        <img 
+                        <Image 
                           src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                           alt="Happy Patient Experience"
-                          className="w-full h-full object-cover object-center"
+                          fill
+                          className="object-cover object-center"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                         <div className="w-5 lg:w-6 h-5 lg:h-6 bg-pink-200 rounded-full absolute top-4 lg:top-6 left-4 lg:left-6 flex items-center justify-center">
@@ -1104,7 +1115,7 @@ export function ModernHomepage() {
                           key={index}
                           onClick={() => setTestimonialIndex(index)}
                           className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                            testimonialIndex === index ? 'bg-blue-600' : 'bg-gray-300 hover:bg-gray-400'
+                            testimonialIndex === index ? 'bg-cyan-600' : 'bg-gray-300 hover:bg-gray-400'
                           }`}
                         />
                       ))}
@@ -1127,9 +1138,11 @@ export function ModernHomepage() {
                   <div className="w-full">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="relative group overflow-hidden rounded-2xl">
-                    <img 
+                    <Image 
                       src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                       alt="Advanced Medical Equipment"
+                      width={600}
+                      height={256}
                       className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -1140,9 +1153,11 @@ export function ModernHomepage() {
                     </div>
                   </div>
                   <div className="relative group overflow-hidden rounded-2xl">
-                    <img 
+                    <Image 
                       src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                       alt="AI Technology in Healthcare"
+                      width={600}
+                      height={256}
                       className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -1153,9 +1168,11 @@ export function ModernHomepage() {
                     </div>
                   </div>
                   <div className="relative group overflow-hidden rounded-2xl">
-                    <img 
+                    <Image 
                       src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                       alt="Telemedicine and Remote Care"
+                      width={600}
+                      height={256}
                       className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
@@ -1172,20 +1189,21 @@ export function ModernHomepage() {
                 {/* Newsletter Subscription Section */}
                 <div className="flex-1 flex items-center py-8">
                   <div className="w-full">
-                <div className="bg-blue-600 rounded-xl lg:rounded-2xl p-6 lg:p-8 text-center text-white relative overflow-hidden">
+                <div className="bg-cyan-600 rounded-xl lg:rounded-2xl p-6 lg:p-8 text-center text-white relative overflow-hidden">
                   {/* Newsletter Background Image */}
                   <div className="absolute inset-0 opacity-10">
-                    <img 
+                    <Image 
                       src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
                       alt="Medical Newsletter Background"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                   <div className="relative z-10">
                     <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold mb-3 lg:mb-4">
                       {t.homepage.subscribeNews}
                     </h2>
-                    <p className="text-blue-100 mb-6 text-sm lg:text-base max-w-2xl mx-auto">
+                    <p className="text-cyan-100 mb-6 text-sm lg:text-base max-w-2xl mx-auto">
                       {t.homepage.subscribeDescription}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto items-stretch">
@@ -1193,10 +1211,10 @@ export function ModernHomepage() {
                         <input
                           type="email"
                           placeholder={t.homepage.enterEmail}
-                          className="w-full px-4 py-3 lg:py-4 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 text-sm lg:text-base transition-all duration-300 border-0 min-h-12 lg:min-h-14"
+                          className="w-full px-4 py-3 lg:py-4 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-cyan-600 text-sm lg:text-base transition-all duration-300 border-0 min-h-12 lg:min-h-14"
                         />
                       </div>
-                      <Button className="bg-white hover:bg-gray-100 text-blue-600 px-6 lg:px-8 py-3 lg:py-4 rounded-lg font-semibold text-sm lg:text-base whitespace-nowrap transition-all duration-300 hover:shadow-lg border-0 flex items-center justify-center min-h-12 lg:min-h-14">
+                      <Button className="bg-white hover:bg-gray-100 text-cyan-600 px-6 lg:px-8 py-3 lg:py-4 rounded-lg font-semibold text-sm lg:text-base whitespace-nowrap transition-all duration-300 hover:shadow-lg border-0 flex items-center justify-center min-h-12 lg:min-h-14">
                         {t.homepage.subscribe}
                       </Button>
                     </div>
@@ -1239,7 +1257,7 @@ export function ModernHomepage() {
                       >
                         {/* Background Image */}
                         <div className="absolute inset-0 opacity-10">
-                          <img 
+                          <Image 
                             src={(() => {
                               const images = {
                                 'general': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
@@ -1252,7 +1270,8 @@ export function ModernHomepage() {
                               return images[topic.id as keyof typeof images] || images.general
                             })()} 
                             alt={topic.title}
-                            className="w-full h-full object-cover"
+                            fill
+                            className="object-cover"
                           />
                         </div>
                         <CardContent className="p-4 lg:p-6 relative z-10">
@@ -1303,7 +1322,7 @@ export function ModernHomepage() {
                             
                             {/* Modern Action Indicator */}
                             <div className="pt-4 border-t border-white/30">
-                              <div className={`flex items-center justify-between text-sm font-semibold ${topic.isEmergency ? 'text-red-600' : 'text-blue-600'}`}>
+                              <div className={`flex items-center justify-between text-sm font-semibold ${topic.isEmergency ? 'text-red-600' : 'text-cyan-600'}`}>
                                 <span>
                                   {topic.isEmergency ? t.homepage.emergencyAssessment : t.homepage.startAssessment}
                                 </span>
@@ -1326,7 +1345,7 @@ export function ModernHomepage() {
                 {/* Modern Information Section */}
                 <div className="flex-1 flex items-center py-8">
                   <div className="w-full">
-                <Card className="max-w-7xl mx-auto bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border border-white/20 shadow-2xl rounded-3xl backdrop-blur-sm">
+                <Card className="max-w-7xl mx-auto bg-gradient-to-br from-cyan-50 via-cyan-100 to-cyan-200 border border-white/20 shadow-2xl rounded-3xl backdrop-blur-sm">
                   <CardContent className="p-12">
                     <div className="text-center mb-12">
                       <motion.div
@@ -1335,12 +1354,13 @@ export function ModernHomepage() {
                         transition={{ duration: 0.6, delay: 0.8 }}
                         className="relative inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6 shadow-xl overflow-hidden"
                       >
-                        <img 
+                        <Image 
                           src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
                           alt="Advanced Medical AI"
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-indigo-600/80"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/80 to-cyan-700/80"></div>
                         <Stethoscope className="absolute h-10 w-10 text-white z-10" />
                       </motion.div>
                       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -1360,10 +1380,11 @@ export function ModernHomepage() {
                         whileHover={{ y: -5 }}
                       >
                         <div className="relative w-16 h-16 mx-auto mb-4">
-                          <img 
+                          <Image 
                             src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
                             alt="Evidence-Based Medicine"
-                            className="w-full h-full object-cover rounded-2xl"
+                            fill
+                            className="object-cover rounded-2xl"
                           />
                           <div className="absolute inset-0 bg-green-500/20 rounded-2xl"></div>
                           <CheckCircle className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-white drop-shadow-lg" />
@@ -1379,12 +1400,13 @@ export function ModernHomepage() {
                         whileHover={{ y: -5 }}
                       >
                         <div className="relative w-16 h-16 mx-auto mb-4">
-                          <img 
+                          <Image 
                             src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
                             alt="Secure & Private Healthcare"
-                            className="w-full h-full object-cover rounded-2xl"
+                            fill
+                            className="object-cover rounded-2xl"
                           />
-                          <div className="absolute inset-0 bg-blue-500/20 rounded-2xl"></div>
+                          <div className="absolute inset-0 bg-cyan-500/20 rounded-2xl"></div>
                           <Shield className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-white drop-shadow-lg" />
                         </div>
                         <h3 className="text-xl font-bold text-gray-900 mb-3">Secure & Private</h3>
@@ -1398,12 +1420,13 @@ export function ModernHomepage() {
                         whileHover={{ y: -5 }}
                       >
                         <div className="relative w-16 h-16 mx-auto mb-4">
-                          <img 
+                          <Image 
                             src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
                             alt="Comprehensive Assessment"
-                            className="w-full h-full object-cover rounded-2xl"
+                            fill
+                            className="object-cover rounded-2xl"
                           />
-                          <div className="absolute inset-0 bg-purple-500/20 rounded-2xl"></div>
+                          <div className="absolute inset-0 bg-cyan-500/20 rounded-2xl"></div>
                           <ClipboardList className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-white drop-shadow-lg" />
                         </div>
                         <h3 className="text-xl font-bold text-gray-900 mb-3">Comprehensive</h3>
@@ -1418,7 +1441,7 @@ export function ModernHomepage() {
                       >
                         <Button 
                           onClick={() => handleStartAssessment('general')}
-                          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-12 py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+                          className="bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white font-bold px-12 py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
                         >
                           {t.homepage.startQuestionnaire}
                         </Button>
@@ -1523,25 +1546,25 @@ export function ModernHomepage() {
             {/* Brand Section */}
             <div className="md:col-span-1">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="p-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl">
+                <div className="p-2 bg-gradient-to-r from-cyan-600 to-teal-600 rounded-xl">
                   <Stethoscope className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-bold text-gray-900">MedicalAI</span>
+                <span className="text-xl font-bold text-gray-900">VitalCheck</span>
               </div>
-              <p className="text-gray-600 mb-6">©MedicalAI 2024</p>
+              <p className="text-gray-600 mb-6">©VitalCheck 2024</p>
               
               {/* Social Links */}
               <div className="flex space-x-4">
-                <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                <div className="w-8 h-8 bg-cyan-600 rounded flex items-center justify-center">
                   <span className="text-white text-sm">f</span>
                 </div>
-                <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+                <div className="w-8 h-8 bg-cyan-500 rounded flex items-center justify-center">
                   <span className="text-white text-sm">in</span>
                 </div>
-                <div className="w-8 h-8 bg-blue-400 rounded flex items-center justify-center">
+                <div className="w-8 h-8 bg-cyan-400 rounded flex items-center justify-center">
                   <span className="text-white text-sm">s</span>
                 </div>
-                <div className="w-8 h-8 bg-blue-400 rounded flex items-center justify-center">
+                <div className="w-8 h-8 bg-cyan-400 rounded flex items-center justify-center">
                   <span className="text-white text-sm">t</span>
                 </div>
                 <div className="w-8 h-8 bg-red-600 rounded flex items-center justify-center">

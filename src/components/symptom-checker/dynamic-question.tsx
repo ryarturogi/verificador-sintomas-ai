@@ -181,18 +181,18 @@ export function DynamicQuestion({
                   variant="outline"
                   className={`w-full p-4 ${
                     answer === option.value
-                      ? `${designTokens.cards.interactive} border-blue-500 bg-blue-50 shadow-md`
-                      : `${designTokens.cards.interactive} hover:border-blue-300`
+                      ? `${designTokens.cards.interactive} border-cyan-500 bg-cyan-50 shadow-md`
+                      : `${designTokens.cards.interactive} hover:border-cyan-300`
                   }`}
                 >
                   <div className="flex items-center justify-between w-full">
                     <span className={`${designTokens.typography.bodySmall} font-medium text-left ${
-                      answer === option.value ? 'text-blue-700' : 'text-slate-700'
+                      answer === option.value ? 'text-cyan-700' : 'text-slate-700'
                     }`}>
                       {option.label}
                     </span>
                     {answer === option.value && (
-                      <div className="flex items-center justify-center w-5 h-5 bg-blue-500 rounded-full flex-shrink-0 ml-3">
+                      <div className="flex items-center justify-center w-5 h-5 bg-cyan-500 rounded-full flex-shrink-0 ml-3">
                         <Check className="h-3 w-3 text-white" />
                       </div>
                     )}
@@ -261,8 +261,8 @@ export function DynamicQuestion({
                 onClick={() => setAnswer(option.value)}
                 className={`p-4 rounded-lg font-medium text-sm ${designTokens.animations.transitionFast} border ${
                   answer === option.value
-                    ? `${designTokens.buttons.primary.replace('border border-blue-600', 'border-2 border-blue-600')}`
-                    : `${designTokens.buttons.secondary} hover:border-blue-300 hover:bg-blue-50`
+                    ? `${designTokens.buttons.primary.replace('border border-cyan-600', 'border-2 border-cyan-600')}`
+                    : `${designTokens.buttons.secondary} hover:border-cyan-300 hover:bg-cyan-50`
                 }`}
               >
                 {option.label}
@@ -275,7 +275,7 @@ export function DynamicQuestion({
         return (
           <div className="space-y-4">
             <div className="text-center">
-              <span className={`${designTokens.typography.h2} text-blue-600 scale-number`}>
+              <span className={`${designTokens.typography.h2} text-cyan-600 scale-number`}>
                 {answer || question.min || 1}
               </span>
               <p className={`${designTokens.typography.bodySecondary} mt-1`}>
@@ -360,7 +360,7 @@ export function DynamicQuestion({
       >
         <div className="flex justify-between items-center mb-3">
           <div className={designTokens.typography.label}>
-            <span className={`${designTokens.typography.emphasis} text-blue-600`}>
+            <span className={`${designTokens.typography.emphasis} text-cyan-600`}>
               Question {questionNumber} of {totalQuestions}
             </span>
           </div>
@@ -382,14 +382,14 @@ export function DynamicQuestion({
 
       {/* Medical Question Card */}
       <Card className={designTokens.cards.clinical}>
-        <CardHeader className="bg-blue-50 p-4 sm:p-6 border-b border-blue-200">
+        <CardHeader className="bg-cyan-50 p-4 sm:p-6 border-b border-cyan-200">
           <div className="flex items-start space-x-3">
             <motion.div 
               className={`${designTokens.iconContainers.primary} flex-shrink-0`}
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
-              <MessageCircle className="h-4 w-4 text-blue-600" />
+              <MessageCircle className="h-4 w-4 text-cyan-600" />
             </motion.div>
             <div className="flex-1">
               <motion.h2 

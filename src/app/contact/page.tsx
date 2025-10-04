@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/contexts/language-context'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { 
@@ -16,6 +17,7 @@ import {
 import Link from 'next/link'
 
 export default function ContactPage() {
+  const { t } = useLanguage()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -39,16 +41,16 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-cyan-50 to-cyan-100">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl">
+              <div className="p-2 bg-gradient-to-r from-cyan-600 to-teal-600 rounded-xl">
                 <Stethoscope className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">MedicalAI</span>
+              <span className="text-xl font-bold text-gray-900">VitalCheck</span>
             </Link>
             <Button asChild variant="outline">
               <Link href="/">Back to Home</Link>
@@ -69,7 +71,7 @@ export default function ContactPage() {
             Contact Us
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Have questions about MedicalAI? We&apos;re here to help. Reach out to our team for support, 
+            Have questions about VitalCheck? We&apos;re here to help. Reach out to our team for support, 
             partnerships, or general inquiries.
           </p>
         </motion.div>
@@ -111,8 +113,8 @@ export default function ContactPage() {
                           required
                           value={formData.name}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                          placeholder="Your full name"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
+                          placeholder={t.contact.form.namePlaceholder}
                         />
                       </div>
                       <div>
@@ -126,7 +128,7 @@ export default function ContactPage() {
                           required
                           value={formData.email}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
                           placeholder="your.email@example.com"
                         />
                       </div>
@@ -142,7 +144,7 @@ export default function ContactPage() {
                         required
                         value={formData.subject}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
                       >
                         <option value="">Select a subject</option>
                         <option value="general">General Inquiry</option>
@@ -165,12 +167,12 @@ export default function ContactPage() {
                         rows={5}
                         value={formData.message}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors resize-vertical"
                         placeholder="Tell us how we can help you..."
                       />
                     </div>
                     
-                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    <Button type="submit" className="w-full bg-cyan-600 hover:bg-cyan-700 text-white">
                       <Send className="h-4 w-4 mr-2" />
                       Send Message
                     </Button>
@@ -193,8 +195,8 @@ export default function ContactPage() {
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h2>
                 <div className="space-y-6">
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <Mail className="h-6 w-6 text-blue-600" />
+                    <div className="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center">
+                      <Mail className="h-6 w-6 text-cyan-600" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
@@ -215,8 +217,8 @@ export default function ContactPage() {
                   </div>
                   
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                      <MapPin className="h-6 w-6 text-purple-600" />
+                    <div className="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center">
+                      <MapPin className="h-6 w-6 text-cyan-600" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
@@ -260,10 +262,10 @@ export default function ContactPage() {
             </Card>
 
             {/* FAQ Link */}
-            <Card className="bg-blue-50 border border-blue-200">
+            <Card className="bg-cyan-50 border border-cyan-200">
               <CardContent className="p-6">
-                <h3 className="font-bold text-blue-900 mb-2">Need Quick Answers?</h3>
-                <p className="text-blue-800 text-sm mb-4">
+                <h3 className="font-bold text-cyan-900 mb-2">Need Quick Answers?</h3>
+                <p className="text-cyan-800 text-sm mb-4">
                   Check out our frequently asked questions for immediate answers to common queries.
                 </p>
                 <Button asChild variant="outline" size="sm">

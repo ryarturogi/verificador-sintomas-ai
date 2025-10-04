@@ -136,7 +136,7 @@ export function SymptomChecker() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-cyan-100 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         
         <motion.header
@@ -217,7 +217,7 @@ export function SymptomChecker() {
                       <div className="space-y-4">
                         <div>
                           <div className="flex items-center space-x-2 mb-2">
-                            <Settings className="h-5 w-5 text-blue-600" />
+                            <Settings className="h-5 w-5 text-cyan-600" />
                             <p className="font-semibold text-lg">{t.errors.configRequired}</p>
                           </div>
                           <p className="text-sm mb-4">
@@ -233,7 +233,7 @@ export function SymptomChecker() {
                         <div className="text-sm space-y-2">
                           <p><strong>Steps to get started:</strong></p>
                           <ol className="list-decimal list-inside space-y-1 ml-4">
-                            <li>{t.errors.getApiKey} <a href="https://platform.openai.com/api-keys" target="_blank" className="text-blue-600 hover:underline">OpenAI Platform</a></li>
+                            <li>{t.errors.getApiKey} <a href="https://platform.openai.com/api-keys" target="_blank" className="text-cyan-600 hover:underline">OpenAI Platform</a></li>
                             <li>{t.errors.addToEnv} <code className="bg-gray-200 px-1 rounded">.env.local</code></li>
                             <li>{t.errors.restartServer}</li>
                           </ol>
@@ -311,7 +311,7 @@ export function SymptomChecker() {
                       <Button
                         onClick={handleNewAssessment}
                         variant="link"
-                        className="text-blue-600 hover:text-blue-800 underline text-sm p-0 h-auto"
+                        className="text-cyan-600 hover:text-cyan-800 underline text-sm p-0 h-auto"
                       >
                         {t.questions.tryAgain}
                       </Button>

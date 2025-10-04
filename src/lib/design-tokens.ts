@@ -5,19 +5,19 @@
 export const medicalDesignTokens = {
   // Modern Medical Color Palette - 2024 Design Trends
   colors: {
-    // Primary medical blues - Contemporary professional palette
+    // Primary medical turquoise cyans - Contemporary professional palette
     medical: {
-      primary: '#2563EB',     // Primary medical blue (accessible)
-      secondary: '#1D4ED8',   // Deep professional blue  
-      tertiary: '#1E40AF',    // Dark professional blue
-      light: '#3B82F6',       // Light medical blue
-      surface: '#EFF6FF',     // Light blue surface
-      50: '#EFF6FF',          // Ultra light blue
-      100: '#DBEAFE',         // Very light blue
-      500: '#3B82F6',         // Standard blue
-      600: '#2563EB',         // Primary blue
-      700: '#1D4ED8',         // Dark blue
-      900: '#1E3A8A',         // Very dark blue
+      primary: '#0891B2',     // Primary turquoise cyan (accessible)
+      secondary: '#0E7490',   // Deep turquoise cyan  
+      tertiary: '#155E75',    // Dark turquoise cyan
+      light: '#22D3EE',       // Light turquoise cyan
+      surface: '#F0FDFA',     // Light turquoise surface
+      50: '#F0FDFA',          // Ultra light turquoise
+      100: '#CCFBF1',         // Very light turquoise
+      500: '#14B8A6',         // Standard turquoise
+      600: '#0891B2',         // Primary turquoise
+      700: '#0E7490',         // Dark turquoise
+      900: '#134E4A',         // Very dark turquoise
     },
     
     // Clinical whites and neutrals - Hospital-grade clean aesthetics
@@ -37,8 +37,8 @@ export const medicalDesignTokens = {
       warningLight: '#F59E0B', // Bright warning
       error: '#DC2626',       // Emergency red
       errorLight: '#B91C1C',  // Dark emergency red
-      info: '#0EA5E9',        // Healthcare information blue
-      infoLight: '#0284C7',   // Dark info blue
+      info: '#0EA5E9',        // Healthcare information cyan
+      infoLight: '#0284C7',   // Dark info cyan
     },
     
     // Professional text hierarchy
@@ -61,14 +61,14 @@ export const medicalDesignTokens = {
 
     // Modern gradients - 2024 Design Trends
     gradients: {
-      primary: 'bg-gradient-to-br from-blue-50 via-white to-indigo-50',
-      clinical: 'bg-gradient-to-r from-slate-50 to-blue-50',
+      primary: 'bg-gradient-to-br from-cyan-50 via-white to-cyan-50',
+      clinical: 'bg-gradient-to-r from-slate-50 to-cyan-50',
       emergency: 'bg-gradient-to-br from-red-50 via-orange-50 to-red-100',
-      success: 'bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50',
-      hero: 'bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700',
-      heroLight: 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50',
+      success: 'bg-gradient-to-br from-emerald-50 via-green-50 to-cyan-50',
+      hero: 'bg-gradient-to-br from-cyan-600 via-cyan-700 to-cyan-800',
+      heroLight: 'bg-gradient-to-br from-cyan-50 via-cyan-100 to-cyan-50',
       glass: 'bg-white/80 backdrop-blur-sm border border-white/20',
-      glassBlue: 'bg-blue-50/80 backdrop-blur-sm border border-blue-100/50',
+      glassCyan: 'bg-cyan-50/80 backdrop-blur-sm border border-cyan-100/50',
     },
 
     // Modern shadows and effects
@@ -78,11 +78,11 @@ export const medicalDesignTokens = {
         medium: 'shadow-md',
         large: 'shadow-lg shadow-slate-200/50',
         xl: 'shadow-xl shadow-slate-200/60',
-        colored: 'shadow-lg shadow-blue-500/10',
+        colored: 'shadow-lg shadow-cyan-500/10',
         emergency: 'shadow-lg shadow-red-500/20',
       },
       glow: {
-        blue: 'shadow-lg shadow-blue-500/25 ring-1 ring-blue-500/25',
+        cyan: 'shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-500/25',
         green: 'shadow-lg shadow-emerald-500/25 ring-1 ring-emerald-500/25',
         red: 'shadow-lg shadow-red-500/25 ring-1 ring-red-500/25',
       },
@@ -95,31 +95,31 @@ export const medicalDesignTokens = {
     // Standard cards with modern styling
     primary: 'bg-white border border-slate-200/60 shadow-sm rounded-xl hover:shadow-lg hover:shadow-slate-200/40 transition-all duration-300',
     elevated: 'bg-white border border-slate-200/60 shadow-lg shadow-slate-200/40 rounded-xl hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300',
-    clinical: 'bg-white border border-blue-100/80 shadow-sm rounded-xl hover:shadow-lg hover:shadow-blue-200/20 transition-all duration-300',
+    clinical: 'bg-white border border-cyan-100/80 shadow-sm rounded-xl hover:shadow-lg hover:shadow-cyan-200/20 transition-all duration-300',
     
     // Status-based cards with modern gradients
     emergency: 'bg-gradient-to-br from-red-50 to-red-100/80 border border-red-200/80 shadow-lg shadow-red-200/30 rounded-xl',
     success: 'bg-gradient-to-br from-emerald-50 to-green-50/80 border border-emerald-200/80 shadow-lg shadow-emerald-200/20 rounded-xl',
-    info: 'bg-gradient-to-br from-blue-50 to-indigo-50/80 border border-blue-200/80 shadow-lg shadow-blue-200/20 rounded-xl',
+    info: 'bg-gradient-to-br from-cyan-50 to-cyan-100/80 border border-cyan-200/80 shadow-lg shadow-cyan-200/20 rounded-xl',
     warning: 'bg-gradient-to-br from-amber-50 to-orange-50/80 border border-amber-200/80 shadow-lg shadow-amber-200/20 rounded-xl',
     neutral: 'bg-gradient-to-br from-slate-50 to-gray-50/80 border border-slate-200/80 shadow-sm rounded-xl',
     
     // Interactive states with modern hover effects
-    interactive: 'bg-white border border-slate-200/60 shadow-sm rounded-xl hover:border-blue-300/80 hover:shadow-lg hover:shadow-blue-200/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer',
+    interactive: 'bg-white border border-slate-200/60 shadow-sm rounded-xl hover:border-cyan-300/80 hover:shadow-lg hover:shadow-cyan-200/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer',
     
     // Glass morphism variants
     glass: 'bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl rounded-xl',
-    glassBlue: 'bg-blue-50/80 backdrop-blur-sm border border-blue-100/50 shadow-xl rounded-xl',
+    glassCyan: 'bg-cyan-50/80 backdrop-blur-sm border border-cyan-100/50 shadow-xl rounded-xl',
     
     // Featured cards with enhanced styling
-    featured: 'bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 border border-blue-200/50 shadow-xl shadow-blue-200/30 rounded-2xl hover:shadow-2xl hover:shadow-blue-200/40 transition-all duration-500',
-    hero: 'bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-white border-0 shadow-2xl shadow-blue-500/30 rounded-2xl hover:shadow-3xl hover:shadow-blue-500/40 transition-all duration-500',
+    featured: 'bg-gradient-to-br from-white via-cyan-50/30 to-cyan-100/50 border border-cyan-200/50 shadow-xl shadow-cyan-200/30 rounded-2xl hover:shadow-2xl hover:shadow-cyan-200/40 transition-all duration-500',
+    hero: 'bg-gradient-to-br from-cyan-600 via-cyan-700 to-cyan-800 text-white border-0 shadow-2xl shadow-cyan-500/30 rounded-2xl hover:shadow-3xl hover:shadow-cyan-500/40 transition-all duration-500',
   },
 
   // Modern Medical Buttons - Contemporary styling with micro-interactions
   buttons: {
     // Primary buttons with modern gradients and hover states
-    primary: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:from-blue-700 focus:to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300 border-0 focus:ring-2 focus:ring-blue-300 focus:outline-none',
+    primary: 'bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 focus:from-cyan-700 focus:to-teal-700 text-white font-semibold rounded-xl shadow-lg shadow-cyan-500/25 hover:shadow-xl hover:shadow-cyan-500/30 hover:-translate-y-0.5 transition-all duration-300 border-0 focus:ring-2 focus:ring-cyan-300 focus:outline-none',
     
     // Secondary buttons with glass morphism
     secondary: 'bg-white/80 backdrop-blur-sm hover:bg-white focus:bg-white text-slate-900 font-semibold rounded-xl shadow-lg shadow-slate-200/40 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-0.5 transition-all duration-300 border border-slate-200/60 focus:ring-2 focus:ring-slate-300 focus:outline-none',
@@ -134,7 +134,7 @@ export const medicalDesignTokens = {
     // Modern variants
     ghost: 'bg-transparent hover:bg-slate-100/80 focus:bg-slate-100/80 text-slate-700 hover:text-slate-900 font-semibold rounded-xl hover:shadow-md transition-all duration-300 focus:ring-2 focus:ring-slate-200 focus:outline-none',
     
-    outline: 'bg-white/50 backdrop-blur-sm hover:bg-blue-50/80 focus:bg-blue-50/80 text-blue-600 hover:text-blue-700 font-semibold rounded-xl border border-blue-300/60 hover:border-blue-400/80 shadow-sm hover:shadow-lg hover:shadow-blue-200/20 hover:-translate-y-0.5 transition-all duration-300 focus:ring-2 focus:ring-blue-200 focus:outline-none',
+    outline: 'bg-white/50 backdrop-blur-sm hover:bg-cyan-50/80 focus:bg-cyan-50/80 text-cyan-600 hover:text-cyan-700 font-semibold rounded-xl border border-cyan-300/60 hover:border-cyan-400/80 shadow-sm hover:shadow-lg hover:shadow-cyan-200/20 hover:-translate-y-0.5 transition-all duration-300 focus:ring-2 focus:ring-cyan-200 focus:outline-none',
     
     // Glass morphism button
     glass: 'bg-white/20 backdrop-blur-md hover:bg-white/30 text-slate-900 font-semibold rounded-xl border border-white/30 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300 focus:ring-2 focus:ring-white/50 focus:outline-none',
@@ -142,14 +142,14 @@ export const medicalDesignTokens = {
     disabled: 'bg-slate-100 text-slate-400 font-medium rounded-xl shadow-sm border border-slate-200 cursor-not-allowed opacity-60',
   },
 
-  // Medical Icon Containers - Professional medical styling
+    // Medical Icon Containers - Professional medical styling
   iconContainers: {
-    primary: 'p-3 rounded-lg bg-blue-100 text-blue-700 shadow-sm',
+    primary: 'p-3 rounded-lg bg-cyan-100 text-cyan-700 shadow-sm',
     secondary: 'p-3 rounded-lg bg-slate-100 text-slate-700 shadow-sm',
     success: 'p-3 rounded-lg bg-emerald-100 text-emerald-700 shadow-sm',
     warning: 'p-3 rounded-lg bg-amber-100 text-amber-700 shadow-sm',
     emergency: 'p-4 rounded-lg bg-red-100 text-red-700 shadow-md border border-red-200',
-    info: 'p-3 rounded-lg bg-blue-100 text-blue-700 shadow-sm',
+    info: 'p-3 rounded-lg bg-cyan-100 text-cyan-700 shadow-sm',
     clinical: 'p-3 rounded-lg bg-white border border-slate-200 text-slate-700 shadow-sm',
     large: 'p-4 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-md',
   },
@@ -177,7 +177,7 @@ export const medicalDesignTokens = {
     emphasis: 'text-base font-semibold text-slate-900 font-sans',
     
     // Interactive elements
-    link: 'text-blue-600 hover:text-blue-700 underline font-medium transition-colors duration-200',
+    link: 'text-cyan-600 hover:text-cyan-700 underline font-medium transition-colors duration-200',
     linkSecondary: 'text-slate-600 hover:text-slate-900 underline transition-colors duration-200',
   },
 
@@ -195,7 +195,7 @@ export const medicalDesignTokens = {
     transitionFast: 'transition-all duration-150 ease-in-out',
     transitionSlow: 'transition-all duration-300 ease-in-out',
     hover: 'hover:shadow-md transition-all duration-200 ease-in-out',
-    focus: 'focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-200',
+    focus: 'focus-within:ring-2 focus-within:ring-cyan-200 transition-all duration-200',
     clinical: 'transition-colors duration-200 ease-in-out',
     
     // Loading states
@@ -234,19 +234,19 @@ export const medicalDesignTokens = {
   // Medical Form Elements - Hospital-grade accessibility and usability
   forms: {
     // Input styling
-    input: 'w-full px-4 py-3 border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg text-base transition-all duration-200 bg-white placeholder:text-slate-400 disabled:bg-slate-50 disabled:text-slate-500',
+    input: 'w-full px-4 py-3 border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100 rounded-lg text-base transition-all duration-200 bg-white placeholder:text-slate-400 disabled:bg-slate-50 disabled:text-slate-500',
     inputError: 'w-full px-4 py-3 border border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 rounded-lg text-base transition-all duration-200 bg-white placeholder:text-slate-400',
     inputSuccess: 'w-full px-4 py-3 border border-emerald-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 rounded-lg text-base transition-all duration-200 bg-white',
     
     // Textarea styling
-    textarea: 'w-full px-4 py-3 border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg text-base resize-none transition-all duration-200 bg-white placeholder:text-slate-400 disabled:bg-slate-50',
+    textarea: 'w-full px-4 py-3 border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100 rounded-lg text-base resize-none transition-all duration-200 bg-white placeholder:text-slate-400 disabled:bg-slate-50',
     
     // Select styling
-    select: 'w-full px-4 py-3 border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg text-base transition-all duration-200 bg-white disabled:bg-slate-50',
+    select: 'w-full px-4 py-3 border border-slate-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100 rounded-lg text-base transition-all duration-200 bg-white disabled:bg-slate-50',
     
     // Radio and checkbox styling
-    radio: 'w-4 h-4 text-blue-600 border-slate-300 focus:ring-blue-500 focus:ring-2 transition-colors duration-200',
-    checkbox: 'w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500 focus:ring-2 transition-colors duration-200',
+    radio: 'w-4 h-4 text-cyan-600 border-slate-300 focus:ring-cyan-500 focus:ring-2 transition-colors duration-200',
+    checkbox: 'w-4 h-4 text-cyan-600 border-slate-300 rounded focus:ring-cyan-500 focus:ring-2 transition-colors duration-200',
     
     // Labels and text
     label: 'block text-sm font-medium text-slate-700 mb-2',
@@ -267,23 +267,23 @@ export const medicalDesignTokens = {
     // Progress bars
     bar: 'w-full bg-slate-200 rounded-full h-2 overflow-hidden shadow-inner',
     barLarge: 'w-full bg-slate-200 rounded-full h-3 overflow-hidden shadow-inner',
-    fill: 'h-full bg-blue-500 rounded-full transition-all duration-500 ease-out',
+    fill: 'h-full bg-cyan-500 rounded-full transition-all duration-500 ease-out',
     fillSuccess: 'h-full bg-emerald-500 rounded-full transition-all duration-500 ease-out',
     fillWarning: 'h-full bg-amber-500 rounded-full transition-all duration-500 ease-out',
     
     // Loading spinners - Medical grade
-    ring: 'w-6 h-6 border-2 border-slate-200 border-t-blue-600 rounded-full animate-spin',
-    ringLarge: 'w-8 h-8 border-2 border-slate-200 border-t-blue-600 rounded-full animate-spin',
-    ringSmall: 'w-4 h-4 border-2 border-slate-200 border-t-blue-600 rounded-full animate-spin',
+    ring: 'w-6 h-6 border-2 border-slate-200 border-t-cyan-600 rounded-full animate-spin',
+    ringLarge: 'w-8 h-8 border-2 border-slate-200 border-t-cyan-600 rounded-full animate-spin',
+    ringSmall: 'w-4 h-4 border-2 border-slate-200 border-t-cyan-600 rounded-full animate-spin',
     
     // Medical loading states
     loading: 'flex items-center justify-center space-x-2 text-sm text-gray-600',
-    loadingDot: 'w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse',
+    loadingDot: 'w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse',
     loadingText: 'text-sm font-medium text-gray-700',
     
     // Step indicators
     step: 'flex items-center justify-center w-8 h-8 rounded-full border-2 text-sm font-medium transition-all duration-200',
-    stepActive: 'bg-blue-600 border-blue-600 text-white shadow-sm',
+    stepActive: 'bg-cyan-600 border-cyan-600 text-white shadow-sm',
     stepCompleted: 'bg-emerald-600 border-emerald-600 text-white shadow-sm',
     stepPending: 'bg-white border-slate-300 text-slate-500',
     stepError: 'bg-red-600 border-red-600 text-white shadow-sm',
@@ -292,7 +292,7 @@ export const medicalDesignTokens = {
   // Medical Alert Styles - Clear, accessible, professional
   alerts: {
     // Standard alerts
-    info: 'bg-blue-50 border border-blue-200 rounded-lg p-4 text-blue-800 shadow-sm',
+    info: 'bg-cyan-50 border border-cyan-200 rounded-lg p-4 text-cyan-800 shadow-sm',
     success: 'bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-emerald-800 shadow-sm',
     warning: 'bg-amber-50 border border-amber-200 rounded-lg p-4 text-amber-800 shadow-sm',
     error: 'bg-red-50 border border-red-200 rounded-lg p-4 text-red-800 shadow-sm',
@@ -306,7 +306,7 @@ export const medicalDesignTokens = {
     neutral: 'bg-white border border-slate-200 rounded-lg p-4 text-slate-700 shadow-sm',
     
     // Dismissible variants
-    dismissible: 'relative bg-blue-50 border border-blue-200 rounded-lg p-4 pr-12 text-blue-800 shadow-sm',
+    dismissible: 'relative bg-cyan-50 border border-cyan-200 rounded-lg p-4 pr-12 text-cyan-800 shadow-sm',
   },
 
   // Medical Badge Styles - Professional status indicators
@@ -323,7 +323,7 @@ export const medicalDesignTokens = {
     // Status indicators
     status: {
       completed: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200',
-      inProgress: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200',
+      inProgress: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800 border border-cyan-200',
       pending: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-800 border border-slate-200',
       cancelled: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200',
       draft: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200',
@@ -333,7 +333,7 @@ export const medicalDesignTokens = {
     medical: {
       urgent: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-800 border border-orange-200',
       routine: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200',
-      followUp: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 border border-blue-200',
+      followUp: 'inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-cyan-100 text-cyan-700 border border-cyan-200',
     },
   },
 }

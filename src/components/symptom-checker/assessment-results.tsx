@@ -56,7 +56,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-cyan-50">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -119,9 +119,9 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
           transition={{ delay: 0.2 }}
         >
           <Card className="bg-white border border-gray-200 shadow-lg rounded-lg">
-            <CardHeader className="bg-blue-50 p-4 sm:p-6 border-b border-blue-200">
+            <CardHeader className="bg-cyan-50 p-4 sm:p-6 border-b border-cyan-200">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                <div className="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center">
                   <Sparkles className="h-5 w-5 text-white" />
                 </div>
                 <div>
@@ -169,7 +169,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                 >
                   <div className="mb-4">
                     <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-full flex items-center justify-center">
                         <TrendingUp className="h-4 w-4 text-white" />
                       </div>
                       <h3 className="text-lg font-bold text-gray-900">
@@ -191,7 +191,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                             <div className="flex justify-between items-start mb-2">
                               <h4 className="font-bold text-base text-gray-900">{condition.name}</h4>
                               <div className="text-right">
-                                <span className="text-blue-600 font-bold text-base">
+                                <span className="text-cyan-600 font-bold text-base">
                                   {Math.round(condition.probability * 100)}%
                                 </span>
                                 <p className="text-xs text-gray-500">{t.results.match}</p>
@@ -201,7 +201,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                             <div className="relative">
                               <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
                                 <motion.div 
-                                  className="h-full bg-blue-500 rounded-full"
+                                  className="h-full bg-cyan-500 rounded-full"
                                   initial={{ width: 0 }}
                                   animate={{ width: `${condition.probability * 100}%` }}
                                   transition={{ duration: 1, delay: 0.6 + index * 0.1 }}
@@ -253,10 +253,10 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
-                className="bg-blue-50 p-4 rounded-lg border border-blue-200"
+                className="bg-cyan-50 p-4 rounded-lg border border-cyan-200"
               >
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                  <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
                     <Clock className="h-4 w-4 text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900">
@@ -289,7 +289,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                 </Button>
                 <Button 
                   onClick={() => window.open('https://www.google.com/maps/search/doctor+near+me')}
-                  className="w-full h-10 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold text-sm"
+                  className="w-full h-10 bg-cyan-600 hover:bg-cyan-700 rounded-lg font-semibold text-sm"
                 >
                   <ArrowRight className="h-4 w-4 mr-2" />
                   {t.results.findProvider}

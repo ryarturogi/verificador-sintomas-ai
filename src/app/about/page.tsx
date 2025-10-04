@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/contexts/language-context'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { 
@@ -15,17 +16,18 @@ import {
 import Link from 'next/link'
 
 export default function AboutPage() {
+  const { t } = useLanguage()
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-cyan-50 to-cyan-100">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl">
+              <div className="p-2 bg-gradient-to-r from-cyan-600 to-teal-600 rounded-xl">
                 <Stethoscope className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">MedicalAI</span>
+              <span className="text-xl font-bold text-gray-900">VitalCheck</span>
             </Link>
             <Button asChild variant="outline">
               <Link href="/">Back to Home</Link>
@@ -43,7 +45,7 @@ export default function AboutPage() {
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            About MedicalAI
+            About VitalCheck
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Empowering healthcare decisions through advanced AI technology and compassionate care guidance.
@@ -63,7 +65,7 @@ export default function AboutPage() {
                 <div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
                   <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                    MedicalAI is dedicated to revolutionizing healthcare accessibility by providing 
+                    VitalCheck is dedicated to revolutionizing healthcare accessibility by providing 
                     intelligent symptom analysis and medical guidance. We bridge the gap between 
                     patients and healthcare providers through cutting-edge AI technology.
                   </p>
@@ -74,10 +76,10 @@ export default function AboutPage() {
                   </p>
                 </div>
                 <div className="relative">
-                  <div className="w-full h-80 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center">
+                  <div className="w-full h-80 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-2xl flex items-center justify-center">
                     <img 
                       src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                      alt="Medical Team"
+                      alt={t.about.teamImageAlt}
                       className="w-full h-full object-cover rounded-2xl"
                     />
                   </div>
@@ -99,13 +101,13 @@ export default function AboutPage() {
             {[
               {
                 icon: Heart,
-                title: "Compassionate Care",
-                description: "Every interaction is guided by empathy and understanding of patient needs."
+                title: t.about.values.compassionateCare.title,
+                description: t.about.values.compassionateCare.description
               },
               {
                 icon: Shield,
-                title: "Privacy & Security", 
-                description: "Your health information is protected with enterprise-grade security measures."
+                title: t.about.values.privacySecurity.title, 
+                description: t.about.values.privacySecurity.description
               },
               {
                 icon: Brain,
@@ -114,14 +116,14 @@ export default function AboutPage() {
               },
               {
                 icon: CheckCircle,
-                title: "Evidence-Based",
-                description: "All recommendations are grounded in current medical literature and best practices."
+                title: t.about.values.evidenceBased.title,
+                description: t.about.values.evidenceBased.description
               }
             ].map((value, index) => (
               <Card key={index} className="text-center h-full">
                 <CardContent className="p-6">
-                  <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <value.icon className="h-8 w-8 text-blue-600" />
+                  <div className="w-16 h-16 bg-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <value.icon className="h-8 w-8 text-cyan-600" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
                   <p className="text-gray-600">{value.description}</p>
@@ -170,7 +172,7 @@ export default function AboutPage() {
                     />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
-                  <p className="text-blue-600 font-semibold mb-3">{member.role}</p>
+                  <p className="text-cyan-600 font-semibold mb-3">{member.role}</p>
                   <p className="text-gray-600 text-sm">{member.description}</p>
                 </CardContent>
               </Card>
@@ -185,7 +187,7 @@ export default function AboutPage() {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="mb-16"
         >
-          <Card className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+          <Card className="bg-gradient-to-r from-cyan-600 to-cyan-700 text-white">
             <CardContent className="p-8 lg:p-12">
               <h2 className="text-3xl font-bold text-center mb-12">Our Impact</h2>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
@@ -197,7 +199,7 @@ export default function AboutPage() {
                 ].map((stat, index) => (
                   <div key={index}>
                     <div className="text-4xl font-bold mb-2">{stat.number}</div>
-                    <div className="text-blue-100">{stat.label}</div>
+                    <div className="text-cyan-100">{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -215,13 +217,13 @@ export default function AboutPage() {
           <Card className="bg-white/80 backdrop-blur-sm border border-white/20">
             <CardContent className="p-8 lg:p-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Ready to Experience MedicalAI?
+                Ready to Experience VitalCheck?
               </h2>
               <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-                Join thousands of users who trust MedicalAI for intelligent health guidance. 
+                Join thousands of users who trust VitalCheck for intelligent health guidance. 
                 Start your assessment today.
               </p>
-              <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
+              <Button asChild size="lg" className="bg-cyan-600 hover:bg-cyan-700">
                 <Link href="/">Start Assessment</Link>
               </Button>
             </CardContent>
