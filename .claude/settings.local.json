@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm run:*)",
+      "WebFetch(domain:platform.openai.com)",
+      "Bash(rmdir:*)",
+      "Bash(rm:*)"
+    ],
+    "deny": []
+  }
+}

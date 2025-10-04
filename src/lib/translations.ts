@@ -44,6 +44,99 @@ export interface Translations {
     describeYourSymptoms: string
     startMedicalAssessment: string
     startMedicalAssessmentDescription: string
+    // We.care style additions
+    feelBetterAbout: string
+    findingHealthcare: string
+    guessworkOut: string
+    rightDoctors: string
+    profilesEveryDoctor: string
+    millionRatings: string
+    youMayBeLookingFor: string
+    familyMedicine: string
+    pediatrics: string
+    topHospital: string
+    telehealth: string
+    covid19: string
+    orthopedicSurgery: string
+    more: string
+    popularSearches: string
+    specialties: string
+    conditions: string
+    procedures: string
+    dermatology: string
+    internalMedicine: string
+    neurology: string
+    generalMedicine: string
+    dentistry: string
+    otolaryngology: string
+    findRightDoctor: string
+    rightAtFingerips: string
+    toolsAndInformation: string
+    searchNearestHospital: string
+    findDoctorsHospitals: string
+    appointmentBestDoctor: string
+    convenientlySchedule: string
+    getConsultant: string
+    connectQualified: string
+    findBestDoctor: string
+    searchDoctor: string
+    setLocation: string
+    searchNow: string
+    whyChoose: string
+    access24_7: string
+    eliminateCommute: string
+    flexiblePlans: string
+    seamlesslySwitch: string
+    saveMoney: string
+    getFreeConsultation: string
+    meetSpecialists: string
+    drLeslieAlexander: string
+    dentalSurgery: string
+    drKathrynMurphy: string
+    pediatricMedicine: string
+    drRobertFox: string
+    gastroenterologist: string
+    drEstherHoward: string
+    thoracicSurgeons: string
+    drAlbertFlores: string
+    internNeurologist: string
+    drJeromeBell: string
+    obstetricsGynecologists: string
+    drArleneMcCoy: string
+    cardiologists: string
+    drJennyWilson: string
+    internDermatologist: string
+    patientsFeedback: string
+    testimonialDescription: string
+    brooklynJacob: string
+    newYork: string
+    clinicalCareReview: string
+    subscribeNews: string
+    subscribeDescription: string
+    enterEmail: string
+    subscribe: string
+    forPatients: string
+    accountSignup: string
+    hospitalAwards: string
+    qualityReports: string
+    drugsAZ: string
+    healthContentAZ: string
+    videoCenter: string
+    telehealthNav: string
+    forProviders: string
+    providerLogin: string
+    promoteYourPractice: string
+    updateFreeProfile: string
+    newsFeatures: string
+    helpCenter: string
+    ourCompany: string
+    contactUs: string
+    aboutUs: string
+    corporate: string
+    faq: string
+    blog: string
+    pressRoom: string
+    careers: string
     emergencyTags: {
       emergency: string
       critical: string
@@ -103,6 +196,49 @@ export interface Translations {
     scrollToContinue: string
     declinedMessage: string
     declinedTitle: string
+    // Detailed content translations
+    notIntendedFor: string
+    provideDiagnosis: string
+    replaceConsultation: string
+    emergencyAdvice: string
+    guideTreatment: string
+    emergencyInstructions: string
+    call911: string
+    goToER: string
+    contactEMS: string
+    doNotDelay: string
+    consultProfessionals: string
+    medicalConcerns: string
+    interpretSymptoms: string
+    medicalDiagnosis: string
+    medicationAdvice: string
+    healthMonitoring: string
+    privacyNotice: string
+    hipaaCompliance: string
+    dodSecurity: string
+    dataProtection: string
+    encryption: string
+    auditLogging: string
+    sessionTimeout: string
+    noStorage: string
+    dataAnonymization: string
+    securityMonitoring: string
+    privacyCheckbox: string
+    dodNotice: string
+    complianceStandards: string
+    fisma: string
+    nist: string
+    dodIA: string
+    fips: string
+    dodCheckbox: string
+    finalAcknowledgment: string
+    finalAcknowledgmentText: string
+    limitationsText: string
+    aiKnowledge: string
+    medicalHistory: string
+    accuracyNotGuaranteed: string
+    rareConditions: string
+    individualCircumstances: string
   }
   
   // Emergency
@@ -325,6 +461,99 @@ export const translations: Record<Language, Translations> = {
       describeYourSymptoms: "Describe Your Symptoms",
       startMedicalAssessment: "Start your medical assessment",
       startMedicalAssessmentDescription: "Start your medical assessment by describing what you're experiencing",
+      // We.care style additions
+      feelBetterAbout: "Feel better about",
+      findingHealthcare: "finding healthcare",
+      guessworkOut: "we take the guesswork out of finding the right",
+      rightDoctors: "doctors, hospitals, and care for you and your family.",
+      profilesEveryDoctor: "Profiles for Every Doctor in America",
+      millionRatings: "More Than 10 Million Patient Ratings",
+      youMayBeLookingFor: "You may be looking for",
+      familyMedicine: "Family Medicine",
+      pediatrics: "Pediatrics",
+      topHospital: "Top Hospital",
+      telehealth: "Telehealth",
+      covid19: "COVID-19",
+      orthopedicSurgery: "Orthopedic Surgery",
+      more: "More",
+      popularSearches: "Popular Searches on MedicalAI",
+      specialties: "Specialties",
+      conditions: "Conditions",
+      procedures: "Procedures",
+      dermatology: "Dermatology",
+      internalMedicine: "Internal Medicine",
+      neurology: "Neurology",
+      generalMedicine: "General Medicine",
+      dentistry: "Dentistry",
+      otolaryngology: "Otolaryngology",
+      findRightDoctor: "Find the right doctor",
+      rightAtFingerips: "right at your fingertips",
+      toolsAndInformation: "MedicalAI gives you the tools and information you need to",
+      searchNearestHospital: "Search nearest hospital",
+      findDoctorsHospitals: "Find doctors and hospitals based on the factors that matter most to you.",
+      appointmentBestDoctor: "Appointment with the best doctor",
+      convenientlySchedule: "Conveniently schedule your appointment by phone or online when available.",
+      getConsultant: "Get consultant",
+      connectQualified: "Connect with qualified healthcare professionals for expert medical advice.",
+      findBestDoctor: "Find the best doctor you need",
+      searchDoctor: "Search Doctor",
+      setLocation: "Set Location",
+      searchNow: "Search Now",
+      whyChoose: "Why you choose MedicalAI",
+      access24_7: "24/7 access - reach out whenever you need",
+      eliminateCommute: "Eliminate commute time and scheduling hassles",
+      flexiblePlans: "Flexible plans to meet your needs and lifestyle",
+      seamlesslySwitch: "Seamlessly switch therapists, at no extra cost",
+      saveMoney: "Save money while receiving high-quality care",
+      getFreeConsultation: "Get Free Consultation",
+      meetSpecialists: "Meet our specialist",
+      drLeslieAlexander: "Dr. Leslie Alexander",
+      dentalSurgery: "Dental Surgery",
+      drKathrynMurphy: "Dr. Kathryn Murphy",
+      pediatricMedicine: "Pediatric Medicine",
+      drRobertFox: "Dr. Robert Fox",
+      gastroenterologist: "Gastroenterologist",
+      drEstherHoward: "Dr. Esther Howard",
+      thoracicSurgeons: "Thoracic Surgeons",
+      drAlbertFlores: "Dr. Albert Flores",
+      internNeurologist: "Intern Neurologist",
+      drJeromeBell: "Dr. Jerome Bell",
+      obstetricsGynecologists: "Obstetrics & Gynecologists",
+      drArleneMcCoy: "Dr. Arlene McCoy",
+      cardiologists: "Cardiologists",
+      drJennyWilson: "Dr. Jenny Wilson",
+      internDermatologist: "Intern Dermatologist",
+      patientsFeedback: "Our patients feedback about us",
+      testimonialDescription: "In promotion and advertising, a testimonial or show consists of a person's written or spoken statement extolling the virtue of a our service",
+      brooklynJacob: "Brooklyn Jacob",
+      newYork: "New York, USA",
+      clinicalCareReview: "Clinical care review is the process of retrospectively examining potential errors or gaps in medical care, aiming for future practice improvement.",
+      subscribeNews: "Subscribe for any news update from MedicalAI",
+      subscribeDescription: "Stay informed about the latest health insights and features",
+      enterEmail: "Enter your Email Address",
+      subscribe: "Subscribe",
+      forPatients: "For Patients",
+      accountSignup: "Account Sign Up / Log In",
+      hospitalAwards: "Hospital Awards & Ratings",
+      qualityReports: "Quality & Reports",
+      drugsAZ: "Drugs A-Z",
+      healthContentAZ: "Health Content A-Z",
+      videoCenter: "Video Center",
+      telehealthNav: "Telehealth",
+      forProviders: "For Providers",
+      providerLogin: "Provider Log in",
+      promoteYourPractice: "Promote Your Practice",
+      updateFreeProfile: "Update Your Free Profile",
+      newsFeatures: "News and Features",
+      helpCenter: "Help Center",
+      ourCompany: "Our Company",
+      contactUs: "Contact Us",
+      aboutUs: "About Us",
+      corporate: "Corporate",
+      faq: "MedicalAI FAQ",
+      blog: "Blog",
+      pressRoom: "Press Room",
+      careers: "Careers",
       emergencyTags: {
         emergency: "Emergency",
         critical: "Critical",
@@ -381,7 +610,50 @@ export const translations: Record<Language, Translations> = {
       decline: "I Decline",
       scrollToContinue: "Please scroll to read the full disclaimer",
       declinedMessage: "You have declined the medical disclaimer. This tool cannot be used without accepting the terms. Please refresh the page if you change your mind.",
-      declinedTitle: "Disclaimer Declined"
+      declinedTitle: "Disclaimer Declined",
+      // Detailed content translations
+      notIntendedFor: "This AI symptom checker is designed to provide general health information and educational content only. It is NOT intended to:",
+      provideDiagnosis: "Provide medical diagnosis or treatment recommendations",
+      replaceConsultation: "Replace consultation with qualified healthcare professionals",
+      emergencyAdvice: "Serve as emergency medical advice",
+      guideTreatment: "Guide medical treatment decisions",
+      emergencyInstructions: "If you are experiencing a medical emergency, STOP using this tool immediately and:",
+      call911: "Call 911 or your local emergency number",
+      goToER: "Go to the nearest emergency room",
+      contactEMS: "Contact emergency medical services",
+      doNotDelay: "Do not delay seeking emergency medical care to use this symptom checker.",
+      consultProfessionals: "Always consult with qualified healthcare professionals for:",
+      medicalConcerns: "Any medical concerns or questions",
+      interpretSymptoms: "Interpretation of symptoms",
+      medicalDiagnosis: "Medical diagnosis and treatment",
+      medicationAdvice: "Medication advice and management",
+      healthMonitoring: "Health condition monitoring",
+      privacyNotice: "DoD/HIPAA COMPLIANCE & PRIVACY",
+      hipaaCompliance: "HIPAA Compliance",
+      dodSecurity: "DoD Security Standards",
+      dataProtection: "Data Protection Measures:",
+      encryption: "AES-256 encryption for data at rest and in transit",
+      auditLogging: "Comprehensive audit logging of all data access",
+      sessionTimeout: "Session timeout after 15 minutes of inactivity",
+      noStorage: "No permanent storage of personal health information",
+      dataAnonymization: "Automatic data anonymization for system logs",
+      securityMonitoring: "Real-time security monitoring and threat detection",
+      privacyCheckbox: "I have read and understand the HIPAA/DoD privacy and security policies",
+      dodNotice: "NOTICE: This system is for authorized use only. All activities are monitored and logged. Unauthorized access is prohibited and may result in prosecution under federal law.",
+      complianceStandards: "Compliance Standards:",
+      fisma: "FISMA (Federal Information Security Management Act)",
+      nist: "NIST 800-53 Security Controls",
+      dodIA: "DoD 8500 Information Assurance",
+      fips: "FIPS 140-2 Cryptographic Standards",
+      dodCheckbox: "I acknowledge the DoD security requirements and monitoring notice",
+      finalAcknowledgment: "Final Acknowledgment",
+      finalAcknowledgmentText: "By proceeding, you acknowledge that you understand these limitations, security requirements, and agree that this tool does not replace professional medical care. You consent to the collection and processing of health information in accordance with HIPAA and DoD security standards.",
+      limitationsText: "Please understand that:",
+      aiKnowledge: "AI recommendations are based on general medical knowledge",
+      medicalHistory: "Results may not account for your complete medical history",
+      accuracyNotGuaranteed: "Accuracy may vary and is not guaranteed",
+      rareConditions: "Rare conditions may not be adequately represented",
+      individualCircumstances: "Individual medical circumstances may require different approaches"
     },
     
     emergency: {
@@ -590,6 +862,99 @@ export const translations: Record<Language, Translations> = {
       describeYourSymptoms: "Describe Tus Síntomas",
       startMedicalAssessment: "Comienza tu evaluación médica",
       startMedicalAssessmentDescription: "Comienza tu evaluación médica describiendo lo que estás experimentando",
+      // We.care style additions
+      feelBetterAbout: "Siéntete mejor acerca de",
+      findingHealthcare: "encontrar atención médica",
+      guessworkOut: "eliminamos las conjeturas de encontrar los",
+      rightDoctors: "doctores, hospitales y atención adecuados para ti y tu familia.",
+      profilesEveryDoctor: "Perfiles de Cada Doctor en América",
+      millionRatings: "Más de 10 Millones de Calificaciones de Pacientes",
+      youMayBeLookingFor: "Podrías estar buscando",
+      familyMedicine: "Medicina Familiar",
+      pediatrics: "Pediatría",
+      topHospital: "Hospital Principal",
+      telehealth: "Telemedicina",
+      covid19: "COVID-19",
+      orthopedicSurgery: "Cirugía Ortopédica",
+      more: "Más",
+      popularSearches: "Búsquedas Populares en MedicalAI",
+      specialties: "Especialidades",
+      conditions: "Condiciones",
+      procedures: "Procedimientos",
+      dermatology: "Dermatología",
+      internalMedicine: "Medicina Interna",
+      neurology: "Neurología",
+      generalMedicine: "Medicina General",
+      dentistry: "Odontología",
+      otolaryngology: "Otorrinolaringología",
+      findRightDoctor: "Encuentra al doctor correcto",
+      rightAtFingerips: "al alcance de tus dedos",
+      toolsAndInformation: "MedicalAI te da las herramientas e información que necesitas para",
+      searchNearestHospital: "Buscar hospital más cercano",
+      findDoctorsHospitals: "Encuentra doctores y hospitales basados en los factores que más te importan.",
+      appointmentBestDoctor: "Cita con el mejor doctor",
+      convenientlySchedule: "Programa convenientemente tu cita por teléfono o en línea cuando esté disponible.",
+      getConsultant: "Obtener consultor",
+      connectQualified: "Conéctate con profesionales de la salud calificados para consejo médico experto.",
+      findBestDoctor: "Encuentra al mejor doctor que necesitas",
+      searchDoctor: "Buscar Doctor",
+      setLocation: "Establecer Ubicación",
+      searchNow: "Buscar Ahora",
+      whyChoose: "Por qué elegir MedicalAI",
+      access24_7: "Acceso 24/7 - comunícate cuando lo necesites",
+      eliminateCommute: "Elimina tiempo de viaje y problemas de programación",
+      flexiblePlans: "Planes flexibles para satisfacer tus necesidades y estilo de vida",
+      seamlesslySwitch: "Cambia terapeutas sin problemas, sin costo extra",
+      saveMoney: "Ahorra dinero mientras recibes atención de alta calidad",
+      getFreeConsultation: "Obtener Consulta Gratuita",
+      meetSpecialists: "Conoce a nuestro especialista",
+      drLeslieAlexander: "Dr. Leslie Alexander",
+      dentalSurgery: "Cirugía Dental",
+      drKathrynMurphy: "Dr. Kathryn Murphy",
+      pediatricMedicine: "Medicina Pediátrica",
+      drRobertFox: "Dr. Robert Fox",
+      gastroenterologist: "Gastroenterólogo",
+      drEstherHoward: "Dr. Esther Howard",
+      thoracicSurgeons: "Cirujanos Torácicos",
+      drAlbertFlores: "Dr. Albert Flores",
+      internNeurologist: "Neurólogo Interno",
+      drJeromeBell: "Dr. Jerome Bell",
+      obstetricsGynecologists: "Obstetras y Ginecólogos",
+      drArleneMcCoy: "Dr. Arlene McCoy",
+      cardiologists: "Cardiólogos",
+      drJennyWilson: "Dr. Jenny Wilson",
+      internDermatologist: "Dermatólogo Interno",
+      patientsFeedback: "Comentarios de nuestros pacientes sobre nosotros",
+      testimonialDescription: "En promoción y publicidad, un testimonio o espectáculo consiste en una declaración escrita o hablada de una persona elogiando la virtud de nuestro servicio",
+      brooklynJacob: "Brooklyn Jacob",
+      newYork: "Nueva York, EE.UU.",
+      clinicalCareReview: "La revisión de atención clínica es el proceso de examinar retrospectivamente errores potenciales o brechas en la atención médica, con el objetivo de mejorar la práctica futura.",
+      subscribeNews: "Suscríbete para recibir actualizaciones de noticias de MedicalAI",
+      subscribeDescription: "Mantente informado sobre los últimos conocimientos de salud y características",
+      enterEmail: "Ingresa tu Dirección de Correo Electrónico",
+      subscribe: "Suscribirse",
+      forPatients: "Para Pacientes",
+      accountSignup: "Registro de Cuenta / Iniciar Sesión",
+      hospitalAwards: "Premios y Calificaciones de Hospitales",
+      qualityReports: "Calidad e Informes",
+      drugsAZ: "Medicamentos A-Z",
+      healthContentAZ: "Contenido de Salud A-Z",
+      videoCenter: "Centro de Videos",
+      telehealthNav: "Telemedicina",
+      forProviders: "Para Proveedores",
+      providerLogin: "Iniciar Sesión de Proveedor",
+      promoteYourPractice: "Promueve Tu Práctica",
+      updateFreeProfile: "Actualiza Tu Perfil Gratuito",
+      newsFeatures: "Noticias y Características",
+      helpCenter: "Centro de Ayuda",
+      ourCompany: "Nuestra Empresa",
+      contactUs: "Contáctanos",
+      aboutUs: "Acerca de Nosotros",
+      corporate: "Corporativo",
+      faq: "Preguntas Frecuentes de MedicalAI",
+      blog: "Blog",
+      pressRoom: "Sala de Prensa",
+      careers: "Carreras",
       emergencyTags: {
         emergency: "Emergencia",
         critical: "Crítico",
@@ -646,7 +1011,50 @@ export const translations: Record<Language, Translations> = {
       decline: "Rechazo",
       scrollToContinue: "Por favor desplázate para leer el descargo completo",
       declinedMessage: "Has rechazado el descargo médico. Esta herramienta no puede ser utilizada sin aceptar los términos. Por favor actualiza la página si cambias de opinión.",
-      declinedTitle: "Descargo Rechazado"
+      declinedTitle: "Descargo Rechazado",
+      // Detailed content translations
+      notIntendedFor: "Este verificador de síntomas con IA está diseñado para proporcionar información general de salud y contenido educativo únicamente. NO está destinado a:",
+      provideDiagnosis: "Proporcionar diagnóstico médico o recomendaciones de tratamiento",
+      replaceConsultation: "Reemplazar la consulta con profesionales de la salud calificados",
+      emergencyAdvice: "Servir como consejo médico de emergencia",
+      guideTreatment: "Guiar decisiones de tratamiento médico",
+      emergencyInstructions: "Si estás experimentando una emergencia médica, DEJA de usar esta herramienta inmediatamente y:",
+      call911: "Llama al 911 o tu número de emergencia local",
+      goToER: "Ve a la sala de emergencias más cercana",
+      contactEMS: "Contacta los servicios médicos de emergencia",
+      doNotDelay: "No retrases la búsqueda de atención médica de emergencia para usar este verificador de síntomas.",
+      consultProfessionals: "Siempre consulta con profesionales de la salud calificados para:",
+      medicalConcerns: "Cualquier preocupación o pregunta médica",
+      interpretSymptoms: "Interpretación de síntomas",
+      medicalDiagnosis: "Diagnóstico y tratamiento médico",
+      medicationAdvice: "Consejo y manejo de medicamentos",
+      healthMonitoring: "Monitoreo de condiciones de salud",
+      privacyNotice: "CUMPLIMIENTO DoD/HIPAA Y PRIVACIDAD",
+      hipaaCompliance: "Cumplimiento HIPAA",
+      dodSecurity: "Estándares de Seguridad DoD",
+      dataProtection: "Medidas de Protección de Datos:",
+      encryption: "Cifrado AES-256 para datos en reposo y en tránsito",
+      auditLogging: "Registro de auditoría completo de todo acceso a datos",
+      sessionTimeout: "Tiempo de espera de sesión después de 15 minutos de inactividad",
+      noStorage: "Sin almacenamiento permanente de información de salud personal",
+      dataAnonymization: "Anonimización automática de datos para registros del sistema",
+      securityMonitoring: "Monitoreo de seguridad y detección de amenazas en tiempo real",
+      privacyCheckbox: "He leído y entiendo las políticas de privacidad y seguridad HIPAA/DoD",
+      dodNotice: "AVISO: Este sistema es solo para uso autorizado. Todas las actividades son monitoreadas y registradas. El acceso no autorizado está prohibido y puede resultar en procesamiento bajo la ley federal.",
+      complianceStandards: "Estándares de Cumplimiento:",
+      fisma: "FISMA (Ley Federal de Gestión de Seguridad de la Información)",
+      nist: "Controles de Seguridad NIST 800-53",
+      dodIA: "Aseguramiento de Información DoD 8500",
+      fips: "Estándares Criptográficos FIPS 140-2",
+      dodCheckbox: "Reconozco los requisitos de seguridad DoD y el aviso de monitoreo",
+      finalAcknowledgment: "Reconocimiento Final",
+      finalAcknowledgmentText: "Al proceder, reconoces que entiendes estas limitaciones, requisitos de seguridad, y aceptas que esta herramienta no reemplaza la atención médica profesional. Consientes a la recolección y procesamiento de información de salud de acuerdo con los estándares de seguridad HIPAA y DoD.",
+      limitationsText: "Por favor entiende que:",
+      aiKnowledge: "Las recomendaciones de IA se basan en conocimiento médico general",
+      medicalHistory: "Los resultados pueden no considerar tu historial médico completo",
+      accuracyNotGuaranteed: "La precisión puede variar y no está garantizada",
+      rareConditions: "Las condiciones raras pueden no estar adecuadamente representadas",
+      individualCircumstances: "Las circunstancias médicas individuales pueden requerir enfoques diferentes"
     },
     
     emergency: {
