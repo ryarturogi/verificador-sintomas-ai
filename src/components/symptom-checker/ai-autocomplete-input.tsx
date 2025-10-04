@@ -198,8 +198,9 @@ export function AIAutocompleteInput({
                 ))}
               </div>
               
-              <div className="px-4 py-2 text-xs text-gray-500 bg-gray-50 border-t">
-                💡 AI-powered suggestions • Use ↑↓ arrows and Enter to select
+              <div className="px-4 py-2 text-xs text-gray-500 bg-gray-50 border-t flex items-center space-x-2">
+                <CheckCircle className="h-3 w-3" />
+                <span>AI-powered suggestions • Use ↑↓ arrows and Enter to select</span>
               </div>
             </Card>
           </motion.div>

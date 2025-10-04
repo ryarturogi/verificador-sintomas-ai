@@ -7,7 +7,7 @@ import { DynamicQuestion } from './dynamic-question'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useLanguage, useTranslations } from '@/contexts/language-context'
-import { CheckCircle, AlertTriangle, Shield, Heart, Clock } from 'lucide-react'
+import { CheckCircle, AlertTriangle, Shield, Heart } from 'lucide-react'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { medicalDesignTokens as designTokens } from '@/lib/design-tokens'
@@ -300,23 +300,17 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
     switch (state) {
       case 'initializing':
         return (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <Card className={`${designTokens.cards.clinical} max-w-lg mx-auto`}>
-              <CardContent className={`${designTokens.spacing.md} text-center`}>
-                <LoadingSpinner 
-                  size="medium"
-                  text={t.questionnaire.preparing}
-                  subtext={t.questionnaire.generating}
-                  showProgress={true}
-                  progress={70}
-                />
-              </CardContent>
-            </Card>
-          </motion.div>
+          <Card className={`${designTokens.cards.clinical} max-w-lg mx-auto`}>
+            <CardContent className={`${designTokens.spacing.md} text-center`}>
+              <LoadingSpinner 
+                size="medium"
+                text={t.questionnaire.preparing}
+                subtext={t.questionnaire.generating}
+                showProgress={true}
+                progress={70}
+              />
+            </CardContent>
+          </Card>
         )
 
       case 'questioning':
@@ -334,174 +328,108 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
 
       case 'generating':
         return (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Card className={`${designTokens.cards.primary} max-w-lg mx-auto`}>
-              <CardContent className={`${designTokens.spacing.md} text-center`}>
-                <LoadingSpinner 
-                  size="medium"
-                  text={t.questionnaire.analyzing}
-                  subtext={t.questionnaire.generatingAssessment}
-                  showProgress={true}
-                  progress={85}
-                />
-              </CardContent>
-            </Card>
-          </motion.div>
+          <Card className={`${designTokens.cards.primary} max-w-lg mx-auto`}>
+            <CardContent className={`${designTokens.spacing.md} text-center`}>
+              <LoadingSpinner 
+                size="medium"
+                text={t.questionnaire.analyzing}
+                subtext={t.questionnaire.generatingAssessment}
+                showProgress={true}
+                progress={85}
+              />
+            </CardContent>
+          </Card>
         )
 
       case 'completed':
         return (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <Card className={`${designTokens.cards.success} max-w-lg mx-auto`}>
-              <CardContent className={`${designTokens.spacing.md} text-center`}>
-                <div className="mb-6">
-                  <motion.div 
-                    className="relative mb-4"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.2, ease: "easeOut" }}
-                  >
-                    <div className={`${designTokens.iconContainers.success} w-16 h-16 mx-auto`}>
-                      <CheckCircle className="h-8 w-8" />
-                    </div>
-                  </motion.div>
+          <Card className={`${designTokens.cards.success} max-w-lg mx-auto`}>
+            <CardContent className={`${designTokens.spacing.md} text-center`}>
+              <div className="mb-6">
+                <div className={`${designTokens.iconContainers.success} w-16 h-16 mx-auto mb-4`}>
+                  <CheckCircle className="h-8 w-8" />
                 </div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <h3 className={`${designTokens.typography.h4} mb-3`}>
-                    {t.questionnaire.completed}
-                  </h3>
-                  <p className={`${designTokens.typography.bodySecondary} mb-4`}>
-                    {t.questionnaire.generatingAssessment}
-                  </p>
-                  <div className={`${designTokens.cards.clinical} px-4 py-3 inline-block`}>
-                    <div className="flex items-center space-x-2">
-                      <Shield className="h-4 w-4 text-emerald-600" />
-                      <span className={`${designTokens.typography.bodySmall}`}>
-                        {session.responses.length} {t.questionnaire.questionsAnswered}
-                      </span>
-                    </div>
+              </div>
+              <div>
+                <h3 className={`${designTokens.typography.h4} mb-3`}>
+                  {t.questionnaire.completed}
+                </h3>
+                <p className={`${designTokens.typography.bodySecondary} mb-4`}>
+                  {t.questionnaire.generatingAssessment}
+                </p>
+                <div className={`${designTokens.cards.clinical} px-4 py-3 inline-block`}>
+                  <div className="flex items-center space-x-2">
+                    <Shield className="h-4 w-4 text-emerald-600" />
+                    <span className={`${designTokens.typography.bodySmall}`}>
+                      {session.responses.length} {t.questionnaire.questionsAnswered}
+                    </span>
                   </div>
-                </motion.div>
-              </CardContent>
-            </Card>
-          </motion.div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         )
 
       case 'emergency':
         return (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <Card className={`${designTokens.cards.emergency} max-w-2xl mx-auto`}>
-              <CardContent className={`${designTokens.spacing.lg} text-center`}>
-                <div className="mb-8">
-                  <motion.div 
-                    className="relative mb-6"
-                    animate={{ scale: [1, 1.02, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  >
-                    <div className={`${designTokens.iconContainers.emergency} w-20 h-20 mx-auto`}>
-                      <AlertTriangle className="h-10 w-10" />
-                    </div>
-                  </motion.div>
+          <Card className={`${designTokens.cards.emergency} max-w-2xl mx-auto`}>
+            <CardContent className={`${designTokens.spacing.lg} text-center`}>
+              <div className="mb-8">
+                <div className={`${designTokens.iconContainers.emergency} w-20 h-20 mx-auto mb-6`}>
+                  <AlertTriangle className="h-10 w-10" />
                 </div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <h3 className={`${designTokens.typography.h2} text-red-800 mb-4`}>
-                    {t.emergency.alert}
-                  </h3>
-                  <p className={`${designTokens.typography.bodyLarge} text-red-700 mb-8`}>
-                    {t.emergency.message}
-                  </p>
-                  <motion.div 
-                    className={`${designTokens.alerts.emergency} inline-block`}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.4 }}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <Heart className="h-5 w-5 text-red-700" />
-                      <span className={`${designTokens.typography.emphasis} text-red-800`}>
-                        {t.emergency.call911}
-                      </span>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
+              <div>
+                <h3 className={`${designTokens.typography.h2} text-red-800 mb-4`}>
+                  {t.emergency.alert}
+                </h3>
+                <p className={`${designTokens.typography.bodyLarge} text-red-700 mb-8`}>
+                  {t.emergency.message}
+                </p>
+                <div className={`${designTokens.alerts.emergency} inline-block`}>
+                  <div className="flex items-center space-x-3">
+                    <Heart className="h-5 w-5 text-red-700" />
+                    <span className={`${designTokens.typography.emphasis} text-red-800`}>
+                      {t.emergency.call911}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         )
 
       case 'error':
         return (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            <Card className={`${designTokens.cards.warning} max-w-2xl mx-auto`}>
-              <CardContent className={`${designTokens.spacing.md} text-center`}>
-                <div className="mb-8">
-                  <div className={`${designTokens.iconContainers.warning} mx-auto mb-4`}>
-                    <AlertTriangle className="h-8 w-8" />
-                  </div>
+          <Card className={`${designTokens.cards.warning} max-w-2xl mx-auto`}>
+            <CardContent className={`${designTokens.spacing.md} text-center`}>
+              <div className="mb-8">
+                <div className={`${designTokens.iconContainers.warning} mx-auto mb-4`}>
+                  <AlertTriangle className="h-8 w-8" />
                 </div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <h3 className={`${designTokens.typography.h3} mb-4`}>
-                    {t.common.error}
-                  </h3>
-                  <p className={`${designTokens.typography.body} mb-8`}>{error}</p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 }}
-                    >
-                      <Button
-                        onClick={retryGeneration}
-                        className={`${designTokens.buttons.primary} px-6 py-3`}
-                      >
-                        {t.questions.tryAgain}
-                      </Button>
-                    </motion.div>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      <Button
-                        onClick={initializeQuestionnaire}
-                        className={`${designTokens.buttons.secondary} px-6 py-3`}
-                      >
-                        {t.questions.startOver}
-                      </Button>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
+              <div>
+                <h3 className={`${designTokens.typography.h3} mb-4`}>
+                  {t.common.error}
+                </h3>
+                <p className={`${designTokens.typography.body} mb-8`}>{error}</p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button
+                    onClick={retryGeneration}
+                    className={`${designTokens.buttons.primary} px-6 py-3`}
+                  >
+                    {t.questions.tryAgain}
+                  </Button>
+                  <Button
+                    onClick={initializeQuestionnaire}
+                    className={`${designTokens.buttons.secondary} px-6 py-3`}
+                  >
+                    {t.questions.startOver}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         )
 
       default:
@@ -513,50 +441,20 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
     <div className="min-h-screen bg-slate-50 py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
       <div className={designTokens.spacing.containerLarge}>
         <div className="space-y-4 sm:space-y-6">
-          <AnimatePresence mode="wait">
-            {renderState()}
-          </AnimatePresence>
-
-          {/* Medical Progress indicator */}
-          {state === 'questioning' && responses.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
-              className="max-w-lg lg:max-w-xl mx-auto"
-            >
-              <div className={`${designTokens.cards.clinical} p-4 sm:p-6 text-center`}>
-                <div className="flex items-center justify-center space-x-3 mb-4">
-                  <div className={designTokens.iconContainers.primary}>
-                    <Clock className="h-4 w-4" />
-                  </div>
-                  <p className={`${designTokens.typography.emphasis}`}>
-                    {responses.length} {t.questionnaire.questionsAnswered}
-                  </p>
-                </div>
-                
-                {/* Medical progress bar */}
-                <div className="space-y-3">
-                  <div className={designTokens.progress.barLarge}>
-                    <motion.div 
-                      className={designTokens.progress.fill}
-                      initial={{ width: '0%' }}
-                      animate={{ width: `${progressPercentage}%` }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                    />
-                  </div>
-                  
-                  {/* Progress percentage */}
-                  <div className="flex justify-between items-center">
-                    <span className={designTokens.typography.label}>Assessment Progress</span>
-                    <span className={`${designTokens.typography.emphasis} text-blue-600`}>
-                      {Math.round(progressPercentage)}%
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
+          {/* Single persistent container */}
+          <div className="relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={state + (currentQuestion?.id || '')}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                {renderState()}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>

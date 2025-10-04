@@ -179,21 +179,21 @@ export function DynamicQuestion({
                   type="button"
                   onClick={() => setAnswer(option.value)}
                   variant="outline"
-                  className={`w-full p-4 text-left ${
+                  className={`w-full p-4 ${
                     answer === option.value
                       ? `${designTokens.cards.interactive} border-blue-500 bg-blue-50 shadow-md`
                       : `${designTokens.cards.interactive} hover:border-blue-300`
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <span className={`${designTokens.typography.bodySmall} font-medium ${
+                  <div className="flex items-center justify-between w-full">
+                    <span className={`${designTokens.typography.bodySmall} font-medium text-left ${
                       answer === option.value ? 'text-blue-700' : 'text-slate-700'
                     }`}>
                       {option.label}
                     </span>
                     {answer === option.value && (
-                      <div className={designTokens.iconContainers.primary}>
-                        <Check className="h-3 w-3" />
+                      <div className="flex items-center justify-center w-5 h-5 bg-blue-500 rounded-full flex-shrink-0 ml-3">
+                        <Check className="h-3 w-3 text-white" />
                       </div>
                     )}
                   </div>
@@ -219,21 +219,21 @@ export function DynamicQuestion({
                   type="button"
                   onClick={() => handleMultipleChoice(option.value)}
                   variant="outline"
-                  className={`w-full p-3 text-left ${
+                  className={`w-full p-3 ${
                     selectedOptions.includes(option.value)
                       ? `${designTokens.cards.success} border-emerald-300`
                       : `${designTokens.cards.interactive} hover:border-emerald-300`
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <span className={`${designTokens.typography.bodySmall} font-medium ${
+                  <div className="flex items-center justify-between w-full">
+                    <span className={`${designTokens.typography.bodySmall} font-medium text-left ${
                       selectedOptions.includes(option.value) ? 'text-emerald-700' : 'text-slate-700'
                     }`}>
                       {option.label}
                     </span>
                     {selectedOptions.includes(option.value) && (
-                      <div className={designTokens.iconContainers.success}>
-                        <Check className="h-3 w-3" />
+                      <div className="flex items-center justify-center w-5 h-5 bg-emerald-500 rounded-full flex-shrink-0 ml-3">
+                        <Check className="h-3 w-3 text-white" />
                       </div>
                     )}
                   </div>

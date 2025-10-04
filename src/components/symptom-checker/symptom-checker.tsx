@@ -179,7 +179,10 @@ export function SymptomChecker() {
                     <AlertDescription className="text-red-800">
                       <div className="space-y-4">
                         <div>
-                          <p className="font-semibold text-lg mb-2">⚠️ {t.medicalDisclaimer.declinedTitle}</p>
+                          <div className="flex items-center space-x-2 mb-2">
+                            <AlertTriangle className="h-5 w-5 text-red-600" />
+                            <p className="font-semibold text-lg">{t.medicalDisclaimer.declinedTitle}</p>
+                          </div>
                           <p className="text-sm mb-4">
                             {t.medicalDisclaimer.declinedMessage}
                           </p>
@@ -213,7 +216,10 @@ export function SymptomChecker() {
                     <AlertDescription className="text-amber-800">
                       <div className="space-y-4">
                         <div>
-                          <p className="font-semibold text-lg mb-2">⚙️ {t.errors.configRequired}</p>
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Settings className="h-5 w-5 text-blue-600" />
+                            <p className="font-semibold text-lg">{t.errors.configRequired}</p>
+                          </div>
                           <p className="text-sm mb-4">
                             {t.errors.apiKeyInstructions}
                           </p>

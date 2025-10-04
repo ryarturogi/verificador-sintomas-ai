@@ -6,6 +6,35 @@ import {
 
 export class QuestionGenerator {
   
+  // Add validation method to ensure question uniqueness
+  private validateQuestionUniqueness(newQuestion: Question, previousResponses: QuestionResponse[]): boolean {
+    // Check if this exact question ID has been used before
+    const existingQuestionIds = previousResponses.map(r => r.questionId)
+    
+    if (existingQuestionIds.includes(newQuestion.id)) {
+      return false
+    }
+
+    // Check for semantic similarity in question text (basic check)
+    const newQuestionText = newQuestion.text.toLowerCase()
+    const existingQuestions = previousResponses.map(r => r.questionId)
+    
+    // Simple keyword overlap check
+    const newQuestionKeywords = new Set(newQuestionText.split(' ').filter(word => word.length > 3))
+    
+    for (const existingId of existingQuestions) {
+      const existingKeywords = new Set(existingId.toLowerCase().split('_').filter(word => word.length > 3))
+      const overlap = new Set([...newQuestionKeywords].filter(x => existingKeywords.has(x)))
+      
+      // If more than 50% keyword overlap, consider it too similar
+      if (overlap.size > Math.min(newQuestionKeywords.size, existingKeywords.size) * 0.5) {
+        return false
+      }
+    }
+    
+    return true
+  }
+  
   async generateInitialQuestion(language: string = 'en'): Promise<Question> {
     const isSpanish = language === 'es'
     
@@ -68,6 +97,7 @@ Return a JSON object with this exact structure:
     }
 
     const context = this.buildContext(previousResponses)
+    const askedQuestions = this.extractAskedQuestions(previousResponses)
     const isSpanish = language === 'es'
     
     const prompt = `
@@ -81,6 +111,11 @@ Previous responses context:
 ${context}
 
 Question number: ${questionCount + 1} of maximum 8 questions.
+
+IMPORTANT: DO NOT repeat or rephrase questions that have already been asked. Previously asked questions:
+${askedQuestions}
+
+Make sure your new question explores different aspects and doesn't duplicate information already gathered.
 
 Generate a JSON object for the next question. Choose the most appropriate question type based on what information is needed:
 
@@ -127,18 +162,40 @@ Make sure the question is medically relevant and builds on previous responses.
 `
 
     try {
-      const response = await createChatCompletion(
-        [{ role: 'user', content: prompt }],
-        'gpt-5-nano',
-        {
-          temperature: 0.4,
-          maxTokens: 800,
-          responseFormat: 'json_object'
-        }
-      )
+      let attempts = 0
+      const maxAttempts = 3
+      let currentPrompt = prompt
+      
+      while (attempts < maxAttempts) {
+        const response = await createChatCompletion(
+          [{ role: 'user', content: currentPrompt }],
+          'gpt-5-nano',
+          {
+            temperature: 0.4 + (attempts * 0.1), // Increase randomness with each attempt
+            maxTokens: 800,
+            responseFormat: 'json_object'
+          }
+        )
 
-      const questionData = JSON.parse(response)
-      return Question.parse(questionData)
+        const questionData = JSON.parse(response)
+        const question = Question.parse(questionData)
+        
+        // Validate question uniqueness
+        if (this.validateQuestionUniqueness(question, previousResponses)) {
+          return question
+        }
+        
+        attempts++
+        console.warn(`Generated duplicate question (attempt ${attempts}/${maxAttempts}): ${question.text}`)
+        
+        // Update prompt for retry to be more specific about avoiding duplicates
+        if (attempts < maxAttempts) {
+          currentPrompt += `\n\nNOTE: The previous attempt generated a duplicate question. Please generate a completely different question that asks about a new aspect of the patient's condition.`
+        }
+      }
+      
+      console.error('Failed to generate unique question after maximum attempts')
+      return null
     } catch (error) {
       console.error('Failed to generate next question:', error)
       return null
@@ -184,6 +241,50 @@ Make sure the question is medically relevant and builds on previous responses.
         return `Question ${response.questionId}: ${answer}`
       })
       .join('\n')
+  }
+
+  private extractAskedQuestions(responses: QuestionResponse[]): string {
+    if (responses.length === 0) {
+      return "No previous questions asked."
+    }
+
+    // Create a set to store unique question topics to avoid duplicates
+    const questionTopics = new Set<string>()
+    
+    responses.forEach(response => {
+      // Extract the general topic/theme of each question based on question ID
+      const questionId = response.questionId
+      
+      // Map common question patterns to their general topics
+      if (questionId.includes('initial') || questionId.includes('symptom')) {
+        questionTopics.add('Primary symptoms and health concerns')
+      } else if (questionId.includes('pain') || questionId.includes('severity')) {
+        questionTopics.add('Pain severity and characteristics')
+      } else if (questionId.includes('duration') || questionId.includes('time')) {
+        questionTopics.add('Symptom duration and timeline')
+      } else if (questionId.includes('location') || questionId.includes('where')) {
+        questionTopics.add('Symptom location and affected areas')
+      } else if (questionId.includes('trigger') || questionId.includes('cause')) {
+        questionTopics.add('Triggers and contributing factors')
+      } else if (questionId.includes('emergency')) {
+        questionTopics.add('Emergency symptoms screening')
+      } else if (questionId.includes('age') || questionId.includes('gender')) {
+        questionTopics.add('Basic demographic information')
+      } else if (questionId.includes('medical') || questionId.includes('history')) {
+        questionTopics.add('Medical history and conditions')
+      } else if (questionId.includes('medication') || questionId.includes('treatment')) {
+        questionTopics.add('Current medications and treatments')
+      } else if (questionId.includes('activity') || questionId.includes('impact')) {
+        questionTopics.add('Impact on daily activities')
+      } else if (questionId.includes('associated') || questionId.includes('additional')) {
+        questionTopics.add('Associated symptoms')
+      } else {
+        // For other questions, try to infer the topic from the question ID
+        questionTopics.add(`Questions about ${questionId.replace(/_/g, ' ')}`)
+      }
+    })
+
+    return Array.from(questionTopics).join('\n- ')
   }
 
   async shouldAskEmergencyQuestion(responses: QuestionResponse[]): Promise<boolean> {

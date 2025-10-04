@@ -1,16 +1,23 @@
-// Medical Design Tokens for AI Symptom Checker
-// Professional medical webapp design system based on healthcare industry standards
+// Modern Medical Design System for AI Symptom Checker
+// Professional medical webapp design system inspired by modern web design trends (2024)
+// Combines medical professionalism with contemporary UX/UI patterns
 
 export const medicalDesignTokens = {
-  // Medical Color Palette - Clinical & Professional
+  // Modern Medical Color Palette - 2024 Design Trends
   colors: {
-    // Primary medical blues - Research-backed trustworthy colors used in healthcare
+    // Primary medical blues - Contemporary professional palette
     medical: {
       primary: '#2563EB',     // Primary medical blue (accessible)
       secondary: '#1D4ED8',   // Deep professional blue  
       tertiary: '#1E40AF',    // Dark professional blue
       light: '#3B82F6',       // Light medical blue
       surface: '#EFF6FF',     // Light blue surface
+      50: '#EFF6FF',          // Ultra light blue
+      100: '#DBEAFE',         // Very light blue
+      500: '#3B82F6',         // Standard blue
+      600: '#2563EB',         // Primary blue
+      700: '#1D4ED8',         // Dark blue
+      900: '#1E3A8A',         // Very dark blue
     },
     
     // Clinical whites and neutrals - Hospital-grade clean aesthetics
@@ -51,31 +58,88 @@ export const medicalDesignTokens = {
       high: '#EF4444',        // High severity red
       critical: '#DC2626',    // Critical severity dark red
     },
+
+    // Modern gradients - 2024 Design Trends
+    gradients: {
+      primary: 'bg-gradient-to-br from-blue-50 via-white to-indigo-50',
+      clinical: 'bg-gradient-to-r from-slate-50 to-blue-50',
+      emergency: 'bg-gradient-to-br from-red-50 via-orange-50 to-red-100',
+      success: 'bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50',
+      hero: 'bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700',
+      heroLight: 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50',
+      glass: 'bg-white/80 backdrop-blur-sm border border-white/20',
+      glassBlue: 'bg-blue-50/80 backdrop-blur-sm border border-blue-100/50',
+    },
+
+    // Modern shadows and effects
+    effects: {
+      shadow: {
+        soft: 'shadow-sm',
+        medium: 'shadow-md',
+        large: 'shadow-lg shadow-slate-200/50',
+        xl: 'shadow-xl shadow-slate-200/60',
+        colored: 'shadow-lg shadow-blue-500/10',
+        emergency: 'shadow-lg shadow-red-500/20',
+      },
+      glow: {
+        blue: 'shadow-lg shadow-blue-500/25 ring-1 ring-blue-500/25',
+        green: 'shadow-lg shadow-emerald-500/25 ring-1 ring-emerald-500/25',
+        red: 'shadow-lg shadow-red-500/25 ring-1 ring-red-500/25',
+      },
+      glassmorphism: 'backdrop-blur-md bg-white/30 border border-white/20 shadow-xl',
+    },
   },
 
-  // Medical Professional Card Styles - Clean, clinical, no gradients
+  // Modern Medical Card Styles - Contemporary design with subtle depth
   cards: {
-    primary: 'bg-white border border-slate-200 shadow-sm rounded-lg hover:shadow-md transition-shadow duration-200',
-    elevated: 'bg-white border border-slate-200 shadow-md rounded-lg hover:shadow-lg transition-shadow duration-200',
-    clinical: 'bg-white border border-blue-100 shadow-sm rounded-lg hover:shadow-md transition-shadow duration-200',
-    emergency: 'bg-red-50 border-2 border-red-200 shadow-sm rounded-lg',
-    success: 'bg-emerald-50 border border-emerald-200 shadow-sm rounded-lg',
-    info: 'bg-blue-50 border border-blue-200 shadow-sm rounded-lg',
-    warning: 'bg-amber-50 border border-amber-200 shadow-sm rounded-lg',
-    neutral: 'bg-slate-50 border border-slate-200 shadow-sm rounded-lg',
-    interactive: 'bg-white border border-slate-200 shadow-sm rounded-lg hover:border-blue-300 hover:shadow-md transition-all duration-200 cursor-pointer',
+    // Standard cards with modern styling
+    primary: 'bg-white border border-slate-200/60 shadow-sm rounded-xl hover:shadow-lg hover:shadow-slate-200/40 transition-all duration-300',
+    elevated: 'bg-white border border-slate-200/60 shadow-lg shadow-slate-200/40 rounded-xl hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300',
+    clinical: 'bg-white border border-blue-100/80 shadow-sm rounded-xl hover:shadow-lg hover:shadow-blue-200/20 transition-all duration-300',
+    
+    // Status-based cards with modern gradients
+    emergency: 'bg-gradient-to-br from-red-50 to-red-100/80 border border-red-200/80 shadow-lg shadow-red-200/30 rounded-xl',
+    success: 'bg-gradient-to-br from-emerald-50 to-green-50/80 border border-emerald-200/80 shadow-lg shadow-emerald-200/20 rounded-xl',
+    info: 'bg-gradient-to-br from-blue-50 to-indigo-50/80 border border-blue-200/80 shadow-lg shadow-blue-200/20 rounded-xl',
+    warning: 'bg-gradient-to-br from-amber-50 to-orange-50/80 border border-amber-200/80 shadow-lg shadow-amber-200/20 rounded-xl',
+    neutral: 'bg-gradient-to-br from-slate-50 to-gray-50/80 border border-slate-200/80 shadow-sm rounded-xl',
+    
+    // Interactive states with modern hover effects
+    interactive: 'bg-white border border-slate-200/60 shadow-sm rounded-xl hover:border-blue-300/80 hover:shadow-lg hover:shadow-blue-200/20 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer',
+    
+    // Glass morphism variants
+    glass: 'bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl rounded-xl',
+    glassBlue: 'bg-blue-50/80 backdrop-blur-sm border border-blue-100/50 shadow-xl rounded-xl',
+    
+    // Featured cards with enhanced styling
+    featured: 'bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 border border-blue-200/50 shadow-xl shadow-blue-200/30 rounded-2xl hover:shadow-2xl hover:shadow-blue-200/40 transition-all duration-500',
+    hero: 'bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-white border-0 shadow-2xl shadow-blue-500/30 rounded-2xl hover:shadow-3xl hover:shadow-blue-500/40 transition-all duration-500',
   },
 
-  // Medical Professional Buttons - Hospital-grade styling
+  // Modern Medical Buttons - Contemporary styling with micro-interactions
   buttons: {
-    primary: 'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-blue-600 focus:ring-2 focus:ring-blue-200 focus:outline-none',
-    secondary: 'bg-white hover:bg-slate-50 focus:bg-slate-50 text-slate-900 font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-slate-300 focus:ring-2 focus:ring-slate-200 focus:outline-none',
-    success: 'bg-emerald-600 hover:bg-emerald-700 focus:bg-emerald-700 text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-emerald-600 focus:ring-2 focus:ring-emerald-200 focus:outline-none',
-    warning: 'bg-amber-600 hover:bg-amber-700 focus:bg-amber-700 text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-amber-600 focus:ring-2 focus:ring-amber-200 focus:outline-none',
-    emergency: 'bg-red-600 hover:bg-red-700 focus:bg-red-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border border-red-600 focus:ring-2 focus:ring-red-200 focus:outline-none',
-    ghost: 'bg-transparent hover:bg-slate-50 focus:bg-slate-50 text-slate-700 hover:text-slate-900 font-medium rounded-lg transition-all duration-200 focus:ring-2 focus:ring-slate-200 focus:outline-none',
-    outline: 'bg-white hover:bg-blue-50 focus:bg-blue-50 text-blue-600 hover:text-blue-700 font-medium rounded-lg border border-blue-600 hover:border-blue-700 transition-all duration-200 focus:ring-2 focus:ring-blue-200 focus:outline-none',
-    disabled: 'bg-slate-100 text-slate-400 font-medium rounded-lg shadow-sm border border-slate-200 cursor-not-allowed',
+    // Primary buttons with modern gradients and hover states
+    primary: 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:from-blue-700 focus:to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300 border-0 focus:ring-2 focus:ring-blue-300 focus:outline-none',
+    
+    // Secondary buttons with glass morphism
+    secondary: 'bg-white/80 backdrop-blur-sm hover:bg-white focus:bg-white text-slate-900 font-semibold rounded-xl shadow-lg shadow-slate-200/40 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-0.5 transition-all duration-300 border border-slate-200/60 focus:ring-2 focus:ring-slate-300 focus:outline-none',
+    
+    // Status buttons with enhanced styling
+    success: 'bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 focus:from-emerald-700 focus:to-green-700 text-white font-semibold rounded-xl shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 hover:-translate-y-0.5 transition-all duration-300 border-0 focus:ring-2 focus:ring-emerald-300 focus:outline-none',
+    
+    warning: 'bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 focus:from-amber-700 focus:to-orange-700 text-white font-semibold rounded-xl shadow-lg shadow-amber-500/25 hover:shadow-xl hover:shadow-amber-500/30 hover:-translate-y-0.5 transition-all duration-300 border-0 focus:ring-2 focus:ring-amber-300 focus:outline-none',
+    
+    emergency: 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:from-red-700 focus:to-red-800 text-white font-bold rounded-xl shadow-xl shadow-red-500/30 hover:shadow-2xl hover:shadow-red-500/40 hover:-translate-y-0.5 hover:scale-105 transition-all duration-300 border-0 focus:ring-2 focus:ring-red-300 focus:outline-none animate-pulse',
+    
+    // Modern variants
+    ghost: 'bg-transparent hover:bg-slate-100/80 focus:bg-slate-100/80 text-slate-700 hover:text-slate-900 font-semibold rounded-xl hover:shadow-md transition-all duration-300 focus:ring-2 focus:ring-slate-200 focus:outline-none',
+    
+    outline: 'bg-white/50 backdrop-blur-sm hover:bg-blue-50/80 focus:bg-blue-50/80 text-blue-600 hover:text-blue-700 font-semibold rounded-xl border border-blue-300/60 hover:border-blue-400/80 shadow-sm hover:shadow-lg hover:shadow-blue-200/20 hover:-translate-y-0.5 transition-all duration-300 focus:ring-2 focus:ring-blue-200 focus:outline-none',
+    
+    // Glass morphism button
+    glass: 'bg-white/20 backdrop-blur-md hover:bg-white/30 text-slate-900 font-semibold rounded-xl border border-white/30 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300 focus:ring-2 focus:ring-white/50 focus:outline-none',
+    
+    disabled: 'bg-slate-100 text-slate-400 font-medium rounded-xl shadow-sm border border-slate-200 cursor-not-allowed opacity-60',
   },
 
   // Medical Icon Containers - Professional medical styling

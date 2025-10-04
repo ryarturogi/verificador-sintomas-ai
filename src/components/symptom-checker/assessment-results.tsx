@@ -101,7 +101,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                           onClick={() => window.open('https://www.google.com/maps/search/emergency+room+near+me')}
                         >
                           <AlertTriangle className="h-4 w-4 mr-2" />
-                          Find Emergency Room
+                          {t.emergency.findER}
                         </Button>
                       </div>
                     </div>
@@ -147,10 +147,10 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                     </div>
                     <div>
                       <h3 className="font-bold text-lg capitalize mb-1">
-                        Severity: {result.severity}
+                        {t.results.severityLevel}: {result.severity}
                       </h3>
                       <p className="text-xs opacity-90">
-                        Assessment confidence level
+                        {t.ai.intelligentlyGenerated}
                       </p>
                     </div>
                   </div>
@@ -194,7 +194,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                                 <span className="text-blue-600 font-bold text-base">
                                   {Math.round(condition.probability * 100)}%
                                 </span>
-                                <p className="text-xs text-gray-500">match</p>
+                                <p className="text-xs text-gray-500">{t.results.match}</p>
                               </div>
                             </div>
                             <p className="text-gray-700 text-xs leading-relaxed mb-3">{condition.description}</p>

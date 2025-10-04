@@ -1,12 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AlertTriangle, Shield, Phone, Users, Info, CheckCircle, XCircle } from 'lucide-react'
+import { AlertTriangle, Shield, Phone, Users, Info, CheckCircle, XCircle, Lock, FileText, Eye } from 'lucide-react'
 import { useTranslations } from '@/contexts/language-context'
+import { LanguageSwitcher } from '@/components/ui/language-switcher'
 import { motion } from 'framer-motion'
+import { audit } from '@/lib/audit-logger'
+import { generateSecureSessionId } from '@/lib/security-config'
 
 interface DisclaimerModalProps {
   isOpen: boolean
@@ -17,11 +20,50 @@ interface DisclaimerModalProps {
 export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModalProps) {
   const t = useTranslations()
   const [hasScrolled, setHasScrolled] = useState(false)
+  const [sessionId] = useState(() => generateSecureSessionId())
+  const [hasReadPrivacyPolicy, setHasReadPrivacyPolicy] = useState(false)
+  const [hasReadDoDisclaimer, setHasReadDoDisclaimer] = useState(false)
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10
     setHasScrolled(isAtBottom)
+  }
+
+  // Log disclaimer view for audit trail
+  useEffect(() => {
+    if (isOpen) {
+      audit.consent({
+        sessionId,
+        action: 'PRIVACY_POLICY_ACCEPTED',
+        consentType: 'MEDICAL_DISCLAIMER_HIPAA_DOD',
+      })
+    }
+  }, [isOpen, sessionId])
+
+  const handleAccept = async () => {
+    // Log consent acceptance
+    await audit.consent({
+      sessionId,
+      action: 'CONSENT_GIVEN',
+      consentType: 'MEDICAL_DISCLAIMER_HIPAA_DOD',
+    })
+    
+    // Set consent cookie for middleware
+    document.cookie = 'medical-consent=granted; path=/; secure; samesite=strict; max-age=900'
+    
+    onAccept()
+  }
+
+  const handleDecline = async () => {
+    // Log consent decline
+    await audit.consent({
+      sessionId,
+      action: 'CONSENT_WITHDRAWN',
+      consentType: 'MEDICAL_DISCLAIMER_HIPAA_DOD',
+    })
+    
+    onDecline()
   }
 
   if (!isOpen) return null
@@ -33,17 +75,22 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
         showCloseButton={false}
       >
         <DialogHeader className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 -m-6 mb-6 rounded-t-none sm:rounded-t-3xl">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-              <Shield className="h-6 w-6 text-white" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <Shield className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <DialogTitle className="text-2xl font-bold text-gray-900">
+                  {t.medicalDisclaimer.modalTitle || 'Medical Disclaimer & Important Information'}
+                </DialogTitle>
+                <p className="text-gray-600 mt-1">
+                  {t.medicalDisclaimer.modalSubtitle || 'Please read and accept to continue'}
+                </p>
+              </div>
             </div>
-            <div>
-              <DialogTitle className="text-2xl font-bold text-gray-900">
-                {t.medicalDisclaimer.modalTitle || 'Medical Disclaimer & Important Information'}
-              </DialogTitle>
-              <p className="text-gray-600 mt-1">
-                {t.medicalDisclaimer.modalSubtitle || 'Please read and accept to continue'}
-              </p>
+            <div className="flex-shrink-0">
+              <LanguageSwitcher />
             </div>
           </div>
         </DialogHeader>
@@ -63,20 +110,19 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
                   <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
                     <AlertTriangle className="h-4 w-4 text-white" />
                   </div>
-                  <span className="text-red-800 font-bold">NOT A MEDICAL DIAGNOSIS</span>
+                  <span className="text-red-800 font-bold">{t.medicalDisclaimer.notMedicalDiagnosis}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 px-6 pb-6">
                 <p className="text-red-700 leading-relaxed">
-                  This AI symptom checker is designed to provide general health information 
-                  and educational content only. It is NOT intended to:
+                  {t.medicalDisclaimer.notIntendedFor}
                 </p>
                 <div className="space-y-2">
                   {[
-                    'Provide medical diagnosis or treatment recommendations',
-                    'Replace consultation with qualified healthcare professionals',
-                    'Serve as emergency medical advice',
-                    'Guide medical treatment decisions'
+                    t.medicalDisclaimer.provideDiagnosis,
+                    t.medicalDisclaimer.replaceConsultation,
+                    t.medicalDisclaimer.emergencyAdvice,
+                    t.medicalDisclaimer.guideTreatment
                   ].map((item, index) => (
                     <motion.div
                       key={index}
@@ -105,18 +151,18 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
                   <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
                     <Phone className="h-4 w-4 text-white animate-pulse" />
                   </div>
-                  <span className="text-red-800 font-bold">EMERGENCY SITUATIONS</span>
+                  <span className="text-red-800 font-bold">{t.medicalDisclaimer.emergencySituations}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 px-6 pb-6">
                 <p className="font-bold text-red-700 text-base">
-                  If you are experiencing a medical emergency, STOP using this tool immediately and:
+                  {t.medicalDisclaimer.emergencyInstructions}
                 </p>
                 <div className="space-y-2">
                   {[
-                    'Call 911 or your local emergency number',
-                    'Go to the nearest emergency room',
-                    'Contact emergency medical services'
+                    t.medicalDisclaimer.call911,
+                    t.medicalDisclaimer.goToER,
+                    t.medicalDisclaimer.contactEMS
                   ].map((item, index) => (
                     <motion.div
                       key={index}
@@ -134,7 +180,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
                 </div>
                 <div className="bg-red-200/50 p-4 rounded-xl border border-red-300">
                   <p className="text-red-800 font-semibold text-sm">
-                    Do not delay seeking emergency medical care to use this symptom checker.
+                    {t.medicalDisclaimer.doNotDelay}
                   </p>
                 </div>
               </CardContent>
@@ -145,76 +191,167 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
             <CardHeader>
               <CardTitle className="text-base flex items-center gap-2">
                 <Users className="h-4 w-4 text-blue-500" />
-                PROFESSIONAL MEDICAL ADVICE
+{t.medicalDisclaimer.professionalAdvice}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <p>
-                Always consult with qualified healthcare professionals for:
+                {t.medicalDisclaimer.consultProfessionals}
               </p>
               <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Any medical concerns or questions</li>
-                <li>Interpretation of symptoms</li>
-                <li>Medical diagnosis and treatment</li>
-                <li>Medication advice and management</li>
-                <li>Health condition monitoring</li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <Shield className="h-4 w-4 text-green-500" />
-                PRIVACY & DATA
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <p>
-                We take your privacy seriously:
-              </p>
-              <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>Your symptom information is not stored permanently</li>
-                <li>Data is processed securely and encrypted</li>
-                <li>We do not share personal health information</li>
-                <li>Session data is cleared when you close the application</li>
-              </ul>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">LIMITATIONS & ACCURACY</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <p>
-                Please understand that:
-              </p>
-              <ul className="list-disc list-inside space-y-1 ml-4">
-                <li>AI recommendations are based on general medical knowledge</li>
-                <li>Results may not account for your complete medical history</li>
-                <li>Accuracy may vary and is not guaranteed</li>
-                <li>Rare conditions may not be adequately represented</li>
-                <li>Individual medical circumstances may require different approaches</li>
+                <li>{t.medicalDisclaimer.medicalConcerns}</li>
+                <li>{t.medicalDisclaimer.interpretSymptoms}</li>
+                <li>{t.medicalDisclaimer.medicalDiagnosis}</li>
+                <li>{t.medicalDisclaimer.medicationAdvice}</li>
+                <li>{t.medicalDisclaimer.healthMonitoring}</li>
               </ul>
             </CardContent>
           </Card>
 
           <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-3">
+                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                    <Shield className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-blue-800 font-bold">{t.medicalDisclaimer.privacyNotice}</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 px-6 pb-6">
+                <div className="bg-blue-100 p-4 rounded-xl border border-blue-300">
+                  <h4 className="font-bold text-blue-800 mb-2 flex items-center gap-2">
+                    <Lock className="h-4 w-4" />
+                    {t.medicalDisclaimer.hipaaCompliance}
+                  </h4>
+                  <p className="text-blue-700 text-sm leading-relaxed">
+                    This application complies with HIPAA (Health Insurance Portability and Accountability Act) 
+                    and HITECH Act requirements for protected health information (PHI).
+                  </p>
+                </div>
+                
+                <div className="bg-indigo-100 p-4 rounded-xl border border-indigo-300">
+                  <h4 className="font-bold text-indigo-800 mb-2 flex items-center gap-2">
+                    <FileText className="h-4 w-4" />
+                    {t.medicalDisclaimer.dodSecurity}
+                  </h4>
+                  <p className="text-indigo-700 text-sm leading-relaxed">
+                    Data is classified as CUI (Controlled Unclassified Information) and processed 
+                    according to DoD 8570 and NIST 800-53 security controls.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <p className="font-semibold text-gray-800">{t.medicalDisclaimer.dataProtection}</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4 text-sm">
+                    <li>{t.medicalDisclaimer.encryption}</li>
+                    <li>{t.medicalDisclaimer.auditLogging}</li>
+                    <li>{t.medicalDisclaimer.sessionTimeout}</li>
+                    <li>{t.medicalDisclaimer.noStorage}</li>
+                    <li>{t.medicalDisclaimer.dataAnonymization}</li>
+                    <li>{t.medicalDisclaimer.securityMonitoring}</li>
+                  </ul>
+                </div>
+                
+                <div className="flex items-center space-x-2 bg-green-50 p-3 rounded-lg border border-green-200">
+                  <input 
+                    type="checkbox" 
+                    id="privacy-policy" 
+                    checked={hasReadPrivacyPolicy}
+                    onChange={(e) => setHasReadPrivacyPolicy(e.target.checked)}
+                    className="rounded border-gray-300"
+                  />
+                  <label htmlFor="privacy-policy" className="text-sm text-green-800 font-medium">
+                    {t.medicalDisclaimer.privacyCheckbox}
+                  </label>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">{t.medicalDisclaimer.limitations}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <p>
+                {t.medicalDisclaimer.limitationsText}
+              </p>
+              <ul className="list-disc list-inside space-y-1 ml-4">
+                <li>{t.medicalDisclaimer.aiKnowledge}</li>
+                <li>{t.medicalDisclaimer.medicalHistory}</li>
+                <li>{t.medicalDisclaimer.accuracyNotGuaranteed}</li>
+                <li>{t.medicalDisclaimer.rareConditions}</li>
+                <li>{t.medicalDisclaimer.individualCircumstances}</li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <Card className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-3">
+                  <div className="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center">
+                    <Eye className="h-4 w-4 text-white" />
+                  </div>
+                  <span className="text-yellow-800 font-bold">DoD INFORMATION ASSURANCE</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 px-6 pb-6">
+                <div className="bg-yellow-100 p-4 rounded-xl border border-yellow-300">
+                  <p className="text-yellow-800 text-sm leading-relaxed font-medium">
+                    <strong>NOTICE:</strong> {t.medicalDisclaimer.dodNotice}
+                  </p>
+                </div>
+                
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-gray-800">{t.medicalDisclaimer.complianceStandards}</h4>
+                  <ul className="list-disc list-inside space-y-1 ml-4 text-sm">
+                    <li>{t.medicalDisclaimer.fisma}</li>
+                    <li>{t.medicalDisclaimer.nist}</li>
+                    <li>{t.medicalDisclaimer.dodIA}</li>
+                    <li>{t.medicalDisclaimer.fips}</li>
+                  </ul>
+                </div>
+                
+                <div className="flex items-center space-x-2 bg-orange-50 p-3 rounded-lg border border-orange-200">
+                  <input 
+                    type="checkbox" 
+                    id="dod-disclaimer" 
+                    checked={hasReadDoDisclaimer}
+                    onChange={(e) => setHasReadDoDisclaimer(e.target.checked)}
+                    className="rounded border-gray-300"
+                  />
+                  <label htmlFor="dod-disclaimer" className="text-sm text-orange-800 font-medium">
+                    {t.medicalDisclaimer.dodCheckbox}
+                  </label>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 p-6 rounded-2xl"
+            className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 p-6 rounded-2xl"
           >
             <div className="flex items-start space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
                 <Info className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h4 className="font-bold text-blue-800 text-base mb-2">Acknowledgment</h4>
-                <p className="text-blue-700 leading-relaxed font-medium">
-                  By using this symptom checker, you acknowledge that you understand 
-                  these limitations and agree that this tool does not replace professional medical care.
+                <h4 className="font-bold text-purple-800 text-base mb-2">{t.medicalDisclaimer.finalAcknowledgment}</h4>
+                <p className="text-purple-700 leading-relaxed font-medium">
+                  {t.medicalDisclaimer.finalAcknowledgmentText}
                 </p>
               </div>
             </div>
@@ -225,7 +362,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 p-6 -m-6 mt-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-b-none sm:rounded-b-3xl border-t sticky bottom-0 z-10">
           <Button
-            onClick={onDecline}
+            onClick={handleDecline}
             variant="outline"
             className="w-full sm:flex-1 bg-white hover:bg-gray-50 border-red-300 text-red-700 hover:text-red-800 hover:border-red-400"
           >
@@ -233,8 +370,8 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
             {t.medicalDisclaimer.decline || 'I Decline'}
           </Button>
           <Button
-            onClick={onAccept}
-            disabled={!hasScrolled}
+            onClick={handleAccept}
+            disabled={!hasScrolled || !hasReadPrivacyPolicy || !hasReadDoDisclaimer}
             className="w-full sm:flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-0 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <CheckCircle className="h-4 w-4 mr-2" />

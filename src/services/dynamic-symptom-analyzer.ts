@@ -7,7 +7,7 @@ export class DynamicSymptomAnalyzer {
   
   async analyzeResponses(responses: QuestionResponse[], language: string = 'en'): Promise<AssessmentResult> {
     // Check for emergency responses first
-    const emergencyResponse = this.checkEmergencyResponses(responses)
+    const emergencyResponse = this.checkEmergencyResponses(responses, language)
     if (emergencyResponse) {
       return emergencyResponse
     }
@@ -31,21 +31,30 @@ export class DynamicSymptomAnalyzer {
 
       const result = JSON.parse(response)
       
+      const isSpanish = language === 'es'
+      
       return {
         severity: result.severity || severity,
         possibleConditions: result.possibleConditions || [],
         recommendations: result.recommendations || [],
         emergencyWarning: false,
-        followUpAdvice: result.followUpAdvice || 'Consult with a healthcare provider for proper evaluation.',
+        followUpAdvice: result.followUpAdvice || (isSpanish 
+          ? 'Consulte con un proveedor de atención médica para una evaluación adecuada.'
+          : 'Consult with a healthcare provider for proper evaluation.'),
       }
     } catch (error) {
       console.error('Dynamic analysis failed:', error)
-      throw new Error('Unable to analyze your responses. Please try again or consult a healthcare provider.')
+      const isSpanish = language === 'es'
+      throw new Error(isSpanish 
+        ? 'No se pudieron analizar tus respuestas. Inténtalo de nuevo o consulta a un proveedor de atención médica.'
+        : 'Unable to analyze your responses. Please try again or consult a healthcare provider.')
     }
   }
 
-  private checkEmergencyResponses(responses: QuestionResponse[]): AssessmentResult | null {
+  private checkEmergencyResponses(responses: QuestionResponse[], language: string = 'en'): AssessmentResult | null {
     const emergencyResponse = responses.find(r => r.questionId === 'emergency_symptoms')
+    
+    const isSpanish = language === 'es'
     
     if (emergencyResponse && Array.isArray(emergencyResponse.answer)) {
       const emergencySymptoms = emergencyResponse.answer.filter(symptom => symptom !== 'none')
@@ -54,10 +63,18 @@ export class DynamicSymptomAnalyzer {
         return {
           severity: 'emergency',
           possibleConditions: [],
-          recommendations: ['Seek immediate emergency medical care'],
+          recommendations: [
+            isSpanish 
+              ? 'Busque atención médica de emergencia inmediata' 
+              : 'Seek immediate emergency medical care'
+          ],
           emergencyWarning: true,
-          emergencyMessage: 'Your responses indicate potential emergency symptoms. Call 911 or go to the nearest emergency room immediately.',
-          followUpAdvice: 'Do not delay seeking emergency medical attention.',
+          emergencyMessage: isSpanish
+            ? 'Tus respuestas indican síntomas de emergencia potenciales. Llama al 911 o ve a la sala de emergencias más cercana inmediatamente.'
+            : 'Your responses indicate potential emergency symptoms. Call 911 or go to the nearest emergency room immediately.',
+          followUpAdvice: isSpanish
+            ? 'No retrases la búsqueda de atención médica de emergencia.'
+            : 'Do not delay seeking emergency medical attention.',
         }
       }
     }
@@ -67,7 +84,11 @@ export class DynamicSymptomAnalyzer {
     const emergencyKeywords = [
       'chest pain', 'can\'t breathe', 'difficulty breathing', 'severe pain',
       'loss of consciousness', 'stroke', 'heart attack', 'severe bleeding',
-      'suicide', 'overdose', 'allergic reaction'
+      'suicide', 'overdose', 'allergic reaction',
+      // Spanish keywords
+      'dolor de pecho', 'no puedo respirar', 'dificultad para respirar', 'dolor severo',
+      'pérdida de conciencia', 'derrame cerebral', 'infarto', 'sangrado severo',
+      'suicidio', 'sobredosis', 'reacción alérgica'
     ]
 
     for (const response of textResponses) {
@@ -76,10 +97,18 @@ export class DynamicSymptomAnalyzer {
         return {
           severity: 'emergency',
           possibleConditions: [],
-          recommendations: ['Seek immediate emergency medical care'],
+          recommendations: [
+            isSpanish 
+              ? 'Busque atención médica de emergencia inmediata' 
+              : 'Seek immediate emergency medical care'
+          ],
           emergencyWarning: true,
-          emergencyMessage: 'Your symptoms may indicate a medical emergency. Call 911 or go to the nearest emergency room immediately.',
-          followUpAdvice: 'Do not delay seeking emergency medical attention.',
+          emergencyMessage: isSpanish
+            ? 'Tus síntomas pueden indicar una emergencia médica. Llama al 911 o ve a la sala de emergencias más cercana inmediatamente.'
+            : 'Your symptoms may indicate a medical emergency. Call 911 or go to the nearest emergency room immediately.',
+          followUpAdvice: isSpanish
+            ? 'No retrases la búsqueda de atención médica de emergencia.'
+            : 'Do not delay seeking emergency medical attention.',
         }
       }
     }

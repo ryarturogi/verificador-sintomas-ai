@@ -22,7 +22,6 @@ import {
   ArrowLeft,
   UserCheck,
   ClipboardList,
-  FileText,
   Phone,
   AlertTriangle,
   CheckCircle,
@@ -30,6 +29,7 @@ import {
 } from 'lucide-react'
 import { LoadingCard } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 type AppState = 'disclaimer' | 'homepage' | 'questionnaire' | 'loading' | 'results' | 'error' | 'declined'
 
@@ -41,8 +41,86 @@ export function ModernHomepage() {
   const [error, setError] = useState<string | null>(null)
   const [showEmergencyAlert, setShowEmergencyAlert] = useState(false)
   const [responses, setResponses] = useState<QuestionResponse[]>([])
+  const [activeTab, setActiveTab] = useState('specialties')
+  const [specialistSlideIndex, setSpecialistSlideIndex] = useState(0)
+  const [testimonialIndex, setTestimonialIndex] = useState(0)
+  const [selectedDoctorIndex, setSelectedDoctorIndex] = useState(0)
   const t = useTranslations()
   const { language } = useLanguage()
+
+  // Doctor data with specialties and personalized benefits
+  const doctorData = [
+    {
+      name: 'Dr. Henry',
+      specialty: language === 'es' ? 'Medicina General' : 'General Medicine',
+      description: language === 'es' 
+        ? 'MedicalAI te da las herramientas e información que necesitas para cuidar tu salud con el Dr. Henry.'
+        : 'MedicalAI gives you the tools and information you need to take care of your health with Dr. Henry.',
+      benefits: [
+        language === 'es' ? 'Acceso 24/7 - comunícate cuando lo necesites' : '24/7 access - reach out whenever you need',
+        language === 'es' ? 'Elimina tiempo de viaje y problemas de programación' : 'Eliminate commute time and scheduling hassles',
+        language === 'es' ? 'Planes flexibles para satisfacer tus necesidades' : 'Flexible plans to meet your needs and lifestyle',
+        language === 'es' ? 'Diagnósticos precisos con IA avanzada' : 'Accurate diagnostics with advanced AI',
+        language === 'es' ? 'Ahorra dinero mientras recibes atención de alta calidad' : 'Save money while receiving high-quality care'
+      ]
+    },
+    {
+      name: 'Dr. Floyd Miles',
+      specialty: language === 'es' ? 'Cardiología' : 'Cardiology',
+      description: language === 'es' 
+        ? 'Especialista en salud cardiovascular con tecnología de punta para el cuidado de tu corazón.'
+        : 'Cardiovascular health specialist with cutting-edge technology for your heart care.',
+      benefits: [
+        language === 'es' ? 'Monitoreo cardíaco 24/7 con IA' : '24/7 cardiac monitoring with AI',
+        language === 'es' ? 'Consultas virtuales especializadas' : 'Specialized virtual consultations',
+        language === 'es' ? 'Planes de prevención personalizados' : 'Personalized prevention plans',
+        language === 'es' ? 'Acceso directo a estudios cardiológicos' : 'Direct access to cardiac studies',
+        language === 'es' ? 'Seguimiento continuo de tu salud cardíaca' : 'Continuous monitoring of your cardiac health'
+      ]
+    },
+    {
+      name: 'Dr. McKinney',
+      specialty: language === 'es' ? 'Neurología' : 'Neurology',
+      description: language === 'es' 
+        ? 'Experto en neurología con técnicas avanzadas de diagnóstico y tratamiento neurológico.'
+        : 'Neurology expert with advanced neurological diagnosis and treatment techniques.',
+      benefits: [
+        language === 'es' ? 'Evaluaciones neurológicas con IA' : 'AI-powered neurological evaluations',
+        language === 'es' ? 'Detección temprana de condiciones neurológicas' : 'Early detection of neurological conditions',
+        language === 'es' ? 'Planes de rehabilitación personalizados' : 'Personalized rehabilitation plans',
+        language === 'es' ? 'Monitoreo cognitivo continuo' : 'Continuous cognitive monitoring',
+        language === 'es' ? 'Terapias neurológicas innovadoras' : 'Innovative neurological therapies'
+      ]
+    },
+    {
+      name: 'Dr. Jacob',
+      specialty: language === 'es' ? 'Pediatría' : 'Pediatrics',
+      description: language === 'es' 
+        ? 'Especialista en salud infantil con enfoque en cuidado preventivo y desarrollo saludable.'
+        : 'Child health specialist with focus on preventive care and healthy development.',
+      benefits: [
+        language === 'es' ? 'Seguimiento del desarrollo infantil' : 'Child development tracking',
+        language === 'es' ? 'Vacunación y cuidado preventivo' : 'Vaccination and preventive care',
+        language === 'es' ? 'Consultas familiares virtuales' : 'Virtual family consultations',
+        language === 'es' ? 'Planes de crecimiento personalizados' : 'Personalized growth plans',
+        language === 'es' ? 'Apoyo para padres 24/7' : '24/7 parental support'
+      ]
+    },
+    {
+      name: 'Dr. Warren',
+      specialty: language === 'es' ? 'Medicina Interna' : 'Internal Medicine',
+      description: language === 'es' 
+        ? 'Internista experimentado en el manejo integral de enfermedades complejas y crónicas.'
+        : 'Experienced internist in comprehensive management of complex and chronic diseases.',
+      benefits: [
+        language === 'es' ? 'Manejo integral de enfermedades crónicas' : 'Comprehensive chronic disease management',
+        language === 'es' ? 'Coordinación de cuidados especializados' : 'Specialized care coordination',
+        language === 'es' ? 'Medicina preventiva avanzada' : 'Advanced preventive medicine',
+        language === 'es' ? 'Análisis predictivo de salud' : 'Predictive health analytics',
+        language === 'es' ? 'Atención médica personalizada' : 'Personalized medical care'
+      ]
+    }
+  ]
 
   // Check disclaimer status on component mount
   useEffect(() => {
@@ -61,6 +139,28 @@ export function ModernHomepage() {
     
     checkDisclaimerStatus()
   }, [])
+
+  // Auto-advance specialists slider
+  useEffect(() => {
+    if (appState === 'homepage') {
+      const interval = setInterval(() => {
+        setSpecialistSlideIndex(prev => (prev + 1) % 2)
+      }, 5000) // Change slide every 5 seconds
+      
+      return () => clearInterval(interval)
+    }
+  }, [appState])
+
+  // Auto-advance testimonials
+  useEffect(() => {
+    if (appState === 'homepage') {
+      const interval = setInterval(() => {
+        setTestimonialIndex(prev => (prev + 1) % 3)
+      }, 4000) // Change testimonial every 4 seconds
+      
+      return () => clearInterval(interval)
+    }
+  }, [appState])
 
   const handleDisclaimerAccept = () => {
     localStorage.setItem('disclaimer-accepted', 'true')
@@ -87,7 +187,7 @@ export function ModernHomepage() {
 
   const handleSearchSelect = (selectedQuery: string) => {
     setSearchQuery(selectedQuery)
-    handleStartAssessment('search', selectedQuery)
+    // Do not auto-start assessment - wait for user to click "Start Assessment"
   }
 
   const handleBackToHome = () => {
@@ -307,15 +407,23 @@ export function ModernHomepage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
             >
-              {/* Modern Hero Section - Two Column Layout */}
+              {/* We.care Style Hero Section */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="min-h-screen flex items-start relative py-8 sm:py-12 md:py-16 lg:py-20"
+                className="relative py-6 lg:py-8 min-h-[75vh] flex items-center overflow-hidden"
               >
                 {/* Enhanced Background Elements */}
                 <div className="absolute inset-0 -z-10 overflow-hidden">
+                  {/* Subtle medical background */}
+                  <div className="absolute inset-0 opacity-5">
+                    <img 
+                      src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                      alt="Medical Background"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                   <motion.div 
                     className="absolute top-0 left-1/4 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl"
                     animate={{ 
@@ -370,327 +478,735 @@ export function ModernHomepage() {
                 </div>
 
                 <div className="relative z-10 w-full">
-                  {/* Main Hero Section - Responsive Layout */}
-                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 2xl:gap-12 xl:items-start w-full">
+                  {/* We.care Style Hero Layout */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                     {/* Left Column - Main Content */}
                     <motion.div
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.6, delay: 0.2 }}
-                      className="text-center xl:text-left"
+                      className="text-left"
                     >
                       <motion.h1 
-                        className="text-4xl xl:text-6xl font-bold mb-6"
+                        className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 text-gray-900 leading-tight"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                       >
-                        <motion.span 
-                          className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent"
-                          animate={{ 
-                            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
-                          }}
-                          transition={{ 
-                            duration: 3, 
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        >
-                          {t.homepage.mainTitle}
-                        </motion.span>
+                        <span className="block">{t.homepage.feelBetterAbout}</span>
+                        <span className="text-blue-600 block">
+                          {t.homepage.findingHealthcare}
+                        </span>
                       </motion.h1>
                       <motion.p 
-                        className="text-xl text-gray-600 leading-relaxed font-light mb-6"
+                        className="text-base lg:text-lg text-gray-600 leading-relaxed mb-6 max-w-lg"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.4 }}
                       >
-                        {t.homepage.mainSubtitle}
+                        At MedicalAI, {t.homepage.guessworkOut} {t.homepage.rightDoctors}
                       </motion.p>
                       
-                      {/* Enhanced Description */}
-                      <div className="mb-8">
-                        <p className="text-lg text-gray-700 leading-relaxed mb-4">
-                          Get instant, personalized health insights powered by advanced AI technology. 
-                          Our intelligent questionnaire adapts to your responses, providing accurate 
-                          medical assessments tailored to your specific symptoms.
-                        </p>
-                        <div className="flex items-center space-x-6 text-sm text-gray-600">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span>Instant Results</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                            <span>Privacy Protected</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                            <span>{t.homepage.medicalAccuracy}</span>
-                          </div>
+                      {/* Trust Badges */}
+                      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                        <div className="flex items-center bg-gray-800 text-white px-3 py-2 rounded-lg">
+                          <UserCheck className="h-4 w-4 mr-2" />
+                          <span className="text-xs font-medium">{t.homepage.profilesEveryDoctor}</span>
+                        </div>
+                        <div className="flex items-center bg-gray-800 text-white px-3 py-2 rounded-lg">
+                          <CheckCircle className="h-4 w-4 mr-2" />
+                          <span className="text-xs font-medium">{t.homepage.millionRatings}</span>
                         </div>
                       </div>
-                      
-                      {/* Enhanced Status Indicators */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                        className="flex flex-wrap gap-4 mb-8"
-                      >
-                        {[
-                          { icon: CheckCircle, label: t.homepage.aiPowered, color: "green", bgColor: "bg-green-100", textColor: "text-green-600" },
-                          { icon: Shield, label: t.homepage.hipaaCompliant, color: "blue", bgColor: "bg-blue-100", textColor: "text-blue-600" },
-                          { icon: FileText, label: t.homepage.medicalGrade, color: "purple", bgColor: "bg-purple-100", textColor: "text-purple-600" }
-                        ].map((item, index) => (
-                          <motion.div
-                            key={item.label}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                            whileHover={{ 
-                              scale: 1.05, 
-                              y: -2,
-                              transition: { duration: 0.2 }
-                            }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex items-center space-x-3 bg-white/70 backdrop-blur-md px-4 py-3 rounded-xl border border-white/30 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
-                          >
-                            <motion.div 
-                              className={`p-2 ${item.bgColor} rounded-lg group-hover:scale-110 transition-transform duration-300`}
-                              whileHover={{ rotate: 5 }}
-                            >
-                              <item.icon className={`h-4 w-4 ${item.textColor}`} />
-                            </motion.div>
-                            <span className="text-sm font-semibold text-gray-700 group-hover:text-gray-900 transition-colors duration-300">
-                              {item.label}
-                            </span>
-                          </motion.div>
-                        ))}
-                      </motion.div>
-
-                      {/* Enhanced Trust Indicators */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.6 }}
-                        className="grid grid-cols-3 gap-6 mb-8"
-                      >
-                        {[
-                          { value: "98%", label: t.homepage.accuracyRate, color: "text-blue-600", bgColor: "bg-blue-50" },
-                          { value: "50K+", label: t.homepage.assessments, color: "text-green-600", bgColor: "bg-green-50" },
-                          { value: "24/7", label: t.homepage.available, color: "text-purple-600", bgColor: "bg-purple-50" }
-                        ].map((stat, index) => (
-                          <motion.div
-                            key={stat.label}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                            whileHover={{ 
-                              scale: 1.05, 
-                              y: -3,
-                              transition: { duration: 0.2 }
-                            }}
-                            className={`text-center p-4 rounded-xl ${stat.bgColor} border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group`}
-                          >
-                            <motion.div 
-                              className={`text-2xl font-bold ${stat.color} mb-1 group-hover:scale-110 transition-transform duration-300`}
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{ 
-                                duration: 0.8, 
-                                delay: 0.8 + index * 0.2,
-                                type: "spring",
-                                stiffness: 200
-                              }}
-                            >
-                              {stat.value}
-                            </motion.div>
-                            <div className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
-                              {stat.label}
-                            </div>
-                          </motion.div>
-                        ))}
-                      </motion.div>
-
-                      {/* Enhanced Call to Action */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.8 }}
-                        className="flex flex-col sm:flex-row gap-4"
-                      >
-                        <motion.div
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Button 
-                            onClick={handleSearch}
-                            className="relative bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group"
-                          >
-                            <motion.span
-                              className="relative z-10 flex items-center space-x-2"
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ delay: 1 }}
-                            >
-                              <span>Start Free Assessment</span>
-                              <motion.div
-                                animate={{ x: [0, 5, 0] }}
-                                transition={{ 
-                                  duration: 1.5, 
-                                  repeat: Infinity,
-                                  ease: "easeInOut"
-                                }}
-                              >
-                                →
-                              </motion.div>
-                            </motion.span>
-                            <motion.div
-                              className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              initial={{ x: "-100%" }}
-                              whileHover={{ x: "100%" }}
-                              transition={{ duration: 0.6 }}
-                            />
-                          </Button>
-                        </motion.div>
-                        <motion.div
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          <Button 
-                            variant="outline"
-                            className="border-2 border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-blue-50 group"
-                          >
-                            <span className="flex items-center space-x-2">
-                              <span>Learn More</span>
-                              <motion.div
-                                animate={{ rotate: [0, 10, -10, 0] }}
-                                transition={{ 
-                                  duration: 2, 
-                                  repeat: Infinity,
-                                  ease: "easeInOut"
-                                }}
-                              >
-                                ℹ️
-                              </motion.div>
-                            </span>
-                          </Button>
-                        </motion.div>
-                      </motion.div>
                     </motion.div>
 
-                    {/* Enhanced Right Column - Search Panel */}
+                    {/* Right Column - Hero Image/Doctor */}
                     <motion.div
                       initial={{ opacity: 0, x: 30 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.8, delay: 0.3 }}
-                      whileHover={{ y: -5 }}
+                      className="relative flex items-center justify-center mt-8 lg:mt-0"
                     >
-                      <Card className="p-6 bg-white/80 backdrop-blur-lg border border-white/30 shadow-2xl rounded-2xl hover:shadow-3xl transition-all duration-500 group">
-                        <div className="text-center mb-6">
-                          <motion.div
-                            initial={{ scale: 0.9, rotate: -10 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ duration: 0.5, delay: 0.5, type: "spring", stiffness: 200 }}
-                            whileHover={{ 
-                              scale: 1.1, 
-                              rotate: 5,
-                              transition: { duration: 0.3 }
-                            }}
-                            className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl mb-3 shadow-lg group-hover:shadow-xl transition-shadow duration-300"
-                          >
-                            <motion.div
-                              animate={{ 
-                                scale: [1, 1.1, 1],
-                                rotate: [0, 5, 0]
-                              }}
-                              transition={{ 
-                                duration: 2, 
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                              }}
-                            >
-                              <Stethoscope className="h-7 w-7 text-white" />
-                            </motion.div>
-                          </motion.div>
-                          <motion.h2 
-                            className="text-xl font-bold text-gray-900 mb-2"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.7 }}
-                          >
-                            {t.homepage.describeYourSymptoms}
-                          </motion.h2>
-                          <motion.p 
-                            className="text-sm text-gray-600"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.8 }}
-                          >
-                            {t.homepage.startMedicalAssessment}
-                          </motion.p>
-                        </div>
-                        <div className="flex flex-col gap-4">
-                          <motion.div 
-                            className="relative"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.9 }}
-                          >
-                            <SearchAutocomplete
-                              value={searchQuery}
-                              onChange={setSearchQuery}
-                              onSelect={handleSearchSelect}
-                              placeholder={t.homepage.searchPlaceholder}
-                              className="h-12 text-base border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 rounded-xl pl-4 pr-4 bg-white/90 backdrop-blur-sm transition-all duration-300 hover:border-blue-300 hover:shadow-lg"
+                      {/* Professional Doctor Hero Image */}
+                      <div className="relative w-full max-w-xs lg:max-w-sm mx-auto">
+                        <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl p-4 lg:p-6 shadow-xl">
+                          <div className="w-full h-48 lg:h-60 rounded-xl overflow-hidden">
+                            <img 
+                              src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                              alt="Professional Doctor with Stethoscope"
+                              className="w-full h-full object-cover object-center"
                             />
-                          </motion.div>
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1 }}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <Button 
-                              onClick={handleSearch}
-                              className="w-full h-12 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
-                            >
-                              <motion.span
-                                className="relative z-10 flex items-center justify-center space-x-2"
-                                animate={{ opacity: [0.8, 1, 0.8] }}
-                                transition={{ 
-                                  duration: 2, 
-                                  repeat: Infinity,
-                                  ease: "easeInOut"
-                                }}
-                              >
-                                <span>{t.homepage.assessButton}</span>
-                                <motion.div
-                                  animate={{ x: [0, 3, 0] }}
-                                  transition={{ 
-                                    duration: 1.5, 
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                  }}
-                                >
-                                  →
-                                </motion.div>
-                              </motion.span>
-                              <motion.div
-                                className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                initial={{ x: "-100%" }}
-                                whileHover={{ x: "100%" }}
-                                transition={{ duration: 0.6 }}
-                              />
-                            </Button>
-                          </motion.div>
+                          </div>
                         </div>
-                      </Card>
+                        {/* Floating medical icons */}
+                        <motion.div
+                          className="absolute -top-2 -right-2 bg-blue-500 p-2 rounded-full shadow-lg"
+                          animate={{ y: [-3, 3, -3] }}
+                          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                          <Heart className="h-4 w-4 text-white" />
+                        </motion.div>
+                        <motion.div
+                          className="absolute -bottom-2 -left-2 bg-green-500 p-2 rounded-full shadow-lg"
+                          animate={{ y: [3, -3, 3] }}
+                          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                          <CheckCircle className="h-4 w-4 text-white" />
+                        </motion.div>
+                        <motion.div
+                          className="absolute top-1/2 -left-4 bg-purple-500 p-1.5 rounded-full shadow-lg"
+                          animate={{ x: [-2, 2, -2] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                          <Activity className="h-3 w-3 text-white" />
+                        </motion.div>
+                      </div>
                     </motion.div>
                   </div>
 
+                  {/* We.care Style Search Section */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                    className="bg-white rounded-2xl shadow-xl p-6 mt-8 border border-gray-100"
+                  >
+                    <div className="flex flex-col lg:flex-row gap-4 items-center">
+                      <div className="flex-1 relative">
+                        <SearchAutocomplete
+                          value={searchQuery}
+                          onChange={setSearchQuery}
+                          onSelect={handleSearchSelect}
+                          placeholder={t.homepage.searchPlaceholder}
+                          className="h-14 text-base border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 rounded-xl pl-14 pr-4 bg-white transition-all duration-300 hover:border-blue-300 hover:shadow-lg w-full"
+                        />
+                      </div>
+                      <div className="flex-1 relative">
+                        <input
+                          type="text"
+                          placeholder={t.homepage.setLocation}
+                          className="h-14 text-base border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 rounded-xl pl-12 pr-4 bg-white transition-all duration-300 hover:border-blue-300 hover:shadow-lg w-full"
+                        />
+                        <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+                          <Activity className="h-4 w-4 text-gray-400" />
+                        </div>
+                      </div>
+                      <Button 
+                        onClick={handleSearch}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 lg:px-8 py-4 h-14 rounded-xl font-semibold transition-all duration-300 min-w-[100px] lg:min-w-[120px] flex items-center justify-center"
+                      >
+                        <Activity className="h-4 w-4 mr-2" />
+                        <span className="hidden sm:inline">Search</span>
+                      </Button>
+                    </div>
+
+                    {/* Quick Search Tags */}
+                    <div className="mt-6">
+                      <p className="text-gray-600 mb-3 text-sm">{t.homepage.youMayBeLookingFor}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          { key: 'Family Medicine', label: t.homepage.familyMedicine },
+                          { key: 'Pediatrics', label: t.homepage.pediatrics },
+                          { key: 'Top Hospital', label: t.homepage.topHospital },
+                          { key: 'Telehealth', label: t.homepage.telehealth },
+                          { key: 'COVID-19', label: t.homepage.covid19 },
+                          { key: 'Orthopedic Surgery', label: t.homepage.orthopedicSurgery }
+                        ].map((tag) => (
+                          <button
+                            key={tag.key}
+                            className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-xs transition-colors duration-200 flex items-center space-x-1"
+                            onClick={() => setSearchQuery(tag.key)}
+                          >
+                            <span>{tag.label}</span>
+                            <Activity className="h-2.5 w-2.5" />
+                          </button>
+                        ))}
+                        <button className="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-full text-xs transition-colors duration-200">
+                          {t.homepage.more}
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Popular Searches Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="mb-8"
+              >
+                <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">{t.homepage.popularSearches}</h2>
+                
+                <div className="flex border-b border-gray-200 mb-6">
+                  <button 
+                    className={`px-4 py-2 font-semibold text-sm transition-colors ${activeTab === 'specialties' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    onClick={() => setActiveTab('specialties')}
+                  >
+                    {t.homepage.specialties}
+                  </button>
+                  <button 
+                    className={`px-4 py-2 font-semibold text-sm transition-colors ${activeTab === 'conditions' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    onClick={() => setActiveTab('conditions')}
+                  >
+                    {t.homepage.conditions}
+                  </button>
+                  <button 
+                    className={`px-4 py-2 font-semibold text-sm transition-colors ${activeTab === 'procedures' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+                    onClick={() => setActiveTab('procedures')}
+                  >
+                    {t.homepage.procedures}
+                  </button>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  <motion.div 
+                    key={activeTab}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4"
+                  >
+                    {(() => {
+                      const specialties = [
+                        { name: t.homepage.dermatology, icon: Activity, color: 'bg-blue-100', selected: false },
+                        { name: t.homepage.internalMedicine, icon: Heart, color: 'bg-red-100', selected: false },
+                        { name: t.homepage.neurology, icon: Brain, color: 'bg-gray-100', selected: false },
+                        { name: t.homepage.generalMedicine, icon: Shield, color: 'bg-red-100', selected: true },
+                        { name: t.homepage.dentistry, icon: UserCheck, color: 'bg-green-100', selected: false },
+                        { name: t.homepage.otolaryngology, icon: Stethoscope, color: 'bg-teal-100', selected: false }
+                      ]
+                      
+                      const conditions = [
+                        { name: 'Diabetes', icon: Heart, color: 'bg-red-100', selected: false },
+                        { name: 'Hypertension', icon: Activity, color: 'bg-blue-100', selected: false },
+                        { name: 'Asthma', icon: Shield, color: 'bg-green-100', selected: false },
+                        { name: 'Migraine', icon: Brain, color: 'bg-purple-100', selected: false },
+                        { name: 'Depression', icon: UserCheck, color: 'bg-indigo-100', selected: false },
+                        { name: 'Anxiety', icon: Stethoscope, color: 'bg-teal-100', selected: false }
+                      ]
+                      
+                      const procedures = [
+                        { name: 'CT Scan', icon: Activity, color: 'bg-gray-100', selected: false },
+                        { name: 'MRI', icon: Brain, color: 'bg-purple-100', selected: false },
+                        { name: 'X-Ray', icon: Shield, color: 'bg-blue-100', selected: false },
+                        { name: 'Blood Test', icon: Heart, color: 'bg-red-100', selected: false },
+                        { name: 'Ultrasound', icon: UserCheck, color: 'bg-green-100', selected: false },
+                        { name: 'Endoscopy', icon: Stethoscope, color: 'bg-teal-100', selected: false }
+                      ]
+                      
+                      type TabItem = {name: string; icon: React.ComponentType<{className?: string}>; color: string; selected: boolean}
+                      let items: TabItem[] = []
+                      if (activeTab === 'specialties') items = specialties
+                      else if (activeTab === 'conditions') items = conditions
+                      else if (activeTab === 'procedures') items = procedures
+                      
+                      return items.map((item) => (
+                        <motion.div
+                          key={item.name}
+                          className={`p-4 lg:p-6 rounded-xl lg:rounded-2xl text-center cursor-pointer transition-all duration-300 hover:shadow-lg ${
+                            item.selected ? 'bg-blue-100 border-2 border-blue-300' : item.color + ' border border-gray-200'
+                          }`}
+                          whileHover={{ y: -3, scale: 1.02 }}
+                          onClick={() => handleStartAssessment(item.name.toLowerCase())}
+                        >
+                          <item.icon className="h-6 w-6 lg:h-8 lg:w-8 mx-auto mb-2 lg:mb-3 text-gray-600" />
+                          <h3 className="font-semibold text-gray-900 text-xs lg:text-sm leading-tight">{item.name}</h3>
+                        </motion.div>
+                      ))
+                    })()} 
+                  </motion.div>
+                </AnimatePresence>
+              </motion.div>
+
+              {/* Find the Right Doctor Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8"
+              >
+                <div>
+                  <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                    {t.homepage.findRightDoctor} {t.homepage.rightAtFingerips}
+                  </h2>
+                  <p className="text-lg text-gray-600 mb-6">
+                    {t.homepage.toolsAndInformation}
+                  </p>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-start space-x-3">
+                      <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
+                        <div className="w-8 h-8 rounded overflow-hidden">
+                          <img 
+                            src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                            alt="Hospital Search"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t.homepage.searchNearestHospital}</h3>
+                        <p className="text-gray-600 text-sm">{t.homepage.findDoctorsHospitals}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-3">
+                      <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
+                        <div className="w-8 h-8 rounded overflow-hidden">
+                          <img 
+                            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                            alt="Doctor Appointment"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t.homepage.appointmentBestDoctor}</h3>
+                        <p className="text-gray-600 text-sm">{t.homepage.convenientlySchedule}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start space-x-3">
+                      <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
+                        <div className="w-8 h-8 rounded overflow-hidden">
+                          <img 
+                            src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                            alt="Medical Consultation"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t.homepage.getConsultant}</h3>
+                        <p className="text-gray-600 text-sm">{t.homepage.connectQualified}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="relative">
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Find the best doctor you need</h3>
+                    
+                    <div className="space-y-4 mb-6">
+                      <div className="relative">
+                        <SearchAutocomplete
+                          value={searchQuery}
+                          onChange={setSearchQuery}
+                          onSelect={handleSearchSelect}
+                          placeholder="Search Doctor"
+                          className="h-12 text-base border border-gray-200 focus:border-blue-500 rounded-lg pl-12 pr-4 bg-white w-full"
+                        />
+                      </div>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          placeholder="Set Location"
+                          className="h-12 text-base border border-gray-200 focus:border-blue-500 rounded-lg pl-4 pr-4 bg-white w-full"
+                        />
+                      </div>
+                    </div>
+                    
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
+                      Search Now
+                    </Button>
+                  </div>
+                  
+                  {/* Professional Doctor Image */}
+                  <div className="absolute -right-8 -top-8 bg-white rounded-full p-4 shadow-xl">
+                    <div className="w-32 h-32 rounded-full overflow-hidden">
+                      <img 
+                        src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
+                        alt="Professional Female Doctor"
+                        className="w-full h-full object-cover object-center"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Interactive Doctor Slider Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+                className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8"
+              >
+                <div className="relative">
+                  <div className="bg-white rounded-3xl p-8 shadow-xl">
+                    <div className="w-full h-80 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-blue-100 to-indigo-100">
+                      <motion.img 
+                        key={selectedDoctorIndex}
+                        initial={{ opacity: 0, scale: 1.1 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                        src={(() => {
+                          const doctorImages = [
+                            'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. Henry
+                            'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. Floyd Miles
+                            'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. McKinney
+                            'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. Jacob
+                            'https://images.unsplash.com/photo-1594824609072-57c2d2bb8b86?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'  // Dr. Warren
+                          ]
+                          return doctorImages[selectedDoctorIndex]
+                        })()} 
+                        alt={`${doctorData[selectedDoctorIndex].name} - ${doctorData[selectedDoctorIndex].specialty}`}
+                        className="w-full h-full object-cover object-center"
+                      />
+                    </div>
+                    
+                    {/* Interactive Doctor List */}
+                    <div className="space-y-3">
+                      {doctorData.map((doctor, index) => (
+                        <motion.button
+                          key={doctor.name}
+                          onClick={() => setSelectedDoctorIndex(index)}
+                          className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-300 ${
+                            selectedDoctorIndex === index 
+                              ? 'bg-blue-600 text-white shadow-lg' 
+                              : 'bg-gray-50 hover:bg-gray-100 text-gray-900'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <div className="flex items-center space-x-3">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                              selectedDoctorIndex === index ? 'bg-white/20' : 'bg-blue-100'
+                            }`}>
+                              <UserCheck className={`h-4 w-4 ${
+                                selectedDoctorIndex === index ? 'text-white' : 'text-blue-600'
+                              }`} />
+                            </div>
+                            <div className="text-left">
+                              <div className="font-medium">{doctor.name}</div>
+                              <div className={`text-xs ${selectedDoctorIndex === index ? 'text-blue-100' : 'text-gray-500'}`}>
+                                {doctor.specialty}
+                              </div>
+                            </div>
+                          </div>
+                          <div className={selectedDoctorIndex === index ? 'text-white' : 'text-gray-400'}>
+                            {selectedDoctorIndex === index ? '●' : '⋮'}
+                          </div>
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <motion.div
+                    key={selectedDoctorIndex}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-4">
+                      {t.homepage.whyChoose}
+                    </h2>
+                    <p className="text-lg text-gray-600 mb-6">
+                      {doctorData[selectedDoctorIndex].description}
+                    </p>
+                    
+                    <div className="space-y-3 mb-6">
+                      {doctorData[selectedDoctorIndex].benefits.map((benefit, index) => (
+                        <motion.div 
+                          key={index}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: index * 0.1 }}
+                          className="flex items-center space-x-2"
+                        >
+                          <CheckCircle className="h-5 w-5 text-blue-600" />
+                          <span className="text-gray-700 text-sm">{benefit}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                    
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-semibold text-sm">
+                      {t.homepage.getFreeConsultation}
+                    </Button>
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Meet Our Specialists Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.9 }}
+                className="mb-8"
+              >
+                <div className="text-center mb-12">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">{t.homepage.meetSpecialists}</h2>
+                  <p className="text-lg text-gray-600">
+                    {t.homepage.toolsAndInformation}
+                  </p>
+                </div>
+                
+                <div className="relative overflow-hidden mb-6">
+                  <motion.div 
+                    className="flex transition-transform duration-500 ease-in-out"
+                    animate={{ x: -specialistSlideIndex * 100 + '%' }}
+                  >
+                    {[
+                      [
+                        { name: t.homepage.drLeslieAlexander, specialty: t.homepage.dentalSurgery },
+                        { name: t.homepage.drKathrynMurphy, specialty: t.homepage.pediatricMedicine },
+                        { name: t.homepage.drRobertFox, specialty: t.homepage.gastroenterologist },
+                        { name: t.homepage.drEstherHoward, specialty: t.homepage.thoracicSurgeons }
+                      ],
+                      [
+                        { name: t.homepage.drAlbertFlores, specialty: t.homepage.internNeurologist },
+                        { name: t.homepage.drJeromeBell, specialty: t.homepage.obstetricsGynecologists },
+                        { name: t.homepage.drArleneMcCoy, specialty: t.homepage.cardiologists },
+                        { name: t.homepage.drJennyWilson, specialty: t.homepage.internDermatologist }
+                      ]
+                    ].map((slide, slideIndex) => (
+                      <div key={slideIndex} className="w-full flex-shrink-0">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+                          {slide.map((doctor, index) => (
+                            <motion.div
+                              key={doctor.name}
+                              className="bg-white rounded-lg lg:rounded-xl p-3 lg:p-4 shadow-lg hover:shadow-xl transition-all duration-300"
+                              whileHover={{ y: -3 }}
+                            >
+                              <div className="w-full h-24 lg:h-32 rounded-md lg:rounded-lg mb-2 lg:mb-3 overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-100">
+                                <img 
+                                  src={(() => {
+                                    const images = [
+                                      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                                      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                                      'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                                      'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                                      'https://images.unsplash.com/photo-1618498082410-b4aa22193b38?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                                      'https://images.unsplash.com/photo-1594824609072-57c2d2bb8b86?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                                      'https://images.unsplash.com/photo-1643297654416-05795d62e39c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                                      'https://images.unsplash.com/photo-1651008376811-b90baee60c1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                                    ]
+                                    return images[index % images.length]
+                                  })()} 
+                                  alt={doctor.name}
+                                  className="w-full h-full object-cover object-center"
+                                />
+                              </div>
+                              <h3 className="font-bold text-gray-900 mb-1 text-xs lg:text-sm leading-tight">{doctor.name}</h3>
+                              <p className="text-gray-600 text-xs leading-tight">{doctor.specialty}</p>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                </div>
+                
+                {/* Pagination dots */}
+                <div className="flex justify-center space-x-2">
+                  {[0, 1].map((index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSpecialistSlideIndex(index)}
+                      className={`transition-all duration-300 rounded-full ${
+                        specialistSlideIndex === index 
+                          ? 'w-8 h-2 bg-pink-400' 
+                          : 'w-2 h-2 bg-blue-400 hover:bg-blue-500'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Patient Testimonials Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.0 }}
+                className="mb-8"
+              >
+                <div className="text-center mb-12">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">{t.homepage.patientsFeedback}</h2>
+                  <p className="text-base text-gray-600 max-w-2xl mx-auto">
+                    {t.homepage.testimonialDescription}
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                  <div className="relative order-2 lg:order-1">
+                    <div className="bg-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-xl">
+                      <div className="w-full h-48 lg:h-60 rounded-lg lg:rounded-xl overflow-hidden relative">
+                        <img 
+                          src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                          alt="Happy Patient Experience"
+                          className="w-full h-full object-cover object-center"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        <div className="w-5 lg:w-6 h-5 lg:h-6 bg-pink-200 rounded-full absolute top-4 lg:top-6 left-4 lg:left-6 flex items-center justify-center">
+                          <Heart className="h-2.5 lg:h-3 w-2.5 lg:w-3 text-pink-600" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="order-1 lg:order-2">
+                    <AnimatePresence mode="wait">
+                      <motion.div 
+                        key={testimonialIndex}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -50 }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-white rounded-lg lg:rounded-xl p-4 lg:p-5 shadow-lg mb-4"
+                      >
+                        {(() => {
+                          const testimonials = [
+                            {
+                              name: t.homepage.brooklynJacob,
+                              location: t.homepage.newYork,
+                              review: t.homepage.clinicalCareReview
+                            },
+                            {
+                              name: "Maria Rodriguez",
+                              location: "Los Angeles, CA",
+                              review: "Excellent medical service. The doctors were very professional and caring throughout my treatment."
+                            },
+                            {
+                              name: "John Smith",
+                              location: "Chicago, IL",
+                              review: "Outstanding healthcare experience. The staff was knowledgeable and the facilities were top-notch."
+                            }
+                          ]
+                          
+                          const currentTestimonial = testimonials[testimonialIndex]
+                          
+                          return (
+                            <>
+                              <div className="flex items-center mb-3">
+                                <div className="w-8 lg:w-10 h-8 lg:h-10 bg-teal-100 rounded-full mr-3 flex items-center justify-center">
+                                  <UserCheck className="h-4 lg:h-5 w-4 lg:w-5 text-teal-600" />
+                                </div>
+                                <div>
+                                  <h3 className="font-bold text-gray-900 text-sm lg:text-base">{currentTestimonial.name}</h3>
+                                  <p className="text-gray-600 text-xs lg:text-sm">{currentTestimonial.location}</p>
+                                  <div className="flex text-yellow-400 text-xs space-x-0.5 mt-1">
+                                    {[...Array(5)].map((_, i) => (
+                                      <CheckCircle key={i} className="h-2.5 lg:h-3 w-2.5 lg:w-3 fill-current" />
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                              <p className="text-gray-700 text-sm lg:text-base leading-relaxed">
+                                &ldquo;{currentTestimonial.review}&rdquo;
+                              </p>
+                            </>
+                          )
+                        })()} 
+                      </motion.div>
+                    </AnimatePresence>
+                    
+                    {/* Pagination dots */}
+                    <div className="flex justify-center space-x-2">
+                      {[0, 1, 2].map((index) => (
+                        <button
+                          key={index}
+                          onClick={() => setTestimonialIndex(index)}
+                          className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                            testimonialIndex === index ? 'bg-blue-600' : 'bg-gray-300 hover:bg-gray-400'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Medical Technology Showcase */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.05 }}
+                className="mb-8"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="relative group overflow-hidden rounded-2xl">
+                    <img 
+                      src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                      alt="Advanced Medical Equipment"
+                      className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                      <div className="p-6 text-white">
+                        <h3 className="text-lg font-bold mb-2">Advanced Diagnostics</h3>
+                        <p className="text-sm opacity-90">State-of-the-art medical imaging and analysis</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative group overflow-hidden rounded-2xl">
+                    <img 
+                      src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                      alt="AI Technology in Healthcare"
+                      className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                      <div className="p-6 text-white">
+                        <h3 className="text-lg font-bold mb-2">AI-Powered Analysis</h3>
+                        <p className="text-sm opacity-90">Machine learning for accurate health insights</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative group overflow-hidden rounded-2xl">
+                    <img 
+                      src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                      alt="Telemedicine and Remote Care"
+                      className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                      <div className="p-6 text-white">
+                        <h3 className="text-lg font-bold mb-2">Remote Healthcare</h3>
+                        <p className="text-sm opacity-90">Convenient telemedicine solutions</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Newsletter Subscription */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.1 }}
+                className="mb-8"
+              >
+                <div className="bg-blue-600 rounded-xl lg:rounded-2xl p-6 lg:p-8 text-center text-white relative overflow-hidden">
+                  {/* Newsletter Background Image */}
+                  <div className="absolute inset-0 opacity-10">
+                    <img 
+                      src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                      alt="Medical Newsletter Background"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="relative z-10">
+                    <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold mb-3 lg:mb-4">
+                      {t.homepage.subscribeNews}
+                    </h2>
+                    <p className="text-blue-100 mb-6 text-sm lg:text-base max-w-2xl mx-auto">
+                      {t.homepage.subscribeDescription}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto items-stretch">
+                      <div className="flex-1">
+                        <input
+                          type="email"
+                          placeholder={t.homepage.enterEmail}
+                          className="w-full px-4 py-3 lg:py-4 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 text-sm lg:text-base transition-all duration-300 border-0 min-h-12 lg:min-h-14"
+                        />
+                      </div>
+                      <Button className="bg-white hover:bg-gray-100 text-blue-600 px-6 lg:px-8 py-3 lg:py-4 rounded-lg font-semibold text-sm lg:text-base whitespace-nowrap transition-all duration-300 hover:shadow-lg border-0 flex items-center justify-center min-h-12 lg:min-h-14">
+                        {t.homepage.subscribe}
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
 
@@ -699,65 +1215,83 @@ export function ModernHomepage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="mb-16"
+                className="mb-8"
               >
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                    Medical Assessment Categories
+                <div className="text-center mb-8 lg:mb-12">
+                  <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-3 lg:mb-4">
+                    {t.homepage.startAssessment}
                   </h2>
-                  <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                  <p className="text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
                     Choose the type of assessment that best matches your needs
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
                   {healthTopics.map((topic, index) => (
                     <motion.div
                       key={topic.id}
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.1 * index }}
-                      whileHover={{ y: -8, scale: 1.02 }}
+                      whileHover={{ y: -5, scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
                       <Card 
-                        className={`${topic.bgColor} ${topic.borderColor} ${topic.isEmergency ? 'border-2' : 'border'} h-full cursor-pointer transition-all duration-300 hover:shadow-2xl hover:border-opacity-80 group backdrop-blur-sm bg-white/60 relative z-10`}
+                        className={`${topic.isEmergency ? 'border-2' : 'border'} h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:border-opacity-80 group backdrop-blur-sm bg-white/90 relative z-10 overflow-hidden`}
                         onClick={() => handleStartAssessment(topic.id)}
                       >
-                        <CardContent className="p-8">
+                        {/* Background Image */}
+                        <div className="absolute inset-0 opacity-10">
+                          <img 
+                            src={(() => {
+                              const images = {
+                                'general': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                                'mental': 'https://images.unsplash.com/photo-1527613426441-4da17471b66d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                                'heart': 'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                                'chat': 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                                'preventive': 'https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                                'emergency': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+                              }
+                              return images[topic.id as keyof typeof images] || images.general
+                            })()} 
+                            alt={topic.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <CardContent className="p-4 lg:p-6 relative z-10">
                           <div className="space-y-6">
                             {/* Modern Icon and Title */}
-                            <div className="flex items-start space-x-4">
+                            <div className="flex items-start space-x-3 lg:space-x-4">
                               <motion.div 
-                                className={`p-4 rounded-2xl bg-white ${topic.iconColor} shadow-lg group-hover:shadow-xl transition-all duration-300 ${topic.isEmergency ? 'border-2 border-red-200' : 'border border-gray-200'}`}
-                                whileHover={{ rotate: 5, scale: 1.1 }}
+                                className={`p-3 lg:p-4 rounded-xl lg:rounded-2xl bg-white ${topic.iconColor} shadow-lg group-hover:shadow-xl transition-all duration-300 ${topic.isEmergency ? 'border-2 border-red-200' : 'border border-gray-200'}`}
+                                whileHover={{ rotate: 3, scale: 1.05 }}
                               >
-                                <topic.icon className="h-8 w-8" />
+                                <topic.icon className="h-6 w-6 lg:h-8 lg:w-8" />
                               </motion.div>
                               <div className="flex-1">
-                                <h3 className={`text-xl font-bold ${topic.isEmergency ? 'text-red-900' : 'text-gray-900'} leading-tight mb-2`}>
+                                <h3 className={`text-lg lg:text-xl font-bold ${topic.isEmergency ? 'text-red-900' : 'text-gray-900'} leading-tight mb-1 lg:mb-2`}>
                                   {topic.title}
                                 </h3>
                                 {topic.isEmergency && (
-                                  <div className="flex items-center space-x-2 mb-2">
-                                    <Phone className="h-4 w-4 text-red-600" />
-                                    <span className="text-sm text-red-600 font-semibold">Call 911 if emergency</span>
+                                  <div className="flex items-center space-x-2 mb-1 lg:mb-2">
+                                    <Phone className="h-3 w-3 lg:h-4 lg:w-4 text-red-600" />
+                                    <span className="text-xs lg:text-sm text-red-600 font-semibold">Call 911 if emergency</span>
                                   </div>
                                 )}
                               </div>
                             </div>
                             
                             {/* Enhanced Description */}
-                            <p className={`text-base leading-relaxed ${topic.isEmergency ? 'text-red-800' : 'text-gray-600'}`}>
+                            <p className={`text-sm lg:text-base leading-relaxed mb-3 lg:mb-4 ${topic.isEmergency ? 'text-red-800' : 'text-gray-600'}`}>
                               {topic.description}
                             </p>
                             
                             {/* Modern Tags */}
                             {topic.tags && (
-                              <div className="flex flex-wrap gap-3">
+                              <div className="flex flex-wrap gap-2">
                                 {topic.tags.map((tag, tagIndex) => (
                                   <span 
                                     key={tagIndex}
-                                    className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+                                    className={`px-2 lg:px-3 py-1 lg:py-1.5 rounded-full text-xs lg:text-sm font-semibold transition-all duration-300 ${
                                       topic.isEmergency 
                                         ? 'bg-red-200 text-red-800 hover:bg-red-300' 
                                         : 'bg-white/80 border border-gray-200 text-gray-700 hover:bg-white hover:shadow-md'
@@ -796,18 +1330,24 @@ export function ModernHomepage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="mt-20"
+                className="mt-8"
               >
-                <Card className="max-w-5xl mx-auto bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border border-white/20 shadow-2xl rounded-3xl backdrop-blur-sm">
+                <Card className="max-w-7xl mx-auto bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border border-white/20 shadow-2xl rounded-3xl backdrop-blur-sm">
                   <CardContent className="p-12">
                     <div className="text-center mb-12">
                       <motion.div
                         initial={{ scale: 0.9 }}
                         animate={{ scale: 1 }}
                         transition={{ duration: 0.6, delay: 0.8 }}
-                        className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl mb-6 shadow-xl"
+                        className="relative inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6 shadow-xl overflow-hidden"
                       >
-                        <Stethoscope className="h-10 w-10 text-white" />
+                        <img 
+                          src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                          alt="Advanced Medical AI"
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-indigo-600/80"></div>
+                        <Stethoscope className="absolute h-10 w-10 text-white z-10" />
                       </motion.div>
                       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                         Advanced Medical AI Assessment
@@ -825,8 +1365,14 @@ export function ModernHomepage() {
                         transition={{ duration: 0.6, delay: 0.9 }}
                         whileHover={{ y: -5 }}
                       >
-                        <div className="p-4 bg-green-100 rounded-2xl mx-auto mb-4 w-fit shadow-lg">
-                          <CheckCircle className="h-8 w-8 text-green-600" />
+                        <div className="relative w-16 h-16 mx-auto mb-4">
+                          <img 
+                            src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                            alt="Evidence-Based Medicine"
+                            className="w-full h-full object-cover rounded-2xl"
+                          />
+                          <div className="absolute inset-0 bg-green-500/20 rounded-2xl"></div>
+                          <CheckCircle className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-white drop-shadow-lg" />
                         </div>
                         <h3 className="text-xl font-bold text-gray-900 mb-3">Evidence-Based</h3>
                         <p className="text-gray-600 leading-relaxed">Analysis based on current medical literature and guidelines</p>
@@ -838,8 +1384,14 @@ export function ModernHomepage() {
                         transition={{ duration: 0.6, delay: 1.0 }}
                         whileHover={{ y: -5 }}
                       >
-                        <div className="p-4 bg-blue-100 rounded-2xl mx-auto mb-4 w-fit shadow-lg">
-                          <Shield className="h-8 w-8 text-blue-600" />
+                        <div className="relative w-16 h-16 mx-auto mb-4">
+                          <img 
+                            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                            alt="Secure & Private Healthcare"
+                            className="w-full h-full object-cover rounded-2xl"
+                          />
+                          <div className="absolute inset-0 bg-blue-500/20 rounded-2xl"></div>
+                          <Shield className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-white drop-shadow-lg" />
                         </div>
                         <h3 className="text-xl font-bold text-gray-900 mb-3">Secure & Private</h3>
                         <p className="text-gray-600 leading-relaxed">Your health information is protected and confidential</p>
@@ -851,8 +1403,14 @@ export function ModernHomepage() {
                         transition={{ duration: 0.6, delay: 1.1 }}
                         whileHover={{ y: -5 }}
                       >
-                        <div className="p-4 bg-purple-100 rounded-2xl mx-auto mb-4 w-fit shadow-lg">
-                          <ClipboardList className="h-8 w-8 text-purple-600" />
+                        <div className="relative w-16 h-16 mx-auto mb-4">
+                          <img 
+                            src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                            alt="Comprehensive Assessment"
+                            className="w-full h-full object-cover rounded-2xl"
+                          />
+                          <div className="absolute inset-0 bg-purple-500/20 rounded-2xl"></div>
+                          <ClipboardList className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-white drop-shadow-lg" />
                         </div>
                         <h3 className="text-xl font-bold text-gray-900 mb-3">Comprehensive</h3>
                         <p className="text-gray-600 leading-relaxed">Detailed assessment covering all relevant symptoms</p>
@@ -881,13 +1439,19 @@ export function ModernHomepage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
-                className="mt-16"
+                className="mt-8"
               >
-                <Card className="max-w-5xl mx-auto bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/50 shadow-xl rounded-2xl backdrop-blur-sm">
+                <Card className="max-w-7xl mx-auto bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/50 shadow-xl rounded-2xl backdrop-blur-sm">
                   <CardContent className="p-8">
                     <div className="flex items-start space-x-4">
-                      <div className="p-3 bg-amber-100 rounded-2xl shadow-lg">
-                        <Info className="h-6 w-6 text-amber-600" />
+                      <div className="relative w-12 h-12">
+                        <img 
+                          src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                          alt="Medical Disclaimer"
+                          className="w-full h-full object-cover rounded-2xl"
+                        />
+                        <div className="absolute inset-0 bg-amber-500/20 rounded-2xl"></div>
+                        <Info className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-white drop-shadow-lg" />
                       </div>
                       <div>
                         <h3 className="text-xl font-bold text-amber-900 mb-3">Medical Disclaimer</h3>
@@ -909,7 +1473,7 @@ export function ModernHomepage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              className="max-w-4xl mx-auto"
+              className="max-w-7xl mx-auto"
             >
               <DynamicQuestionnaire 
                 onComplete={handleQuestionnaireComplete}
@@ -939,7 +1503,7 @@ export function ModernHomepage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="max-w-4xl mx-auto"
+              className="max-w-7xl mx-auto"
             >
               <AssessmentResults 
                 result={results}
@@ -954,7 +1518,7 @@ export function ModernHomepage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="max-w-md mx-auto"
+              className="max-w-7xl mx-auto"
             >
               <Card>
                 <CardContent className="p-8">
@@ -981,19 +1545,81 @@ export function ModernHomepage() {
         message={results?.emergencyMessage}
       />
 
+      {/* We.care Style Footer */}
       <motion.footer
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="mt-16 text-center px-6 pb-8"
+        className="bg-white border-t border-gray-200 mt-12 lg:mt-16"
       >
-        <div className="max-w-4xl mx-auto bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg">
-          <p className="text-sm text-gray-600 leading-relaxed">
-            {t.homepage.footerDisclaimer}
-          </p>
-          <p className="text-sm text-gray-500 mt-2">
-            {t.homepage.consultProfessionals}
-          </p>
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Brand Section */}
+            <div className="md:col-span-1">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="p-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl">
+                  <Stethoscope className="h-6 w-6 text-white" />
+                </div>
+                <span className="text-xl font-bold text-gray-900">MedicalAI</span>
+              </div>
+              <p className="text-gray-600 mb-6">©MedicalAI 2024</p>
+              
+              {/* Social Links */}
+              <div className="flex space-x-4">
+                <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                  <span className="text-white text-sm">f</span>
+                </div>
+                <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
+                  <span className="text-white text-sm">in</span>
+                </div>
+                <div className="w-8 h-8 bg-blue-400 rounded flex items-center justify-center">
+                  <span className="text-white text-sm">s</span>
+                </div>
+                <div className="w-8 h-8 bg-blue-400 rounded flex items-center justify-center">
+                  <span className="text-white text-sm">t</span>
+                </div>
+                <div className="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
+                  <span className="text-white text-sm">y</span>
+                </div>
+                <div className="w-8 h-8 bg-gray-800 rounded flex items-center justify-center">
+                  <span className="text-white text-sm">M</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* For Patients */}
+            <div>
+              <h3 className="font-bold text-gray-900 mb-4">For Patients</h3>
+              <ul className="space-y-3 text-gray-600">
+                <li><Link href="/" className="hover:text-gray-900">Symptom Checker</Link></li>
+                <li><Link href="/symptom-checker" className="hover:text-gray-900">AI Health Assessment</Link></li>
+                <li><Link href="/faq" className="hover:text-gray-900">Frequently Asked Questions</Link></li>
+                <li><Link href="/privacy" className="hover:text-gray-900">Privacy & Security</Link></li>
+              </ul>
+            </div>
+            
+            {/* Resources */}
+            <div>
+              <h3 className="font-bold text-gray-900 mb-4">Resources</h3>
+              <ul className="space-y-3 text-gray-600">
+                <li><Link href="/faq" className="hover:text-gray-900">Help Center</Link></li>
+                <li><Link href="/contact" className="hover:text-gray-900">Support</Link></li>
+                <li><Link href="/privacy" className="hover:text-gray-900">Privacy Policy</Link></li>
+                <li><Link href="/about" className="hover:text-gray-900">How It Works</Link></li>
+              </ul>
+            </div>
+            
+            {/* Company */}
+            <div>
+              <h3 className="font-bold text-gray-900 mb-4">Company</h3>
+              <ul className="space-y-3 text-gray-600">
+                <li><Link href="/about" className="hover:text-gray-900">About Us</Link></li>
+                <li><Link href="/contact" className="hover:text-gray-900">Contact Us</Link></li>
+                <li><Link href="/faq" className="hover:text-gray-900">FAQ</Link></li>
+                <li><Link href="/privacy" className="hover:text-gray-900">Privacy Policy</Link></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </motion.footer>
         </>
