@@ -407,12 +407,12 @@ export function ModernHomepage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
             >
-              {/* We.care Style Hero Section */}
+              {/* Hero and Popular Searches Combined Section */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative py-6 lg:py-8 min-h-[75vh] flex items-center overflow-hidden"
+                className="relative min-h-screen flex flex-col overflow-hidden"
               >
                 {/* Enhanced Background Elements */}
                 <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -477,91 +477,93 @@ export function ModernHomepage() {
                   />
                 </div>
 
-                <div className="relative z-10 w-full">
-                  {/* We.care Style Hero Layout */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                    {/* Left Column - Main Content */}
-                    <motion.div
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
-                      className="text-left"
-                    >
-                      <motion.h1 
-                        className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 text-gray-900 leading-tight"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                <div className="relative z-10 w-full flex-1 flex flex-col">
+                  {/* Hero Content - Two Column Layout */}
+                  <div className="flex-1 flex items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
+                      {/* Left Column - Main Content */}
+                      <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="text-left"
                       >
-                        <span className="block">{t.homepage.feelBetterAbout}</span>
-                        <span className="text-blue-600 block">
-                          {t.homepage.findingHealthcare}
-                        </span>
-                      </motion.h1>
-                      <motion.p 
-                        className="text-base lg:text-lg text-gray-600 leading-relaxed mb-6 max-w-lg"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                      >
-                        At MedicalAI, {t.homepage.guessworkOut} {t.homepage.rightDoctors}
-                      </motion.p>
-                      
-                      {/* Trust Badges */}
-                      <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                        <div className="flex items-center bg-gray-800 text-white px-3 py-2 rounded-lg">
-                          <UserCheck className="h-4 w-4 mr-2" />
-                          <span className="text-xs font-medium">{t.homepage.profilesEveryDoctor}</span>
-                        </div>
-                        <div className="flex items-center bg-gray-800 text-white px-3 py-2 rounded-lg">
-                          <CheckCircle className="h-4 w-4 mr-2" />
-                          <span className="text-xs font-medium">{t.homepage.millionRatings}</span>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Right Column - Hero Image/Doctor */}
-                    <motion.div
-                      initial={{ opacity: 0, x: 30 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.8, delay: 0.3 }}
-                      className="relative flex items-center justify-center mt-8 lg:mt-0"
-                    >
-                      {/* Professional Doctor Hero Image */}
-                      <div className="relative w-full max-w-xs lg:max-w-sm mx-auto">
-                        <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl p-4 lg:p-6 shadow-xl">
-                          <div className="w-full h-48 lg:h-60 rounded-xl overflow-hidden">
-                            <img 
-                              src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                              alt="Professional Doctor with Stethoscope"
-                              className="w-full h-full object-cover object-center"
-                            />
+                        <motion.h1 
+                          className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 text-gray-900 leading-tight"
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: 0.2 }}
+                        >
+                          <span className="block">{t.homepage.feelBetterAbout}</span>
+                          <span className="text-blue-600 block">
+                            {t.homepage.findingHealthcare}
+                          </span>
+                        </motion.h1>
+                        <motion.p 
+                          className="text-base lg:text-lg text-gray-600 leading-relaxed mb-6 max-w-lg"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: 0.4 }}
+                        >
+                          At MedicalAI, {t.homepage.guessworkOut} {t.homepage.rightDoctors}
+                        </motion.p>
+                        
+                        {/* Trust Badges */}
+                        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                          <div className="flex items-center bg-gray-800 text-white px-3 py-2 rounded-lg">
+                            <UserCheck className="h-4 w-4 mr-2" />
+                            <span className="text-xs font-medium">{t.homepage.profilesEveryDoctor}</span>
+                          </div>
+                          <div className="flex items-center bg-gray-800 text-white px-3 py-2 rounded-lg">
+                            <CheckCircle className="h-4 w-4 mr-2" />
+                            <span className="text-xs font-medium">{t.homepage.millionRatings}</span>
                           </div>
                         </div>
-                        {/* Floating medical icons */}
-                        <motion.div
-                          className="absolute -top-2 -right-2 bg-blue-500 p-2 rounded-full shadow-lg"
-                          animate={{ y: [-3, 3, -3] }}
-                          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                        >
-                          <Heart className="h-4 w-4 text-white" />
-                        </motion.div>
-                        <motion.div
-                          className="absolute -bottom-2 -left-2 bg-green-500 p-2 rounded-full shadow-lg"
-                          animate={{ y: [3, -3, 3] }}
-                          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                        >
-                          <CheckCircle className="h-4 w-4 text-white" />
-                        </motion.div>
-                        <motion.div
-                          className="absolute top-1/2 -left-4 bg-purple-500 p-1.5 rounded-full shadow-lg"
-                          animate={{ x: [-2, 2, -2] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                        >
-                          <Activity className="h-3 w-3 text-white" />
-                        </motion.div>
-                      </div>
-                    </motion.div>
+                      </motion.div>
+
+                      {/* Right Column - Doctor Image */}
+                      <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        className="relative flex items-center justify-center mt-8 lg:mt-0"
+                      >
+                        {/* Professional Doctor Hero Image */}
+                        <div className="relative w-full max-w-xs lg:max-w-sm mx-auto">
+                          <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl p-4 lg:p-6 shadow-xl">
+                            <div className="w-full h-48 lg:h-60 rounded-xl overflow-hidden">
+                              <img 
+                                src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                alt="Professional Doctor with Stethoscope"
+                                className="w-full h-full object-cover object-center"
+                              />
+                            </div>
+                          </div>
+                          {/* Floating medical icons */}
+                          <motion.div
+                            className="absolute -top-2 -right-2 bg-blue-500 p-2 rounded-full shadow-lg"
+                            animate={{ y: [-3, 3, -3] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                          >
+                            <Heart className="h-4 w-4 text-white" />
+                          </motion.div>
+                          <motion.div
+                            className="absolute -bottom-2 -left-2 bg-green-500 p-2 rounded-full shadow-lg"
+                            animate={{ y: [3, -3, 3] }}
+                            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                          >
+                            <CheckCircle className="h-4 w-4 text-white" />
+                          </motion.div>
+                          <motion.div
+                            className="absolute top-1/2 -left-4 bg-purple-500 p-1.5 rounded-full shadow-lg"
+                            animate={{ x: [-2, 2, -2] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                          >
+                            <Activity className="h-3 w-3 text-white" />
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    </div>
                   </div>
 
                   {/* We.care Style Search Section */}
@@ -628,15 +630,14 @@ export function ModernHomepage() {
                     </div>
                   </motion.div>
                 </div>
-              </motion.div>
 
-              {/* Popular Searches Section */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="mb-8"
-              >
+                {/* Popular Searches Section - Now part of Hero */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                  className="relative z-10 w-full py-8"
+                >
                 <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">{t.homepage.popularSearches}</h2>
                 
                 <div className="flex border-b border-gray-200 mb-6">
@@ -719,122 +720,113 @@ export function ModernHomepage() {
                     })()} 
                   </motion.div>
                 </AnimatePresence>
+                </motion.div>
               </motion.div>
 
-              {/* Find the Right Doctor Section */}
+              {/* Find the Right Doctor and Interactive Doctor Slider Combined Section */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.7 }}
-                className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8"
+                className="min-h-screen flex flex-col"
               >
-                <div>
+                {/* Find the Right Doctor Section */}
+                <div className="flex-1 flex flex-col items-center py-8">
+                  <div className="w-full max-w-4xl">
+                {/* Header Section */}
+                <div className="text-center mb-8">
                   <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
                     {t.homepage.findRightDoctor} {t.homepage.rightAtFingerips}
                   </h2>
                   <p className="text-lg text-gray-600 mb-6">
                     {t.homepage.toolsAndInformation}
                   </p>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-start space-x-3">
-                      <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
-                        <div className="w-8 h-8 rounded overflow-hidden">
-                          <img 
-                            src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
-                            alt="Hospital Search"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t.homepage.searchNearestHospital}</h3>
-                        <p className="text-gray-600 text-sm">{t.homepage.findDoctorsHospitals}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start space-x-3">
-                      <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
-                        <div className="w-8 h-8 rounded overflow-hidden">
-                          <img 
-                            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
-                            alt="Doctor Appointment"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t.homepage.appointmentBestDoctor}</h3>
-                        <p className="text-gray-600 text-sm">{t.homepage.convenientlySchedule}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start space-x-3">
-                      <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
-                        <div className="w-8 h-8 rounded overflow-hidden">
-                          <img 
-                            src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
-                            alt="Medical Consultation"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t.homepage.getConsultant}</h3>
-                        <p className="text-gray-600 text-sm">{t.homepage.connectQualified}</p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-                
-                <div className="relative">
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Find the best doctor you need</h3>
-                    
-                    <div className="space-y-4 mb-6">
-                      <div className="relative">
-                        <SearchAutocomplete
-                          value={searchQuery}
-                          onChange={setSearchQuery}
-                          onSelect={handleSearchSelect}
-                          placeholder="Search Doctor"
-                          className="h-12 text-base border border-gray-200 focus:border-blue-500 rounded-lg pl-12 pr-4 bg-white w-full"
-                        />
-                      </div>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          placeholder="Set Location"
-                          className="h-12 text-base border border-gray-200 focus:border-blue-500 rounded-lg pl-4 pr-4 bg-white w-full"
-                        />
-                      </div>
-                    </div>
-                    
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
-                      Search Now
-                    </Button>
-                  </div>
+
+                {/* Search Section */}
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Find the best doctor you need</h3>
                   
-                  {/* Professional Doctor Image */}
-                  <div className="absolute -right-8 -top-8 bg-white rounded-full p-4 shadow-xl">
-                    <div className="w-32 h-32 rounded-full overflow-hidden">
-                      <img 
-                        src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-                        alt="Professional Female Doctor"
-                        className="w-full h-full object-cover object-center"
+                  <div className="space-y-4 mb-6">
+                    <div className="relative">
+                      <SearchAutocomplete
+                        value={searchQuery}
+                        onChange={setSearchQuery}
+                        onSelect={handleSearchSelect}
+                        placeholder="Search Doctor"
+                        className="h-12 text-base border border-gray-200 focus:border-blue-500 rounded-lg pl-12 pr-4 bg-white w-full"
+                      />
+                    </div>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Set Location"
+                        className="h-12 text-base border border-gray-200 focus:border-blue-500 rounded-lg pl-4 pr-4 bg-white w-full"
                       />
                     </div>
                   </div>
+                  
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
+                    Search Now
+                  </Button>
                 </div>
-              </motion.div>
 
-              {/* Interactive Doctor Slider Section */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-8"
-              >
+                {/* Features Section */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="flex items-start space-x-3">
+                    <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
+                      <div className="w-8 h-8 rounded overflow-hidden">
+                        <img 
+                          src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                          alt="Hospital Search"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t.homepage.searchNearestHospital}</h3>
+                      <p className="text-gray-600 text-sm">{t.homepage.findDoctorsHospitals}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
+                      <div className="w-8 h-8 rounded overflow-hidden">
+                        <img 
+                          src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                          alt="Doctor Appointment"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t.homepage.appointmentBestDoctor}</h3>
+                      <p className="text-gray-600 text-sm">{t.homepage.convenientlySchedule}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-3">
+                    <div className="p-2 bg-blue-100 rounded-lg overflow-hidden">
+                      <div className="w-8 h-8 rounded overflow-hidden">
+                        <img 
+                          src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+                          alt="Medical Consultation"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1 text-sm">{t.homepage.getConsultant}</h3>
+                      <p className="text-gray-600 text-sm">{t.homepage.connectQualified}</p>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                </div>
+
+                {/* Interactive Doctor Slider Section */}
+                <div className="flex-1 flex items-center py-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
                 <div className="relative">
                   <div className="bg-white rounded-3xl p-8 shadow-xl">
                     <div className="w-full h-80 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-blue-100 to-indigo-100">
@@ -930,15 +922,19 @@ export function ModernHomepage() {
                     </Button>
                   </motion.div>
                 </div>
+                </div>
+                </div>
               </motion.div>
 
-              {/* Meet Our Specialists Section */}
+              {/* Meet Our Specialists and Patient Testimonials Combined Section */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.9 }}
-                className="mb-8"
+                className="min-h-screen flex flex-col"
               >
+                {/* Meet Our Specialists Section */}
+                <div className="flex-1 flex flex-col justify-center py-8">
                 <div className="text-center mb-12">
                   <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">{t.homepage.meetSpecialists}</h2>
                   <p className="text-lg text-gray-600">
@@ -1016,15 +1012,11 @@ export function ModernHomepage() {
                     />
                   ))}
                 </div>
-              </motion.div>
+                </div>
 
-              {/* Patient Testimonials Section */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.0 }}
-                className="mb-8"
-              >
+                {/* Patient Testimonials Section */}
+                <div className="flex-1 flex items-center py-8">
+                  <div className="w-full">
                 <div className="text-center mb-12">
                   <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">{t.homepage.patientsFeedback}</h2>
                   <p className="text-base text-gray-600 max-w-2xl mx-auto">
@@ -1119,15 +1111,20 @@ export function ModernHomepage() {
                     </div>
                   </div>
                 </div>
+                </div>
+                </div>
               </motion.div>
 
-              {/* Medical Technology Showcase */}
+              {/* Medical Technology Showcase and Newsletter Subscription Combined Section */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.05 }}
-                className="mb-8"
+                className="min-h-screen flex flex-col"
               >
+                {/* Medical Technology Showcase Section */}
+                <div className="flex-1 flex items-center py-8">
+                  <div className="w-full">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="relative group overflow-hidden rounded-2xl">
                     <img 
@@ -1169,15 +1166,12 @@ export function ModernHomepage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+                </div>
+                </div>
 
-              {/* Newsletter Subscription */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1.1 }}
-                className="mb-8"
-              >
+                {/* Newsletter Subscription Section */}
+                <div className="flex-1 flex items-center py-8">
+                  <div className="w-full">
                 <div className="bg-blue-600 rounded-xl lg:rounded-2xl p-6 lg:p-8 text-center text-white relative overflow-hidden">
                   {/* Newsletter Background Image */}
                   <div className="absolute inset-0 opacity-10">
@@ -1208,15 +1202,19 @@ export function ModernHomepage() {
                     </div>
                   </div>
                 </div>
+                </div>
+                </div>
               </motion.div>
 
-              {/* Modern Assessment Categories */}
+              {/* Modern Assessment Categories and Modern Information Combined Section */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="mb-8"
+                className="min-h-screen flex flex-col"
               >
+                {/* Modern Assessment Categories Section */}
+                <div className="flex-1 flex flex-col justify-center py-8">
                 <div className="text-center mb-8 lg:mb-12">
                   <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-3 lg:mb-4">
                     {t.homepage.startAssessment}
@@ -1323,15 +1321,11 @@ export function ModernHomepage() {
                     </motion.div>
                   ))}
                 </div>
-              </motion.div>
+                </div>
 
-              {/* Modern Information Section */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="mt-8"
-              >
+                {/* Modern Information Section */}
+                <div className="flex-1 flex items-center py-8">
+                  <div className="w-full">
                 <Card className="max-w-7xl mx-auto bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border border-white/20 shadow-2xl rounded-3xl backdrop-blur-sm">
                   <CardContent className="p-12">
                     <div className="text-center mb-12">
@@ -1432,38 +1426,10 @@ export function ModernHomepage() {
                     </div>
                   </CardContent>
                 </Card>
+                </div>
+                </div>
               </motion.div>
 
-              {/* Modern Disclaimer */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                className="mt-8"
-              >
-                <Card className="max-w-7xl mx-auto bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/50 shadow-xl rounded-2xl backdrop-blur-sm">
-                  <CardContent className="p-8">
-                    <div className="flex items-start space-x-4">
-                      <div className="relative w-12 h-12">
-                        <img 
-                          src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                          alt="Medical Disclaimer"
-                          className="w-full h-full object-cover rounded-2xl"
-                        />
-                        <div className="absolute inset-0 bg-amber-500/20 rounded-2xl"></div>
-                        <Info className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-white drop-shadow-lg" />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-bold text-amber-900 mb-3">Medical Disclaimer</h3>
-                        <p className="text-base text-amber-800 leading-relaxed">
-                          This tool is for informational purposes only and does not replace professional medical advice, diagnosis, or treatment. 
-                          Always consult with qualified healthcare providers for medical concerns. In case of emergency, call 911 immediately.
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
             </motion.div>
           )}
 
