@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { PatientPortalLayout } from '@/components/patient-portal/patient-portal-layout'
+import { PatientConsultationsPage } from '@/components/patient-portal/patient-consultations-page'
 
 export const metadata: Metadata = {
   title: 'Consultations | Patient Portal',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function ConsultationsPage() {
-  return <PatientPortalLayout />
+  return <PatientConsultationsPage />
 }

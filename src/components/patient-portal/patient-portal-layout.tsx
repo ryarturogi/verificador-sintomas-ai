@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/contexts/auth-context'
+import { useAuth, useUser } from '@clerk/nextjs'
 import { useLanguage } from '@/contexts/language-context'
+import { ProtectedRoute } from '@/components/auth/protected-route'
 import { PatientNav } from './patient-nav'
 import { PatientDashboard } from './patient-dashboard'
 import { PatientProfileComponent } from './patient-profile'
@@ -12,10 +13,12 @@ import { MedicalHistoryComponent } from './medical-history'
 import { PatientSession, PatientProfile, MedicalHistory, PatientDashboardData } from '@/types/patient'
 import { getPatientSession, getPatientDashboardData, updatePatientProfile, updateMedicalHistory } from '@/lib/patient-session'
 import { LoadingCard } from '@/components/ui/loading-spinner'
+import { Header } from '@/components/ui/header'
 
 export function PatientPortalLayout() {
   const { t } = useLanguage()
-  const { user, isLoading: authLoading, logout } = useAuth()
+  const { isSignedIn, isLoaded, signOut } = useAuth()
+  const { user } = useUser()
   const [currentView, setCurrentView] = useState<'dashboard' | 'profile' | 'consultations' | 'medical-history'>('dashboard')
   const [session, setSession] = useState<PatientSession | null>(null)
   const [dashboardData, setDashboardData] = useState<PatientDashboardData | null>(null)
@@ -73,7 +76,7 @@ export function PatientPortalLayout() {
   }
 
   const handleLogout = () => {
-    logout()
+    signOut()
   }
 
   const handleSaveProfile = async (profile: Partial<PatientProfile>) => {
@@ -126,13 +129,13 @@ export function PatientPortalLayout() {
 
   // Handle authentication redirect
   useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/auth/login')
+    if (isLoaded && !isSignedIn) {
+      router.push('/sign-in')
     }
-  }, [authLoading, user, router])
+  }, [isLoaded, isSignedIn, router])
 
   // Show loading while checking authentication
-  if (authLoading) {
+  if (!isLoaded) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-teal-50 flex items-center justify-center">
         <div className="text-center">
@@ -144,13 +147,16 @@ export function PatientPortalLayout() {
   }
 
   // Don't render anything if not authenticated (redirect will happen)
-  if (!user) {
+  if (!isSignedIn) {
     return null
   }
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-teal-50">
+        {/* Global Header */}
+        <Header />
+        
         <div className="flex">
           <div className="w-64 bg-white/80 backdrop-blur-sm border-r border-cyan-200/60 shadow-xl shadow-cyan-200/20">
             <div className="p-6">
@@ -172,7 +178,7 @@ export function PatientPortalLayout() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">{t.common.error}</h1>
+          <h1 className="heading-xl text-gray-900 mb-4">{t.common.error}</h1>
           <p className="text-gray-600 mb-4">{error}</p>
           <button 
             onClick={() => window.location.reload()}
@@ -186,59 +192,64 @@ export function PatientPortalLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-teal-50">
-      <div className="flex">
-        {/* Navigation */}
-        <PatientNav 
-          patientName={user?.name}
-          onLogout={handleLogout}
-        />
+    <ProtectedRoute>
+      <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-white to-teal-50">
+        {/* Global Header */}
+        <Header />
+        
+        <div className="flex">
+          {/* Navigation */}
+          <PatientNav 
+            patientName={user?.fullName || user?.firstName || ''}
+            onLogout={handleLogout}
+          />
 
-        {/* Main Content */}
-        <main className="flex-1 lg:ml-0">
-          <div className="p-6 lg:p-8">
-            {currentView === 'dashboard' && dashboardData && (
-              <PatientDashboard
-                dashboardData={dashboardData}
-                onViewConsultations={() => handleNavigation('consultations')}
-                onViewProfile={() => handleNavigation('profile')}
-                onViewMedicalHistory={() => handleNavigation('medical-history')}
-              />
-            )}
+          {/* Main Content */}
+          <main className="flex-1 lg:ml-0">
+            <div className="p-6 lg:p-8">
+              {currentView === 'dashboard' && dashboardData && (
+                <PatientDashboard
+                  dashboardData={dashboardData}
+                  onViewConsultations={() => handleNavigation('consultations')}
+                  onViewProfile={() => handleNavigation('profile')}
+                  onViewMedicalHistory={() => handleNavigation('medical-history')}
+                />
+              )}
 
-            {currentView === 'profile' && (
-              <PatientProfileComponent
-                profile={session?.profile || null}
-                onSave={handleSaveProfile}
-                isLoading={isLoading}
-              />
-            )}
+              {currentView === 'profile' && (
+                <PatientProfileComponent
+                  profile={session?.profile || null}
+                  onSave={handleSaveProfile}
+                  isLoading={isLoading}
+                />
+              )}
 
-            {currentView === 'consultations' && (
-              <ConsultationHistory
-                consultations={[]} // This would be populated from your consultation system
-                onViewConsultation={(consultation) => {
-                  // Handle viewing a specific consultation
-                  console.log('View consultation:', consultation)
-                }}
-                onStartNewConsultation={() => {
-                  // Redirect to consultation page
-                  window.location.href = '/consultation'
-                }}
-                isLoading={isLoading}
-              />
-            )}
+              {currentView === 'consultations' && (
+                <ConsultationHistory
+                  consultations={[]} // This would be populated from your consultation system
+                  onViewConsultation={(consultation) => {
+                    // Handle viewing a specific consultation
+                    console.log('View consultation:', consultation)
+                  }}
+                  onStartNewConsultation={() => {
+                    // Redirect to consultation page
+                    window.location.href = '/consultation'
+                  }}
+                  isLoading={isLoading}
+                />
+              )}
 
-            {currentView === 'medical-history' && (
-              <MedicalHistoryComponent
-                medicalHistory={session?.medicalHistory || null}
-                onSave={handleSaveMedicalHistory}
-                isLoading={isLoading}
-              />
-            )}
-          </div>
-        </main>
+              {currentView === 'medical-history' && (
+                <MedicalHistoryComponent
+                  medicalHistory={session?.medicalHistory || null}
+                  onSave={handleSaveMedicalHistory}
+                  isLoading={isLoading}
+                />
+              )}
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   )
 }

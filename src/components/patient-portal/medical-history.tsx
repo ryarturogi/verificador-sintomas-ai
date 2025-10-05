@@ -137,9 +137,9 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
     icon: React.ReactNode,
     placeholder: string
   ) => (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+    <Card className="border-l-4 border-l-red-500 shadow-md hover:shadow-lg transition-shadow">
+      <CardHeader className="bg-red-50">
+        <CardTitle className="flex items-center justify-between text-red-800">
           <div className="flex items-center space-x-2">
             {icon}
             <span>{title}</span>
@@ -151,7 +151,7 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
               size="sm"
               onClick={() => setEditingSection(editingSection === sectionKey ? null : sectionKey)}
             >
-              {editingSection === sectionKey ? <X className="h-4 w-4" /> : <Edit className="h-4 w-4" />}
+              {editingSection === sectionKey ? <X className="icon-sm" /> : <Edit className="icon-sm" />}
             </Button>
           )}
         </CardTitle>
@@ -169,7 +169,7 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                     onClick={() => removeItem(sectionKey, index)}
                     className="text-red-600 hover:text-red-700"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="icon-sm" />
                   </Button>
                 )}
               </div>
@@ -197,7 +197,7 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                 input.value = ''
               }}
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="icon-sm" />
             </Button>
           </div>
         )}
@@ -215,25 +215,25 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Medical History</h1>
-          <p className="text-gray-600">Manage your medical information and health records</p>
+          <h1 className="heading-xl text-gray-900">{t.patientPortal.medicalHistory.title}</h1>
+          <p className="text-muted">{t.patientPortal.medicalHistory.subtitle}</p>
         </div>
         <div className="flex space-x-2">
           {isEditing ? (
             <>
               <Button variant="outline" onClick={handleCancel} disabled={isLoading}>
-                <X className="h-4 w-4 mr-2" />
-                Cancel
+                <X className="icon-sm mr-2" />
+                {t.common.cancel}
               </Button>
               <Button onClick={handleSave} disabled={isLoading}>
-                <Save className="h-4 w-4 mr-2" />
-                {isLoading ? 'Saving...' : 'Save Changes'}
+                <Save className="icon-sm mr-2" />
+                {isLoading ? t.common.saving : t.common.saveChanges}
               </Button>
             </>
           ) : (
             <Button onClick={() => setIsEditing(true)} variant="outline">
-              <Edit className="h-4 w-4 mr-2" />
-              Edit History
+              <Edit className="icon-sm mr-2" />
+              {t.patientPortal.medicalHistory.editHistory}
             </Button>
           )}
         </div>
@@ -246,11 +246,11 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
         transition={{ duration: 0.5, delay: 0.1 }}
       >
         {renderListSection(
-          'Allergies',
+          t.patientPortal.medicalHistory.allergies,
           formData.allergies || [],
           'allergies',
           <AlertTriangle className="h-5 w-5 text-red-600" />,
-          'Add allergy (e.g., Penicillin, Shellfish)'
+          t.patientPortal.medicalHistory.allergiesPlaceholder
         )}
       </motion.div>
 
@@ -260,18 +260,18 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
+        <Card className="border-l-4 border-l-cyan-500 shadow-md hover:shadow-lg transition-shadow">
+          <CardHeader className="bg-cyan-50">
+            <CardTitle className="flex items-center justify-between text-cyan-800">
               <div className="flex items-center space-x-2">
                 <Pill className="h-5 w-5 text-cyan-600" />
-                <span>Current Medications</span>
+                <span>{t.patientPortal.medicalHistory.medications}</span>
                 <Badge variant="secondary">{formData.currentMedications?.length || 0}</Badge>
               </div>
               {isEditing && (
                 <Button variant="outline" size="sm" onClick={addMedication}>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Medication
+                  <Plus className="icon-sm mr-2" />
+                  {t.patientPortal.medicalHistory.addMedication}
                 </Button>
               )}
             </CardTitle>
@@ -284,7 +284,7 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Medication Name
+                          {t.patientPortal.medicalHistory.medicationName}
                         </label>
                         {isEditing ? (
                           <Input
@@ -293,40 +293,40 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                             placeholder={t.patientPortal.medicalHistory.medicationNamePlaceholder}
                           />
                         ) : (
-                          <p className="text-gray-900 py-2">{medication.name || 'Not specified'}</p>
+                          <p className="text-gray-900 py-2">{medication.name || t.common.notSpecified}</p>
                         )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Dosage
+                          {t.patientPortal.medicalHistory.dosage}
                         </label>
                         {isEditing ? (
                           <Input
                             value={medication.dosage || ''}
                             onChange={(e) => updateMedication(index, 'dosage', e.target.value)}
-                            placeholder="e.g., 10mg"
+                            placeholder={t.patientPortal.medicalHistory.dosagePlaceholder}
                           />
                         ) : (
-                          <p className="text-gray-900 py-2">{medication.dosage || 'Not specified'}</p>
+                          <p className="text-gray-900 py-2">{medication.dosage || t.common.notSpecified}</p>
                         )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Frequency
+                          {t.patientPortal.medicalHistory.frequency}
                         </label>
                         {isEditing ? (
                           <Input
                             value={medication.frequency || ''}
                             onChange={(e) => updateMedication(index, 'frequency', e.target.value)}
-                            placeholder="e.g., Twice daily"
+                            placeholder={t.patientPortal.medicalHistory.frequencyPlaceholder}
                           />
                         ) : (
-                          <p className="text-gray-900 py-2">{medication.frequency || 'Not specified'}</p>
+                          <p className="text-gray-900 py-2">{medication.frequency || t.common.notSpecified}</p>
                         )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Prescribed By
+                          {t.patientPortal.medicalHistory.prescribedBy}
                         </label>
                         {isEditing ? (
                           <Input
@@ -335,7 +335,7 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                             placeholder={t.patientPortal.medicalHistory.doctorNamePlaceholder}
                           />
                         ) : (
-                          <p className="text-gray-900 py-2">{medication.prescribedBy || 'Not specified'}</p>
+                          <p className="text-gray-900 py-2">{medication.prescribedBy || t.common.notSpecified}</p>
                         )}
                       </div>
                     </div>
@@ -347,8 +347,8 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                           onClick={() => removeMedication(index)}
                           className="text-red-600 hover:text-red-700"
                         >
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          Remove
+                          <Trash2 className="icon-sm mr-2" />
+                          {t.common.remove}
                         </Button>
                       </div>
                     )}
@@ -356,7 +356,7 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 text-sm">No current medications recorded</p>
+              <p className="text-gray-500 text-sm">{t.patientPortal.medicalHistory.noMedications}</p>
             )}
           </CardContent>
         </Card>
@@ -369,11 +369,11 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
         transition={{ duration: 0.5, delay: 0.3 }}
       >
         {renderListSection(
-          'Chronic Conditions',
+          t.patientPortal.medicalHistory.chronicConditions,
           formData.chronicConditions || [],
           'chronicConditions',
           <Heart className="h-5 w-5 text-red-600" />,
-          'Add condition (e.g., Diabetes, Hypertension)'
+          t.patientPortal.medicalHistory.conditionsPlaceholder
         )}
       </motion.div>
 
@@ -383,18 +383,18 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
+        <Card className="border-l-4 border-l-purple-500 shadow-md hover:shadow-lg transition-shadow">
+          <CardHeader className="bg-purple-50">
+            <CardTitle className="flex items-center justify-between text-purple-800">
               <div className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-cyan-600" />
-                <span>Past Surgeries</span>
+                <Calendar className="h-5 w-5 text-purple-600" />
+                <span>{t.patientPortal.medicalHistory.pastSurgeries}</span>
                 <Badge variant="secondary">{formData.pastSurgeries?.length || 0}</Badge>
               </div>
               {isEditing && (
                 <Button variant="outline" size="sm" onClick={addSurgery}>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Surgery
+                  <Plus className="icon-sm mr-2" />
+                  {t.patientPortal.medicalHistory.addSurgery}
                 </Button>
               )}
             </CardTitle>
@@ -407,7 +407,7 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Procedure
+                          {t.patientPortal.medicalHistory.procedure}
                         </label>
                         {isEditing ? (
                           <Input
@@ -416,12 +416,12 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                             placeholder={t.patientPortal.medicalHistory.procedureNamePlaceholder}
                           />
                         ) : (
-                          <p className="text-gray-900 py-2">{surgery.procedure || 'Not specified'}</p>
+                          <p className="text-gray-900 py-2">{surgery.procedure || t.common.notSpecified}</p>
                         )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Date
+                          {t.patientPortal.medicalHistory.date}
                         </label>
                         {isEditing ? (
                           <Input
@@ -430,12 +430,12 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                             onChange={(e) => updateSurgery(index, 'date', e.target.value)}
                           />
                         ) : (
-                          <p className="text-gray-900 py-2">{surgery.date || 'Not specified'}</p>
+                          <p className="text-gray-900 py-2">{surgery.date || t.common.notSpecified}</p>
                         )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Hospital
+                          {t.patientPortal.medicalHistory.hospital}
                         </label>
                         {isEditing ? (
                           <Input
@@ -444,7 +444,7 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                             placeholder={t.patientPortal.medicalHistory.hospitalNamePlaceholder}
                           />
                         ) : (
-                          <p className="text-gray-900 py-2">{surgery.hospital || 'Not specified'}</p>
+                          <p className="text-gray-900 py-2">{surgery.hospital || t.common.notSpecified}</p>
                         )}
                       </div>
                     </div>
@@ -456,8 +456,8 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                           onClick={() => removeSurgery(index)}
                           className="text-red-600 hover:text-red-700"
                         >
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          Remove
+                          <Trash2 className="icon-sm mr-2" />
+                          {t.common.remove}
                         </Button>
                       </div>
                     )}
@@ -465,7 +465,7 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500 text-sm">No past surgeries recorded</p>
+              <p className="text-gray-500 text-sm">{t.patientPortal.medicalHistory.noPastSurgeries}</p>
             )}
           </CardContent>
         </Card>
@@ -478,11 +478,11 @@ export function MedicalHistoryComponent({ medicalHistory, onSave, isLoading = fa
         transition={{ duration: 0.5, delay: 0.5 }}
       >
         {renderListSection(
-          'Family History',
+          t.patientPortal.medicalHistory.familyHistory,
           formData.familyHistory || [],
           'familyHistory',
           <User className="h-5 w-5 text-green-600" />,
-          'Add family history (e.g., Heart disease, Cancer)'
+          t.patientPortal.medicalHistory.familyHistoryPlaceholder
         )}
       </motion.div>
     </div>

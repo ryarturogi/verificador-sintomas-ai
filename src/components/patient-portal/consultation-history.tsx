@@ -122,11 +122,11 @@ export function ConsultationHistory({
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t.patientPortal.consultationHistory.title}</h1>
-          <p className="text-gray-600">{t.patientPortal.consultationHistory.subtitle}</p>
+          <h1 className="heading-xl text-gray-900">{t.patientPortal.consultationHistory.title}</h1>
+          <p className="text-muted">{t.patientPortal.consultationHistory.subtitle}</p>
         </div>
         <Button onClick={onStartNewConsultation} disabled={isLoading}>
-          <MessageSquare className="h-4 w-4 mr-2" />
+          <MessageSquare className="icon-sm mr-2" />
 {t.patientPortal.consultationHistory.newConsultation}
         </Button>
       </motion.div>
@@ -138,17 +138,17 @@ export function ConsultationHistory({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">{t.patientPortal.consultationHistory.stats.totalConsultations}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
-                </div>
-                <MessageSquare className="h-8 w-8 text-cyan-600" />
+        <Card className="border-l-4 border-l-blue-500 shadow-md hover:shadow-lg transition-shadow">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">{t.patientPortal.consultationHistory.stats.totalConsultations}</p>
+                <p className="stats-number">{stats.total}</p>
               </div>
-            </CardContent>
-          </Card>
+              <MessageSquare className="h-8 w-8 text-blue-600" />
+            </div>
+          </CardContent>
+        </Card>
         </motion.div>
 
         <motion.div
@@ -156,17 +156,17 @@ export function ConsultationHistory({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">{t.patientPortal.consultationHistory.stats.completed}</p>
-                  <p className="text-2xl font-bold text-green-600">{stats.completed}</p>
-                </div>
-                <Calendar className="h-8 w-8 text-green-600" />
+        <Card className="border-l-4 border-l-green-500 shadow-md hover:shadow-lg transition-shadow">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">{t.patientPortal.consultationHistory.stats.completed}</p>
+                <p className="stats-number-success">{stats.completed}</p>
               </div>
-            </CardContent>
-          </Card>
+              <Calendar className="h-8 w-8 text-green-600" />
+            </div>
+          </CardContent>
+        </Card>
         </motion.div>
 
         <motion.div
@@ -174,17 +174,17 @@ export function ConsultationHistory({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">{t.patientPortal.consultationHistory.stats.active}</p>
-                  <p className="text-2xl font-bold text-orange-600">{stats.active}</p>
-                </div>
-                <Clock className="h-8 w-8 text-orange-600" />
+        <Card className="border-l-4 border-l-orange-500 shadow-md hover:shadow-lg transition-shadow">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">{t.patientPortal.consultationHistory.stats.active}</p>
+                <p className="stats-number-warning">{stats.active}</p>
               </div>
-            </CardContent>
-          </Card>
+              <Clock className="h-8 w-8 text-orange-600" />
+            </div>
+          </CardContent>
+        </Card>
         </motion.div>
 
         <motion.div
@@ -192,17 +192,17 @@ export function ConsultationHistory({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Cancelled</p>
-                  <p className="text-2xl font-bold text-red-600">{stats.cancelled}</p>
-                </div>
-                <X className="h-8 w-8 text-red-600" />
+        <Card className="border-l-4 border-l-red-500 shadow-md hover:shadow-lg transition-shadow">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">{t.patientPortal.consultationHistory.stats.cancelled}</p>
+                <p className="stats-number-danger">{stats.cancelled}</p>
               </div>
-            </CardContent>
-          </Card>
+              <X className="h-8 w-8 text-red-600" />
+            </div>
+          </CardContent>
+        </Card>
         </motion.div>
       </div>
 
@@ -212,12 +212,12 @@ export function ConsultationHistory({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
       >
-        <Card>
+        <Card className="border-l-4 border-l-indigo-500 shadow-md">
           <CardContent className="p-4">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 icon-sm" />
                   <Input
                     placeholder={t.patientPortal.consultationHistory.searchPlaceholder}
                     value={searchTerm}
@@ -229,14 +229,14 @@ export function ConsultationHistory({
               
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-full md:w-48">
-                  <Filter className="h-4 w-4 mr-2" />
+                  <Filter className="icon-sm mr-2" />
                   <SelectValue placeholder={t.patientPortal.consultationHistory.filterByStatus} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
-                  <SelectItem value="cancelled">Cancelled</SelectItem>
+                  <SelectItem value="all">{t.patientPortal.consultationHistory.allStatus}</SelectItem>
+                  <SelectItem value="active">{t.patientPortal.consultationHistory.active}</SelectItem>
+                  <SelectItem value="completed">{t.patientPortal.consultationHistory.completed}</SelectItem>
+                  <SelectItem value="cancelled">{t.patientPortal.consultationHistory.cancelled}</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -245,9 +245,9 @@ export function ConsultationHistory({
                   <SelectValue placeholder={t.patientPortal.consultationHistory.sortBy} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="date">Date</SelectItem>
-                  <SelectItem value="doctor">Doctor</SelectItem>
-                  <SelectItem value="status">Status</SelectItem>
+                  <SelectItem value="date">{t.patientPortal.consultationHistory.date}</SelectItem>
+                  <SelectItem value="doctor">{t.patientPortal.consultationHistory.doctor}</SelectItem>
+                  <SelectItem value="status">{t.patientPortal.consultationHistory.status}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -261,9 +261,9 @@ export function ConsultationHistory({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
       >
-        <Card>
-          <CardHeader>
-            <CardTitle>Consultation Records</CardTitle>
+        <Card className="border-l-4 border-l-teal-500 shadow-md">
+          <CardHeader className="bg-teal-50">
+            <CardTitle className="text-teal-800">{t.patientPortal.consultationHistory.consultationRecords}</CardTitle>
           </CardHeader>
           <CardContent>
             {filteredConsultations.length > 0 ? (
@@ -298,16 +298,16 @@ export function ConsultationHistory({
 
                         <div className="flex items-center space-x-4 text-sm text-gray-500">
                           <div className="flex items-center space-x-1">
-                            <Calendar className="h-4 w-4" />
+                            <Calendar className="icon-sm" />
                             <span>{new Date(consultation.startTime).toLocaleDateString()}</span>
                           </div>
                           <div className="flex items-center space-x-1">
-                            <Clock className="h-4 w-4" />
+                            <Clock className="icon-sm" />
                             <span>{formatDuration(consultation.startTime, consultation.endTime)}</span>
                           </div>
                           <div className="flex items-center space-x-1">
-                            <MessageSquare className="h-4 w-4" />
-                            <span>{consultation.messages.length} messages</span>
+                            <MessageSquare className="icon-sm" />
+                            <span>{consultation.messages.length} {t.patientPortal.consultationHistory.messages}</span>
                           </div>
                         </div>
                       </div>
@@ -319,8 +319,8 @@ export function ConsultationHistory({
                           size="sm"
                           onClick={() => onViewConsultation?.(consultation)}
                         >
-                          <Eye className="h-4 w-4 mr-1" />
-                          View
+                          <Eye className="icon-sm mr-1" />
+                          {t.patientPortal.consultationHistory.view}
                         </Button>
                       </div>
                     </div>
@@ -330,17 +330,17 @@ export function ConsultationHistory({
             ) : (
               <div className="text-center py-12">
                 <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No consultations found</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">{t.patientPortal.consultationHistory.noConsultationsFound}</h3>
                 <p className="text-gray-500 mb-4">
                   {searchTerm || statusFilter !== 'all' 
-                    ? 'Try adjusting your search or filter criteria'
-                    : 'You haven\'t had any consultations yet'
+                    ? t.patientPortal.consultationHistory.tryAdjustingSearch
+                    : t.patientPortal.consultationHistory.noConsultationsYet
                   }
                 </p>
                 {!searchTerm && statusFilter === 'all' && (
                   <Button onClick={onStartNewConsultation}>
-                    <MessageSquare className="h-4 w-4 mr-2" />
-                    Start Your First Consultation
+                    <MessageSquare className="icon-sm mr-2" />
+                    {t.patientPortal.consultationHistory.startFirstConsultation}
                   </Button>
                 )}
               </div>

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { PatientPortalLayout } from '@/components/patient-portal/patient-portal-layout'
+import { PatientDashboardPage } from '@/components/patient-portal/patient-dashboard-page'
 
 export const metadata: Metadata = {
   title: 'Patient Portal | Your Health Dashboard',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function PatientPortalPage() {
-  return <PatientPortalLayout />
+  return <PatientDashboardPage />
 }

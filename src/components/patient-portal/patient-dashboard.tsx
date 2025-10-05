@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useLanguage } from '@/contexts/language-context'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -29,6 +30,7 @@ export function PatientDashboard({
   onViewProfile, 
   onViewMedicalHistory 
 }: PatientDashboardProps) {
+  const { t } = useLanguage()
   const [isLoading, setIsLoading] = useState(false)
 
   // Show loading state if dashboardData is not available
@@ -60,28 +62,28 @@ export function PatientDashboard({
 
   const stats = [
     {
-      title: 'Total Consultations',
+      title: t.patientPortal.dashboard.stats.totalConsultations,
       value: dashboardData?.healthSummary?.totalConsultations || 0,
       icon: MessageSquare,
       color: 'text-cyan-600',
       bgColor: 'bg-cyan-50'
     },
     {
-      title: 'Current Medications',
+      title: t.patientPortal.dashboard.stats.currentMedications,
       value: dashboardData?.healthSummary?.currentMedications || 0,
       icon: FileText,
       color: 'text-green-600',
       bgColor: 'bg-green-50'
     },
     {
-      title: 'Active Conditions',
+      title: t.patientPortal.dashboard.stats.activeConditions,
       value: dashboardData?.healthSummary?.activeConditions?.length || 0,
       icon: Activity,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50'
     },
     {
-      title: 'Recent Activity',
+      title: t.patientPortal.dashboard.stats.recentActivity,
       value: dashboardData?.recentConsultations?.length || 0,
       icon: Clock,
       color: 'text-cyan-600',
@@ -91,19 +93,6 @@ export function PatientDashboard({
 
   return (
     <div className="space-y-6">
-      {/* Welcome Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-gradient-to-r from-cyan-600 to-cyan-700 rounded-lg p-6 text-white"
-      >
-        <h1 className="text-2xl font-bold mb-2">Welcome to Your Patient Portal</h1>
-        <p className="text-cyan-100">
-          Manage your health information, view consultation history, and track your medical journey.
-        </p>
-      </motion.div>
-
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
@@ -113,12 +102,12 @@ export function PatientDashboard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-l-4 border-l-cyan-500">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                    <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="heading-xl text-gray-900">{stat.value}</p>
                   </div>
                   <div className={`p-3 rounded-full ${stat.bgColor}`}>
                     <stat.icon className={`h-6 w-6 ${stat.color}`} />
@@ -136,12 +125,12 @@ export function PatientDashboard({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <Card>
-          <CardHeader>
+        <Card className="border-l-4 border-l-green-500 shadow-md">
+          <CardHeader className="bg-green-50">
             <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center space-x-2">
+              <CardTitle className="flex items-center space-x-2 text-green-800">
                 <MessageSquare className="h-5 w-5" />
-                <span>Recent Consultations</span>
+                <span>{t.patientPortal.dashboard.recentConsultations}</span>
               </CardTitle>
               <Button 
                 variant="outline" 
@@ -149,7 +138,7 @@ export function PatientDashboard({
                 onClick={() => handleAction(() => onViewConsultations?.())}
                 disabled={isLoading}
               >
-                View All
+                {t.patientPortal.dashboard.viewAll}
               </Button>
             </div>
           </CardHeader>
@@ -192,12 +181,12 @@ export function PatientDashboard({
             ) : (
               <div className="text-center py-8">
                 <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500 mb-4">No consultations yet</p>
+                <p className="text-gray-500 mb-4">{t.patientPortal.dashboard.noConsultations}</p>
                 <Button 
                   onClick={() => handleAction(() => onViewConsultations?.())}
                   disabled={isLoading}
                 >
-                  Start Your First Consultation
+                  {t.patientPortal.dashboard.startFirstConsultation}
                 </Button>
               </div>
             )}
@@ -211,9 +200,9 @@ export function PatientDashboard({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
       >
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+        <Card className="border-l-4 border-l-purple-500 shadow-md">
+          <CardHeader className="bg-purple-50">
+            <CardTitle className="text-purple-800">{t.patientPortal.dashboard.quickActions}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -224,7 +213,7 @@ export function PatientDashboard({
                 disabled={isLoading}
               >
                 <Activity className="h-6 w-6" />
-                <span>Update Profile</span>
+                <span>{t.patientPortal.dashboard.updateProfile}</span>
               </Button>
               
               <Button 
@@ -234,7 +223,7 @@ export function PatientDashboard({
                 disabled={isLoading}
               >
                 <FileText className="h-6 w-6" />
-                <span>Medical History</span>
+                <span>{t.patientPortal.dashboard.medicalHistory}</span>
               </Button>
               
               <Button 
@@ -244,7 +233,7 @@ export function PatientDashboard({
                 disabled={isLoading}
               >
                 <MessageSquare className="h-6 w-6" />
-                <span>New Consultation</span>
+                <span>{t.patientPortal.dashboard.newConsultation}</span>
               </Button>
             </div>
           </CardContent>
@@ -258,39 +247,39 @@ export function PatientDashboard({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
         >
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
+          <Card className="border-l-4 border-l-orange-500 shadow-md">
+            <CardHeader className="bg-orange-50">
+              <CardTitle className="flex items-center space-x-2 text-orange-800">
                 <TrendingUp className="h-5 w-5" />
-                <span>Health Summary</span>
+                <span>{t.patientPortal.dashboard.healthSummary}</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Active Conditions</h4>
+                  <h4 className="font-medium text-gray-900 mb-3">{t.patientPortal.dashboard.activeConditions}</h4>
                   {dashboardData.healthSummary.activeConditions.length > 0 ? (
                     <div className="space-y-2">
                       {dashboardData.healthSummary.activeConditions.map((condition, index) => (
                         <div key={index} className="flex items-center space-x-2">
-                          <AlertCircle className="h-4 w-4 text-orange-500" />
+                          <AlertCircle className="icon-sm text-orange-500" />
                           <span className="text-sm text-gray-700">{condition}</span>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-gray-500">No active conditions recorded</p>
+                    <p className="text-sm text-gray-500">{t.patientPortal.dashboard.noActiveConditions}</p>
                   )}
                 </div>
                 
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Last Activity</h4>
+                  <h4 className="font-medium text-gray-900 mb-3">{t.patientPortal.dashboard.lastActivity}</h4>
                   <div className="flex items-center space-x-2">
-                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <CheckCircle className="icon-sm text-green-500" />
                     <span className="text-sm text-gray-700">
                       {dashboardData.healthSummary.lastConsultationDate 
-                        ? `Last consultation: ${new Date(dashboardData.healthSummary.lastConsultationDate).toLocaleDateString()}`
-                        : 'No consultations yet'
+                        ? `${t.patientPortal.dashboard.lastConsultation}: ${new Date(dashboardData.healthSummary.lastConsultationDate).toLocaleDateString()}`
+                        : t.patientPortal.dashboard.noConsultationsYet
                       }
                     </span>
                   </div>

@@ -23,34 +23,56 @@ interface PatientNavProps {
   onLogout?: () => void
 }
 
-const getNavigationItems = (t: any): PatientPortalNavItem[] => [
+const getNavigationItems = (t: ReturnType<typeof useLanguage>['t']): PatientPortalNavItem[] => [
   {
     id: 'dashboard',
     label: t.patientPortal.nav.dashboard,
     href: '/patient-portal',
     icon: 'LayoutDashboard',
-    description: t.patientPortal.nav.dashboardDescription
+    description: t.patientPortal.nav.dashboardDescription,
+    color: 'cyan',
+    gradient: 'from-cyan-50 to-blue-50',
+    borderColor: 'border-cyan-500',
+    textColor: 'text-cyan-700',
+    iconColor: 'text-cyan-600',
+    badge: 3 // Example: 3 new updates
   },
   {
     id: 'profile',
     label: t.patientPortal.nav.profile,
     href: '/patient-portal/profile',
     icon: 'User',
-    description: t.patientPortal.nav.profileDescription
+    description: t.patientPortal.nav.profileDescription,
+    color: 'blue',
+    gradient: 'from-blue-50 to-indigo-50',
+    borderColor: 'border-blue-500',
+    textColor: 'text-blue-700',
+    iconColor: 'text-blue-600'
   },
   {
     id: 'consultations',
     label: t.patientPortal.nav.consultations,
     href: '/patient-portal/consultations',
     icon: 'MessageSquare',
-    description: t.patientPortal.nav.consultationsDescription
+    description: t.patientPortal.nav.consultationsDescription,
+    color: 'green',
+    gradient: 'from-green-50 to-emerald-50',
+    borderColor: 'border-green-500',
+    textColor: 'text-green-700',
+    iconColor: 'text-green-600',
+    badge: 1 // Example: 1 new consultation
   },
   {
     id: 'medical-history',
     label: t.patientPortal.nav.medicalHistory,
     href: '/patient-portal/medical-history',
     icon: 'FileText',
-    description: t.patientPortal.nav.medicalHistoryDescription
+    description: t.patientPortal.nav.medicalHistoryDescription,
+    color: 'purple',
+    gradient: 'from-purple-50 to-violet-50',
+    borderColor: 'border-purple-500',
+    textColor: 'text-purple-700',
+    iconColor: 'text-purple-600'
   }
 ]
 
@@ -74,14 +96,14 @@ export function PatientNav({ patientName, onLogout }: PatientNavProps) {
   return (
     <>
       {/* Mobile menu button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
+      <div className="lg:hidden fixed top-20 left-4 z-50">
         <Button
           variant="outline"
           size="sm"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="bg-white shadow-lg"
         >
-          {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          {isMobileMenuOpen ? <X className="icon-sm" /> : <Menu className="icon-sm" />}
         </Button>
       </div>
 
@@ -95,7 +117,7 @@ export function PatientNav({ patientName, onLogout }: PatientNavProps) {
 
       {/* Navigation */}
       <nav className={cn(
-        "fixed left-0 top-0 h-full w-64 bg-white/80 backdrop-blur-sm border-r border-cyan-200/60 shadow-xl shadow-cyan-200/20 z-50 transform transition-transform duration-300 ease-in-out",
+        "fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-white/80 backdrop-blur-sm border-r border-cyan-200/60 shadow-xl shadow-cyan-200/20 z-40 transform transition-transform duration-300 ease-in-out",
         "lg:translate-x-0",
         isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
       )}>
@@ -131,24 +153,62 @@ export function PatientNav({ patientName, onLogout }: PatientNavProps) {
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
-                    "flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200",
-                    "hover:bg-cyan-50/80 focus:bg-cyan-50/80 focus:outline-none hover:shadow-md hover:shadow-cyan-200/20",
+                    "flex items-center space-x-3 px-4 py-4 rounded-xl transition-all duration-300 group",
+                    "hover:shadow-lg focus:outline-none hover:-translate-y-1",
                     isActive 
-                      ? "bg-gradient-to-r from-cyan-50 to-teal-50 text-cyan-700 border-r-2 border-cyan-600 shadow-md shadow-cyan-200/20" 
-                      : "text-slate-700 hover:text-slate-900"
+                      ? `bg-gradient-to-r ${item.gradient} ${item.textColor} border-r-4 ${item.borderColor} shadow-lg` 
+                      : `text-slate-700 hover:text-slate-900 hover:bg-${item.color}-50/80 hover:shadow-md hover:shadow-${item.color}-200/20`
                   )}
                 >
-                  <Icon className="h-5 w-5 flex-shrink-0" />
+                  <div className={cn(
+                    "p-2 rounded-lg transition-all duration-300 relative",
+                    isActive 
+                      ? `bg-${item.color}-100 ${item.iconColor}` 
+                      : `text-slate-500 group-hover:bg-${item.color}-100 group-hover:${item.iconColor}`
+                  )}>
+                    <Icon className="h-5 w-5 flex-shrink-0" />
+                    {/* Unique indicator for each section */}
+                    {item.id === 'dashboard' && (
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
+                    )}
+                    {item.id === 'consultations' && item.badge && (
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    )}
+                  </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{item.label}</p>
+                    <p className={cn(
+                      "text-sm font-semibold truncate transition-colors duration-200",
+                      isActive ? item.textColor : "text-slate-700 group-hover:text-slate-900"
+                    )}>
+                      {item.label}
+                    </p>
                     {item.description && (
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className={cn(
+                        "text-xs truncate transition-colors duration-200",
+                        isActive ? "text-slate-600" : "text-gray-500 group-hover:text-gray-600"
+                      )}>
                         {item.description}
                       </p>
                     )}
+                    {/* Unique status indicators */}
+                    {item.id === 'profile' && (
+                      <div className="flex items-center space-x-1 mt-1">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                        <span className="text-xs text-blue-600 font-medium">Complete</span>
+                      </div>
+                    )}
+                    {item.id === 'medical-history' && (
+                      <div className="flex items-center space-x-1 mt-1">
+                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full"></div>
+                        <span className="text-xs text-purple-600 font-medium">Updated</span>
+                      </div>
+                    )}
                   </div>
                   {item.badge && (
-                    <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
+                    <span className={cn(
+                      "inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white rounded-full",
+                      `bg-${item.color}-500`
+                    )}>
                       {item.badge}
                     </span>
                   )}
@@ -164,7 +224,7 @@ export function PatientNav({ patientName, onLogout }: PatientNavProps) {
               onClick={onLogout}
               className="w-full justify-start text-slate-700 hover:text-red-700 hover:bg-red-50/80 transition-all duration-200"
             >
-              <LogOut className="h-4 w-4 mr-3" />
+              <LogOut className="icon-sm mr-3" />
               {t.patientPortal.nav.signOut}
             </Button>
           </div>

@@ -93,7 +93,7 @@ export function PatientProfileComponent({ profile, onSave, isLoading = false }: 
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">{t.patientPortal.profile.title}</h1>
+          <h1 className="heading-xl text-gray-900">{t.patientPortal.profile.title}</h1>
           <p className="text-gray-600">{t.patientPortal.profile.subtitle}</p>
         </div>
         <div className="flex space-x-2">
@@ -104,14 +104,14 @@ export function PatientProfileComponent({ profile, onSave, isLoading = false }: 
                 onClick={handleCancel}
                 disabled={isLoading}
               >
-                <X className="h-4 w-4 mr-2" />
+                <X className="icon-sm mr-2" />
                 {t.patientPortal.profile.cancel}
               </Button>
               <Button
                 onClick={handleSave}
                 disabled={isLoading}
               >
-                <Save className="h-4 w-4 mr-2" />
+                <Save className="icon-sm mr-2" />
                 {isLoading ? t.common.loading : t.patientPortal.profile.saveChanges}
               </Button>
             </>
@@ -120,7 +120,7 @@ export function PatientProfileComponent({ profile, onSave, isLoading = false }: 
               onClick={() => setIsEditing(true)}
               variant="outline"
             >
-              <Edit className="h-4 w-4 mr-2" />
+              <Edit className="icon-sm mr-2" />
               {t.patientPortal.profile.personalInfo}
             </Button>
           )}
@@ -133,9 +133,9 @@ export function PatientProfileComponent({ profile, onSave, isLoading = false }: 
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
+        <Card className="border-l-4 border-l-blue-500 shadow-md hover:shadow-lg transition-shadow">
+          <CardHeader className="bg-blue-50">
+            <CardTitle className="flex items-center space-x-2 text-blue-800">
               <User className="h-5 w-5" />
               <span>{t.patientPortal.profile.personalInfo}</span>
             </CardTitle>
@@ -271,9 +271,9 @@ export function PatientProfileComponent({ profile, onSave, isLoading = false }: 
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
+        <Card className="border-l-4 border-l-pink-500 shadow-md hover:shadow-lg transition-shadow">
+          <CardHeader className="bg-pink-50">
+            <CardTitle className="flex items-center space-x-2 text-pink-800">
               <Heart className="h-5 w-5" />
               <span>{t.patientPortal.profile.emergencyContact}</span>
             </CardTitle>
@@ -282,7 +282,7 @@ export function PatientProfileComponent({ profile, onSave, isLoading = false }: 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Contact Name
+                  {t.patientPortal.profile.contactName}
                 </label>
                 {isEditing ? (
                   <Input
@@ -300,7 +300,7 @@ export function PatientProfileComponent({ profile, onSave, isLoading = false }: 
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Contact Phone
+                  {t.patientPortal.profile.contactPhone}
                 </label>
                 {isEditing ? (
                   <Input
@@ -318,7 +318,7 @@ export function PatientProfileComponent({ profile, onSave, isLoading = false }: 
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Relationship
+                  {t.patientPortal.profile.relationship}
                 </label>
                 {isEditing ? (
                   <Input
@@ -344,48 +344,48 @@ export function PatientProfileComponent({ profile, onSave, isLoading = false }: 
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
+        <Card className="border-l-4 border-l-gray-500 shadow-md hover:shadow-lg transition-shadow">
+          <CardHeader className="bg-gray-50">
+            <CardTitle className="flex items-center space-x-2 text-gray-800">
               <Shield className="h-5 w-5" />
-              <span>Account Information</span>
+              <span>{t.patientPortal.profile.accountInformation}</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Patient ID
+                  {t.patientPortal.profile.patientId}
                 </label>
-                <p className="text-gray-900 py-2 font-mono text-sm bg-gray-50 px-3 py-2 rounded">
-                  {profile?.id || 'Not available'}
+                <p className="text-gray-900 font-mono text-sm bg-gray-50 px-3 py-2 rounded">
+                  {profile?.id || t.patientPortal.profile.notAvailable}
                 </p>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Member Since
-                </label>
-                <p className="text-gray-900 py-2">
-                  {profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString() : 'Not available'}
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Last Updated
+                  {t.patientPortal.profile.memberSince}
                 </label>
                 <p className="text-gray-900 py-2">
-                  {profile?.lastUpdated ? new Date(profile.lastUpdated).toLocaleDateString() : 'Not available'}
+                  {profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString() : t.patientPortal.profile.notAvailable}
                 </p>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Account Status
+                  {t.patientPortal.profile.lastUpdated}
+                </label>
+                <p className="text-gray-900 py-2">
+                  {profile?.lastUpdated ? new Date(profile.lastUpdated).toLocaleDateString() : t.patientPortal.profile.notAvailable}
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {t.patientPortal.profile.accountStatus}
                 </label>
                 <Badge variant="default" className="mt-2">
-                  Active
+                  {t.patientPortal.profile.active}
                 </Badge>
               </div>
             </div>
