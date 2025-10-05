@@ -389,7 +389,7 @@ export function DynamicQuestion({
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
-              <MessageCircle className="h-4 w-4 text-cyan-600" />
+              <MessageCircle className="icon-sm text-cyan-600" />
             </motion.div>
             <div className="flex-1">
               <motion.h2 
@@ -456,7 +456,7 @@ export function DynamicQuestion({
                   onClick={onGoBack}
                   className={`${designTokens.buttons.secondary} h-10 px-4`}
                 >
-                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  <ArrowLeft className="icon-sm mr-2" />
                   {t.common.back}
                 </Button>
               </motion.div>
@@ -485,7 +485,7 @@ export function DynamicQuestion({
                 ) : (
                   <span className="flex items-center justify-center">
                     {t.common.continue}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <ArrowRight className="ml-2 icon-sm" />
                   </span>
                 )}
               </Button>

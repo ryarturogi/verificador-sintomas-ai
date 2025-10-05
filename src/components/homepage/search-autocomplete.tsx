@@ -202,7 +202,7 @@ export function SearchAutocomplete({
         />
         {isLoading && (
           <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-            <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+            <Loader2 className="icon-sm animate-spin text-gray-400" />
           </div>
         )}
       </div>
@@ -241,7 +241,7 @@ export function SearchAutocomplete({
                     }`}
                   >
                     <div className="flex items-center space-x-3">
-                      <Search className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                      <Search className="icon-sm text-gray-400 flex-shrink-0" />
                       <span className={`text-sm ${
                         selectedIndex === index ? 'text-cyan-700 font-medium' : 'text-gray-700'
                       }`}>

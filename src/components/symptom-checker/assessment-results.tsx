@@ -92,7 +92,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                           className="w-full h-10 bg-red-600 hover:bg-red-700 rounded-lg font-semibold text-sm"
                           onClick={() => window.open('tel:911')}
                         >
-                          <Phone className="h-4 w-4 mr-2" />
+                          <Phone className="icon-sm mr-2" />
                           {t.emergency.call911}
                         </Button>
                         <Button 
@@ -100,7 +100,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                           className="w-full h-10 border-2 border-red-300 bg-white hover:bg-red-50 rounded-lg font-semibold text-sm"
                           onClick={() => window.open('https://www.google.com/maps/search/emergency+room+near+me')}
                         >
-                          <AlertTriangle className="h-4 w-4 mr-2" />
+                          <AlertTriangle className="icon-sm mr-2" />
                           {t.emergency.findER}
                         </Button>
                       </div>
@@ -170,7 +170,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                   <div className="mb-4">
                     <div className="flex items-center space-x-3 mb-4">
                       <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-full flex items-center justify-center">
-                        <TrendingUp className="h-4 w-4 text-white" />
+                        <TrendingUp className="icon-sm text-white" />
                       </div>
                       <h3 className="text-lg font-bold text-gray-900">
                         {t.results.possibleConditions}
@@ -224,7 +224,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
               >
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                    <CheckCircle className="h-4 w-4 text-white" />
+                    <CheckCircle className="icon-sm text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900">
                     {t.results.recommendations}
@@ -257,7 +257,7 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
               >
                 <div className="flex items-center space-x-3 mb-3">
                   <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
-                    <Clock className="h-4 w-4 text-white" />
+                    <Clock className="icon-sm text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900">
                     {t.results.followUpAdvice}
@@ -284,14 +284,14 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                   variant="outline" 
                   className="w-full h-10 border-2 border-gray-300 bg-white hover:bg-gray-50 rounded-lg font-semibold text-sm"
                 >
-                  <Sparkles className="h-4 w-4 mr-2" />
+                  <Sparkles className="icon-sm mr-2" />
                   {t.results.newAssessment}
                 </Button>
                 <Button 
                   onClick={() => window.open('https://www.google.com/maps/search/doctor+near+me')}
                   className="w-full h-10 bg-cyan-600 hover:bg-cyan-700 rounded-lg font-semibold text-sm"
                 >
-                  <ArrowRight className="h-4 w-4 mr-2" />
+                  <ArrowRight className="icon-sm mr-2" />
                   {t.results.findProvider}
                 </Button>
               </motion.div>

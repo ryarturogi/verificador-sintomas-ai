@@ -71,11 +71,11 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
 
   const getQuickActions = (specialty: string): string[] => {
     const quickActions = {
-      general_medicine: t.consultationChat.quickActions.generalMedicine,
-      cardiology: t.consultationChat.quickActions.cardiology,
-      neurology: t.consultationChat.quickActions.neurology,
-      pediatrics: t.consultationChat.quickActions.pediatrics,
-      internal_medicine: t.consultationChat.quickActions.internalMedicine
+      general_medicine: [t.consultationChat.quickActions.generalMedicine],
+      cardiology: [t.consultationChat.quickActions.cardiology],
+      neurology: [t.consultationChat.quickActions.neurology],
+      pediatrics: [t.consultationChat.quickActions.pediatrics],
+      internal_medicine: [t.consultationChat.quickActions.internalMedicine]
     }
     return quickActions[specialty as keyof typeof quickActions] || quickActions.general_medicine
   }

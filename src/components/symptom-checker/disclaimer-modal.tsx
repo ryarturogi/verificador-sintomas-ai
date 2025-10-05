@@ -81,7 +81,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
                 <Shield className="h-6 w-6 text-white" />
               </div>
               <div>
-                <DialogTitle className="text-2xl font-bold text-gray-900">
+                <DialogTitle className="heading-xl text-gray-900">
                   {t.medicalDisclaimer.modalTitle || 'Medical Disclaimer & Important Information'}
                 </DialogTitle>
                 <p className="text-gray-600 mt-1">
@@ -108,7 +108,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
               <CardHeader className="p-6">
                 <CardTitle className="text-lg flex items-center gap-3">
                   <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                    <AlertTriangle className="h-4 w-4 text-white" />
+                    <AlertTriangle className="icon-sm text-white" />
                   </div>
                   <span className="text-red-800 font-bold">{t.medicalDisclaimer.notMedicalDiagnosis}</span>
                 </CardTitle>
@@ -149,7 +149,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
               <CardHeader className="p-6">
                 <CardTitle className="text-lg flex items-center gap-3">
                   <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
-                    <Phone className="h-4 w-4 text-white animate-pulse" />
+                    <Phone className="icon-sm text-white animate-pulse" />
                   </div>
                   <span className="text-red-800 font-bold">{t.medicalDisclaimer.emergencySituations}</span>
                 </CardTitle>
@@ -190,7 +190,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
           <Card>
             <CardHeader>
               <CardTitle className="text-base flex items-center gap-2">
-                <Users className="h-4 w-4 text-cyan-500" />
+                <Users className="icon-sm text-cyan-500" />
 {t.medicalDisclaimer.professionalAdvice}
               </CardTitle>
             </CardHeader>
@@ -217,7 +217,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-3">
                   <div className="w-8 h-8 bg-cyan-600 rounded-full flex items-center justify-center">
-                    <Shield className="h-4 w-4 text-white" />
+                    <Shield className="icon-sm text-white" />
                   </div>
                   <span className="text-cyan-800 font-bold">{t.medicalDisclaimer.privacyNotice}</span>
                 </CardTitle>
@@ -225,7 +225,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
               <CardContent className="space-y-4 px-6 pb-6">
                 <div className="bg-cyan-100 p-4 rounded-xl border border-cyan-300">
                   <h4 className="font-bold text-cyan-800 mb-2 flex items-center gap-2">
-                    <Lock className="h-4 w-4" />
+                    <Lock className="icon-sm" />
                     {t.medicalDisclaimer.hipaaCompliance}
                   </h4>
                   <p className="text-cyan-700 text-sm leading-relaxed">
@@ -236,7 +236,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
                 
                 <div className="bg-cyan-100 p-4 rounded-xl border border-cyan-300">
                   <h4 className="font-bold text-cyan-800 mb-2 flex items-center gap-2">
-                    <FileText className="h-4 w-4" />
+                    <FileText className="icon-sm" />
                     {t.medicalDisclaimer.dodSecurity}
                   </h4>
                   <p className="text-cyan-700 text-sm leading-relaxed">
@@ -300,7 +300,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-3">
                   <div className="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center">
-                    <Eye className="h-4 w-4 text-white" />
+                    <Eye className="icon-sm text-white" />
                   </div>
                   <span className="text-yellow-800 font-bold">DoD INFORMATION ASSURANCE</span>
                 </CardTitle>
@@ -366,7 +366,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
             variant="outline"
             className="w-full sm:flex-1 bg-white hover:bg-gray-50 border-red-300 text-red-700 hover:text-red-800 hover:border-red-400"
           >
-            <XCircle className="h-4 w-4 mr-2" />
+            <XCircle className="icon-sm mr-2" />
             {t.medicalDisclaimer.decline || 'I Decline'}
           </Button>
           <Button
@@ -374,7 +374,7 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
             disabled={!hasScrolled || !hasReadPrivacyPolicy || !hasReadDoDisclaimer}
             className="w-full sm:flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-0 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <CheckCircle className="h-4 w-4 mr-2" />
+            <CheckCircle className="icon-sm mr-2" />
             {t.medicalDisclaimer.accept || 'I Accept & Continue'}
           </Button>
         </div>

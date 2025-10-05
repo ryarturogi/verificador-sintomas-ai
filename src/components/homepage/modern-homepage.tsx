@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useTranslations, useLanguage } from '@/contexts/language-context'
-import { LanguageSwitcher } from '@/components/ui/language-switcher'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { SearchAutocomplete } from './search-autocomplete'
@@ -20,7 +19,6 @@ import {
   Activity, 
   Shield, 
   Stethoscope,
-  ArrowLeft,
   UserCheck,
   ClipboardList,
   Phone,
@@ -30,7 +28,6 @@ import {
 } from 'lucide-react'
 import { LoadingCard } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
 
 type AppState = 'disclaimer' | 'homepage' | 'questionnaire' | 'loading' | 'results' | 'error' | 'declined'
 
@@ -328,7 +325,7 @@ export function ModernHomepage() {
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
                   <AlertTriangle className="h-8 w-8 text-red-600" />
                 </div>
-                <h2 className="text-2xl font-bold text-red-800">{t.medicalDisclaimer.declinedTitle}</h2>
+                <h2 className="heading-xl text-red-800">{t.medicalDisclaimer.declinedTitle}</h2>
                 <p className="text-red-700">
                   {t.medicalDisclaimer.declinedMessage}
                 </p>
@@ -347,62 +344,9 @@ export function ModernHomepage() {
       {/* Main App Content - Only show if not disclaimer or declined */}
       {appState !== 'disclaimer' && appState !== 'declined' && (
         <>
-          {/* Modern Glass Navigation Header */}
-          <nav className="backdrop-blur-md bg-white/80 border-b border-white/20 shadow-lg">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-8">
-              <Button 
-                onClick={handleBackToHome}
-                variant="ghost"
-                className="flex items-center space-x-3 text-xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent hover:from-cyan-700 hover:to-teal-700 transition-all duration-300 p-0 h-auto"
-              >
-                <div className="p-2 bg-gradient-to-r from-cyan-600 to-teal-600 rounded-xl shadow-lg">
-                  <Stethoscope className="h-6 w-6 text-white" />
-                </div>
-                <span>VitalCheck</span>
-              </Button>
-              {appState !== 'homepage' && (
-                <Button
-                  variant="ghost"
-                  onClick={handleBackToHome}
-                  className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 hover:bg-white/50 rounded-xl transition-all duration-300"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  <span>{t.navigation.home}</span>
-                </Button>
-              )}
-              <div className="flex space-x-6">
-                <Button asChild variant="ghost" className="text-gray-600 hover:text-cyan-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
-                  <Link href="/questionnaires">{t.navigation.questionnaires}</Link>
-                </Button>
-                <Button asChild variant="ghost" className="text-gray-600 hover:text-cyan-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
-                  <Link href="/symptoms">{t.navigation.symptoms}</Link>
-                </Button>
-                <Button asChild variant="ghost" className="text-gray-600 hover:text-cyan-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
-                  <Link href="/vital-check">{t.navigation.vitalCheck}</Link>
-                </Button>
-                <Button asChild variant="ghost" className="text-gray-600 hover:text-cyan-600 transition-all duration-300 font-medium hover:bg-white/50 px-3 py-2 rounded-lg">
-                  <Link href="/help">{t.navigation.help}</Link>
-                </Button>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <LanguageSwitcher />
-              <button 
-                onClick={() => window.location.href = '/auth/login'}
-                className="flex items-center space-x-2 bg-white/50 px-4 py-2 rounded-xl backdrop-blur-sm hover:bg-white/70 transition-all duration-300 cursor-pointer border-none hover:shadow-lg hover:shadow-cyan-200/20 hover:-translate-y-0.5"
-              >
-                <UserCheck className="h-5 w-5 text-cyan-600" />
-                <span className="text-sm text-slate-700 hidden sm:block font-medium">Patient Portal</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
 
       {/* Medical Dashboard Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 py-8 overflow-x-hidden">
         <AnimatePresence mode="wait">
           {appState === 'homepage' && (
             <motion.div
@@ -416,7 +360,7 @@ export function ModernHomepage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative min-h-screen flex flex-col overflow-hidden"
+                className="relative min-h-screen flex flex-col overflow-hidden py-4 lg:py-8"
               >
                 {/* Enhanced Background Elements */}
                 <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -484,28 +428,28 @@ export function ModernHomepage() {
 
                 <div className="relative z-10 w-full flex-1 flex flex-col">
                   {/* Hero Content - Two Column Layout */}
-                  <div className="flex-1 flex items-center">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
-                      {/* Left Column - Main Content */}
+                  <div className="flex-1 flex items-center overflow-hidden">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-center w-full">
+                      {/* Left Column - Main Content (3/5 width) */}
                       <motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="text-left"
+                        className="text-left lg:col-span-3 px-4 lg:px-0"
                       >
                         <motion.h1 
-                          className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 text-gray-900 leading-tight"
+                          className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 lg:mb-6 text-gray-900 leading-tight"
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.8, delay: 0.2 }}
                         >
-                          <span className="block">{t.homepage.feelBetterAbout}</span>
+                          <span className="block mb-1 lg:mb-2">{t.homepage.feelBetterAbout}</span>
                           <span className="text-cyan-600 block">
                             {t.homepage.findingHealthcare}
                           </span>
                         </motion.h1>
                         <motion.p 
-                          className="text-base lg:text-lg text-gray-600 leading-relaxed mb-6 max-w-lg"
+                          className="text-sm sm:text-base lg:text-lg text-gray-600 leading-relaxed mb-6 lg:mb-8 max-w-md lg:max-w-lg"
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.8, delay: 0.4 }}
@@ -514,58 +458,60 @@ export function ModernHomepage() {
                         </motion.p>
                         
                         {/* Trust Badges */}
-                        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                          <div className="flex items-center bg-gray-800 text-white px-3 py-2 rounded-lg">
-                            <UserCheck className="h-4 w-4 mr-2" />
-                            <span className="text-xs font-medium">{t.homepage.profilesEveryDoctor}</span>
+                        <div className="flex flex-col sm:flex-row gap-2 lg:gap-3 mb-6 lg:mb-8">
+                          <div className="flex items-center bg-gray-800 text-white px-3 lg:px-4 py-2 lg:py-2.5 rounded-lg shadow-lg">
+                            <UserCheck className="h-3 w-3 lg:h-4 lg:w-4 mr-2" />
+                            <span className="text-xs lg:text-sm font-medium">{t.homepage.profilesEveryDoctor}</span>
                           </div>
-                          <div className="flex items-center bg-gray-800 text-white px-3 py-2 rounded-lg">
-                            <CheckCircle className="h-4 w-4 mr-2" />
-                            <span className="text-xs font-medium">{t.homepage.millionRatings}</span>
+                          <div className="flex items-center bg-gray-800 text-white px-3 lg:px-4 py-2 lg:py-2.5 rounded-lg shadow-lg">
+                            <CheckCircle className="h-3 w-3 lg:h-4 lg:w-4 mr-2" />
+                            <span className="text-xs lg:text-sm font-medium">{t.homepage.millionRatings}</span>
                           </div>
                         </div>
                       </motion.div>
 
-                      {/* Right Column - Doctor Image */}
+                      {/* Right Column - Doctor Image (2/5 width) */}
                       <motion.div
                         initial={{ opacity: 0, x: 30 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="relative flex items-center justify-center mt-8 lg:mt-0"
+                        className="relative mt-8 lg:mt-0 lg:col-span-2 -mr-6 sm:-mr-8 lg:-mr-16 xl:-mr-20 2xl:-mr-24"
                       >
-                        {/* Professional Doctor Hero Image */}
-                        <div className="relative w-full max-w-xs lg:max-w-sm mx-auto">
-                          <div className="bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-2xl p-4 lg:p-6 shadow-xl">
-                            <div className="w-full h-48 lg:h-60 rounded-xl overflow-hidden relative">
-                              <Image 
-                                src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                                alt="Professional Doctor with Stethoscope"
-                                fill
-                                className="object-cover object-center"
-                              />
-                            </div>
+                        {/* Professional Doctor Hero Image - Edge to Edge */}
+                        <div className="relative w-full">
+                          <div className="bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-l-xl sm:rounded-l-2xl lg:rounded-l-3xl overflow-hidden shadow-2xl h-56 sm:h-72 md:h-80 lg:h-96 xl:h-[28rem] relative w-[calc(100%+1.5rem)] sm:w-[calc(100%+2rem)] lg:w-[calc(100%+4rem)] xl:w-[calc(100%+5rem)] 2xl:w-[calc(100%+6rem)]">
+                            <Image 
+                              src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                              alt="Professional Doctor with Stethoscope"
+                              fill
+                              className="object-cover object-center"
+                              priority
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                            />
+                            {/* Subtle gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-cyan-100/20"></div>
                           </div>
-                          {/* Floating medical icons */}
+                          {/* Floating medical icons - Responsive positioning */}
                           <motion.div
-                            className="absolute -top-2 -right-2 bg-cyan-500 p-2 rounded-full shadow-lg"
+                            className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-cyan-500 p-1.5 sm:p-2 lg:p-3 rounded-full shadow-lg z-10"
                             animate={{ y: [-3, 3, -3] }}
                             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                           >
-                            <Heart className="h-4 w-4 text-white" />
+                            <Heart className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-white" />
                           </motion.div>
                           <motion.div
-                            className="absolute -bottom-2 -left-2 bg-green-500 p-2 rounded-full shadow-lg"
+                            className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 bg-green-500 p-1.5 sm:p-2 lg:p-3 rounded-full shadow-lg z-10"
                             animate={{ y: [3, -3, 3] }}
                             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                           >
-                            <CheckCircle className="h-4 w-4 text-white" />
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5 text-white" />
                           </motion.div>
                           <motion.div
-                            className="absolute top-1/2 -left-4 bg-cyan-500 p-1.5 rounded-full shadow-lg"
+                            className="absolute top-1/2 left-1 sm:left-2 bg-cyan-500 p-1 sm:p-1.5 lg:p-2 rounded-full shadow-lg z-10"
                             animate={{ x: [-2, 2, -2] }}
                             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                           >
-                            <Activity className="h-3 w-3 text-white" />
+                            <Activity className="h-2.5 w-2.5 sm:h-3 sm:w-3 lg:h-4 lg:w-4 text-white" />
                           </motion.div>
                         </div>
                       </motion.div>
@@ -596,14 +542,14 @@ export function ModernHomepage() {
                           className="h-14 text-base border-2 border-gray-200 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 rounded-xl pl-12 pr-4 bg-white transition-all duration-300 hover:border-cyan-300 hover:shadow-lg w-full"
                         />
                         <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                          <Activity className="h-4 w-4 text-gray-400" />
+                          <Activity className="icon-sm text-gray-400" />
                         </div>
                       </div>
                       <Button 
                         onClick={handleSearch}
                         className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 lg:px-8 py-4 h-14 rounded-xl font-semibold transition-all duration-300 min-w-[100px] lg:min-w-[120px] flex items-center justify-center"
                       >
-                        <Activity className="h-4 w-4 mr-2" />
+                        <Activity className="icon-sm mr-2" />
                         <span className="hidden sm:inline">Search</span>
                       </Button>
                     </div>
@@ -623,13 +569,39 @@ export function ModernHomepage() {
                           <button
                             key={tag.key}
                             className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-xs transition-colors duration-200 flex items-center space-x-1"
-                            onClick={() => setSearchQuery(tag.key)}
+                            onClick={() => setSearchQuery(tag.label)}
                           >
                             <span>{tag.label}</span>
                             <Activity className="h-2.5 w-2.5" />
                           </button>
                         ))}
-                        <button className="px-3 py-1.5 bg-cyan-100 hover:bg-cyan-200 text-cyan-600 rounded-full text-xs transition-colors duration-200">
+                        <button 
+                          className="px-3 py-1.5 bg-cyan-100 hover:bg-cyan-200 text-cyan-600 rounded-full text-xs transition-colors duration-200"
+                          onClick={() => {
+                            const allTags = [
+                              { key: 'Dermatology', label: t.homepage.dermatology },
+                              { key: 'Internal Medicine', label: t.homepage.internalMedicine },
+                              { key: 'Neurology', label: t.homepage.neurology },
+                              { key: 'Psychiatry', label: t.homepage.psychiatry },
+                              { key: 'Cardiology', label: t.homepage.cardiology },
+                              { key: 'Emergency Medicine', label: t.homepage.emergencyMedicine }
+                            ]
+                            
+                            const currentTags = [
+                              t.homepage.familyMedicine,
+                              t.homepage.pediatrics, 
+                              t.homepage.topHospital,
+                              t.homepage.telehealth,
+                              t.homepage.covid19,
+                              t.homepage.orthopedicSurgery
+                            ]
+                            
+                            const nextTag = allTags.find(tag => !currentTags.includes(tag.label))
+                            if (nextTag) {
+                              setSearchQuery(nextTag.label)
+                            }
+                          }}
+                        >
                           {t.homepage.more}
                         </button>
                       </div>
@@ -644,7 +616,7 @@ export function ModernHomepage() {
                   transition={{ duration: 0.8, delay: 0.6 }}
                   className="relative z-10 w-full py-8"
                 >
-                <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">{t.homepage.popularSearches}</h2>
+                <h2 className="heading-xl lg:heading-2xl text-gray-900 mb-6">{t.homepage.popularSearches}</h2>
                 
                 <div className="flex border-b border-gray-200 mb-6">
                   <button 
@@ -751,7 +723,7 @@ export function ModernHomepage() {
 
                 {/* Search Section */}
                 <div className="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-3xl p-8 mb-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Find the best doctor you need</h3>
+                  <h3 className="heading-xl text-gray-900 mb-6 text-center">{t.homepage.findBestDoctor}</h3>
                   
                   <div className="space-y-4 mb-6">
                     <div className="relative">
@@ -773,7 +745,7 @@ export function ModernHomepage() {
                   </div>
                   
                   <Button className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg font-semibold">
-                    Search Now
+                    {t.homepage.searchNow}
                   </Button>
                 </div>
 
@@ -838,25 +810,31 @@ export function ModernHomepage() {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
                 <div className="relative">
                   <div className="bg-white rounded-3xl p-8 shadow-xl">
-                    <div className="w-full h-80 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-cyan-100 to-cyan-200">
-                      <motion.img 
+                    <div className="w-full h-96 rounded-2xl overflow-hidden mb-6 bg-gradient-to-br from-cyan-100 to-cyan-200 relative">
+                      <motion.div
                         key={selectedDoctorIndex}
                         initial={{ opacity: 0, scale: 1.1 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.5 }}
-                        src={(() => {
-                          const doctorImages = [
-                            'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. Henry
-                            'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. Floyd Miles
-                            'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. McKinney
-                            'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. Jacob
-                            'https://images.unsplash.com/photo-1594824609072-57c2d2bb8b86?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'  // Dr. Warren
-                          ]
-                          return doctorImages[selectedDoctorIndex]
-                        })()} 
-                        alt={`${doctorData[selectedDoctorIndex].name} - ${doctorData[selectedDoctorIndex].specialty}`}
-                        className="w-full h-full object-cover object-center"
-                      />
+                        className="w-full h-full relative"
+                      >
+                        <Image 
+                          src={(() => {
+                            const doctorImages = [
+                              'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. Henry
+                              'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. Floyd Miles
+                              'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. McKinney
+                              'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Dr. Jacob
+                              'https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'  // Dr. Warren - Updated working image
+                            ]
+                            return doctorImages[selectedDoctorIndex]
+                          })()} 
+                          alt={`${doctorData[selectedDoctorIndex].name} - ${doctorData[selectedDoctorIndex].specialty}`}
+                          fill
+                          className="object-cover object-[center_20%]"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </motion.div>
                     </div>
                     
                     {/* Interactive Doctor List */}
@@ -877,7 +855,7 @@ export function ModernHomepage() {
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                               selectedDoctorIndex === index ? 'bg-white/20' : 'bg-cyan-100'
                             }`}>
-                              <UserCheck className={`h-4 w-4 ${
+                              <UserCheck className={`icon-sm ${
                                 selectedDoctorIndex === index ? 'text-white' : 'text-cyan-600'
                               }`} />
                             </div>
@@ -945,7 +923,7 @@ export function ModernHomepage() {
                 {/* Meet Our Specialists Section */}
                 <div className="flex-1 flex flex-col justify-center py-8">
                 <div className="text-center mb-12">
-                  <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">{t.homepage.meetSpecialists}</h2>
+                  <h2 className="heading-xl lg:heading-2xl text-gray-900 mb-3">{t.homepage.meetSpecialists}</h2>
                   <p className="text-lg text-gray-600">
                     {t.homepage.toolsAndInformation}
                   </p>
@@ -1028,7 +1006,7 @@ export function ModernHomepage() {
                 <div className="flex-1 flex items-center py-8">
                   <div className="w-full">
                 <div className="text-center mb-12">
-                  <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">{t.homepage.patientsFeedback}</h2>
+                  <h2 className="heading-xl lg:heading-2xl text-gray-900 mb-3">{t.homepage.patientsFeedback}</h2>
                   <p className="text-base text-gray-600 max-w-2xl mx-auto">
                     {t.homepage.testimonialDescription}
                   </p>
@@ -1070,14 +1048,14 @@ export function ModernHomepage() {
                               review: t.homepage.clinicalCareReview
                             },
                             {
-                              name: "Maria Rodriguez",
-                              location: "Los Angeles, CA",
-                              review: "Excellent medical service. The doctors were very professional and caring throughout my treatment."
+                              name: t.homepage.mariaRodriguez,
+                              location: t.homepage.mariaLocation,
+                              review: t.homepage.mariaReview
                             },
                             {
-                              name: "John Smith",
-                              location: "Chicago, IL",
-                              review: "Outstanding healthcare experience. The staff was knowledgeable and the facilities were top-notch."
+                              name: t.homepage.johnSmith,
+                              location: t.homepage.johnLocation,
+                              review: t.homepage.johnReview
                             }
                           ]
                           
@@ -1147,8 +1125,8 @@ export function ModernHomepage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                       <div className="p-6 text-white">
-                        <h3 className="text-lg font-bold mb-2">Advanced Diagnostics</h3>
-                        <p className="text-sm opacity-90">State-of-the-art medical imaging and analysis</p>
+                        <h3 className="text-lg font-bold mb-2">{t.homepage.advancedDiagnostics}</h3>
+                        <p className="text-sm opacity-90">{t.homepage.advancedDiagnosticsDesc}</p>
                       </div>
                     </div>
                   </div>
@@ -1162,8 +1140,8 @@ export function ModernHomepage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                       <div className="p-6 text-white">
-                        <h3 className="text-lg font-bold mb-2">AI-Powered Analysis</h3>
-                        <p className="text-sm opacity-90">Machine learning for accurate health insights</p>
+                        <h3 className="text-lg font-bold mb-2">{t.homepage.aiPoweredAnalysis}</h3>
+                        <p className="text-sm opacity-90">{t.homepage.aiPoweredAnalysisDesc}</p>
                       </div>
                     </div>
                   </div>
@@ -1177,8 +1155,8 @@ export function ModernHomepage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                       <div className="p-6 text-white">
-                        <h3 className="text-lg font-bold mb-2">Remote Healthcare</h3>
-                        <p className="text-sm opacity-90">Convenient telemedicine solutions</p>
+                        <h3 className="text-lg font-bold mb-2">{t.homepage.remoteHealthcare}</h3>
+                        <p className="text-sm opacity-90">{t.homepage.remoteHealthcareDesc}</p>
                       </div>
                     </div>
                   </div>
@@ -1364,10 +1342,10 @@ export function ModernHomepage() {
                         <Stethoscope className="absolute h-10 w-10 text-white z-10" />
                       </motion.div>
                       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        Advanced Medical AI Assessment
+                        {t.homepage.advancedMedicalAI}
                       </h2>
                       <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                        Our AI-powered system provides comprehensive symptom analysis using medical-grade algorithms to help guide your healthcare decisions.
+                        {t.homepage.aiSystemDescription}
                       </p>
                     </div>
                     
@@ -1389,8 +1367,8 @@ export function ModernHomepage() {
                           <div className="absolute inset-0 bg-green-500/20 rounded-2xl"></div>
                           <CheckCircle className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-white drop-shadow-lg" />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">Evidence-Based</h3>
-                        <p className="text-gray-600 leading-relaxed">Analysis based on current medical literature and guidelines</p>
+                        <h3 className="text-xl font-bold text-gray-900 mb-3">{t.homepage.evidenceBased}</h3>
+                        <p className="text-gray-600 leading-relaxed">{t.homepage.evidenceBasedDesc}</p>
                       </motion.div>
                       <motion.div 
                         className="text-center"
@@ -1409,8 +1387,8 @@ export function ModernHomepage() {
                           <div className="absolute inset-0 bg-cyan-500/20 rounded-2xl"></div>
                           <Shield className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-white drop-shadow-lg" />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">Secure & Private</h3>
-                        <p className="text-gray-600 leading-relaxed">Your health information is protected and confidential</p>
+                        <h3 className="text-xl font-bold text-gray-900 mb-3">{t.homepage.securePrivate}</h3>
+                        <p className="text-gray-600 leading-relaxed">{t.homepage.securePrivateDesc}</p>
                       </motion.div>
                       <motion.div 
                         className="text-center"
@@ -1429,8 +1407,8 @@ export function ModernHomepage() {
                           <div className="absolute inset-0 bg-cyan-500/20 rounded-2xl"></div>
                           <ClipboardList className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-8 w-8 text-white drop-shadow-lg" />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">Comprehensive</h3>
-                        <p className="text-gray-600 leading-relaxed">Detailed assessment covering all relevant symptoms</p>
+                        <h3 className="text-xl font-bold text-gray-900 mb-3">{t.homepage.comprehensive}</h3>
+                        <p className="text-gray-600 leading-relaxed">{t.homepage.comprehensiveDesc}</p>
                       </motion.div>
                     </div>
                     
@@ -1534,83 +1512,6 @@ export function ModernHomepage() {
         message={results?.emergencyMessage}
       />
 
-      {/* We.care Style Footer */}
-      <motion.footer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="bg-white border-t border-gray-200 mt-12 lg:mt-16"
-      >
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Brand Section */}
-            <div className="md:col-span-1">
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="p-2 bg-gradient-to-r from-cyan-600 to-teal-600 rounded-xl">
-                  <Stethoscope className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-xl font-bold text-gray-900">VitalCheck</span>
-              </div>
-              <p className="text-gray-600 mb-6">©VitalCheck 2024</p>
-              
-              {/* Social Links */}
-              <div className="flex space-x-4">
-                <div className="w-8 h-8 bg-cyan-600 rounded flex items-center justify-center">
-                  <span className="text-white text-sm">f</span>
-                </div>
-                <div className="w-8 h-8 bg-cyan-500 rounded flex items-center justify-center">
-                  <span className="text-white text-sm">in</span>
-                </div>
-                <div className="w-8 h-8 bg-cyan-400 rounded flex items-center justify-center">
-                  <span className="text-white text-sm">s</span>
-                </div>
-                <div className="w-8 h-8 bg-cyan-400 rounded flex items-center justify-center">
-                  <span className="text-white text-sm">t</span>
-                </div>
-                <div className="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
-                  <span className="text-white text-sm">y</span>
-                </div>
-                <div className="w-8 h-8 bg-gray-800 rounded flex items-center justify-center">
-                  <span className="text-white text-sm">M</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* For Patients */}
-            <div>
-              <h3 className="font-bold text-gray-900 mb-4">For Patients</h3>
-              <ul className="space-y-3 text-gray-600">
-                <li><Link href="/" className="hover:text-gray-900">Symptom Checker</Link></li>
-                <li><Link href="/symptom-checker" className="hover:text-gray-900">AI Health Assessment</Link></li>
-                <li><Link href="/faq" className="hover:text-gray-900">Frequently Asked Questions</Link></li>
-                <li><Link href="/privacy" className="hover:text-gray-900">Privacy & Security</Link></li>
-              </ul>
-            </div>
-            
-            {/* Resources */}
-            <div>
-              <h3 className="font-bold text-gray-900 mb-4">Resources</h3>
-              <ul className="space-y-3 text-gray-600">
-                <li><Link href="/faq" className="hover:text-gray-900">Help Center</Link></li>
-                <li><Link href="/contact" className="hover:text-gray-900">Support</Link></li>
-                <li><Link href="/privacy" className="hover:text-gray-900">Privacy Policy</Link></li>
-                <li><Link href="/about" className="hover:text-gray-900">How It Works</Link></li>
-              </ul>
-            </div>
-            
-            {/* Company */}
-            <div>
-              <h3 className="font-bold text-gray-900 mb-4">Company</h3>
-              <ul className="space-y-3 text-gray-600">
-                <li><Link href="/about" className="hover:text-gray-900">About Us</Link></li>
-                <li><Link href="/contact" className="hover:text-gray-900">Contact Us</Link></li>
-                <li><Link href="/faq" className="hover:text-gray-900">FAQ</Link></li>
-                <li><Link href="/privacy" className="hover:text-gray-900">Privacy Policy</Link></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </motion.footer>
         </>
       )}
     </div>

@@ -32,7 +32,7 @@ export function EmergencyAlert({ isOpen, onClose, message }: EmergencyAlertProps
                     <AlertTriangle className="h-7 w-7 text-white animate-pulse" />
                   </div>
                   <div>
-                    <DialogTitle className="text-2xl font-bold text-white">
+                    <DialogTitle className="heading-xl text-white">
                       🚨 {t.emergency.alert}
                     </DialogTitle>
                     <p className="text-red-100 text-sm mt-1">Immediate action required</p>
@@ -77,7 +77,7 @@ export function EmergencyAlert({ isOpen, onClose, message }: EmergencyAlertProps
                 >
                   <h4 className="font-bold text-gray-900 text-lg mb-4 flex items-center space-x-3">
                     <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
-                      <Clock className="h-4 w-4 text-white" />
+                      <Clock className="icon-sm text-white" />
                     </div>
                     <span>{t.emergency.emergencyActions}</span>
                   </h4>
@@ -95,7 +95,7 @@ export function EmergencyAlert({ isOpen, onClose, message }: EmergencyAlertProps
                         className="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl"
                       >
                         <div className={`w-8 h-8 ${item.color} rounded-full flex items-center justify-center`}>
-                          <item.icon className="h-4 w-4 text-white" />
+                          <item.icon className="icon-sm text-white" />
                         </div>
                         <span className="text-gray-800 font-medium">{item.text}</span>
                       </motion.div>
@@ -146,7 +146,7 @@ export function EmergencyAlert({ isOpen, onClose, message }: EmergencyAlertProps
                   className="bg-gradient-to-r from-gray-100 to-gray-200 p-4 rounded-xl border"
                 >
                   <div className="flex items-center justify-center space-x-2 text-gray-600">
-                    <Shield className="h-4 w-4" />
+                    <Shield className="icon-sm" />
                     <span className="text-sm font-medium">{t.emergency.alertGenerated}</span>
                   </div>
                 </motion.div>

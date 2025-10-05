@@ -97,7 +97,12 @@ export const PatientPortalNavItem = z.object({
   href: z.string(),
   icon: z.string(),
   description: z.string().optional(),
-  badge: z.number().optional()
+  badge: z.number().optional(),
+  color: z.string().optional(),
+  gradient: z.string().optional(),
+  borderColor: z.string().optional(),
+  textColor: z.string().optional(),
+  iconColor: z.string().optional()
 })
 
 export type PatientPortalNavItem = z.infer<typeof PatientPortalNavItem>

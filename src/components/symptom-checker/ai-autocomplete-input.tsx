@@ -191,7 +191,7 @@ export function AIAutocompleteInput({
                     <div className="flex items-center justify-between">
                       <span className="text-sm">{suggestion}</span>
                       {selectedIndex === index && (
-                        <CheckCircle className="h-4 w-4 text-cyan-500" />
+                        <CheckCircle className="icon-sm text-cyan-500" />
                       )}
                     </div>
                   </motion.button>
