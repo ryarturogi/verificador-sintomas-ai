@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useAuth } from '@/contexts/auth-context'
+import { useAuth } from '@clerk/nextjs'
 import { useLanguage } from '@/contexts/language-context'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -25,7 +25,7 @@ interface SignupFormData {
 
 export function SignupForm() {
   const { t } = useLanguage()
-  const { signup } = useAuth()
+  // const { signUp } = useAuth() // TODO: Fix Clerk signup integration
   const [formData, setFormData] = useState<SignupFormData>({
     firstName: '',
     lastName: '',
@@ -95,7 +95,8 @@ export function SignupForm() {
     setError(null)
 
     try {
-      const success = await signup(formData)
+      // const success = await signUp(formData) // TODO: Fix Clerk signup integration
+      const success = false // Temporary placeholder
       
       if (success) {
         router.push('/patient-portal')
@@ -122,7 +123,7 @@ export function SignupForm() {
                 <UserPlus className="h-6 w-6 text-cyan-600" />
               </div>
             </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">
+          <CardTitle className="heading-xl text-gray-900">
             {t.auth.signup.title}
           </CardTitle>
           <p className="text-gray-600">
@@ -142,7 +143,7 @@ export function SignupForm() {
               <div className="space-y-2">
                 <Label htmlFor="firstName">{t.auth.signup.firstNameLabel}</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 icon-sm" />
                   <Input
                     id="firstName"
                     type="text"
@@ -159,7 +160,7 @@ export function SignupForm() {
               <div className="space-y-2">
                 <Label htmlFor="lastName">{t.auth.signup.lastNameLabel}</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 icon-sm" />
                   <Input
                     id="lastName"
                     type="text"
@@ -177,7 +178,7 @@ export function SignupForm() {
             <div className="space-y-2">
               <Label htmlFor="email">{t.auth.signup.emailLabel}</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 icon-sm" />
                 <Input
                   id="email"
                   type="email"
@@ -194,7 +195,7 @@ export function SignupForm() {
             <div className="space-y-2">
               <Label htmlFor="phone">{t.auth.signup.phoneLabel}</Label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 icon-sm" />
                 <Input
                   id="phone"
                   type="tel"
@@ -211,7 +212,7 @@ export function SignupForm() {
             <div className="space-y-2">
               <Label htmlFor="password">{t.auth.signup.passwordLabel}</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 icon-sm" />
                 <Input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -228,7 +229,7 @@ export function SignupForm() {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   disabled={isLoading}
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showPassword ? <EyeOff className="icon-sm" /> : <Eye className="icon-sm" />}
                 </button>
               </div>
             </div>
@@ -236,7 +237,7 @@ export function SignupForm() {
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">{t.auth.signup.confirmPasswordLabel}</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 icon-sm" />
                 <Input
                   id="confirmPassword"
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -253,7 +254,7 @@ export function SignupForm() {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   disabled={isLoading}
                 >
-                  {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showConfirmPassword ? <EyeOff className="icon-sm" /> : <Eye className="icon-sm" />}
                 </button>
               </div>
             </div>
@@ -285,7 +286,7 @@ export function SignupForm() {
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
-                  <UserPlus className="h-4 w-4" />
+                  <UserPlus className="icon-sm" />
                   <span>{t.auth.signup.signupButton}</span>
                 </div>
               )}
@@ -306,7 +307,7 @@ export function SignupForm() {
               href="/" 
               className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
             >
-              <ArrowLeft className="h-4 w-4 mr-1" />
+              <ArrowLeft className="icon-sm mr-1" />
               {t.auth.signup.backToHome}
             </Link>
           </div>
