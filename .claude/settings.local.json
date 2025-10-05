@@ -4,7 +4,18 @@
       "Bash(pnpm run:*)",
       "WebFetch(domain:platform.openai.com)",
       "Bash(rmdir:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(grep:*)",
+      "Bash(npx tsc:*)",
+      "Bash(awk:*)",
+      "Bash(ls:*)",
+      "Bash(pnpm add:*)",
+      "Bash(find:*)",
+      "Bash(pnpm build:*)",
+      "WebFetch(domain:clerk.com)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

@@ -40,7 +40,7 @@ export function LoadingSpinner({
           animate={{ rotate: 360 }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
         >
-          <Loader2 className={`${sizeClasses[size]} text-blue-600`} />
+          <Loader2 className={`${sizeClasses[size]} text-cyan-600`} />
         </motion.div>
       </div>
       
@@ -119,8 +119,8 @@ export function LoadingCard({
               >
                 <div className={`${designTokens.progress.loadingDot} ${
                   index === 0 ? 'bg-green-500' : 
-                  index === 1 ? 'bg-blue-500' : 
-                  'bg-purple-500'
+                  index === 1 ? 'bg-cyan-500' : 
+                  'bg-cyan-600'
                 }`} />
                 <span className={`${designTokens.typography.caption}`}>
                   {step}

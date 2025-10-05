@@ -359,7 +359,7 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
                 </p>
                 <div className={`${designTokens.cards.clinical} px-4 py-3 inline-block`}>
                   <div className="flex items-center space-x-2">
-                    <Shield className="h-4 w-4 text-emerald-600" />
+                    <Shield className="icon-sm text-emerald-600" />
                     <span className={`${designTokens.typography.bodySmall}`}>
                       {session.responses.length} {t.questionnaire.questionsAnswered}
                     </span>

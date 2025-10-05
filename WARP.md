@@ -1,6 +1,6 @@
-# WARP.md
+# VitalCheck - WARP Guide
 
-This file provides guidance to WARP (warp.dev) when working with code in this repository.
+This file provides guidance to WARP (warp.dev) when working with the VitalCheck AI Symptom Checker codebase.
 
 ## Development Commands
 

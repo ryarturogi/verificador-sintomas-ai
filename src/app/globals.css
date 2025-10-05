@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "../lib/utility-classes.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -60,17 +61,17 @@
   --popover: oklch(1 0 0); /* Clean white */
   --popover-foreground: oklch(0.15 0 0); /* Professional text */
   
-  /* Primary medical blue - trustworthy and professional */
-  --primary: oklch(0.45 0.15 250); /* Medical blue #0066CC equivalent */
-  --primary-foreground: oklch(1 0 0); /* White text on blue */
+  /* Primary medical cyan - trustworthy and professional */
+  --primary: oklch(0.45 0.15 200); /* Medical cyan #0891B2 equivalent */
+  --primary-foreground: oklch(1 0 0); /* White text on cyan */
   
   /* Secondary clinical colors */
-  --secondary: oklch(0.97 0.005 250); /* Very light clinical blue */
+  --secondary: oklch(0.97 0.005 200); /* Very light clinical cyan */
   --secondary-foreground: oklch(0.15 0 0); /* Dark text */
   
   /* Muted clinical backgrounds */
-  --muted: oklch(0.96 0.005 250); /* Subtle clinical background */
-  --muted-foreground: oklch(0.45 0.02 250); /* Muted professional text */
+  --muted: oklch(0.96 0.005 200); /* Subtle clinical background */
+  --muted-foreground: oklch(0.45 0.02 200); /* Muted professional text */
   
   /* Accent colors - medical teal */
   --accent: oklch(0.88 0.05 200); /* Light medical teal */
@@ -81,26 +82,26 @@
   --destructive-foreground: oklch(1 0 0); /* White text on emergency */
   
   /* Clinical borders and inputs */
-  --border: oklch(0.9 0.005 250); /* Subtle clinical borders */
-  --input: oklch(0.95 0.005 250); /* Light input backgrounds */
-  --ring: oklch(0.45 0.15 250); /* Medical blue focus rings */
+  --border: oklch(0.9 0.005 200); /* Subtle clinical borders */
+  --input: oklch(0.95 0.005 200); /* Light input backgrounds */
+  --ring: oklch(0.45 0.15 200); /* Medical cyan focus rings */
   
   /* Medical data visualization - professional and accessible */
-  --chart-1: oklch(0.55 0.15 250); /* Medical blue */
+  --chart-1: oklch(0.55 0.15 200); /* Medical cyan */
   --chart-2: oklch(0.60 0.12 160); /* Healthcare green */
   --chart-3: oklch(0.65 0.15 200); /* Clinical teal */
   --chart-4: oklch(0.58 0.18 25); /* Medical orange */
-  --chart-5: oklch(0.52 0.20 340); /* Clinical purple */
+  --chart-5: oklch(0.52 0.20 200); /* Clinical cyan variant */
   
   /* Medical sidebar/navigation */
-  --sidebar: oklch(0.98 0.005 250); /* Very light clinical background */
+  --sidebar: oklch(0.98 0.005 200); /* Very light clinical background */
   --sidebar-foreground: oklch(0.15 0 0); /* Professional text */
-  --sidebar-primary: oklch(0.45 0.15 250); /* Medical blue */
+  --sidebar-primary: oklch(0.45 0.15 200); /* Medical cyan */
   --sidebar-primary-foreground: oklch(1 0 0); /* White text */
-  --sidebar-accent: oklch(0.96 0.005 250); /* Subtle accent */
+  --sidebar-accent: oklch(0.96 0.005 200); /* Subtle accent */
   --sidebar-accent-foreground: oklch(0.15 0 0); /* Dark text */
-  --sidebar-border: oklch(0.9 0.005 250); /* Subtle borders */
-  --sidebar-ring: oklch(0.45 0.15 250); /* Medical blue focus */
+  --sidebar-border: oklch(0.9 0.005 200); /* Subtle borders */
+  --sidebar-ring: oklch(0.45 0.15 200); /* Medical cyan focus */
   
   /* Medical-specific colors */
   --medical-success: oklch(0.60 0.15 140); /* Healthcare green */
@@ -129,47 +130,47 @@
   --popover: oklch(0.18 0.01 250); /* Dark modal background */
   --popover-foreground: oklch(0.95 0.01 250); /* Light text */
   
-  /* Primary medical blue in dark mode */
-  --primary: oklch(0.65 0.15 250); /* Lighter medical blue for contrast */
-  --primary-foreground: oklch(0.12 0.01 250); /* Dark text on light blue */
+  /* Primary medical cyan in dark mode */
+  --primary: oklch(0.65 0.15 200); /* Lighter medical cyan for contrast */
+  --primary-foreground: oklch(0.12 0.01 200); /* Dark text on light cyan */
   
   /* Secondary colors in dark mode */
-  --secondary: oklch(0.22 0.01 250); /* Dark secondary background */
-  --secondary-foreground: oklch(0.95 0.01 250); /* Light text */
+  --secondary: oklch(0.22 0.01 200); /* Dark secondary background */
+  --secondary-foreground: oklch(0.95 0.01 200); /* Light text */
   
   /* Muted colors in dark mode */
-  --muted: oklch(0.22 0.01 250); /* Dark muted background */
-  --muted-foreground: oklch(0.65 0.02 250); /* Muted light text */
+  --muted: oklch(0.22 0.01 200); /* Dark muted background */
+  --muted-foreground: oklch(0.65 0.02 200); /* Muted light text */
   
   /* Accent colors in dark mode */
   --accent: oklch(0.25 0.03 200); /* Dark medical teal */
-  --accent-foreground: oklch(0.95 0.01 250); /* Light text */
+  --accent-foreground: oklch(0.95 0.01 200); /* Light text */
   
   /* Emergency colors in dark mode */
   --destructive: oklch(0.65 0.2 25); /* Lighter emergency red for contrast */
-  --destructive-foreground: oklch(0.12 0.01 250); /* Dark text on emergency */
+  --destructive-foreground: oklch(0.12 0.01 200); /* Dark text on emergency */
   
   /* Dark borders and inputs */
-  --border: oklch(0.25 0.01 250); /* Dark clinical borders */
-  --input: oklch(0.20 0.01 250); /* Dark input backgrounds */
-  --ring: oklch(0.65 0.15 250); /* Lighter blue focus rings */
+  --border: oklch(0.25 0.01 200); /* Dark clinical borders */
+  --input: oklch(0.20 0.01 200); /* Dark input backgrounds */
+  --ring: oklch(0.65 0.15 200); /* Lighter cyan focus rings */
   
   /* Dark mode medical charts */
-  --chart-1: oklch(0.65 0.15 250); /* Lighter medical blue */
+  --chart-1: oklch(0.65 0.15 200); /* Lighter medical cyan */
   --chart-2: oklch(0.70 0.12 160); /* Lighter healthcare green */
   --chart-3: oklch(0.75 0.15 200); /* Lighter clinical teal */
   --chart-4: oklch(0.68 0.18 25); /* Lighter medical orange */
-  --chart-5: oklch(0.62 0.20 340); /* Lighter clinical purple */
+  --chart-5: oklch(0.62 0.20 200); /* Lighter clinical cyan variant */
   
   /* Dark sidebar/navigation */
-  --sidebar: oklch(0.15 0.01 250); /* Dark sidebar background */
-  --sidebar-foreground: oklch(0.95 0.01 250); /* Light text */
-  --sidebar-primary: oklch(0.65 0.15 250); /* Lighter medical blue */
-  --sidebar-primary-foreground: oklch(0.12 0.01 250); /* Dark text */
-  --sidebar-accent: oklch(0.22 0.01 250); /* Dark accent */
-  --sidebar-accent-foreground: oklch(0.95 0.01 250); /* Light text */
-  --sidebar-border: oklch(0.25 0.01 250); /* Dark borders */
-  --sidebar-ring: oklch(0.65 0.15 250); /* Lighter focus rings */
+  --sidebar: oklch(0.15 0.01 200); /* Dark sidebar background */
+  --sidebar-foreground: oklch(0.95 0.01 200); /* Light text */
+  --sidebar-primary: oklch(0.65 0.15 200); /* Lighter medical cyan */
+  --sidebar-primary-foreground: oklch(0.12 0.01 200); /* Dark text */
+  --sidebar-accent: oklch(0.22 0.01 200); /* Dark accent */
+  --sidebar-accent-foreground: oklch(0.95 0.01 200); /* Light text */
+  --sidebar-border: oklch(0.25 0.01 200); /* Dark borders */
+  --sidebar-ring: oklch(0.65 0.15 200); /* Lighter focus rings */
   
   /* Dark mode medical-specific colors */
   --medical-success: oklch(0.70 0.15 140); /* Lighter healthcare green */
@@ -207,20 +208,20 @@
   
   /* High contrast focus indicators for medical accessibility */
   *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-blue-600;
+    @apply outline-2 outline-offset-2 outline-cyan-600;
     outline-style: solid;
   }
   
   /* Medical button focus styles */
   button:focus-visible {
-    @apply ring-2 ring-blue-500 ring-offset-2;
+    @apply ring-2 ring-cyan-500 ring-offset-2;
   }
   
   /* Medical input focus styles */
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    @apply ring-2 ring-blue-500 ring-offset-1 border-blue-500;
+    @apply ring-2 ring-cyan-500 ring-offset-1 border-cyan-500;
   }
   
   /* Medical card hover states */
@@ -273,9 +274,9 @@
     height: 24px;
     width: 24px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    background: linear-gradient(135deg, #0891b2, #0e7490);
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 2px 8px rgba(8, 145, 178, 0.3);
     transition: all 0.2s ease;
   }
   
@@ -292,28 +293,28 @@
 
   .slider::-webkit-slider-thumb:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
   }
 
   .slider::-webkit-slider-thumb:active {
     transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.6);
+    box-shadow: 0 2px 8px rgba(8, 145, 178, 0.6);
   }
 
   .slider::-moz-range-thumb {
     height: 24px;
     width: 24px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    background: linear-gradient(135deg, #0891b2, #0e7490);
     cursor: pointer;
     border: 2px solid white;
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 2px 8px rgba(8, 145, 178, 0.3);
     transition: all 0.2s ease;
   }
 
   .slider::-moz-range-thumb:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
   }
   
   /* Medical form validation styles */

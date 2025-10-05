@@ -23,7 +23,7 @@ export function LanguageSwitcher() {
         onClick={toggleLanguage}
         className="flex items-center gap-2 bg-white/80 backdrop-blur-sm border-gray-200 hover:bg-gray-50"
       >
-        <Languages className="h-4 w-4" />
+        <Languages className="icon-sm" />
         <span className="font-medium">
           {t.switchLanguage}
         </span>

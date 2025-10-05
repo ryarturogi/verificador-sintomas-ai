@@ -1,6 +1,6 @@
-# Verificador de Síntomas con AI
+# VitalCheck - AI Symptom Checker
 
-Un sistema inteligente de verificación de síntomas que utiliza IA para ayudar a los usuarios a evaluar sus síntomas y obtener información relevante sobre posibles condiciones de salud.
+VitalCheck is an intelligent symptom verification system that uses AI to help users evaluate their symptoms and get relevant information about possible health conditions.
 
 ## 🚀 Tecnologías
 

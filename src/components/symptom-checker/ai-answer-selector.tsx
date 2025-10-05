@@ -100,7 +100,7 @@ export function AIAnswerSelector({
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.2 }}
       >
-        <Card className="bg-blue-50 border-blue-200 shadow-sm p-6">
+        <Card className="bg-cyan-50 border-cyan-200 shadow-sm p-6">
           <LoadingSpinner 
             size="small"
             text={t.ai.generatingOptions}
@@ -118,13 +118,13 @@ export function AIAnswerSelector({
         <motion.div
           initial={{ opacity: 0, y: -3 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between bg-blue-50 p-2 rounded-md border border-blue-200"
+          className="flex items-center justify-between bg-cyan-50 p-2 rounded-md border border-cyan-200"
         >
           <div className="flex items-center space-x-1.5">
-            <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+            <div className="w-4 h-4 bg-cyan-500 rounded-full flex items-center justify-center">
               <Sparkles className="h-2.5 w-2.5 text-white" />
             </div>
-            <span className="text-xs font-medium text-blue-700">
+            <span className="text-xs font-medium text-cyan-700">
               {t.ai.smartOptions}
             </span>
           </div>
@@ -132,7 +132,7 @@ export function AIAnswerSelector({
             variant="ghost"
             size="sm"
             onClick={generateAIOptions}
-            className="text-blue-600 hover:bg-blue-100 h-6 px-1.5 text-xs"
+            className="text-cyan-600 hover:bg-cyan-100 h-6 px-1.5 text-xs"
           >
             <RefreshCw className="h-2.5 w-2.5 mr-1" />
             {t.ai.refresh}
@@ -176,8 +176,8 @@ export function AIAnswerSelector({
                   selectedOptions.includes(option.value)
                     ? isMultiple 
                       ? 'bg-green-50 border-green-300 text-green-800'
-                      : 'bg-blue-50 border-blue-300 text-blue-800'
-                    : 'bg-white border-gray-200 hover:border-blue-300 hover:bg-gray-50 text-gray-700'
+                      : 'bg-cyan-50 border-cyan-300 text-cyan-800'
+                    : 'bg-white border-gray-200 hover:border-cyan-300 hover:bg-gray-50 text-gray-700'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -194,7 +194,7 @@ export function AIAnswerSelector({
                       className="ml-2 flex-shrink-0"
                     >
                       <div className={`w-4 h-4 rounded-full flex items-center justify-center ${
-                        isMultiple ? 'bg-green-500' : 'bg-blue-500'
+                        isMultiple ? 'bg-green-500' : 'bg-cyan-500'
                       }`}>
                         <Check className="h-2.5 w-2.5 text-white" />
                       </div>

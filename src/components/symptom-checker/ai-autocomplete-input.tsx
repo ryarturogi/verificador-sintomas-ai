@@ -160,8 +160,8 @@ export function AIAutocompleteInput({
         
         {isLoading && (
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <div className="w-4 h-4 bg-blue-100 rounded-full flex items-center justify-center">
-              <Loader2 className="h-3 w-3 animate-spin text-blue-600" />
+            <div className="w-4 h-4 bg-cyan-100 rounded-full flex items-center justify-center">
+              <Loader2 className="h-3 w-3 animate-spin text-cyan-600" />
             </div>
           </div>
         )}
@@ -184,14 +184,14 @@ export function AIAutocompleteInput({
                     animate={{ opacity: 1 }}
                     transition={{ delay: index * 0.05 }}
                     onClick={() => selectSuggestion(suggestion)}
-                    className={`w-full px-4 py-3 text-left hover:bg-blue-50 border-b border-gray-100 last:border-b-0 transition-colors ${
-                      selectedIndex === index ? 'bg-blue-50 text-blue-700' : ''
+                    className={`w-full px-4 py-3 text-left hover:bg-cyan-50 border-b border-gray-100 last:border-b-0 transition-colors ${
+                      selectedIndex === index ? 'bg-cyan-50 text-cyan-700' : ''
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-sm">{suggestion}</span>
                       {selectedIndex === index && (
-                        <CheckCircle className="h-4 w-4 text-blue-500" />
+                        <CheckCircle className="icon-sm text-cyan-500" />
                       )}
                     </div>
                   </motion.button>

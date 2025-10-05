@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { 
-  Stethoscope, 
   Shield, 
   Lock, 
   Eye, 
@@ -17,23 +16,7 @@ import Link from 'next/link'
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl">
-                <Stethoscope className="h-6 w-6 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">MedicalAI</span>
-            </Link>
-            <Button asChild variant="outline">
-              <Link href="/">Back to Home</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
+    <div className="bg-gradient-to-br from-slate-50 via-cyan-50 to-cyan-100">
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         {/* Hero Section */}
@@ -43,8 +26,8 @@ export default function PrivacyPage() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <Shield className="h-8 w-8 text-blue-600" />
+          <div className="w-16 h-16 bg-cyan-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <Shield className="h-8 w-8 text-cyan-600" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
             Privacy Policy
@@ -65,24 +48,24 @@ export default function PrivacyPage() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-12"
         >
-          <Card className="bg-blue-50 border border-blue-200">
+          <Card className="bg-cyan-50 border border-cyan-200">
             <CardContent className="p-8">
-              <h2 className="text-2xl font-bold text-blue-900 mb-4">Privacy at a Glance</h2>
+              <h2 className="heading-xl text-cyan-900 mb-4">Privacy at a Glance</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center">
-                  <Lock className="h-8 w-8 text-blue-600 mx-auto mb-3" />
-                  <h3 className="font-semibold text-blue-900 mb-2">Encrypted & Secure</h3>
-                  <p className="text-blue-800 text-sm">All data is encrypted in transit and at rest</p>
+                  <Lock className="h-8 w-8 text-cyan-600 mx-auto mb-3" />
+                  <h3 className="font-semibold text-cyan-900 mb-2">Encrypted & Secure</h3>
+                  <p className="text-cyan-800 text-sm">All data is encrypted in transit and at rest</p>
                 </div>
                 <div className="text-center">
-                  <UserCheck className="h-8 w-8 text-blue-600 mx-auto mb-3" />
-                  <h3 className="font-semibold text-blue-900 mb-2">Your Control</h3>
-                  <p className="text-blue-800 text-sm">You control your data and can delete it anytime</p>
+                  <UserCheck className="h-8 w-8 text-cyan-600 mx-auto mb-3" />
+                  <h3 className="font-semibold text-cyan-900 mb-2">Your Control</h3>
+                  <p className="text-cyan-800 text-sm">You control your data and can delete it anytime</p>
                 </div>
                 <div className="text-center">
-                  <Eye className="h-8 w-8 text-blue-600 mx-auto mb-3" />
-                  <h3 className="font-semibold text-blue-900 mb-2">No Sharing</h3>
-                  <p className="text-blue-800 text-sm">We never sell or share your personal health data</p>
+                  <Eye className="h-8 w-8 text-cyan-600 mx-auto mb-3" />
+                  <h3 className="font-semibold text-cyan-900 mb-2">No Sharing</h3>
+                  <p className="text-cyan-800 text-sm">We never sell or share your personal health data</p>
                 </div>
               </div>
             </CardContent>
@@ -100,8 +83,8 @@ export default function PrivacyPage() {
           <Card className="bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl">
             <CardContent className="p-8">
               <div className="flex items-center mb-6">
-                <Database className="h-6 w-6 text-blue-600 mr-3" />
-                <h2 className="text-2xl font-bold text-gray-900">Information We Collect</h2>
+                <Database className="h-6 w-6 text-cyan-600 mr-3" />
+                <h2 className="heading-xl text-gray-900">Information We Collect</h2>
               </div>
               
               <div className="space-y-6">
@@ -142,7 +125,7 @@ export default function PrivacyPage() {
             <CardContent className="p-8">
               <div className="flex items-center mb-6">
                 <FileText className="h-6 w-6 text-green-600 mr-3" />
-                <h2 className="text-2xl font-bold text-gray-900">How We Use Your Information</h2>
+                <h2 className="heading-xl text-gray-900">How We Use Your Information</h2>
               </div>
               
               <div className="space-y-4">
@@ -174,8 +157,8 @@ export default function PrivacyPage() {
           <Card className="bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl">
             <CardContent className="p-8">
               <div className="flex items-center mb-6">
-                <Lock className="h-6 w-6 text-purple-600 mr-3" />
-                <h2 className="text-2xl font-bold text-gray-900">Data Security & Protection</h2>
+                <Lock className="h-6 w-6 text-cyan-600 mr-3" />
+                <h2 className="heading-xl text-gray-900">Data Security & Protection</h2>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -212,7 +195,7 @@ export default function PrivacyPage() {
             <CardContent className="p-8">
               <div className="flex items-center mb-6">
                 <UserCheck className="h-6 w-6 text-orange-600 mr-3" />
-                <h2 className="text-2xl font-bold text-gray-900">Your Rights & Choices</h2>
+                <h2 className="heading-xl text-gray-900">Your Rights & Choices</h2>
               </div>
               
               <div className="space-y-4">
@@ -220,17 +203,17 @@ export default function PrivacyPage() {
                   <h3 className="font-semibold text-orange-900 mb-2">Access Your Data</h3>
                   <p className="text-orange-800 text-sm">Request access to all personal information we have about you</p>
                 </div>
-                <div className="p-4 bg-blue-50 rounded-lg">
-                  <h3 className="font-semibold text-blue-900 mb-2">Correct Information</h3>
-                  <p className="text-blue-800 text-sm">Update or correct any inaccurate personal information</p>
+                <div className="p-4 bg-cyan-50 rounded-lg">
+                  <h3 className="font-semibold text-cyan-900 mb-2">Correct Information</h3>
+                  <p className="text-cyan-800 text-sm">Update or correct any inaccurate personal information</p>
                 </div>
                 <div className="p-4 bg-green-50 rounded-lg">
                   <h3 className="font-semibold text-green-900 mb-2">Delete Your Account</h3>
                   <p className="text-green-800 text-sm">Request deletion of your account and all associated data</p>
                 </div>
-                <div className="p-4 bg-purple-50 rounded-lg">
-                  <h3 className="font-semibold text-purple-900 mb-2">Data Portability</h3>
-                  <p className="text-purple-800 text-sm">Export your data in a portable format</p>
+                <div className="p-4 bg-cyan-50 rounded-lg">
+                  <h3 className="font-semibold text-cyan-900 mb-2">Data Portability</h3>
+                  <p className="text-cyan-800 text-sm">Export your data in a portable format</p>
                 </div>
               </div>
             </CardContent>
@@ -244,7 +227,7 @@ export default function PrivacyPage() {
                 <div>
                   <h3 className="text-lg font-bold text-amber-900 mb-2">Important Notice</h3>
                   <p className="text-amber-800 leading-relaxed">
-                    MedicalAI is not a substitute for professional medical advice, diagnosis, or treatment. 
+                    VitalCheck is not a substitute for professional medical advice, diagnosis, or treatment. 
                     The information provided through our platform is for educational and informational purposes only. 
                     Always seek the advice of your physician or other qualified health provider with any questions 
                     you may have regarding a medical condition.
@@ -257,7 +240,7 @@ export default function PrivacyPage() {
           {/* Contact Information */}
           <Card className="bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl">
             <CardContent className="p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Us About Privacy</h2>
+              <h2 className="heading-xl text-gray-900 mb-6">Contact Us About Privacy</h2>
               <div className="space-y-4">
                 <p className="text-gray-600">
                   If you have questions about this Privacy Policy or our privacy practices, please contact us:
@@ -279,9 +262,9 @@ export default function PrivacyPage() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-center mt-12"
         >
-          <Card className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+          <Card className="bg-gradient-to-r from-cyan-600 to-cyan-700 text-white">
             <CardContent className="p-8">
-              <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>
+              <h2 className="heading-xl mb-4">Ready to Get Started?</h2>
               <p className="text-lg mb-6 opacity-90">
                 Experience secure, AI-powered health guidance with complete privacy protection.
               </p>

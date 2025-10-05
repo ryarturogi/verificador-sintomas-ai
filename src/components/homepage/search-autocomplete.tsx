@@ -202,7 +202,7 @@ export function SearchAutocomplete({
         />
         {isLoading && (
           <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-            <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+            <Loader2 className="icon-sm animate-spin text-gray-400" />
           </div>
         )}
       </div>
@@ -236,14 +236,14 @@ export function SearchAutocomplete({
                     onClick={() => selectSuggestion(suggestion)}
                     className={`w-full text-left px-3 py-3 rounded-lg transition-all duration-200 ${
                       selectedIndex === index
-                        ? 'bg-blue-50 border-l-4 border-l-blue-500'
+                        ? 'bg-cyan-50 border-l-4 border-l-cyan-500'
                         : 'hover:bg-gray-50'
                     }`}
                   >
                     <div className="flex items-center space-x-3">
-                      <Search className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                      <Search className="icon-sm text-gray-400 flex-shrink-0" />
                       <span className={`text-sm ${
-                        selectedIndex === index ? 'text-blue-700 font-medium' : 'text-gray-700'
+                        selectedIndex === index ? 'text-cyan-700 font-medium' : 'text-gray-700'
                       }`}>
                         {suggestion}
                       </span>
