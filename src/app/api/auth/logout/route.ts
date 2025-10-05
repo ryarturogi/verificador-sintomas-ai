@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     const userAgent = request.headers.get('user-agent') || 'unknown'
 
     // Get session from secure cookies
-    const { sessionId, refreshToken } = secureCookieManager.getSessionFromCookies(request)
+    const { sessionId } = secureCookieManager.getSessionFromCookies(request)
 
     if (sessionId) {
       // Cleanup session

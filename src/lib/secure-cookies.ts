@@ -160,7 +160,7 @@ export class SecureCookieManager {
   private decrypt(encryptedValue: string): string {
     try {
       return Buffer.from(encryptedValue, 'base64').toString()
-    } catch (error) {
+    } catch {
       throw new Error('Failed to decrypt cookie value')
     }
   }
@@ -169,7 +169,6 @@ export class SecureCookieManager {
    * Validate cookie security
    */
   validateCookieSecurity(request: NextRequest): boolean {
-    const userAgent = request.headers.get('user-agent') || ''
     const referer = request.headers.get('referer') || ''
     const origin = request.headers.get('origin') || ''
 
@@ -183,7 +182,7 @@ export class SecureCookieManager {
     ]
 
     // Check cookies for XSS attempts
-    for (const [name, cookie] of Object.entries(request.cookies.getAll())) {
+    for (const [, cookie] of Object.entries(request.cookies.getAll())) {
       if (suspiciousPatterns.some(pattern => pattern.test(cookie.value))) {
         return false
       }

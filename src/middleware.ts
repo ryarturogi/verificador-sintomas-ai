@@ -15,7 +15,6 @@ const isProtectedRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, request: NextRequest) => {
   const clientIP = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
-  const userAgent = request.headers.get('user-agent') || 'unknown'
   const pathname = request.nextUrl.pathname
 
   try {

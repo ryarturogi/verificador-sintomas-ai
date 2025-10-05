@@ -1,6 +1,7 @@
 'use client'
 
 // import { useState } from 'react'
+import Image from 'next/image'
 import { useLanguage } from '@/contexts/language-context'
 import { ConsultationSession } from '@/types/consultation'
 import { Card } from '@/components/ui/card'
@@ -146,11 +147,13 @@ export function ConsultationHistory({ onStartConsultation, onBack }: Consultatio
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
-                    <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-cyan-200">
-                      <img 
+                    <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-cyan-200 relative">
+                      <Image 
                         src={getDoctorAvatar(session.doctorId)} 
                         alt={session.doctorName}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="40px"
                       />
                     </div>
                     <div>

@@ -5,13 +5,8 @@
 
 import { useAuth } from '@/contexts/auth-context'
 
-interface UseSessionValidationOptions {
-  redirectOnExpiry?: string
-  refreshInterval?: number // in milliseconds (unused with Clerk)
-  autoRefresh?: boolean // unused with Clerk
-}
 
-export function useSessionValidation(options: UseSessionValidationOptions = {}) {
+export function useSessionValidation() {
   const { isAuthenticated } = useAuth()
 
   // With Clerk, sessions are automatically validated and refreshed

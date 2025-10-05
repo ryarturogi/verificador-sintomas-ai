@@ -8,7 +8,6 @@ import { PatientProfile, MedicalHistory, PatientDashboardData } from '@/types/pa
 import { ConsultationSession } from '@/types/consultation'
 
 // In production, replace these with real API calls
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'
 
 export class PatientDataService {
   private sessionId: string
@@ -37,7 +36,7 @@ export class PatientDataService {
   /**
    * Update patient profile
    */
-  async updatePatientProfile(profile: Partial<PatientProfile>): Promise<boolean> {
+  async updatePatientProfile(): Promise<boolean> {
     try {
       // In production, make API call to update profile
       // const response = await fetch(`${API_BASE_URL}/patients/${this.sessionId}/profile`, {
@@ -75,7 +74,7 @@ export class PatientDataService {
   /**
    * Update medical history
    */
-  async updateMedicalHistory(history: Partial<MedicalHistory>): Promise<boolean> {
+  async updateMedicalHistory(): Promise<boolean> {
     try {
       // In production, make API call to update medical history
       // const response = await fetch(`${API_BASE_URL}/patients/${this.sessionId}/medical-history`, {

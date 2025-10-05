@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth, useUser } from '@clerk/nextjs'
+import { useAuth } from '@clerk/nextjs'
 import { useLanguage } from '@/contexts/language-context'
 import { PatientLayout } from '@/components/layout/patient-layout'
 import { MedicalHistoryComponent } from './medical-history'
-import { PatientSession, MedicalHistory } from '@/types/patient'
+import { PatientSession } from '@/types/patient'
 import { getPatientSession, createPatientSession } from '@/lib/patient-session'
 import { createPatientDataService } from '@/lib/patient-data-service'
 import { LoadingCard } from '@/components/ui/loading-spinner'
@@ -15,8 +15,7 @@ import { FileText, Pill, Heart, Activity } from 'lucide-react'
 
 export function PatientMedicalHistoryPage() {
   const { t } = useLanguage()
-  const { isSignedIn, isLoaded, signOut } = useAuth()
-  const { user } = useUser()
+  const { isSignedIn, isLoaded } = useAuth()
   const [session, setSession] = useState<PatientSession | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -57,17 +56,14 @@ export function PatientMedicalHistoryPage() {
     }
   }, [isLoaded, isSignedIn, initializeSession])
 
-  const handleLogout = () => {
-    signOut()
-  }
 
-  const handleSaveMedicalHistory = async (history: Partial<MedicalHistory>) => {
+  const handleSaveMedicalHistory = async () => {
     if (!session) return false
     
     try {
       setIsLoading(true)
       const dataService = createPatientDataService(session.sessionId)
-      const success = await dataService.updateMedicalHistory(history)
+      const success = await dataService.updateMedicalHistory()
       if (success) {
         const updatedSession = getPatientSession(session.sessionId)
         if (updatedSession) {

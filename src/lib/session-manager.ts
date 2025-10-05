@@ -4,7 +4,6 @@
  */
 
 import { auditLogger } from './audit-logger'
-import { securityConfig } from './security-config'
 
 export interface SecureSession {
   sessionId: string

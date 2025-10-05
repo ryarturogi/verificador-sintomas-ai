@@ -4,7 +4,6 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { sessionManager } from './session-manager'
 import { secureCookieManager } from './secure-cookies'
 import { auditLogger } from './audit-logger'
 
