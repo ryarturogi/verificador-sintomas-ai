@@ -2,22 +2,20 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth, useUser } from '@clerk/nextjs'
+import { useAuth } from '@clerk/nextjs'
 import { useLanguage } from '@/contexts/language-context'
 import { PatientLayout } from '@/components/layout/patient-layout'
 import { ConsultationHistory } from './consultation-history'
 import { PatientSession } from '@/types/patient'
 import { getPatientSession, createPatientSession } from '@/lib/patient-session'
-import { createPatientDataService } from '@/lib/patient-data-service'
 import { LoadingCard } from '@/components/ui/loading-spinner'
 import { motion } from 'framer-motion'
 import { MessageSquare, Calendar, Clock, Video } from 'lucide-react'
 
 export function PatientConsultationsPage() {
   const { t } = useLanguage()
-  const { isSignedIn, isLoaded, signOut } = useAuth()
-  const { user } = useUser()
-  const [session, setSession] = useState<PatientSession | null>(null)
+  const { isSignedIn, isLoaded } = useAuth()
+  const [, setSession] = useState<PatientSession | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -57,9 +55,6 @@ export function PatientConsultationsPage() {
     }
   }, [isLoaded, isSignedIn, initializeSession])
 
-  const handleLogout = () => {
-    signOut()
-  }
 
   // Handle authentication redirect
   useEffect(() => {

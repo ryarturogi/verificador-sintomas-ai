@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 import { useLanguage } from '@/contexts/language-context'
 import { ConsultationSession, ConsultationMessage } from '@/types/consultation'
 import { Button } from '@/components/ui/button'
@@ -40,6 +41,17 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const getWelcomeMessage = useCallback((specialty: string): string => {
+    const welcomeMessages = {
+      general_medicine: t.consultationChat.welcomeMessages.generalMedicine,
+      cardiology: t.consultationChat.welcomeMessages.cardiology,
+      neurology: t.consultationChat.welcomeMessages.neurology,
+      pediatrics: t.consultationChat.welcomeMessages.pediatrics,
+      internal_medicine: t.consultationChat.welcomeMessages.internalMedicine
+    }
+    return welcomeMessages[specialty as keyof typeof welcomeMessages] || welcomeMessages.general_medicine
+  }, [t])
+
   useEffect(() => {
     scrollToBottom()
   }, [messages])
@@ -56,18 +68,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
       }
       setMessages([welcomeMessage])
     }
-  }, [session.doctorSpecialty, messages.length])
-
-  const getWelcomeMessage = (specialty: string): string => {
-    const welcomeMessages = {
-      general_medicine: t.consultationChat.welcomeMessages.generalMedicine,
-      cardiology: t.consultationChat.welcomeMessages.cardiology,
-      neurology: t.consultationChat.welcomeMessages.neurology,
-      pediatrics: t.consultationChat.welcomeMessages.pediatrics,
-      internal_medicine: t.consultationChat.welcomeMessages.internalMedicine
-    }
-    return welcomeMessages[specialty as keyof typeof welcomeMessages] || welcomeMessages.general_medicine
-  }
+  }, [session.doctorSpecialty, messages.length, getWelcomeMessage])
 
   const getQuickActions = (specialty: string): string[] => {
     const quickActions = {
@@ -201,10 +202,12 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-cyan-300">
-              <img 
+              <Image 
                 src={getDoctorAvatar(session.doctorId)} 
                 alt={session.doctorName}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="80px"
               />
             </div>
             <div>
@@ -240,10 +243,12 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
             <div className={`flex items-start space-x-2 max-w-xs lg:max-w-md ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
               {message.sender === 'doctor' && (
                 <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-cyan-200 flex-shrink-0">
-                  <img 
+                  <Image 
                     src={getDoctorAvatar(session.doctorId)} 
                     alt={session.doctorName}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="40px"
                   />
                 </div>
               )}
@@ -269,10 +274,12 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
           <div className="flex justify-start mb-4">
             <div className="flex items-start space-x-2 max-w-xs lg:max-w-md">
               <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-cyan-200 flex-shrink-0">
-                <img 
+                <Image 
                   src={getDoctorAvatar(session.doctorId)} 
                   alt={session.doctorName}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="40px"
                 />
               </div>
               <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-md shadow-sm px-4 py-3">

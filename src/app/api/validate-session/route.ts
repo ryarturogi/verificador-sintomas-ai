@@ -13,10 +13,8 @@ export async function GET(request: NextRequest) {
     const ipAddress = request.headers.get('x-forwarded-for') || 
                      request.headers.get('x-real-ip') || 
                      'unknown'
-    const userAgent = request.headers.get('user-agent') || 'unknown'
-
     // Get session from secure cookies
-    const { sessionId, refreshToken, rememberMe } = secureCookieManager.getSessionFromCookies(request)
+    const { sessionId, rememberMe } = secureCookieManager.getSessionFromCookies(request)
 
     if (!sessionId) {
       return NextResponse.json(
@@ -89,7 +87,7 @@ export async function POST(request: NextRequest) {
                      'unknown'
 
     // Get session from secure cookies
-    const { sessionId, refreshToken, rememberMe } = secureCookieManager.getSessionFromCookies(request)
+    const { sessionId } = secureCookieManager.getSessionFromCookies(request)
 
     if (!sessionId) {
       return NextResponse.json(

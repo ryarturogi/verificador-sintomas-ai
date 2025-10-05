@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { useLanguage } from '@/contexts/language-context'
 import { DoctorSelection } from './doctor-selection'
 import { ChatConsultation } from './chat-consultation'
@@ -109,11 +110,13 @@ export function ConsultationPortal() {
                   {t.consultation?.selectedDoctor || 'Selected Doctor'}
                 </h2>
                 <div className="flex items-center justify-center space-x-4">
-                  <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-cyan-200">
-                    <img 
-                      src={selectedDoctor.avatar} 
+                  <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-cyan-200 relative">
+                    <Image 
+                      src={selectedDoctor.avatar || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
                       alt={selectedDoctor.name}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="64px"
                     />
                   </div>
                   <div className="text-left">

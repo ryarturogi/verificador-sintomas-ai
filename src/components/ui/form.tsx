@@ -1,5 +1,4 @@
 import { Input } from './input'
-import { Textarea } from './textarea'
 import { Button } from './button'
 import { Icon } from './icon'
 import { cn } from '@/lib/utils'

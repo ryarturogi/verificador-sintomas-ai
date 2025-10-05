@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { useLanguage } from '@/contexts/language-context'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -60,10 +61,12 @@ export default function AboutPage() {
                 </div>
                 <div className="relative">
                   <div className="w-full h-80 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-2xl flex items-center justify-center">
-                    <img 
+                    <Image 
                       src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                       alt={t.about.teamImageAlt}
-                      className="w-full h-full object-cover rounded-2xl"
+                      fill
+                      className="object-cover rounded-2xl"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
                 </div>
@@ -147,11 +150,13 @@ export default function AboutPage() {
             ].map((member, index) => (
               <Card key={index} className="text-center">
                 <CardContent className="p-6">
-                  <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
-                    <img 
+                  <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden relative">
+                    <Image 
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="128px"
                     />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>

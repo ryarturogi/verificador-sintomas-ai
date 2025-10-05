@@ -6,7 +6,7 @@ import { useAuth, useUser } from '@clerk/nextjs'
 import { useLanguage } from '@/contexts/language-context'
 import { PatientNav } from './patient-nav'
 import { PatientProfileComponent } from './patient-profile'
-import { PatientSession, PatientProfile } from '@/types/patient'
+import { PatientSession } from '@/types/patient'
 import { getPatientSession, createPatientSession } from '@/lib/patient-session'
 import { createPatientDataService } from '@/lib/patient-data-service'
 import { LoadingCard } from '@/components/ui/loading-spinner'
@@ -62,13 +62,13 @@ export function PatientProfilePage() {
     signOut()
   }
 
-  const handleSaveProfile = async (profile: Partial<PatientProfile>) => {
+  const handleSaveProfile = async () => {
     if (!session) return false
     
     try {
       setIsLoading(true)
       const dataService = createPatientDataService(session.sessionId)
-      const success = await dataService.updatePatientProfile(profile)
+      const success = await dataService.updatePatientProfile()
       if (success) {
         // Refresh session data
         const updatedSession = getPatientSession(session.sessionId)
