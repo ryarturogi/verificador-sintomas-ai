@@ -11,6 +11,7 @@ import { CheckCircle, AlertTriangle, Shield, Heart } from 'lucide-react'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { medicalDesignTokens as designTokens } from '@/lib/design-tokens'
+import { useScrollToTop } from '@/hooks/use-scroll-to-top'
 
 interface DynamicQuestionnaireProps {
   onComplete: (responses: QuestionResponse[]) => void
@@ -163,9 +164,7 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
   }, [initializeQuestionnaire, initialTopic, initialQuery])
 
   // Scroll to top when component mounts or state changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [state, questionNumber])
+  useScrollToTop([state, questionNumber])
 
   // Cleanup effect for request cancellation
   useEffect(() => {

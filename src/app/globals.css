@@ -440,36 +440,51 @@
 /* Markdown content styles for chat messages */
 .markdown-content {
   @apply text-sm leading-relaxed;
+  line-height: 1.6;
 }
 
+/* Headers */
 .markdown-content h1,
 .markdown-content h2,
 .markdown-content h3,
 .markdown-content h4,
 .markdown-content h5,
 .markdown-content h6 {
-  @apply font-semibold text-gray-900 mb-2 mt-4 first:mt-0;
+  @apply font-semibold text-gray-900 mb-3 mt-4 first:mt-0;
+  line-height: 1.3;
 }
 
 .markdown-content h1 {
-  @apply text-lg;
+  @apply text-xl;
 }
 
 .markdown-content h2 {
-  @apply text-base;
+  @apply text-lg;
 }
 
 .markdown-content h3 {
+  @apply text-base;
+}
+
+.markdown-content h4 {
   @apply text-sm;
 }
 
-.markdown-content p {
-  @apply mb-3 last:mb-0;
+.markdown-content h5,
+.markdown-content h6 {
+  @apply text-xs;
 }
 
+/* Paragraphs */
+.markdown-content p {
+  @apply mb-3 last:mb-0;
+  line-height: 1.6;
+}
+
+/* Lists */
 .markdown-content ul,
 .markdown-content ol {
-  @apply mb-3 pl-4;
+  @apply mb-3 pl-6;
 }
 
 .markdown-content ul {
@@ -481,39 +496,127 @@
 }
 
 .markdown-content li {
-  @apply mb-1;
+  @apply mb-2;
+  line-height: 1.5;
 }
 
-.markdown-content strong {
+.markdown-content li p {
+  @apply mb-2;
+}
+
+/* Nested lists */
+.markdown-content ul ul,
+.markdown-content ol ol,
+.markdown-content ul ol,
+.markdown-content ol ul {
+  @apply mt-2 mb-0;
+}
+
+/* Text formatting */
+.markdown-content strong,
+.markdown-content b {
   @apply font-semibold text-gray-900;
 }
 
-.markdown-content em {
+.markdown-content em,
+.markdown-content i {
   @apply italic;
 }
 
+.markdown-content del,
+.markdown-content s {
+  @apply line-through text-gray-500;
+}
+
+.markdown-content mark {
+  @apply bg-yellow-200 px-1 rounded;
+}
+
+/* Code */
 .markdown-content code {
   @apply bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
 }
 
 .markdown-content pre {
-  @apply bg-gray-100 p-3 rounded-lg overflow-x-auto mb-3;
+  @apply bg-gray-100 p-4 rounded-lg overflow-x-auto mb-4;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
 }
 
 .markdown-content pre code {
-  @apply bg-transparent p-0;
+  @apply bg-transparent p-0 text-sm;
 }
 
+/* Blockquotes */
 .markdown-content blockquote {
-  @apply border-l-4 border-cyan-200 pl-4 py-2 mb-3 bg-cyan-50;
+  @apply border-l-4 border-cyan-200 pl-4 py-2 mb-4 bg-cyan-50 rounded-r-lg;
+  font-style: italic;
 }
 
+.markdown-content blockquote p {
+  @apply mb-2 last:mb-0;
+}
+
+/* Links */
 .markdown-content a {
   @apply text-cyan-600 hover:text-cyan-700 underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }
 
+.markdown-content a:hover {
+  @apply text-cyan-800;
+}
+
+/* Horizontal rules */
 .markdown-content hr {
-  @apply border-gray-200 my-4;
+  @apply border-gray-200 my-6;
+  border-top-width: 1px;
+}
+
+/* Tables */
+.markdown-content table {
+  @apply w-full border-collapse mb-4;
+}
+
+.markdown-content th,
+.markdown-content td {
+  @apply border border-gray-200 px-3 py-2 text-left;
+}
+
+.markdown-content th {
+  @apply bg-gray-50 font-semibold;
+}
+
+.markdown-content tr:nth-child(even) {
+  @apply bg-gray-50;
+}
+
+/* Task lists */
+.markdown-content input[type="checkbox"] {
+  @apply mr-2;
+}
+
+.markdown-content li input[type="checkbox"] {
+  @apply mr-2;
+}
+
+/* Images */
+.markdown-content img {
+  @apply max-w-full h-auto rounded-lg mb-3;
+}
+
+/* Definition lists */
+.markdown-content dl {
+  @apply mb-4;
+}
+
+.markdown-content dt {
+  @apply font-semibold mb-1;
+}
+
+.markdown-content dd {
+  @apply ml-4 mb-2;
 }
 
 /* Inline markdown styles */

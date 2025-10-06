@@ -1290,7 +1290,11 @@ export const en: Translations = {
     endConsultation: "End Consultation",
     doctorTyping: "Doctor is typing...",
     typeMessage: "Type your message...",
-    send: "Send"
+    send: "Send",
+    sending: "Sending...",
+    typingIndicator: "The doctor is writing...",
+    messagesInQueue: "message(s) in queue",
+    startConversation: "Start a conversation with your doctor"
   },
   
   // Scale

@@ -49,8 +49,10 @@ export function DisclaimerModal({ isOpen, onAccept, onDecline }: DisclaimerModal
       consentType: 'MEDICAL_DISCLAIMER_HIPAA_DOD',
     })
     
-    // Set consent cookie for middleware
-    document.cookie = 'medical-consent=granted; path=/; secure; samesite=strict; max-age=900'
+    // Set consent cookie for middleware (only if document is available)
+    if (typeof document !== 'undefined') {
+      document.cookie = 'medical-consent=granted; path=/; secure; samesite=strict; max-age=900'
+    }
     
     onAccept()
   }

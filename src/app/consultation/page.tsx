@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { ConsultationPortal } from '@/components/consultation/consultation-portal'
-import { PageLayout } from '@/components/layout/global-layout'
+import { ChatLayout } from '@/components/layout/chat-layout'
+import { ConsultationPageClient } from './consultation-page-client'
 
 export const metadata: Metadata = {
   title: 'Free Doctor Consultation | Consulta Gratuita con Doctor',
@@ -9,8 +10,10 @@ export const metadata: Metadata = {
 
 export default function ConsultationPage() {
   return (
-    <PageLayout>
-      <ConsultationPortal />
-    </PageLayout>
+    <ChatLayout>
+      <ConsultationPageClient>
+        <ConsultationPortal />
+      </ConsultationPageClient>
+    </ChatLayout>
   )
 }

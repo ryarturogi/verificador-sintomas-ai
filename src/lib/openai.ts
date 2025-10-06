@@ -62,7 +62,20 @@ export async function createGPT5Response(
     }
 
     const response = await openai.responses.create(requestBody)
-    return response.output_text || ''
+    const outputText = response.output_text || ''
+    
+    // Validate that we received a non-empty response
+    if (!outputText || outputText.trim().length === 0) {
+      console.error('GPT-5 Responses API returned empty output_text:', {
+        model,
+        input,
+        options,
+        response: JSON.stringify(response, null, 2)
+      })
+      throw new Error('GPT-5 Responses API returned empty output_text')
+    }
+    
+    return outputText
   } catch (error: unknown) {
     console.error('GPT-5 Responses API Error:', error)
     const apiError = error as { message?: string; status?: number }
@@ -119,7 +132,6 @@ export async function createChatCompletion(
         .join('\n\n')
 
       const gpt5Options: GPT5ResponsesOptions = {
-        max_output_tokens: maxTokens,
         tools,
         tool_choice
       }
@@ -134,7 +146,20 @@ export async function createChatCompletion(
         gpt5Options.text = { verbosity }
       }
 
-      return await createGPT5Response(input, model as 'gpt-5' | 'gpt-5-mini' | 'gpt-5-nano', gpt5Options)
+      const response = await createGPT5Response(input, model as 'gpt-5' | 'gpt-5-mini' | 'gpt-5-nano', gpt5Options)
+      
+      // Validate response is not empty
+      if (!response || response.trim().length === 0) {
+        console.error('GPT-5 Responses API returned empty response:', {
+          input,
+          model,
+          options: gpt5Options,
+          response
+        })
+        throw new Error('GPT-5 Responses API returned empty response')
+      }
+      
+      return response
     }
     
     // Use Chat Completions API for non-GPT-5 models
