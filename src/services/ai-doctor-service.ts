@@ -80,9 +80,10 @@ export class AIDoctorService {
         conversationMessages,
         'gpt-5-nano',
         {
-          temperature: 0.7,
           maxTokens: 600,
-          responseFormat: 'text'
+          responseFormat: 'text',
+          reasoningEffort: 'medium',
+          verbosity: 'medium'
         }
       )
       

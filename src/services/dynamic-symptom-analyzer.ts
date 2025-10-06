@@ -23,9 +23,10 @@ export class DynamicSymptomAnalyzer {
         [{ role: 'user', content: prompt }],
         modelConfig.model,
         {
-          temperature: modelConfig.temperature,
           maxTokens: modelConfig.maxTokens,
-          responseFormat: 'json_object'
+          responseFormat: 'json_object',
+          reasoningEffort: 'medium',
+          verbosity: 'medium'
         }
       )
 

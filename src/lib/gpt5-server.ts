@@ -2,10 +2,19 @@ import { createChatCompletion } from './openai'
 
 export interface GPT5ServerOptions {
   responseFormat?: 'json_object' | 'text'
-  reasoningEffort?: 'low' | 'medium' | 'high'
+  reasoningEffort?: 'minimal' | 'low' | 'medium' | 'high'
   verbosity?: 'low' | 'medium' | 'high'
-  temperature?: number
   maxTokens?: number
+  tools?: Array<{
+    type: 'custom'
+    name: string
+    description: string
+  }>
+  tool_choice?: {
+    type: 'allowed_tools'
+    mode: 'auto' | 'required'
+    tools: Array<{ type: 'function'; name: string }>
+  }
 }
 
 /**
@@ -14,7 +23,7 @@ export interface GPT5ServerOptions {
  */
 export async function callGPT5Server<T = unknown>(
   messages: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>,
-  model: 'gpt-5-nano' | 'gpt-5-mini' | 'gpt-5' | 'gpt-4o-mini' = 'gpt-5-nano',
+  model: 'gpt-5-nano' | 'gpt-5-mini' | 'gpt-5' = 'gpt-5-nano',
   options: GPT5ServerOptions = {}
 ): Promise<T> {
   try {

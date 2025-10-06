@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createChatCompletion } from '@/lib/openai';
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,43 +9,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ suggestions: [] });
     }
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: model,
-        messages: [
-          {
-            role: 'system',
-            content: `You are a medical symptom suggestion assistant. Based on the user's partial input, suggest 5-6 relevant medical symptoms that they might be describing. Return only a JSON object with "suggestions" array. Be medically accurate and focus on symptoms, not diagnoses. Keep responses concise.
+    const messages = [
+      {
+        role: 'system' as const,
+        content: `You are a medical symptom suggestion assistant. Based on the user's partial input, suggest 5-6 relevant medical symptoms that they might be describing. Return only a JSON object with "suggestions" array. Be medically accurate and focus on symptoms, not diagnoses. Keep responses concise.
 
 Example format: {"suggestions": ["Headache", "Head pressure", "Migraine"]}`
-          },
-          {
-            role: 'user',
-            content: `Suggest medical symptoms related to: "${input}"`
-          }
-        ],
-        ...(model.includes('gpt-5') ? {
-          max_completion_tokens: 500,
-          reasoning_effort: 'low',
-          verbosity: 'low'
-        } : {
-          max_tokens: 300
-        }),
-        response_format: { type: "json_object" }
-      }),
-    });
+      },
+      {
+        role: 'user' as const,
+        content: `Suggest medical symptoms related to: "${input}"`
+      }
+    ];
 
-    if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`);
-    }
+    const options = {
+      responseFormat: 'json_object' as const,
+      maxTokens: 500,
+      reasoningEffort: 'low' as const,
+      verbosity: 'low' as const
+    };
 
-    const data = await response.json();
-    const content = data.choices[0]?.message?.content;
+    const content = await createChatCompletion(messages, model, options);
     
     if (!content) {
       return NextResponse.json({ suggestions: [] });

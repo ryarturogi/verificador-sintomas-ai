@@ -5,8 +5,19 @@ import { createChatCompletion } from '@/lib/openai'
 
 export interface GPT5Options {
   responseFormat?: 'json_object' | 'text'
-  reasoningEffort?: 'low' | 'medium' | 'high'
+  reasoningEffort?: 'minimal' | 'low' | 'medium' | 'high'
   verbosity?: 'low' | 'medium' | 'high'
+  maxTokens?: number
+  tools?: Array<{
+    type: 'custom'
+    name: string
+    description: string
+  }>
+  tool_choice?: {
+    type: 'allowed_tools'
+    mode: 'auto' | 'required'
+    tools: Array<{ type: 'function'; name: string }>
+  }
   cacheKey?: string
   cacheTTL?: number
 }
@@ -29,7 +40,7 @@ interface CacheEntry<T> {
 const globalCache = new Map<string, CacheEntry<unknown>>()
 
 export function useGPT5<T = unknown>(
-  model: 'gpt-5-nano' = 'gpt-5-nano',
+  model: 'gpt-5-nano' | 'gpt-5-mini' | 'gpt-5' = 'gpt-5-nano',
   options: GPT5Options = {}
 ) {
   const [data, setData] = useState<T | null>(null)
