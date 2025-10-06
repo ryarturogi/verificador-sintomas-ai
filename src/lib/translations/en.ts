@@ -1,8 +1,8 @@
 import type { Translations } from './types'
 
 export const en: Translations = {
-  title: "AI Symptom Checker",
-  subtitle: "Get AI-powered insights about your symptoms",
+  title: "Symptom Checker",
+  subtitle: "Get intelligent insights about your symptoms",
   switchLanguage: "Español",
   
   common: {
@@ -64,7 +64,7 @@ export const en: Translations = {
   
   homepage: {
     // Hero section
-    mainTitle: "VitalCheck - AI-Powered Health Assessment Tool",
+    mainTitle: "VitalCheck - Intelligent Health Assessment Tool",
     mainSubtitle: "Dynamic questionnaire that adapts to your responses for personalized medical assessment",
     searchPlaceholder: "Describe your symptoms...",
     searchDoctor: "Search Doctor",
@@ -73,10 +73,10 @@ export const en: Translations = {
     
     // Features
     advancedTechnology: "Advanced Technology",
-    intelligentQuestionnaires: "AI-generated intelligent questionnaires • Personalized adaptive questions",
+    intelligentQuestionnaires: "Intelligent questionnaires • Personalized adaptive questions",
     dynamicDescription: "Intelligent Dynamic Questionnaire",
     medicalAccuracy: "Medical Accuracy",
-    aiPowered: "AI-Powered",
+    aiPowered: "Intelligent",
     hipaaCompliant: "HIPAA Compliant",
     medicalGrade: "Medical Grade",
     
@@ -223,8 +223,8 @@ export const en: Translations = {
     johnReview: "The service was outstanding. I would definitely recommend this platform to others.",
     advancedDiagnostics: "Advanced Diagnostics",
     advancedDiagnosticsDesc: "Cutting-edge diagnostic tools for accurate health assessment",
-    aiPoweredAnalysis: "AI-Powered Analysis",
-    aiPoweredAnalysisDesc: "Intelligent analysis of your health data using advanced AI",
+    aiPoweredAnalysis: "Intelligent Analysis",
+    aiPoweredAnalysisDesc: "Intelligent analysis of your health data using advanced technology",
     remoteHealthcare: "Remote Healthcare",
     remoteHealthcareDesc: "Access healthcare services from anywhere, anytime",
     subscribeNews: "Subscribe to our newsletter",
@@ -259,11 +259,11 @@ export const en: Translations = {
     cardiacSymptoms: "Cardiac Symptoms",
     cardiacDescription: "Heart-related symptoms and cardiovascular health",
     guidedAssessment: "Guided Assessment",
-    guidedDescription: "Step-by-step health evaluation with AI guidance",
+    guidedDescription: "Step-by-step health evaluation with intelligent guidance",
     generalCheckup: "General Checkup",
     generalDescription: "Comprehensive health screening and prevention",
-    aiAssessments: "AI Assessments",
-    aiDescription: "Advanced AI-powered health analysis",
+    aiAssessments: "Intelligent Assessments",
+    aiDescription: "Advanced intelligent health analysis",
     
     tags: {
       pain: "Pain",
@@ -275,7 +275,7 @@ export const en: Translations = {
       chest: "Chest",
       palpitations: "Palpitations",
       pressure: "Pressure",
-      ai: "AI",
+      ai: "Intelligent",
       personalized: "Personalized",
       adaptive: "Adaptive",
       prevention: "Prevention",
@@ -292,7 +292,7 @@ export const en: Translations = {
     emergencySituations: "For emergency situations, call 911 immediately",
     professionalAdvice: "Always consult with healthcare professionals",
     privacyData: "Your privacy and data security are protected",
-    limitations: "AI has limitations and cannot replace professional medical care",
+    limitations: "Intelligent systems have limitations and cannot replace professional medical care",
     acknowledgment: "I understand and agree to these terms",
     quickDisclaimer: "Quick Disclaimer",
     modalTitle: "Medical Disclaimer & Terms of Use",
@@ -342,8 +342,8 @@ export const en: Translations = {
     dodCheckbox: "I understand the security requirements",
     finalAcknowledgment: "Final Acknowledgment",
     finalAcknowledgmentText: "By proceeding, you acknowledge that you have read, understood, and agree to all terms outlined in this disclaimer.",
-    limitationsText: "AI System Limitations:",
-    aiKnowledge: "AI knowledge has limitations and may not be current",
+    limitationsText: "System Limitations:",
+    aiKnowledge: "Intelligent knowledge has limitations and may not be current",
     medicalHistory: "Cannot access your complete medical history",
     accuracyNotGuaranteed: "Assessment accuracy is not guaranteed",
     rareConditions: "May not identify rare or complex conditions",
@@ -377,11 +377,11 @@ export const en: Translations = {
     checkingDatabases: "Checking medical databases...",
     generatingAssessment: "Generating your health assessment...",
     questionsAnswered: "questions answered",
-    poweredBy: "Powered by advanced AI",
+    poweredBy: "Powered by advanced technology",
     useArrows: "Use arrow keys to navigate",
     
     // Page content
-    title: "AI-Powered Health Assessments",
+    title: "Intelligent Health Assessments",
     subtitle: "Comprehensive health evaluations tailored to your specific needs",
     availableAssessments: "Available Assessments",
     startAssessment: "Start Assessment",
@@ -397,7 +397,7 @@ export const en: Translations = {
       generalHealth: {
         title: "General Health Assessment",
         description: "Comprehensive evaluation of your overall health status",
-        features: ["AI-powered analysis", "Personalized recommendations", "Health risk assessment"],
+        features: ["Intelligent analysis", "Personalized recommendations", "Health risk assessment"],
         duration: "5-10 minutes"
       },
       symptomAnalysis: {
@@ -1207,7 +1207,7 @@ export const en: Translations = {
         description: "Enter your symptoms and health information"
       },
       aiAnalysis: {
-        title: "AI Analysis",
+        title: "Intelligent Analysis",
         description: "Advanced algorithms analyze your data"
       },
       riskAssessment: {
@@ -1239,9 +1239,9 @@ export const en: Translations = {
         description: "Instant analysis and response capabilities"
       }
     },
-    experienceAI: "Experience the Power of AI",
-    experienceAIDescription: "Try our advanced AI assessment tool and see how it can help you understand your health better.",
-    tryAIAssessment: "Try AI Assessment",
+    experienceAI: "Experience the Power of Intelligence",
+    experienceAIDescription: "Try our advanced intelligent assessment tool and see how it can help you understand your health better.",
+    tryAIAssessment: "Try Intelligent Assessment",
     viewQuestionnaires: "View Questionnaires"
   },
 
@@ -1254,17 +1254,17 @@ export const en: Translations = {
   // Consultation
   consultation: {
     startConsultation: "Start Consultation",
-    chooseSpecialty: "Choose an AI Doctor Specialty",
+    chooseSpecialty: "Choose a Doctor Specialty",
     select: "Select",
     busy: "Busy",
     noDoctorsFound: "No doctors found for this specialty",
-    startConversation: "Start a conversation with your AI doctor",
+    startConversation: "Start a conversation with your doctor",
     consultationHistory: "Consultation History",
     noHistory: "No consultation history found",
     viewDetails: "View Details",
     restartConsultation: "Restart Consultation",
-    title: "Free AI Doctor Consultation",
-    subtitle: "Get expert medical advice from AI agents specialized in different medical fields",
+    title: "Free Doctor Consultation",
+    subtitle: "Get expert medical advice from specialists in different medical fields",
     selectDoctor: "Select Doctor",
     currentConsultation: "Current Consultation",
     history: "History",
@@ -1274,11 +1274,11 @@ export const en: Translations = {
   // Consultation Chat
   consultationChat: {
     welcomeMessages: {
-      generalMedicine: "Hello! I'm your AI General Medicine specialist. How can I help you today?",
-      cardiology: "Hello! I'm your AI Cardiology specialist. I can help with heart-related concerns.",
-      neurology: "Hello! I'm your AI Neurology specialist. I can help with brain and nervous system issues.",
-      pediatrics: "Hello! I'm your AI Pediatrics specialist. I can help with children's health concerns.",
-      internalMedicine: "Hello! I'm your AI Internal Medicine specialist. I can help with complex medical conditions."
+      generalMedicine: "Hello! I'm your General Medicine specialist. How can I help you today?",
+      cardiology: "Hello! I'm your Cardiology specialist. I can help with heart-related concerns.",
+      neurology: "Hello! I'm your Neurology specialist. I can help with brain and nervous system issues.",
+      pediatrics: "Hello! I'm your Pediatrics specialist. I can help with children's health concerns.",
+      internalMedicine: "Hello! I'm your Internal Medicine specialist. I can help with complex medical conditions."
     },
     quickActions: {
       generalMedicine: "General Medicine",
@@ -1306,7 +1306,7 @@ export const en: Translations = {
     describeSymptomsPlaceholder: "Describe your symptoms in detail...",
     typeSymptomsPlaceholder: "Type your symptoms here...",
     noMatchingSymptoms: "No matching symptoms found",
-    generatingSuggestions: "Generating AI suggestions...",
+    generatingSuggestions: "Generating suggestions...",
     popularSymptoms: {
       headache: "Headache",
       fever: "Fever",
@@ -1369,5 +1369,176 @@ export const en: Translations = {
       always: "Always",
       never: "Never"
     }
+  },
+
+  // AI Agent data
+  aiAgents: {
+    general: {
+      name: "General Agent",
+      specialty: "General Medicine",
+      benefits: {
+        eliminateCommute: "Eliminate commute time and scheduling hassles",
+        flexiblePlans: "Flexible plans to meet your needs and lifestyle",
+        accurateDiagnostics: "Accurate diagnostics with advanced technology"
+      }
+    },
+    cardiology: {
+      name: "Cardiology Agent",
+      specialty: "Cardiology",
+      benefits: {
+        specializedConsultations: "Specialized virtual consultations",
+        personalizedPrevention: "Personalized prevention plans",
+        directAccess: "Direct access to cardiac studies",
+        continuousMonitoring: "Continuous monitoring of your cardiac health"
+      }
+    },
+    neurology: {
+      name: "Neurology Agent",
+      specialty: "Neurology",
+      benefits: {
+        advancedEvaluations: "Advanced technology neurological evaluations",
+        earlyDetection: "Early detection of neurological conditions",
+        personalizedRehabilitation: "Personalized rehabilitation plans",
+        continuousMonitoring: "Continuous cognitive monitoring",
+        innovativeTherapies: "Innovative neurological therapies"
+      }
+    },
+    pediatrics: {
+      name: "Pediatrics Agent",
+      specialty: "Pediatrics",
+      benefits: {
+        childDevelopment: "Child development tracking",
+        vaccinationCare: "Vaccination and preventive care",
+        familyConsultations: "Virtual family consultations",
+        personalizedGrowth: "Personalized growth plans"
+      }
+    },
+    internalMedicine: {
+      name: "Internal Medicine Agent",
+      specialty: "Internal Medicine",
+      benefits: {
+        chronicDiseaseManagement: "Comprehensive chronic disease management",
+        careCoordination: "Specialized care coordination",
+        advancedPreventive: "Advanced preventive medicine",
+        predictiveAnalytics: "Predictive health analytics",
+        personalizedCare: "Personalized medical care"
+      }
+    }
+  },
+
+  // About page
+  aboutPage: {
+    title: "About VitalCheck",
+    subtitle: "Empowering healthcare decisions through advanced technology and compassionate care guidance.",
+    mission: {
+      title: "Our Mission",
+      description1: "VitalCheck is dedicated to revolutionizing healthcare accessibility by providing intelligent symptom analysis and medical guidance. We bridge the gap between patients and healthcare providers through cutting-edge technology.",
+      description2: "Our platform ensures that quality healthcare guidance is available 24/7, helping individuals make informed decisions about their health while maintaining the highest standards of medical ethics and patient privacy."
+    },
+    coreValues: {
+      title: "Our Core Values"
+    },
+    team: {
+      title: "Our Team",
+      members: {
+        sarahMitchell: {
+          name: "Dr. Sarah Mitchell",
+          role: "Chief Medical Officer",
+          description: "Board-certified physician with 15+ years in emergency medicine and healthcare technology applications."
+        },
+        alexRodriguez: {
+          name: "Alex Rodriguez",
+          role: "Chief Technology Officer",
+          description: "Technology researcher specializing in natural language processing and medical data analysis."
+        },
+        emilyChen: {
+          name: "Dr. Emily Chen",
+          role: "Head of Clinical Research",
+          description: "Clinical researcher focused on technology ethics in healthcare and patient safety protocols."
+        }
+      }
+    },
+    impact: {
+      title: "Our Impact",
+      assessmentsCompleted: "Assessments Completed",
+      userSatisfaction: "User Satisfaction",
+      availability: "Availability",
+      medicalSpecialties: "Medical Specialties"
+    },
+    cta: {
+      title: "Ready to Experience VitalCheck?",
+      description: "Join thousands of users who trust VitalCheck for intelligent health guidance. Start your assessment today.",
+      buttonText: "Start Assessment"
+    }
+  },
+
+  // Emergency messages
+  emergencyMessages: {
+    goToNearestER: "Go to the nearest emergency room",
+    doNotDelay: "Do not delay seeking emergency medical care",
+    emergencySymptoms: "Your symptoms may indicate a medical emergency. Please call 911 or go to the nearest emergency room immediately.",
+    call911: "Call 911 or emergency services immediately",
+    seekImmediateCare: "This appears to be a medical emergency. Please seek immediate medical attention."
+  },
+
+  // Common conditions
+  commonConditions: {
+    diabetes: "Diabetes",
+    hypertension: "Hypertension",
+    asthma: "Asthma",
+    migraine: "Migraine",
+    depression: "Depression",
+    anxiety: "Anxiety"
+  },
+
+  // Doctor selection
+  doctorSelection: {
+    allSpecialties: "All Specialties",
+    responseTime: "Response time:",
+    rating: "Rating:",
+    consultations: "Consultations:",
+    available: "Available",
+    busy: "Busy",
+    quickActions: "Quick actions:",
+    chooseSpecialty: "Choose a Doctor Specialty",
+    aiPoweredWithKnowledge: "Powered with medical knowledge base",
+    specializedInComprehensive: "Specialized in comprehensive health assessment and general medical advice",
+    specializedInHeartHealth: "Specialized in heart health, cardiovascular conditions, and cardiac symptoms",
+    specializedInBrainConditions: "Specialized in brain and nervous system conditions, headaches, and neurological symptoms",
+    specializedInChildHealth: "Specialized in child health, developmental concerns, and pediatric conditions",
+    specializedInAdultMedicine: "Specialized in adult medicine, chronic conditions, and complex medical cases",
+    aiPoweredWithCardiology: "Powered with cardiology expertise",
+    aiPoweredWithNeurology: "Powered with neurology specialization",
+    aiPoweredWithPediatric: "Powered with pediatric expertise",
+    aiPoweredWithInternal: "Powered with internal medicine expertise"
+  },
+
+  // Mock doctor responses
+  mockResponses: {
+    generalMedicine: [
+      "I understand your concern. Based on your symptoms, I recommend monitoring your condition and consulting with a healthcare provider if symptoms persist or worsen.",
+      "Thank you for sharing that information. It's important to track your symptoms and seek medical attention if they don't improve within 24-48 hours.",
+      "I can help you understand your symptoms better. Could you provide more details about when these symptoms started and what makes them better or worse?"
+    ],
+    cardiology: [
+      "Given your symptoms, I recommend monitoring your heart rate and blood pressure. If you experience chest pain, shortness of breath, or dizziness, seek immediate medical attention.",
+      "Your symptoms could be related to cardiovascular health. I suggest keeping a symptom diary and consulting with a cardiologist for further evaluation.",
+      "It's important to track your symptoms and any triggers. If you experience severe chest pain or difficulty breathing, call emergency services immediately."
+    ],
+    neurology: [
+      "Your neurological symptoms require careful monitoring. Keep track of frequency, duration, and any triggers. Seek immediate medical attention for severe headaches, vision changes, or weakness.",
+      "I understand your concern about these symptoms. It's important to document when they occur and what activities precede them. Consider consulting a neurologist for further evaluation.",
+      "Your symptoms may be related to neurological function. Monitor for any changes in severity or new symptoms, and don't hesitate to seek medical care if needed."
+    ],
+    pediatrics: [
+      "For your child's symptoms, I recommend monitoring their temperature, activity level, and appetite. Contact your pediatrician if symptoms worsen or if your child becomes lethargic.",
+      "It's important to track your child's symptoms and any changes in behavior. Keep them hydrated and comfortable, and seek medical attention if symptoms persist.",
+      "Your child's symptoms should be monitored closely. If they develop a high fever, difficulty breathing, or become unresponsive, seek immediate medical care."
+    ],
+    internalMedicine: [
+      "Your symptoms suggest we need to consider your overall health status. I recommend a comprehensive evaluation including your medical history and current medications.",
+      "Given your symptoms and medical history, I suggest monitoring your condition closely and consulting with your primary care physician for a thorough evaluation.",
+      "Your symptoms may be related to your existing conditions. It's important to continue your current medications and report any changes to your healthcare provider."
+    ]
   }
 }

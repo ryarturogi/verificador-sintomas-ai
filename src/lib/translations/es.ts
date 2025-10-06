@@ -1,8 +1,8 @@
 import type { Translations } from './types'
 
 export const es: Translations = {
-  title: "Verificador de Síntomas con IA",
-  subtitle: "Obtén información sobre tus síntomas impulsada por IA",
+  title: "Verificador de Síntomas",
+  subtitle: "Obtén información inteligente sobre tus síntomas",
   switchLanguage: "English",
   
   common: {
@@ -64,7 +64,7 @@ export const es: Translations = {
   
   homepage: {
     // Hero section
-    mainTitle: "VitalCheck - Evaluación de salud inteligente con IA",
+    mainTitle: "VitalCheck - Evaluación de salud inteligente",
     mainSubtitle: "Cuestionario dinámico que se adapta a tus respuestas para una evaluación médica personalizada",
     searchPlaceholder: "Describe tus síntomas...",
     searchDoctor: "Buscar Doctor",
@@ -73,10 +73,10 @@ export const es: Translations = {
     
     // Features
     advancedTechnology: "Tecnología Avanzada",
-    intelligentQuestionnaires: "Cuestionarios inteligentes generados por IA • Preguntas adaptativas personalizadas",
+    intelligentQuestionnaires: "Cuestionarios inteligentes • Preguntas adaptativas personalizadas",
     dynamicDescription: "Cuestionario Dinámico Inteligente",
     medicalAccuracy: "Precisión Médica",
-    aiPowered: "Impulsado por IA",
+    aiPowered: "Inteligente",
     hipaaCompliant: "Cumple HIPAA",
     medicalGrade: "Grado Médico",
     
@@ -223,8 +223,8 @@ export const es: Translations = {
     johnReview: "El servicio fue excepcional. Definitivamente recomendaría esta plataforma a otros.",
     advancedDiagnostics: "Diagnósticos Avanzados",
     advancedDiagnosticsDesc: "Herramientas de diagnóstico de vanguardia para evaluación de salud precisa",
-    aiPoweredAnalysis: "Análisis Impulsado por IA",
-    aiPoweredAnalysisDesc: "Análisis inteligente de tus datos de salud usando IA avanzada",
+    aiPoweredAnalysis: "Análisis Inteligente",
+    aiPoweredAnalysisDesc: "Análisis inteligente de tus datos de salud usando tecnología avanzada",
     remoteHealthcare: "Atención Médica Remota",
     remoteHealthcareDesc: "Accede a servicios de salud desde cualquier lugar, en cualquier momento",
     subscribeNews: "Suscríbete a nuestro boletín",
@@ -259,11 +259,11 @@ export const es: Translations = {
     cardiacSymptoms: "Síntomas Cardíacos",
     cardiacDescription: "Síntomas relacionados con el corazón y salud cardiovascular",
     guidedAssessment: "Evaluación Guiada",
-    guidedDescription: "Evaluación de salud paso a paso con orientación de IA",
+    guidedDescription: "Evaluación de salud paso a paso con orientación inteligente",
     generalCheckup: "Chequeo General",
     generalDescription: "Evaluación integral de salud y prevención",
-    aiAssessments: "Evaluaciones con IA",
-    aiDescription: "Análisis de salud avanzado impulsado por IA",
+    aiAssessments: "Evaluaciones Inteligentes",
+    aiDescription: "Análisis de salud avanzado e inteligente",
     
     tags: {
       pain: "Dolor",
@@ -275,7 +275,7 @@ export const es: Translations = {
       chest: "Pecho",
       palpitations: "Palpitaciones",
       pressure: "Presión",
-      ai: "IA",
+      ai: "Inteligente",
       personalized: "Personalizado",
       adaptive: "Adaptativo",
       prevention: "Prevención",
@@ -292,7 +292,7 @@ export const es: Translations = {
     emergencySituations: "Para situaciones de emergencia, llama al 911 inmediatamente",
     professionalAdvice: "Siempre consulta con profesionales de la salud",
     privacyData: "Tu privacidad y seguridad de datos están protegidas",
-    limitations: "La IA tiene limitaciones y no puede reemplazar la atención médica profesional",
+    limitations: "Los sistemas inteligentes tienen limitaciones y no pueden reemplazar la atención médica profesional",
     acknowledgment: "Entiendo y acepto estos términos",
     quickDisclaimer: "Descargo Rápido",
     modalTitle: "Descargo de Responsabilidad Médica y Términos de Uso",
@@ -342,8 +342,8 @@ export const es: Translations = {
     dodCheckbox: "Entiendo los requisitos de seguridad",
     finalAcknowledgment: "Reconocimiento Final",
     finalAcknowledgmentText: "Al continuar, reconoces que has leído, entendido y aceptas todos los términos descritos en este descargo.",
-    limitationsText: "Limitaciones del Sistema de IA:",
-    aiKnowledge: "El conocimiento de IA tiene limitaciones y puede no estar actualizado",
+    limitationsText: "Limitaciones del Sistema:",
+    aiKnowledge: "El conocimiento inteligente tiene limitaciones y puede no estar actualizado",
     medicalHistory: "No puede acceder a tu historial médico completo",
     accuracyNotGuaranteed: "La precisión de la evaluación no está garantizada",
     rareConditions: "Puede no identificar condiciones raras o complejas",
@@ -377,11 +377,11 @@ export const es: Translations = {
     checkingDatabases: "Verificando bases de datos médicas...",
     generatingAssessment: "Generando tu evaluación de salud...",
     questionsAnswered: "preguntas respondidas",
-    poweredBy: "Impulsado por IA avanzada",
+    poweredBy: "Impulsado por tecnología avanzada",
     useArrows: "Usa las teclas de flecha para navegar",
     
     // Page content
-    title: "Evaluaciones de Salud con IA",
+    title: "Evaluaciones de Salud Inteligentes",
     subtitle: "Evaluaciones de salud integrales adaptadas a tus necesidades específicas",
     availableAssessments: "Evaluaciones Disponibles",
     startAssessment: "Iniciar Evaluación",
@@ -397,7 +397,7 @@ export const es: Translations = {
       generalHealth: {
         title: "Evaluación de Salud General",
         description: "Evaluación integral de tu estado de salud general",
-        features: ["Análisis impulsado por IA", "Recomendaciones personalizadas", "Evaluación de riesgos de salud"],
+        features: ["Análisis inteligente", "Recomendaciones personalizadas", "Evaluación de riesgos de salud"],
         duration: "5-10 minutos"
       },
       symptomAnalysis: {
@@ -1239,9 +1239,9 @@ export const es: Translations = {
         description: "Capacidades de análisis y respuesta instantáneas"
       }
     },
-    experienceAI: "Experimenta el Poder de la IA",
-    experienceAIDescription: "Prueba nuestra herramienta de evaluación de IA avanzada y ve cómo puede ayudarte a entender mejor tu salud.",
-    tryAIAssessment: "Probar Evaluación de IA",
+    experienceAI: "Experimenta el Poder de la Inteligencia",
+    experienceAIDescription: "Prueba nuestra herramienta de evaluación inteligente avanzada y ve cómo puede ayudarte a entender mejor tu salud.",
+    tryAIAssessment: "Probar Evaluación Inteligente",
     viewQuestionnaires: "Ver Cuestionarios"
   },
 
@@ -1258,13 +1258,13 @@ export const es: Translations = {
     select: "Seleccionar",
     busy: "Ocupado",
     noDoctorsFound: "No se encontraron doctores para esta especialidad",
-    startConversation: "Inicia una conversación con tu doctor IA",
+    startConversation: "Inicia una conversación con tu doctor",
     consultationHistory: "Historial de Consultas",
     noHistory: "No se encontró historial de consultas",
     viewDetails: "Ver Detalles",
     restartConsultation: "Reiniciar Consulta",
-    title: "Consulta Gratuita con Doctor IA",
-    subtitle: "Obtén consejos médicos expertos de agentes IA especializados en diferentes campos médicos",
+    title: "Consulta Gratuita con Doctor",
+    subtitle: "Obtén consejos médicos expertos de especialistas en diferentes campos médicos",
     selectDoctor: "Seleccionar Doctor",
     currentConsultation: "Consulta Actual",
     history: "Historial",
@@ -1274,11 +1274,11 @@ export const es: Translations = {
   // Consultation Chat
   consultationChat: {
     welcomeMessages: {
-      generalMedicine: "¡Hola! Soy tu especialista en Medicina General IA. ¿Cómo puedo ayudarte hoy?",
-      cardiology: "¡Hola! Soy tu especialista en Cardiología IA. Puedo ayudar con preocupaciones relacionadas con el corazón.",
-      neurology: "¡Hola! Soy tu especialista en Neurología IA. Puedo ayudar con problemas del cerebro y sistema nervioso.",
-      pediatrics: "¡Hola! Soy tu especialista en Pediatría IA. Puedo ayudar con preocupaciones de salud infantil.",
-      internalMedicine: "¡Hola! Soy tu especialista en Medicina Interna IA. Puedo ayudar con condiciones médicas complejas."
+      generalMedicine: "¡Hola! Soy tu especialista en Medicina General. ¿Cómo puedo ayudarte hoy?",
+      cardiology: "¡Hola! Soy tu especialista en Cardiología. Puedo ayudar con preocupaciones relacionadas con el corazón.",
+      neurology: "¡Hola! Soy tu especialista en Neurología. Puedo ayudar con problemas del cerebro y sistema nervioso.",
+      pediatrics: "¡Hola! Soy tu especialista en Pediatría. Puedo ayudar con preocupaciones de salud infantil.",
+      internalMedicine: "¡Hola! Soy tu especialista en Medicina Interna. Puedo ayudar con condiciones médicas complejas."
     },
     quickActions: {
       generalMedicine: "Medicina General",
@@ -1306,7 +1306,7 @@ export const es: Translations = {
     describeSymptomsPlaceholder: "Describe tus síntomas en detalle...",
     typeSymptomsPlaceholder: "Escribe tus síntomas aquí...",
     noMatchingSymptoms: "No se encontraron síntomas coincidentes",
-    generatingSuggestions: "Generando sugerencias de IA...",
+    generatingSuggestions: "Generando sugerencias...",
     popularSymptoms: {
       headache: "Dolor de cabeza (Headache)",
       fever: "Fiebre (Fever)",
@@ -1369,5 +1369,176 @@ export const es: Translations = {
       always: "Siempre (Always)",
       never: "Nunca (Never)"
     }
+  },
+
+  // AI Agent data
+  aiAgents: {
+    general: {
+      name: "Agente General",
+      specialty: "Medicina General",
+      benefits: {
+        eliminateCommute: "Elimina el tiempo de desplazamiento y las complicaciones de programación",
+        flexiblePlans: "Planes flexibles para satisfacer tus necesidades",
+        accurateDiagnostics: "Diagnósticos precisos con tecnología avanzada"
+      }
+    },
+    cardiology: {
+      name: "Agente Cardiología",
+      specialty: "Cardiología",
+      benefits: {
+        specializedConsultations: "Consultas virtuales especializadas",
+        personalizedPrevention: "Planes de prevención personalizados",
+        directAccess: "Acceso directo a estudios cardíacos",
+        continuousMonitoring: "Monitoreo continuo de tu salud cardíaca"
+      }
+    },
+    neurology: {
+      name: "Agente Neurología",
+      specialty: "Neurología",
+      benefits: {
+        advancedEvaluations: "Evaluaciones neurológicas con tecnología avanzada",
+        earlyDetection: "Detección temprana de condiciones neurológicas",
+        personalizedRehabilitation: "Planes de rehabilitación personalizados",
+        continuousMonitoring: "Monitoreo cognitivo continuo",
+        innovativeTherapies: "Terapias neurológicas innovadoras"
+      }
+    },
+    pediatrics: {
+      name: "Agente Pediatría",
+      specialty: "Pediatría",
+      benefits: {
+        childDevelopment: "Seguimiento del desarrollo infantil",
+        vaccinationCare: "Vacunación y cuidado preventivo",
+        familyConsultations: "Consultas familiares virtuales",
+        personalizedGrowth: "Planes de crecimiento personalizados"
+      }
+    },
+    internalMedicine: {
+      name: "Agente Medicina Interna",
+      specialty: "Medicina Interna",
+      benefits: {
+        chronicDiseaseManagement: "Manejo integral de enfermedades crónicas",
+        careCoordination: "Coordinación de atención especializada",
+        advancedPreventive: "Medicina preventiva avanzada",
+        predictiveAnalytics: "Análisis predictivo de salud",
+        personalizedCare: "Atención médica personalizada"
+      }
+    }
+  },
+
+  // About page
+  aboutPage: {
+    title: "Acerca de VitalCheck",
+    subtitle: "Empoderando decisiones de salud a través de tecnología avanzada y orientación de atención compasiva.",
+    mission: {
+      title: "Nuestra Misión",
+      description1: "VitalCheck está dedicado a revolucionar la accesibilidad de la salud proporcionando análisis inteligente de síntomas y orientación médica. Cerramos la brecha entre pacientes y proveedores de salud a través de tecnología de vanguardia.",
+      description2: "Nuestra plataforma asegura que la orientación de salud de calidad esté disponible 24/7, ayudando a las personas a tomar decisiones informadas sobre su salud mientras mantenemos los más altos estándares de ética médica y privacidad del paciente."
+    },
+    coreValues: {
+      title: "Nuestros Valores Fundamentales"
+    },
+    team: {
+      title: "Nuestro Equipo",
+      members: {
+        sarahMitchell: {
+          name: "Dra. Sarah Mitchell",
+          role: "Directora Médica",
+          description: "Médica certificada con más de 15 años en medicina de emergencia y aplicaciones de tecnología en salud."
+        },
+        alexRodriguez: {
+          name: "Alex Rodriguez",
+          role: "Director de Tecnología",
+          description: "Investigador de tecnología especializado en procesamiento de lenguaje natural y análisis de datos médicos."
+        },
+        emilyChen: {
+          name: "Dra. Emily Chen",
+          role: "Jefa de Investigación Clínica",
+          description: "Investigadora clínica enfocada en ética de tecnología en salud y protocolos de seguridad del paciente."
+        }
+      }
+    },
+    impact: {
+      title: "Nuestro Impacto",
+      assessmentsCompleted: "Evaluaciones Completadas",
+      userSatisfaction: "Satisfacción del Usuario",
+      availability: "Disponibilidad",
+      medicalSpecialties: "Especialidades Médicas"
+    },
+    cta: {
+      title: "¿Listo para Experimentar VitalCheck?",
+      description: "Únete a miles de usuarios que confían en VitalCheck para orientación de salud inteligente. Comienza tu evaluación hoy.",
+      buttonText: "Comenzar Evaluación"
+    }
+  },
+
+  // Emergency messages
+  emergencyMessages: {
+    goToNearestER: "Ve a la sala de emergencias más cercana",
+    doNotDelay: "No retrases la búsqueda de atención médica de emergencia",
+    emergencySymptoms: "Tus síntomas pueden indicar una emergencia médica. Por favor llama al 911 o ve a la sala de emergencias más cercana inmediatamente.",
+    call911: "Llama al 911 o servicios de emergencia inmediatamente",
+    seekImmediateCare: "Esto parece ser una emergencia médica. Por favor busca atención médica inmediata."
+  },
+
+  // Common conditions
+  commonConditions: {
+    diabetes: "Diabetes",
+    hypertension: "Hipertensión",
+    asthma: "Asma",
+    migraine: "Migraña",
+    depression: "Depresión",
+    anxiety: "Ansiedad"
+  },
+
+  // Doctor selection
+  doctorSelection: {
+    allSpecialties: "Todas las Especialidades",
+    responseTime: "Tiempo de respuesta:",
+    rating: "Calificación:",
+    consultations: "Consultas:",
+    available: "Disponible",
+    busy: "Ocupado",
+    quickActions: "Acciones rápidas:",
+    chooseSpecialty: "Elige una Especialidad de Doctor",
+    aiPoweredWithKnowledge: "Impulsado con base de conocimiento médico",
+    specializedInComprehensive: "Especializado en evaluación integral de salud y consejos médicos generales",
+    specializedInHeartHealth: "Especializado en salud cardíaca, condiciones cardiovasculares y síntomas cardíacos",
+    specializedInBrainConditions: "Especializado en condiciones del cerebro y sistema nervioso, dolores de cabeza y síntomas neurológicos",
+    specializedInChildHealth: "Especializado en salud infantil, preocupaciones de desarrollo y condiciones pediátricas",
+    specializedInAdultMedicine: "Especializado en medicina de adultos, condiciones crónicas y casos médicos complejos",
+    aiPoweredWithCardiology: "Impulsado con experiencia en cardiología",
+    aiPoweredWithNeurology: "Impulsado con especialización en neurología",
+    aiPoweredWithPediatric: "Impulsado con experiencia pediátrica",
+    aiPoweredWithInternal: "Impulsado con experiencia en medicina interna"
+  },
+
+  // Mock doctor responses
+  mockResponses: {
+    generalMedicine: [
+      "Entiendo tu preocupación. Basado en tus síntomas, recomiendo monitorear tu condición y consultar con un proveedor de salud si los síntomas persisten o empeoran.",
+      "Gracias por compartir esa información. Es importante rastrear tus síntomas y buscar atención médica si no mejoran en 24-48 horas.",
+      "Puedo ayudarte a entender mejor tus síntomas. ¿Podrías proporcionar más detalles sobre cuándo comenzaron estos síntomas y qué los mejora o empeora?"
+    ],
+    cardiology: [
+      "Dados tus síntomas, recomiendo monitorear tu frecuencia cardíaca y presión arterial. Si experimentas dolor en el pecho, dificultad para respirar o mareos, busca atención médica inmediata.",
+      "Tus síntomas podrían estar relacionados con la salud cardiovascular. Sugiero mantener un diario de síntomas y consultar con un cardiólogo para una evaluación adicional.",
+      "Es importante rastrear tus síntomas y cualquier desencadenante. Si experimentas dolor severo en el pecho o dificultad para respirar, llama a los servicios de emergencia inmediatamente."
+    ],
+    neurology: [
+      "Tus síntomas neurológicos requieren monitoreo cuidadoso. Mantén un registro de la frecuencia, duración y cualquier desencadenante. Busca atención médica inmediata para dolores de cabeza severos, cambios en la visión o debilidad.",
+      "Entiendo tu preocupación sobre estos síntomas. Es importante documentar cuándo ocurren y qué actividades los preceden. Considera consultar a un neurólogo para una evaluación adicional.",
+      "Tus síntomas pueden estar relacionados con la función neurológica. Monitorea cualquier cambio en la severidad o nuevos síntomas, y no dudes en buscar atención médica si es necesario."
+    ],
+    pediatrics: [
+      "Para los síntomas de tu hijo, recomiendo monitorear su temperatura, nivel de actividad y apetito. Contacta a tu pediatra si los síntomas empeoran o si tu hijo se vuelve letárgico.",
+      "Es importante rastrear los síntomas de tu hijo y cualquier cambio en el comportamiento. Manténlo hidratado y cómodo, y busca atención médica si los síntomas persisten.",
+      "Los síntomas de tu hijo deben ser monitoreados de cerca. Si desarrollan fiebre alta, dificultad para respirar o se vuelven no responsivos, busca atención médica inmediata."
+    ],
+    internalMedicine: [
+      "Tus síntomas sugieren que necesitamos considerar tu estado de salud general. Recomiendo una evaluación integral incluyendo tu historial médico y medicamentos actuales.",
+      "Dados tus síntomas e historial médico, sugiero monitorear tu condición de cerca y consultar con tu médico de atención primaria para una evaluación exhaustiva.",
+      "Tus síntomas pueden estar relacionados con tus condiciones existentes. Es importante continuar con tus medicamentos actuales y reportar cualquier cambio a tu proveedor de salud."
+    ]
   }
 }

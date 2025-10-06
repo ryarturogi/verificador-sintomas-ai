@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { AIDoctorService } from '@/services/ai-doctor-service'
 import { ConsultationRequest, DoctorSpecialty } from '@/types/consultation'
+import { getEmergencyMessages } from '@/lib/api-translations'
 import { z } from 'zod'
 
 const ConsultationRequestSchema = z.object({
@@ -56,15 +57,12 @@ export async function POST(request: NextRequest) {
     const isEmergency = AIDoctorService.checkEmergencySymptoms(consultationRequest.initialMessage)
     
     if (isEmergency) {
+      const emergencyMessages = getEmergencyMessages(request)
       return NextResponse.json({
-        message: "Your symptoms may indicate a medical emergency. Please call 911 or go to the nearest emergency room immediately.",
-        recommendations: [
-          "Call 911 or emergency services immediately",
-          "Go to the nearest emergency room",
-          "Do not delay seeking emergency medical care"
-        ],
+        message: emergencyMessages.message,
+        recommendations: emergencyMessages.recommendations,
         requiresEmergencyCare: true,
-        emergencyMessage: "This appears to be a medical emergency. Please seek immediate medical attention."
+        emergencyMessage: emergencyMessages.emergencyMessage
       })
     }
 
@@ -107,7 +105,7 @@ export async function GET(request: NextRequest) {
           responseTime: '2-3 minutes',
           rating: 4.9,
           consultationCount: 1250,
-          avatar: 'https://images.unsplash.com/photo-1677442136019-21780ccad005?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         },
         {
           id: 'dr-floyd-miles',
@@ -120,7 +118,7 @@ export async function GET(request: NextRequest) {
           responseTime: '3-5 minutes',
           rating: 4.8,
           consultationCount: 890,
-          avatar: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         },
         {
           id: 'dr-mckinney',
@@ -133,7 +131,7 @@ export async function GET(request: NextRequest) {
           responseTime: '4-6 minutes',
           rating: 4.7,
           consultationCount: 650,
-          avatar: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         },
         {
           id: 'dr-jacob',
@@ -146,7 +144,7 @@ export async function GET(request: NextRequest) {
           responseTime: '2-4 minutes',
           rating: 4.9,
           consultationCount: 1100,
-          avatar: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         },
         {
           id: 'dr-warren',
@@ -159,7 +157,7 @@ export async function GET(request: NextRequest) {
           responseTime: '3-5 minutes',
           rating: 4.8,
           consultationCount: 980,
-          avatar: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         }
       ]
       

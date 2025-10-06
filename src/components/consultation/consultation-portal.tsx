@@ -1,12 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { useLanguage } from '@/contexts/language-context'
 import { DoctorSelection } from './doctor-selection'
 import { ChatConsultation } from './chat-consultation'
 import { ConsultationHistory } from './consultation-history'
 import { Doctor, ConsultationSession } from '@/types/consultation'
+import { ConsultationHistoryService } from '@/services/consultation-history-service'
+import { ConsultationExitDialog } from '@/components/ui/confirmation-dialog'
+import { useNavigationConfirmation } from '@/hooks/use-navigation-lock'
 
 /**
  * Main consultation portal component that manages the consultation flow
@@ -14,9 +18,36 @@ import { Doctor, ConsultationSession } from '@/types/consultation'
  */
 export function ConsultationPortal() {
   const { t } = useLanguage()
+  const searchParams = useSearchParams()
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null)
   const [currentSession, setCurrentSession] = useState<ConsultationSession | null>(null)
   const [showHistory, setShowHistory] = useState(false)
+  const [preSelectedAgent, setPreSelectedAgent] = useState<string | null>(null)
+  const [isExiting, setIsExiting] = useState(false)
+
+  // Navigation lock for active consultations
+  const {
+    showDialog,
+    handleConfirmExit,
+    handleCancelExit
+  } = useNavigationConfirmation({
+    isActive: !!currentSession,
+    onConfirmExit: () => {
+      handleEndConsultation()
+      setIsExiting(false)
+    },
+    onCancelExit: () => {
+      setIsExiting(false)
+    }
+  })
+
+  // Handle agent parameter from URL
+  useEffect(() => {
+    const agentParam = searchParams.get('agent')
+    if (agentParam) {
+      setPreSelectedAgent(agentParam)
+    }
+  }, [searchParams])
 
   const handleDoctorSelect = (doctor: Doctor) => {
     setSelectedDoctor(doctor)
@@ -24,13 +55,25 @@ export function ConsultationPortal() {
   }
 
   const handleStartConsultation = (session: ConsultationSession) => {
+    // Save the session to history
+    ConsultationHistoryService.saveSession(session)
     setCurrentSession(session)
     setShowHistory(false)
   }
 
   const handleEndConsultation = () => {
+    // Complete the session before ending
+    if (currentSession) {
+      ConsultationHistoryService.completeSession(
+        currentSession.id,
+        `Consultation completed with ${currentSession.doctorName}`,
+        ['Follow up as needed', 'Monitor symptoms', 'Contact healthcare provider if concerns arise']
+      )
+    }
+    
     setCurrentSession(null)
     setSelectedDoctor(null)
+    setIsExiting(false)
   }
 
   const handleShowHistory = () => {
@@ -39,10 +82,17 @@ export function ConsultationPortal() {
   }
 
   const handleBackToSelection = () => {
+    if (currentSession) {
+      setIsExiting(true)
+      return
+    }
+    
     setSelectedDoctor(null)
     setCurrentSession(null)
     setShowHistory(false)
   }
+
+  // Navigation is handled by the hook automatically
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-cyan-100">
@@ -85,7 +135,13 @@ export function ConsultationPortal() {
               </button>
             )}
             <button
-              onClick={handleShowHistory}
+              onClick={() => {
+                if (currentSession) {
+                  setIsExiting(true)
+                  return
+                }
+                handleShowHistory()
+              }}
               className={`px-4 py-2 rounded-md transition-colors ${
                 showHistory
                   ? 'bg-cyan-600 text-white'
@@ -100,7 +156,10 @@ export function ConsultationPortal() {
         {/* Main Content */}
         <div className="max-w-6xl mx-auto">
           {!selectedDoctor && !currentSession && !showHistory && (
-            <DoctorSelection onDoctorSelect={handleDoctorSelect} />
+            <DoctorSelection 
+              onDoctorSelect={handleDoctorSelect} 
+              preSelectedAgent={preSelectedAgent}
+            />
           )}
 
           {selectedDoctor && !currentSession && !showHistory && (
@@ -112,10 +171,11 @@ export function ConsultationPortal() {
                 <div className="flex items-center justify-center space-x-4">
                   <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-cyan-200 relative">
                     <Image 
-                      src={selectedDoctor.avatar || 'https://images.unsplash.com/photo-1677442136019-21780ccad005?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
+                      src={selectedDoctor.avatar || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
                       alt={selectedDoctor.name}
-                      fill
-                      className="object-cover"
+                      width={64}
+                      height={64}
+                      className="object-cover w-full h-full"
                       sizes="64px"
                     />
                   </div>
@@ -173,6 +233,14 @@ export function ConsultationPortal() {
           )}
         </div>
       </div>
+
+      {/* Navigation Lock Dialog */}
+      <ConsultationExitDialog
+        isOpen={showDialog || isExiting}
+        onClose={handleCancelExit}
+        onConfirm={handleConfirmExit}
+        loading={isExiting}
+      />
     </div>
   )
 }

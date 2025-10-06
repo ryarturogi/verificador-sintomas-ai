@@ -6,6 +6,9 @@ import { useLanguage } from '@/contexts/language-context'
 import { ConsultationSession, ConsultationMessage } from '@/types/consultation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { ConsultationHistoryService } from '@/services/consultation-history-service'
+import { ConsultationExitDialog } from '@/components/ui/confirmation-dialog'
+import { useNavigationConfirmation } from '@/hooks/use-navigation-lock'
 // import { Card } from '@/components/ui/card'
 // import { LoadingSpinner } from '@/components/ui/loading-spinner'
 
@@ -23,22 +26,49 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
   const [messages, setMessages] = useState<ConsultationMessage[]>(session.messages)
   const [inputMessage, setInputMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isExiting, setIsExiting] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Navigation lock for active chat consultation
+  const {
+    showDialog,
+    handleConfirmExit,
+    handleCancelExit
+  } = useNavigationConfirmation({
+    isActive: true, // Chat is always active when rendered
+    onConfirmExit: () => {
+      handleEndConsultation()
+      setIsExiting(false)
+    },
+    onCancelExit: () => {
+      setIsExiting(false)
+    }
+  })
 
   // Get doctor avatar based on doctor ID
   const getDoctorAvatar = (doctorId: string): string => {
     const doctorAvatars: Record<string, string> = {
-      'dr-henry': 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      'dr-floyd-miles': 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      'dr-mckinney': 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      'dr-jacob': 'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      'dr-warren': 'https://images.unsplash.com/photo-1594824609072-57c2d2bb8b86?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+      'dr-henry': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'dr-floyd-miles': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'dr-mckinney': 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'dr-jacob': 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'dr-warren': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     }
-    return doctorAvatars[doctorId] || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+    return doctorAvatars[doctorId] || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
   }
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const handleEndConsultation = () => {
+    // Complete the session before ending
+    ConsultationHistoryService.completeSession(
+      session.id,
+      `Consultation completed with ${session.doctorName}`,
+      ['Follow up as needed', 'Monitor symptoms', 'Contact healthcare provider if concerns arise']
+    )
+    onEndConsultation()
   }
 
   const getWelcomeMessage = useCallback((specialty: string): string => {
@@ -92,7 +122,12 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
       isTyping: false
     }
 
-    setMessages(prev => [...prev, userMessage])
+    const updatedMessages = [...messages, userMessage]
+    setMessages(updatedMessages)
+    
+    // Save user message to history
+    ConsultationHistoryService.addMessage(session.id, userMessage)
+    
     const currentMessage = inputMessage
     setInputMessage('')
     setIsLoading(true)
@@ -135,7 +170,15 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
         isTyping: false
       }
 
-      setMessages(prev => [...prev, doctorMessage])
+      const finalMessages = [...updatedMessages, doctorMessage]
+      setMessages(finalMessages)
+      
+      // Save doctor message to history
+      ConsultationHistoryService.addMessage(session.id, doctorMessage)
+      
+      // Update session with new messages
+      const updatedSession = { ...session, messages: finalMessages }
+      ConsultationHistoryService.saveSession(updatedSession)
     } catch (error) {
       console.error('Error sending message:', error)
       // Fallback to mock response with typing delay
@@ -148,7 +191,16 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
         timestamp: new Date(),
         isTyping: false
       }
-      setMessages(prev => [...prev, doctorMessage])
+      
+      const finalMessages = [...updatedMessages, doctorMessage]
+      setMessages(finalMessages)
+      
+      // Save doctor message to history
+      ConsultationHistoryService.addMessage(session.id, doctorMessage)
+      
+      // Update session with new messages
+      const updatedSession = { ...session, messages: finalMessages }
+      ConsultationHistoryService.saveSession(updatedSession)
     } finally {
       setIsLoading(false)
     }
@@ -164,31 +216,11 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
   const generateDoctorResponse = (userMessage: string, specialty: string): string => {
     // Mock AI responses based on specialty
     const responses = {
-      general_medicine: [
-        "I understand your concern. Based on your symptoms, I recommend monitoring your condition and consulting with a healthcare provider if symptoms persist or worsen.",
-        "Thank you for sharing that information. It's important to track your symptoms and seek medical attention if they don't improve within 24-48 hours.",
-        "I can help you understand your symptoms better. Could you provide more details about when these symptoms started and what makes them better or worse?"
-      ],
-      cardiology: [
-        "Given your symptoms, I recommend monitoring your heart rate and blood pressure. If you experience chest pain, shortness of breath, or dizziness, seek immediate medical attention.",
-        "Your symptoms could be related to cardiovascular health. I suggest keeping a symptom diary and consulting with a cardiologist for further evaluation.",
-        "It's important to track your symptoms and any triggers. If you experience severe chest pain or difficulty breathing, call emergency services immediately."
-      ],
-      neurology: [
-        "Your neurological symptoms require careful monitoring. Keep track of frequency, duration, and any triggers. Seek immediate medical attention for severe headaches, vision changes, or weakness.",
-        "I understand your concern about these symptoms. It's important to document when they occur and what activities precede them. Consider consulting a neurologist for further evaluation.",
-        "Your symptoms may be related to neurological function. Monitor for any changes in severity or new symptoms, and don't hesitate to seek medical care if needed."
-      ],
-      pediatrics: [
-        "For your child's symptoms, I recommend monitoring their temperature, activity level, and appetite. Contact your pediatrician if symptoms worsen or if your child becomes lethargic.",
-        "It's important to track your child's symptoms and any changes in behavior. Keep them hydrated and comfortable, and seek medical attention if symptoms persist.",
-        "Your child's symptoms should be monitored closely. If they develop a high fever, difficulty breathing, or become unresponsive, seek immediate medical care."
-      ],
-      internal_medicine: [
-        "Your symptoms suggest we need to consider your overall health status. I recommend a comprehensive evaluation including your medical history and current medications.",
-        "Given your symptoms and medical history, I suggest monitoring your condition closely and consulting with your primary care physician for a thorough evaluation.",
-        "Your symptoms may be related to your existing conditions. It's important to continue your current medications and report any changes to your healthcare provider."
-      ]
+      general_medicine: t.mockResponses.generalMedicine,
+      cardiology: t.mockResponses.cardiology,
+      neurology: t.mockResponses.neurology,
+      pediatrics: t.mockResponses.pediatrics,
+      internal_medicine: t.mockResponses.internalMedicine
     }
 
     const specialtyResponses = responses[specialty as keyof typeof responses] || responses.general_medicine
@@ -201,13 +233,14 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
       <div className="bg-cyan-600 text-white p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-cyan-300">
+            <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-cyan-300 relative">
               <Image 
                 src={getDoctorAvatar(session.doctorId)} 
                 alt={session.doctorName}
-                fill
-                className="object-cover"
-                sizes="80px"
+                width={40}
+                height={40}
+                className="object-cover w-full h-full"
+                sizes="40px"
               />
             </div>
             <div>
@@ -218,7 +251,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
             </div>
           </div>
           <Button
-            onClick={onEndConsultation}
+            onClick={handleEndConsultation}
             variant="outline"
             className="bg-transparent border-white text-white hover:bg-white hover:text-cyan-600"
           >
@@ -242,13 +275,14 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
           >
             <div className={`flex items-start space-x-2 max-w-xs lg:max-w-md ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
               {message.sender === 'doctor' && (
-                <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-cyan-200 flex-shrink-0">
+                <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-cyan-200 flex-shrink-0 relative">
                   <Image 
                     src={getDoctorAvatar(session.doctorId)} 
                     alt={session.doctorName}
-                    fill
-                    className="object-cover"
-                    sizes="40px"
+                    width={32}
+                    height={32}
+                    className="object-cover w-full h-full"
+                    sizes="32px"
                   />
                 </div>
               )}
@@ -273,13 +307,14 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
         {isLoading && (
           <div className="flex justify-start mb-4">
             <div className="flex items-start space-x-2 max-w-xs lg:max-w-md">
-              <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-cyan-200 flex-shrink-0">
+              <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-cyan-200 flex-shrink-0 relative">
                 <Image 
                   src={getDoctorAvatar(session.doctorId)} 
                   alt={session.doctorName}
-                  fill
-                  className="object-cover"
-                  sizes="40px"
+                  width={32}
+                  height={32}
+                  className="object-cover w-full h-full"
+                  sizes="32px"
                 />
               </div>
               <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-md shadow-sm px-4 py-3">
@@ -304,7 +339,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
       {/* Quick Actions */}
       {messages.length === 1 && (
         <div className="border-t p-4 bg-gray-50">
-          <p className="text-sm text-gray-600 mb-3">Quick actions:</p>
+          <p className="text-sm text-gray-600 mb-3">{t.doctorSelection.quickActions}</p>
           <div className="flex flex-wrap gap-2">
             {getQuickActions(session.doctorSpecialty).map((action, index) => (
               <button
@@ -339,6 +374,14 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
           </Button>
         </div>
       </div>
+
+      {/* Navigation Lock Dialog */}
+      <ConsultationExitDialog
+        isOpen={showDialog || isExiting}
+        onClose={handleCancelExit}
+        onConfirm={handleConfirmExit}
+        loading={isExiting}
+      />
     </div>
   )
 }

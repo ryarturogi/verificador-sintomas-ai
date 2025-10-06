@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useTranslations, useLanguage } from "@/contexts/language-context";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -49,6 +50,7 @@ type AppState =
   | "declined";
 
 export function ModernHomepage() {
+  const router = useRouter();
   const [appState, setAppState] = useState<AppState>("disclaimer");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSymptom, setSelectedSymptom] = useState<Option | null>(null);
@@ -257,6 +259,21 @@ export function ModernHomepage() {
     setSelectedTopic(topic || null);
     if (initialQuery) {
       setSearchQuery(initialQuery);
+    }
+    setAppState("questionnaire");
+  };
+
+  const handleNavigateToConsultation = (agentType?: string) => {
+    if (agentType) {
+      router.push(`/consultation?agent=${agentType}`);
+    } else {
+      router.push('/consultation');
+    }
+  };
+
+  const handleNavigateToQuestionnaire = (topic?: string) => {
+    if (topic) {
+      setSelectedTopic(topic);
     }
     setAppState("questionnaire");
   };
@@ -990,11 +1007,11 @@ export function ModernHomepage() {
                                 <Image
                                   src={(() => {
                                     const agentImages = [
-                                      "https://images.unsplash.com/photo-1677442136019-21780ccad005?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente General - AI Brain
-                                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Cardiología - Data Visualization
-                                      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Neurología - Neural Network
-                                      "https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Pediatría - AI Interface
-                                      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Medicina Interna - Medical AI
+                                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente General - Medical Data/General Health
+                                      "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Cardiología - Heart Monitor/ECG
+                                      "https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Neurología - AI Interface/Brain Technology
+                                      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Pediatría - Medical Technology/Pediatric Care
+                                      "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Medicina Interna - Medical Dashboard/Complex Cases
                                     ];
                                     return agentImages[selectedDoctorIndex];
                                   })()}
@@ -1102,7 +1119,14 @@ export function ModernHomepage() {
                               )}
                             </div>
 
-                            <Button className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2.5 rounded-lg font-semibold text-sm">
+                            <Button 
+                              onClick={() => {
+                                const currentAgent = agentData[selectedDoctorIndex];
+                                const agentType = currentAgent.name.toLowerCase().replace(/\s+/g, '-');
+                                handleNavigateToConsultation(agentType);
+                              }}
+                              className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2.5 rounded-lg font-semibold text-sm"
+                            >
                               {t.homepage.getFreeConsultation}
                             </Button>
                           </motion.div>
@@ -1199,8 +1223,9 @@ export function ModernHomepage() {
                                     className="bg-white rounded-lg lg:rounded-xl p-3 lg:p-4 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                                     whileHover={{ y: -3 }}
                                     onClick={() => {
-                                      // Handle agent selection
-                                      console.log('Selected agent:', agent.name);
+                                      // Navigate to consultation with selected agent
+                                      const agentType = agent.name.toLowerCase().replace(/\s+/g, '-');
+                                      handleNavigateToConsultation(agentType);
                                     }}
                                   >
                                     <div className={`w-full h-24 lg:h-32 rounded-md lg:rounded-lg mb-2 lg:mb-3 overflow-hidden bg-gradient-to-br ${agent.color} relative flex items-center justify-center`}>
@@ -1253,7 +1278,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            console.log('MRI Analysis selected');
+                            handleNavigateToConsultation('radiologia');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1272,7 +1297,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            console.log('CT Scan Analysis selected');
+                            handleNavigateToConsultation('radiologia');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1291,7 +1316,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            console.log('X-ray Analysis selected');
+                            handleNavigateToConsultation('radiologia');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1310,7 +1335,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            console.log('Ultrasound Analysis selected');
+                            handleNavigateToConsultation('radiologia');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1329,7 +1354,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            console.log('Pathology Analysis selected');
+                            handleNavigateToConsultation('patologia');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-red-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1348,7 +1373,7 @@ export function ModernHomepage() {
                           className="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-dashed border-cyan-300"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            console.log('Upload medical image');
+                            handleNavigateToConsultation('radiologia');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-cyan-200 to-cyan-300 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1621,7 +1646,22 @@ export function ModernHomepage() {
                               className={`${
                                 topic.isEmergency ? "border-2" : "border"
                               } h-full cursor-pointer transition-all duration-300 hover:shadow-xl hover:border-opacity-80 group backdrop-blur-sm bg-white/90 relative z-10 overflow-hidden`}
-                              onClick={() => handleStartAssessment(topic.id)}
+                              onClick={() => {
+                                if (topic.id === "emergency") {
+                                  handleStartAssessment(topic.id);
+                                } else {
+                                  // Map topic to appropriate agent type
+                                  const agentTypeMap: { [key: string]: string } = {
+                                    'general': 'agente-general',
+                                    'mental': 'agente-psiquiatria',
+                                    'heart': 'agente-cardiologia',
+                                    'chat': 'agente-general',
+                                    'preventive': 'agente-medicina-interna'
+                                  };
+                                  const agentType = agentTypeMap[topic.id] || 'agente-general';
+                                  handleNavigateToConsultation(agentType);
+                                }
+                              }}
                             >
                               {/* Background Image */}
                               <div className="absolute inset-0 opacity-10">
@@ -1859,7 +1899,7 @@ export function ModernHomepage() {
                               >
                                 <Button
                                   onClick={() =>
-                                    handleStartAssessment("general")
+                                    handleNavigateToQuestionnaire("general")
                                   }
                                   className="bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white font-bold px-12 py-4 rounded-2xl text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
                                 >

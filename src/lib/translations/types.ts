@@ -1387,4 +1387,155 @@ export interface Translations {
       never: string
     }
   }
+
+  // AI Agent data
+  aiAgents: {
+    general: {
+      name: string
+      specialty: string
+      benefits: {
+        eliminateCommute: string
+        flexiblePlans: string
+        accurateDiagnostics: string
+      }
+    }
+    cardiology: {
+      name: string
+      specialty: string
+      benefits: {
+        specializedConsultations: string
+        personalizedPrevention: string
+        directAccess: string
+        continuousMonitoring: string
+      }
+    }
+    neurology: {
+      name: string
+      specialty: string
+      benefits: {
+        advancedEvaluations: string
+        earlyDetection: string
+        personalizedRehabilitation: string
+        continuousMonitoring: string
+        innovativeTherapies: string
+      }
+    }
+    pediatrics: {
+      name: string
+      specialty: string
+      benefits: {
+        childDevelopment: string
+        vaccinationCare: string
+        familyConsultations: string
+        personalizedGrowth: string
+      }
+    }
+    internalMedicine: {
+      name: string
+      specialty: string
+      benefits: {
+        chronicDiseaseManagement: string
+        careCoordination: string
+        advancedPreventive: string
+        predictiveAnalytics: string
+        personalizedCare: string
+      }
+    }
+  }
+
+  // About page
+  aboutPage: {
+    title: string
+    subtitle: string
+    mission: {
+      title: string
+      description1: string
+      description2: string
+    }
+    coreValues: {
+      title: string
+    }
+    team: {
+      title: string
+      members: {
+        sarahMitchell: {
+          name: string
+          role: string
+          description: string
+        }
+        alexRodriguez: {
+          name: string
+          role: string
+          description: string
+        }
+        emilyChen: {
+          name: string
+          role: string
+          description: string
+        }
+      }
+    }
+    impact: {
+      title: string
+      assessmentsCompleted: string
+      userSatisfaction: string
+      availability: string
+      medicalSpecialties: string
+    }
+    cta: {
+      title: string
+      description: string
+      buttonText: string
+    }
+  }
+
+  // Emergency messages
+  emergencyMessages: {
+    goToNearestER: string
+    doNotDelay: string
+    emergencySymptoms: string
+    call911: string
+    seekImmediateCare: string
+  }
+
+  // Common conditions
+  commonConditions: {
+    diabetes: string
+    hypertension: string
+    asthma: string
+    migraine: string
+    depression: string
+    anxiety: string
+  }
+
+  // Doctor selection
+  doctorSelection: {
+    allSpecialties: string
+    responseTime: string
+    rating: string
+    consultations: string
+    available: string
+    busy: string
+    quickActions: string
+    chooseSpecialty: string
+    aiPoweredWithKnowledge: string
+    specializedInComprehensive: string
+    specializedInHeartHealth: string
+    specializedInBrainConditions: string
+    specializedInChildHealth: string
+    specializedInAdultMedicine: string
+    aiPoweredWithCardiology: string
+    aiPoweredWithNeurology: string
+    aiPoweredWithPediatric: string
+    aiPoweredWithInternal: string
+  }
+
+  // Mock doctor responses
+  mockResponses: {
+    generalMedicine: string[]
+    cardiology: string[]
+    neurology: string[]
+    pediatrics: string[]
+    internalMedicine: string[]
+  }
 }
