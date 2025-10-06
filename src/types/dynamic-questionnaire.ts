@@ -10,7 +10,8 @@ export const QuestionType = z.enum([
   'body_part_selector',
   'ai_single_choice',
   'ai_multiple_choice',
-  'ai_text_input'
+  'ai_text_input',
+  'image_upload'
 ])
 export type QuestionType = z.infer<typeof QuestionType>
 
@@ -42,6 +43,12 @@ export const Question = z.object({
     symptomType: z.string().optional(),
     maxOptions: z.number().default(6),
   }).optional(),
+  imageUpload: z.object({
+    acceptedTypes: z.array(z.string()).default(['image/*']),
+    maxSize: z.number().default(10 * 1024 * 1024), // 10MB default
+    imageType: z.enum(['mri', 'ct_scan', 'xray', 'ultrasound', 'pathology', 'general']).optional(),
+    analysisPrompt: z.string().optional(),
+  }).optional(),
 })
 export type Question = z.infer<typeof Question>
 
@@ -49,6 +56,13 @@ export const QuestionResponse = z.object({
   questionId: z.string(),
   answer: z.union([z.string(), z.number(), z.boolean(), z.array(z.string())]),
   timestamp: z.date().default(() => new Date()),
+  imageData: z.object({
+    base64: z.string(),
+    filename: z.string(),
+    size: z.number(),
+    type: z.string(),
+    analysisResult: z.string().optional(),
+  }).optional(),
 })
 export type QuestionResponse = z.infer<typeof QuestionResponse>
 

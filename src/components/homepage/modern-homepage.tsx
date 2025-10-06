@@ -33,6 +33,9 @@ import {
   // Image scanning icons
   Scan,
   Upload,
+  // Navigation icons
+  ArrowLeft,
+  Home,
   // Info
 } from "lucide-react";
 import { LoadingCard } from "@/components/ui/loading-spinner";
@@ -61,6 +64,7 @@ export function ModernHomepage() {
   const [specialistSlideIndex, setSpecialistSlideIndex] = useState(0);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [selectedDoctorIndex, setSelectedDoctorIndex] = useState(0);
+  const [showAllSymptoms, setShowAllSymptoms] = useState(false);
   const t = useTranslations();
   const { language } = useLanguage();
 
@@ -297,6 +301,32 @@ export function ModernHomepage() {
     setResponses(questionnaireResponses);
 
     try {
+      // Check if there are any image uploads that need analysis
+      const imageResponses = questionnaireResponses.filter(r => r.imageData);
+      
+      if (imageResponses.length > 0) {
+        // Process image analysis first
+        const { medicalImageAnalyzer } = await import('@/services/medical-image-analyzer');
+        
+        for (const response of imageResponses) {
+          if (response.imageData) {
+            const imageAnalysis = await medicalImageAnalyzer.analyzeImage({
+              base64Image: response.imageData.base64,
+              imageType: (response.questionId.includes('mri') ? 'mri' : 
+                         response.questionId.includes('ct') ? 'ct_scan' :
+                         response.questionId.includes('xray') ? 'xray' :
+                         response.questionId.includes('ultrasound') ? 'ultrasound' :
+                         response.questionId.includes('pathology') ? 'pathology' : 'general') as 'mri' | 'ct_scan' | 'xray' | 'ultrasound' | 'pathology' | 'general',
+              filename: response.imageData.filename,
+              language
+            });
+            
+            // Add analysis result to the image data
+            response.imageData.analysisResult = imageAnalysis.analysis;
+          }
+        }
+      }
+
       const result = await clientSymptomAnalyzer.analyzeResponses(
         questionnaireResponses,
         language
@@ -586,87 +616,113 @@ export function ModernHomepage() {
                             {t.homepage.youMayBeLookingFor}
                           </p>
                           <div className="flex flex-wrap gap-2">
-                            {[
-                              {
-                                key: "Family Medicine",
-                                label: t.homepage.familyMedicine,
-                              },
-                              {
-                                key: "Pediatrics",
-                                label: t.homepage.pediatrics,
-                              },
-                              {
-                                key: "Top Hospital",
-                                label: t.homepage.topHospital,
-                              },
-                              {
-                                key: "Telehealth",
-                                label: t.homepage.telehealth,
-                              },
-                              { key: "COVID-19", label: t.homepage.covid19 },
-                              {
-                                key: "Orthopedic Surgery",
-                                label: t.homepage.orthopedicSurgery,
-                              },
-                            ].map((tag) => (
-                              <button
-                                key={tag.key}
-                                className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-xs transition-colors duration-200 flex items-center space-x-1"
-                                onClick={() => setSearchQuery(tag.label)}
-                              >
-                                <span>{tag.label}</span>
-                                <Activity className="h-2.5 w-2.5" />
-                              </button>
-                            ))}
-                            <button
-                              className="px-3 py-1.5 bg-cyan-100 hover:bg-cyan-200 text-cyan-600 rounded-full text-xs transition-colors duration-200"
-                              onClick={() => {
-                                const allTags = [
-                                  {
-                                    key: "Dermatology",
-                                    label: t.homepage.dermatology,
-                                  },
-                                  {
-                                    key: "Internal Medicine",
-                                    label: t.homepage.internalMedicine,
-                                  },
-                                  {
-                                    key: "Neurology",
-                                    label: t.homepage.neurology,
-                                  },
-                                  {
-                                    key: "Psychiatry",
-                                    label: t.homepage.psychiatry,
-                                  },
-                                  {
-                                    key: "Cardiology",
-                                    label: t.homepage.cardiology,
-                                  },
-                                  {
-                                    key: "Emergency Medicine",
-                                    label: t.homepage.emergencyMedicine,
-                                  },
-                                ];
+                            {(() => {
+                              const allSymptomTags = [
+                                {
+                                  key: "headache",
+                                  label: language === "es" ? "Dolor de cabeza" : "Headache",
+                                },
+                                {
+                                  key: "fever",
+                                  label: language === "es" ? "Fiebre" : "Fever",
+                                },
+                                {
+                                  key: "chest_pain",
+                                  label: language === "es" ? "Dolor en el pecho" : "Chest pain",
+                                },
+                                {
+                                  key: "stomach_pain",
+                                  label: language === "es" ? "Dolor de estómago" : "Stomach pain",
+                                },
+                                {
+                                  key: "cough",
+                                  label: language === "es" ? "Tos" : "Cough",
+                                },
+                                {
+                                  key: "fatigue",
+                                  label: language === "es" ? "Fatiga" : "Fatigue",
+                                },
+                                {
+                                  key: "back_pain",
+                                  label: language === "es" ? "Dolor de espalda" : "Back pain",
+                                },
+                                {
+                                  key: "dizziness",
+                                  label: language === "es" ? "Mareos" : "Dizziness",
+                                },
+                                {
+                                  key: "nausea",
+                                  label: language === "es" ? "Náuseas" : "Nausea",
+                                },
+                                {
+                                  key: "shortness_breath",
+                                  label: language === "es" ? "Falta de aire" : "Shortness of breath",
+                                },
+                                {
+                                  key: "joint_pain",
+                                  label: language === "es" ? "Dolor articular" : "Joint pain",
+                                },
+                                {
+                                  key: "skin_rash",
+                                  label: language === "es" ? "Sarpullido" : "Skin rash",
+                                },
+                                {
+                                  key: "sore_throat",
+                                  label: language === "es" ? "Dolor de garganta" : "Sore throat",
+                                },
+                                {
+                                  key: "muscle_pain",
+                                  label: language === "es" ? "Dolor muscular" : "Muscle pain",
+                                },
+                                {
+                                  key: "anxiety",
+                                  label: language === "es" ? "Ansiedad" : "Anxiety",
+                                },
+                                {
+                                  key: "insomnia",
+                                  label: language === "es" ? "Insomnio" : "Insomnia",
+                                },
+                              ];
 
-                                const currentTags = [
-                                  t.homepage.familyMedicine,
-                                  t.homepage.pediatrics,
-                                  t.homepage.topHospital,
-                                  t.homepage.telehealth,
-                                  t.homepage.covid19,
-                                  t.homepage.orthopedicSurgery,
-                                ];
+                              const visibleTags = showAllSymptoms ? allSymptomTags : allSymptomTags.slice(0, 6);
 
-                                const nextTag = allTags.find(
-                                  (tag) => !currentTags.includes(tag.label)
-                                );
-                                if (nextTag) {
-                                  setSearchQuery(nextTag.label);
-                                }
-                              }}
-                            >
-                              {t.homepage.more}
-                            </button>
+                              return (
+                                <>
+                                  {visibleTags.map((tag) => (
+                                    <motion.button
+                                      key={tag.key}
+                                      initial={{ opacity: 0, scale: 0.9 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      transition={{ duration: 0.2 }}
+                                      className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-xs transition-colors duration-200 flex items-center space-x-1"
+                                      onClick={() => {
+                                        setSearchQuery(tag.label);
+                                        // Also create and set the autocomplete option for better integration
+                                        const option = {
+                                          value: tag.key,
+                                          label: tag.label,
+                                          data: { type: "symptom", original: tag.label }
+                                        };
+                                        setSelectedSymptom(option);
+                                      }}
+                                    >
+                                      <span>{tag.label}</span>
+                                      <Activity className="h-2.5 w-2.5" />
+                                    </motion.button>
+                                  ))}
+                                  
+                                  <button
+                                    className="px-3 py-1.5 bg-cyan-100 hover:bg-cyan-200 text-cyan-600 rounded-full text-xs transition-colors duration-200"
+                                    onClick={() => setShowAllSymptoms(!showAllSymptoms)}
+                                  >
+                                    {showAllSymptoms 
+                                      ? (language === "es" ? "Menos" : "Less")
+                                      : (language === "es" ? "Más" : "More")
+                                    }
+                                  </button>
+                                </>
+                              );
+                            })()}
                           </div>
                         </div>
                       </motion.div>
@@ -749,7 +805,7 @@ export function ModernHomepage() {
                                 name: t.homepage.generalMedicine,
                                 icon: Shield,
                                 color: "bg-red-100",
-                                selected: true,
+                                selected: false,
                               },
                               {
                                 name: t.homepage.dentistry,
@@ -811,6 +867,7 @@ export function ModernHomepage() {
                                 icon: Activity,
                                 color: "bg-gray-100",
                                 selected: false,
+                                imageType: 'ct_scan',
                               },
                               {
                                 name: t.homepage.aiMri,
@@ -818,6 +875,7 @@ export function ModernHomepage() {
                                 icon: Brain,
                                 color: "bg-cyan-100",
                                 selected: false,
+                                imageType: 'mri',
                               },
                               {
                                 name: t.homepage.aiXray,
@@ -825,6 +883,7 @@ export function ModernHomepage() {
                                 icon: Shield,
                                 color: "bg-cyan-100",
                                 selected: false,
+                                imageType: 'xray',
                               },
                               {
                                 name: t.homepage.aiBloodTest,
@@ -832,6 +891,7 @@ export function ModernHomepage() {
                                 icon: Heart,
                                 color: "bg-red-100",
                                 selected: false,
+                                imageType: 'pathology',
                               },
                               {
                                 name: t.homepage.aiUltrasound,
@@ -839,6 +899,7 @@ export function ModernHomepage() {
                                 icon: UserCheck,
                                 color: "bg-green-100",
                                 selected: false,
+                                imageType: 'ultrasound',
                               },
                               {
                                 name: t.homepage.aiEndoscopy,
@@ -846,6 +907,7 @@ export function ModernHomepage() {
                                 icon: Stethoscope,
                                 color: "bg-teal-100",
                                 selected: false,
+                                imageType: 'general',
                               },
                             ];
 
@@ -855,6 +917,7 @@ export function ModernHomepage() {
                               icon: React.ComponentType<{ className?: string }>;
                               color: string;
                               selected: boolean;
+                              imageType?: string;
                             };
                             let items: TabItem[] = [];
                             if (activeTab === "specialties")
@@ -873,9 +936,14 @@ export function ModernHomepage() {
                                     : item.color + " border border-gray-200"
                                 }`}
                                 whileHover={{ y: -3, scale: 1.02 }}
-                                onClick={() =>
-                                  handleStartAssessment(item.name.toLowerCase())
-                                }
+                                onClick={() => {
+                                  // For procedures tab, use imageType to start image analysis flows
+                                  if (activeTab === "procedures" && item.imageType) {
+                                    handleStartAssessment(item.imageType);
+                                  } else {
+                                    handleStartAssessment(item.name.toLowerCase());
+                                  }
+                                }}
                               >
                                 <item.icon className="h-6 w-6 lg:h-8 lg:w-8 mx-auto mb-2 lg:mb-3 text-gray-600" />
                                 <h3 className="font-semibold text-gray-900 text-xs lg:text-sm leading-tight">
@@ -1184,7 +1252,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            handleNavigateToConsultation('radiologia');
+                            handleStartAssessment('mri');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1203,7 +1271,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            handleNavigateToConsultation('radiologia');
+                            handleStartAssessment('ct_scan');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1222,7 +1290,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            handleNavigateToConsultation('radiologia');
+                            handleStartAssessment('xray');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1241,7 +1309,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            handleNavigateToConsultation('radiologia');
+                            handleStartAssessment('ultrasound');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1260,7 +1328,7 @@ export function ModernHomepage() {
                           className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            handleNavigateToConsultation('patologia');
+                            handleStartAssessment('pathology');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-red-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1279,7 +1347,7 @@ export function ModernHomepage() {
                           className="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-dashed border-cyan-300"
                           whileHover={{ y: -3 }}
                           onClick={() => {
-                            handleNavigateToConsultation('radiologia');
+                            handleStartAssessment('general');
                           }}
                         >
                           <div className="w-16 h-16 bg-gradient-to-br from-cyan-200 to-cyan-300 rounded-lg flex items-center justify-center mb-4 mx-auto">
@@ -1531,6 +1599,35 @@ export function ModernHomepage() {
                   exit={{ opacity: 0, x: -20 }}
                   className="max-w-7xl mx-auto"
                 >
+                  {/* Navigation Header */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center justify-between mb-6 px-4"
+                  >
+                    <Button
+                      onClick={handleBackToHome}
+                      variant="outline"
+                      className="flex items-center space-x-2 bg-white hover:bg-gray-50 border-gray-200 text-gray-700 hover:text-gray-900"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                      <span>{t.common.backToHome || 'Back to Home'}</span>
+                    </Button>
+                    
+                    <div className="flex items-center space-x-2 text-gray-600">
+                      <Home className="h-4 w-4" />
+                      <span className="text-sm">
+                        {selectedTopic === 'mri' ? 'MRI Analysis' :
+                         selectedTopic === 'ct_scan' ? 'CT Scan Analysis' :
+                         selectedTopic === 'xray' ? 'X-Ray Analysis' :
+                         selectedTopic === 'ultrasound' ? 'Ultrasound Analysis' :
+                         selectedTopic === 'pathology' ? 'Pathology Analysis' :
+                         selectedTopic === 'general' ? 'Medical Image Analysis' :
+                         'Health Assessment'}
+                      </span>
+                    </div>
+                  </motion.div>
+
                   <DynamicQuestionnaire
                     onComplete={handleQuestionnaireComplete}
                     onEmergencyDetected={handleEmergencyDetected}
@@ -1538,6 +1635,8 @@ export function ModernHomepage() {
                     initialQuery={
                       selectedTopic === "search" ? (selectedSymptom?.label || searchQuery) : undefined
                     }
+                    onBackToHome={handleBackToHome}
+                    allowNavigation={true}
                   />
                 </motion.div>
               )}

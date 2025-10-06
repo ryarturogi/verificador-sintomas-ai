@@ -31,6 +31,13 @@ export const AssessmentResult = z.object({
   emergencyWarning: z.boolean(),
   emergencyMessage: z.string().optional(),
   followUpAdvice: z.string(),
+  imageAnalysis: z.object({
+    findings: z.array(z.string()),
+    analysis: z.string(),
+    suggestedSpecialties: z.array(z.string()),
+    urgencyLevel: z.enum(['low', 'medium', 'high', 'emergency']),
+    confidence: z.number(),
+  }).optional(),
 })
 
 export type AssessmentResult = z.infer<typeof AssessmentResult>

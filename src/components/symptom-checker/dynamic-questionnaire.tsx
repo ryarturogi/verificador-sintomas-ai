@@ -6,23 +6,34 @@ import { clientQuestionService } from '@/services/client-question-service'
 import { DynamicQuestion } from './dynamic-question'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { useLanguage, useTranslations } from '@/contexts/language-context'
 import { CheckCircle, AlertTriangle, Shield, Heart } from 'lucide-react'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { medicalDesignTokens as designTokens } from '@/lib/design-tokens'
 import { useScrollToTop } from '@/hooks/use-scroll-to-top'
+import { useNavigationConfirmation } from '@/hooks/use-navigation-lock'
 
 interface DynamicQuestionnaireProps {
   onComplete: (responses: QuestionResponse[]) => void
   onEmergencyDetected: (responses: QuestionResponse[]) => void
   initialTopic?: string
   initialQuery?: string
+  onBackToHome?: () => void
+  allowNavigation?: boolean
 }
 
 type QuestionnaireState = 'initializing' | 'questioning' | 'generating' | 'completed' | 'emergency' | 'error'
 
-export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialTopic, initialQuery }: DynamicQuestionnaireProps) {
+export function DynamicQuestionnaire({ 
+  onComplete, 
+  onEmergencyDetected, 
+  initialTopic, 
+  initialQuery, 
+  onBackToHome,
+  allowNavigation = false 
+}: DynamicQuestionnaireProps) {
   const [state, setState] = useState<QuestionnaireState>('initializing')
   const [responses, setResponses] = useState<QuestionResponse[]>([])
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null)
@@ -32,6 +43,32 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
   const [canGoBack, setCanGoBack] = useState(false)
   const { language } = useLanguage()
   const t = useTranslations()
+  
+  // Navigation lock to prevent accidental exits during questionnaire
+  const isQuestionnaireActive = !allowNavigation && (
+    state === 'questioning' || 
+    state === 'generating' || 
+    (responses.length > 0 && state !== 'completed' && state !== 'error')
+  )
+
+  const {
+    showDialog: showNavigationDialog,
+    handleConfirmExit,
+    handleCancelExit
+  } = useNavigationConfirmation({
+    isActive: isQuestionnaireActive,
+    onConfirmExit: () => {
+      // Clear questionnaire data and navigate home
+      setResponses([])
+      setCurrentQuestion(null)
+      setQuestionHistory([])
+      setState('initializing')
+      onBackToHome?.()
+    },
+    onCancelExit: () => {
+      // Just close the dialog, stay in questionnaire
+    }
+  })
   
   // Use refs to avoid re-renders from prop changes
   const initializedRef = useRef(false)
@@ -109,9 +146,23 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
       setState('initializing')
       setResponses([]) // Reset responses
       
-      // If we have an initial topic, skip the first question and start with the second
-      if (initialTopicRef.current || initialQueryRef.current) {
-        // Add the initial response to the session
+      // Check if this is an image analysis flow
+      const imageTypes = ['mri', 'ct_scan', 'xray', 'ultrasound', 'pathology', 'general']
+      const isImageAnalysis = initialTopicRef.current && imageTypes.includes(initialTopicRef.current)
+      
+      if (isImageAnalysis) {
+        // For image analysis, start directly with the image upload question
+        const imageQuestion = await makeRequest(
+          'generateInitialQuestion',
+          () => clientQuestionService.generateInitialQuestion(language, initialTopicRef.current!)
+        )
+        
+        setCurrentQuestion(imageQuestion)
+        setQuestionHistory([imageQuestion])
+        setQuestionNumber(1)
+        setState('questioning')
+      } else if (initialTopicRef.current || initialQueryRef.current) {
+        // For other topics, add the initial response and generate next question
         const initialResponse = initialQueryRef.current 
           ? {
               questionId: 'initial_symptom',
@@ -182,11 +233,23 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
   }, [])
 
   const shouldCompleteQuestionnaire = useCallback((responses: QuestionResponse[]): boolean => {
-    // Complete if we have basic info and sufficient symptom details
-    const hasBasicInfo = responses.some(r => r.questionId === 'initial_symptom')
-    const hasEnoughDetails = responses.length >= 4
+    // Check if this is an image analysis flow
+    const imageTypes = ['mri', 'ct_scan', 'xray', 'ultrasound', 'pathology', 'general']
+    const isImageAnalysis = initialTopicRef.current && imageTypes.includes(initialTopicRef.current)
     
-    return hasBasicInfo && hasEnoughDetails
+    if (isImageAnalysis) {
+      // For image analysis, complete after we have the image and a few follow-up questions
+      const hasImage = responses.some(r => r.imageData)
+      const hasFollowUpQuestions = responses.length >= 2 // Image + at least 1 follow-up
+      
+      return hasImage && hasFollowUpQuestions
+    } else {
+      // Complete if we have basic info and sufficient symptom details
+      const hasBasicInfo = responses.some(r => r.questionId === 'initial_symptom')
+      const hasEnoughDetails = responses.length >= 4
+      
+      return hasBasicInfo && hasEnoughDetails
+    }
   }, [])
 
   const handleAnswer = useCallback(async (response: QuestionResponse) => {
@@ -224,8 +287,13 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
         }
       }
 
+      // Check if this is an image analysis flow for different completion criteria
+      const imageTypes = ['mri', 'ct_scan', 'xray', 'ultrasound', 'pathology', 'general']
+      const isImageAnalysis = initialTopicRef.current && imageTypes.includes(initialTopicRef.current)
+      
       // Generate next question or complete
-      if (questionNumber >= 8 || shouldCompleteQuestionnaire(newResponses)) {
+      const maxQuestions = isImageAnalysis ? 3 : 8 // Shorter questionnaire for image analysis
+      if (questionNumber >= maxQuestions || shouldCompleteQuestionnaire(newResponses)) {
         setState('completed')
         onComplete(newResponses)
         return
@@ -290,7 +358,10 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
 
   // Memoize expensive computations
   const progressPercentage = useMemo(() => {
-    return Math.min((responses.length / 8) * 100, 100)
+    const imageTypes = ['mri', 'ct_scan', 'xray', 'ultrasound', 'pathology', 'general']
+    const isImageAnalysis = initialTopicRef.current && imageTypes.includes(initialTopicRef.current)
+    const totalQuestions = isImageAnalysis ? 3 : 8
+    return Math.min((responses.length / totalQuestions) * 100, 100)
   }, [responses.length])
 
 
@@ -318,7 +389,11 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
             question={currentQuestion}
             onAnswer={handleAnswer}
             questionNumber={questionNumber}
-            totalQuestions={8}
+            totalQuestions={(() => {
+              const imageTypes = ['mri', 'ct_scan', 'xray', 'ultrasound', 'pathology', 'general']
+              const isImageAnalysis = initialTopicRef.current && imageTypes.includes(initialTopicRef.current)
+              return isImageAnalysis ? 3 : 8
+            })()}
             previousResponses={responses}
             onGoBack={handleGoBack}
             canGoBack={canGoBack}
@@ -437,25 +512,63 @@ export function DynamicQuestionnaire({ onComplete, onEmergencyDetected, initialT
   }, [state, currentQuestion, questionNumber, responses, session, t, error, retryGeneration, initializeQuestionnaire, progressPercentage, handleAnswer, handleGoBack, canGoBack]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="min-h-screen bg-slate-50 py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
-      <div className={designTokens.spacing.containerLarge}>
-        <div className="space-y-4 sm:space-y-6">
-          {/* Single persistent container */}
-          <div className="relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={state + (currentQuestion?.id || '')}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              >
-                {renderState()}
-              </motion.div>
-            </AnimatePresence>
+    <>
+      <div className="min-h-screen bg-slate-50 py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
+        <div className={designTokens.spacing.containerLarge}>
+          <div className="space-y-4 sm:space-y-6">
+            {/* Single persistent container */}
+            <div className="relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={state + (currentQuestion?.id || '')}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  {renderState()}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Navigation Confirmation Dialog */}
+      <Dialog open={showNavigationDialog} onOpenChange={() => {}}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center space-x-2">
+              <AlertTriangle className="h-5 w-5 text-orange-500" />
+              <span>{t.common.confirmExit || 'Confirm Exit'}</span>
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="py-4">
+            <p className="text-gray-600">
+              {t.questionnaire.exitWarning || 
+               'Are you sure you want to leave? Your progress will be lost and you\'ll need to start over.'}
+            </p>
+          </div>
+
+          <DialogFooter className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={handleCancelExit}
+              className="flex-1"
+            >
+              {t.common.cancel || 'Cancel'}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleConfirmExit}
+              className="flex-1"
+            >
+              {t.common.exitQuestionnaire || 'Exit Questionnaire'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }

@@ -13,7 +13,9 @@ import {
   AlertCircle,
   CheckCircle,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Image as ImageIcon,
+  Scan
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -212,6 +214,70 @@ export function AssessmentResults({ result, onNewAssessment }: AssessmentResults
                         ))}
                     </div>
                   </div>
+                </motion.div>
+              )}
+
+              {/* Image Analysis Section */}
+              {result.imageAnalysis && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="bg-cyan-50 p-4 rounded-lg border border-cyan-200"
+                >
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
+                      <Scan className="icon-sm text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900">
+                      Medical Image Analysis
+                    </h3>
+                    <div className="ml-auto">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        result.imageAnalysis.urgencyLevel === 'emergency' ? 'bg-red-100 text-red-700' :
+                        result.imageAnalysis.urgencyLevel === 'high' ? 'bg-orange-100 text-orange-700' :
+                        result.imageAnalysis.urgencyLevel === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-green-100 text-green-700'
+                      }`}>
+                        {result.imageAnalysis.urgencyLevel.toUpperCase()}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-lg mb-4">
+                    <h4 className="font-semibold text-gray-900 mb-2">Analysis</h4>
+                    <p className="text-gray-700 text-sm leading-relaxed">{result.imageAnalysis.analysis}</p>
+                  </div>
+
+                  {result.imageAnalysis.findings.length > 0 && (
+                    <div className="bg-white p-4 rounded-lg mb-4">
+                      <h4 className="font-semibold text-gray-900 mb-3">Key Findings</h4>
+                      <div className="space-y-2">
+                        {result.imageAnalysis.findings.map((finding, index) => (
+                          <div key={index} className="flex items-start space-x-2">
+                            <ImageIcon className="h-4 w-4 text-cyan-600 mt-0.5 flex-shrink-0" />
+                            <span className="text-gray-700 text-sm">{finding}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {result.imageAnalysis.suggestedSpecialties.length > 0 && (
+                    <div className="bg-white p-4 rounded-lg">
+                      <h4 className="font-semibold text-gray-900 mb-3">Suggested Specialties</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {result.imageAnalysis.suggestedSpecialties.map((specialty, index) => (
+                          <span 
+                            key={index}
+                            className="px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full text-sm font-medium"
+                          >
+                            {specialty}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
               )}
 

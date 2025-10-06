@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { AISymptomAutocomplete } from '@/components/ui/ai-symptom-autocomplete'
 import { Option } from '@/components/ui/async-autocomplete'
 import { Check, ArrowRight, ArrowLeft, MessageCircle } from 'lucide-react'
+import { ImageUpload } from '@/components/ui/image-upload'
 import { motion } from 'framer-motion'
 import { useTranslations } from '@/contexts/language-context'
 import { AIAnswerSelector } from './ai-answer-selector'
@@ -39,6 +40,12 @@ export function DynamicQuestion({
   const [selectedOptions, setSelectedOptions] = useState<string[]>([])
   const [selectedAutocomplete, setSelectedAutocomplete] = useState<Option | null>(null)
   const [error, setError] = useState<string>('')
+  const [uploadedImage, setUploadedImage] = useState<{
+    base64: string
+    filename: string
+    size: number
+    type: string
+  } | null>(null)
   const t = useTranslations()
 
   const progress = (questionNumber / totalQuestions) * 100
@@ -151,6 +158,13 @@ export function DynamicQuestion({
           finalAnswer = (answer as string).trim()
         }
         break
+      case 'image_upload':
+        if (!uploadedImage) {
+          setError('Please upload an image to continue')
+          return
+        }
+        finalAnswer = `Image uploaded: ${uploadedImage.filename}`
+        break
       default:
         finalAnswer = answer as string
     }
@@ -159,6 +173,9 @@ export function DynamicQuestion({
       questionId: question.id,
       answer: finalAnswer,
       timestamp: new Date(),
+      ...(uploadedImage && question.type === 'image_upload' && {
+        imageData: uploadedImage
+      })
     }
 
     onAnswer(response)
@@ -439,6 +456,26 @@ export function DynamicQuestion({
             value={answer as string}
             onChange={(e) => setAnswer(e.target.value)}
             className={designTokens.forms.input}
+          />
+        )
+
+      case 'image_upload':
+        return (
+          <ImageUpload
+            onImageSelect={(imageData) => {
+              setUploadedImage(imageData)
+              setAnswer(`Image uploaded: ${imageData.filename}`)
+            }}
+            onRemove={() => {
+              setUploadedImage(null)
+              setAnswer('')
+            }}
+            currentImage={uploadedImage}
+            acceptedTypes={question.imageUpload?.acceptedTypes}
+            maxSize={question.imageUpload?.maxSize}
+            imageType={question.imageUpload?.imageType}
+            placeholder={question.placeholder || `Upload ${question.imageUpload?.imageType || 'medical'} image`}
+            description={question.description || 'Please upload your medical image for analysis'}
           />
         )
 
