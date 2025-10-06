@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { SymptomAutocomplete } from '@/components/ui/symptom-autocomplete'
+import { AISymptomAutocomplete } from '@/components/ui/ai-symptom-autocomplete'
 import { Option } from '@/components/ui/async-autocomplete'
 import { Check, ArrowRight, ArrowLeft, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -44,31 +44,37 @@ export function DynamicQuestion({
   const progress = (questionNumber / totalQuestions) * 100
 
   // Helper function to determine if question should use autocomplete
-  const shouldUseAutocomplete = (question: Question): { use: boolean; type: 'symptom' | 'destination' | 'condition' } => {
+  const shouldUseAutocomplete = (question: Question): { use: boolean; type: 'symptom' } => {
     const questionText = question.text.toLowerCase();
     const placeholder = question.placeholder?.toLowerCase() || '';
     
     // Check for symptom-related keywords
     const symptomKeywords = ['symptom', 'feel', 'experience', 'pain', 'ache', 'discomfort', 'describe', 'problem'];
-    const destinationKeywords = ['doctor', 'hospital', 'clinic', 'specialist', 'facility', 'location', 'where'];
-    const conditionKeywords = ['condition', 'diagnosis', 'disease', 'illness', 'medical history'];
     
     const hasSymptomKeywords = symptomKeywords.some(keyword => 
       questionText.includes(keyword) || placeholder.includes(keyword)
     );
-    const hasDestinationKeywords = destinationKeywords.some(keyword => 
-      questionText.includes(keyword) || placeholder.includes(keyword)
-    );
-    const hasConditionKeywords = conditionKeywords.some(keyword => 
-      questionText.includes(keyword) || placeholder.includes(keyword)
-    );
     
     if (hasSymptomKeywords) return { use: true, type: 'symptom' };
-    if (hasDestinationKeywords) return { use: true, type: 'destination' };
-    if (hasConditionKeywords) return { use: true, type: 'condition' };
     
     return { use: false, type: 'symptom' };
   };
+
+  // Clear autocomplete when user types manually
+  const handleManualInputChange = (value: string) => {
+    setAnswer(value)
+    if (value.trim().length > 0 && selectedAutocomplete) {
+      setSelectedAutocomplete(null)
+    }
+  }
+
+  // Clear manual input when user selects from autocomplete
+  const handleAutocompleteSelect = (option: Option | null) => {
+    setSelectedAutocomplete(option)
+    if (option && answer) {
+      setAnswer('')
+    }
+  }
 
   const handleSubmit = () => {
     setError('')
@@ -125,15 +131,23 @@ export function DynamicQuestion({
       case 'text_input':
         // Check if this question should use autocomplete
         const autocompleteInfo = shouldUseAutocomplete(question);
-        if (autocompleteInfo.use && selectedAutocomplete) {
-          finalAnswer = selectedAutocomplete.label;
-        } else if (autocompleteInfo.use && !selectedAutocomplete && (!answer || (answer as string).trim().length < 3)) {
-          setError(t.errors.provideMoreDetail)
-          return
-        } else if (!answer || (answer as string).trim().length < 3) {
-          setError(t.errors.provideMoreDetail)
-          return
+        
+        if (autocompleteInfo.use) {
+          // Use autocomplete selection if available, otherwise fall back to manual input
+          if (selectedAutocomplete) {
+            finalAnswer = selectedAutocomplete.label;
+          } else if (answer && (answer as string).trim().length >= 3) {
+            finalAnswer = (answer as string).trim();
+          } else {
+            setError(t.errors.provideMoreDetail)
+            return
+          }
         } else {
+          // Regular text input validation
+          if (!answer || (answer as string).trim().length < 3) {
+            setError(t.errors.provideMoreDetail)
+            return
+          }
           finalAnswer = (answer as string).trim()
         }
         break
@@ -192,13 +206,34 @@ export function DynamicQuestion({
         
         if (autocompleteInfo.use) {
           return (
-            <SymptomAutocomplete
-              type={autocompleteInfo.type}
-              onSymptomSelect={setSelectedAutocomplete}
-              value={selectedAutocomplete}
-              placeholder={question.placeholder}
-              className="[&_.react-select__control]:border-cyan-200 [&_.react-select__control]:focus:border-cyan-500 [&_.react-select__control]:hover:border-cyan-300"
-            />
+            <div className="space-y-3">
+              <AISymptomAutocomplete
+                onSymptomSelect={handleAutocompleteSelect}
+                value={selectedAutocomplete}
+                placeholder={question.placeholder}
+                questionContext={question.text}
+                className="[&_.react-select__control]:border-cyan-200 [&_.react-select__control]:focus:border-cyan-500 [&_.react-select__control]:hover:border-cyan-300"
+              />
+              <div className="text-sm text-gray-600">
+                <p>{t.symptomAutocomplete.orDescribeSymptoms}</p>
+                {question.text.toLowerCase().includes('describe') ? (
+                  <Textarea
+                    value={answer as string}
+                    onChange={(e) => handleManualInputChange(e.target.value)}
+                    placeholder={t.symptomAutocomplete.describeSymptomsPlaceholder}
+                    className="text-base mt-2"
+                    rows={3}
+                  />
+                ) : (
+                  <Input
+                    value={answer as string}
+                    onChange={(e) => handleManualInputChange(e.target.value)}
+                    placeholder={t.symptomAutocomplete.typeSymptomsPlaceholder}
+                    className="text-base mt-2"
+                  />
+                )}
+              </div>
+            </div>
           );
         }
         
@@ -380,8 +415,7 @@ export function DynamicQuestion({
         
         if (textAutocompleteInfo.use) {
           return (
-            <SymptomAutocomplete
-              type={textAutocompleteInfo.type}
+            <AISymptomAutocomplete
               onSymptomSelect={setSelectedAutocomplete}
               value={selectedAutocomplete}
               placeholder={question.placeholder}

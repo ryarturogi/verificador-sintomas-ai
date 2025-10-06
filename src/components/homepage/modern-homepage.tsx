@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useTranslations, useLanguage } from "@/contexts/language-context";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { SymptomAutocomplete } from "@/components/ui/symptom-autocomplete";
+import { AISymptomAutocomplete } from "@/components/ui/ai-symptom-autocomplete";
 import { Option } from "@/components/ui/async-autocomplete";
 import { DynamicQuestionnaire } from "@/components/symptom-checker/dynamic-questionnaire";
 import { AssessmentResults } from "@/components/symptom-checker/assessment-results";
@@ -43,7 +43,6 @@ export function ModernHomepage() {
   const [appState, setAppState] = useState<AppState>("disclaimer");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSymptom, setSelectedSymptom] = useState<Option | null>(null);
-  const [selectedDestination, setSelectedDestination] = useState<Option | null>(null);
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [results, setResults] = useState<AssessmentResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -253,7 +252,6 @@ export function ModernHomepage() {
     setSelectedTopic(null);
     setSearchQuery("");
     setSelectedSymptom(null);
-    setSelectedDestination(null);
     setResults(null);
     setError(null);
     setShowEmergencyAlert(false);
@@ -621,20 +619,10 @@ export function ModernHomepage() {
                       >
                         <div className="flex flex-col lg:flex-row gap-4 items-center">
                           <div className="flex-1 relative">
-                            <SymptomAutocomplete
-                              type="symptom"
+                            <AISymptomAutocomplete
                               onSymptomSelect={setSelectedSymptom}
                               value={selectedSymptom}
                               placeholder={t.homepage.searchPlaceholder}
-                              className="[&_.react-select-container]:h-14 [&_.react-select__control]:h-14 [&_.react-select__control]:rounded-xl [&_.react-select__control]:text-base"
-                            />
-                          </div>
-                          <div className="flex-1 relative">
-                            <SymptomAutocomplete
-                              type="destination"
-                              onSymptomSelect={setSelectedDestination}
-                              value={selectedDestination}
-                              placeholder={t.homepage.setLocation}
                               className="[&_.react-select-container]:h-14 [&_.react-select__control]:h-14 [&_.react-select__control]:rounded-xl [&_.react-select__control]:text-base"
                             />
                           </div>
@@ -978,20 +966,10 @@ export function ModernHomepage() {
 
                           <div className="space-y-4 mb-6">
                             <div className="relative">
-                              <SymptomAutocomplete
-                                type="symptom"
+                              <AISymptomAutocomplete
                                 onSymptomSelect={setSelectedSymptom}
                                 value={selectedSymptom}
                                 placeholder={t.homepage.searchDoctor}
-                                className="[&_.react-select-container]:h-12 [&_.react-select__control]:h-12 [&_.react-select__control]:rounded-lg [&_.react-select__control]:border-gray-200 [&_.react-select__control]:focus:border-cyan-500"
-                              />
-                            </div>
-                            <div className="relative">
-                              <SymptomAutocomplete
-                                type="destination"
-                                onSymptomSelect={setSelectedDestination}
-                                value={selectedDestination}
-                                placeholder={t.homepage.setLocation}
                                 className="[&_.react-select-container]:h-12 [&_.react-select__control]:h-12 [&_.react-select__control]:rounded-lg [&_.react-select__control]:border-gray-200 [&_.react-select__control]:focus:border-cyan-500"
                               />
                             </div>

@@ -2,6 +2,15 @@
 @import "tw-animate-css";
 @import "../lib/utility-classes.css";
 
+/* React Select dropdown z-index fix */
+.react-select__menu-portal {
+  z-index: 999999 !important;
+}
+
+.react-select__menu {
+  z-index: 999999 !important;
+}
+
 /* Custom scrollbar styles */
 .scrollbar-thin {
   scrollbar-width: thin;

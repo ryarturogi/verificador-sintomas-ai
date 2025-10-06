@@ -39,20 +39,26 @@ export class QuestionGenerator {
     const isSpanish = language === 'es'
     
     const prompt = `
-You are a medical AI assistant creating the first question for a symptom assessment questionnaire.
+You are a medical AI assistant creating the first question for a clinical symptom assessment questionnaire. This is designed to function like a real medical diagnosis process.
 
 ${isSpanish ? 'IMPORTANTE: Responde en español. Toda la información debe estar en español.' : 'IMPORTANT: Respond in English.'}
 
-Generate a JSON object for an initial question that helps identify the patient's main concern. This should be an open-ended question that allows the patient to describe their primary symptom or health concern.
+Generate a JSON object for an initial question that follows clinical diagnostic methodology. This should be an open-ended question that allows the patient to describe their chief complaint (síntoma principal) in detail, following the medical history-taking approach.
+
+The question should:
+1. Follow the SOCRATES mnemonic (Site, Onset, Character, Radiation, Associated symptoms, Time course, Exacerbating/Relieving factors, Severity)
+2. Be clinically relevant for differential diagnosis
+3. Allow for comprehensive symptom description
+4. Guide the patient to provide medically useful information
 
 Return a JSON object with this exact structure:
 {
   "id": "initial_symptom",
   "type": "ai_text_input",
-  "text": "${isSpanish ? '¿Cuál es tu principal preocupación de salud o síntoma hoy?' : 'What is your main health concern or symptom today?'}",
-  "description": "${isSpanish ? 'Por favor describe en detalle lo que te trajo aquí hoy. Sé tan específico como sea posible sobre tus síntomas, cuándo comenzaron y cómo te afectan.' : 'Please describe what brought you here today. Be as specific as possible about your symptoms, when they started, and how they affect you.'}",
+  "text": "${isSpanish ? '¿Cuál es tu síntoma principal o preocupación de salud que te trae aquí hoy?' : 'What is your main symptom or health concern that brings you here today?'}",
+  "description": "${isSpanish ? 'Por favor describe tu síntoma principal en detalle. Incluye: dónde está localizado, cuándo comenzó, cómo se siente, si se irradia a otras áreas, qué otros síntomas tienes, cómo ha evolucionado con el tiempo, qué lo mejora o empeora, y qué tan severo es (escala del 1-10).' : 'Please describe your main symptom in detail. Include: where it is located, when it started, how it feels, if it radiates to other areas, what other symptoms you have, how it has evolved over time, what makes it better or worse, and how severe it is (scale 1-10).'}",
   "required": true,
-  "placeholder": "${isSpanish ? 'ej., Tengo un dolor de cabeza severo que comenzó ayer...' : 'e.g., I have a severe headache that started yesterday...'}",
+  "placeholder": "${isSpanish ? 'ej., Tengo un dolor de cabeza severo (8/10) que comenzó ayer en la región temporal derecha, se irradia al cuello, acompañado de náuseas y sensibilidad a la luz...' : 'e.g., I have a severe headache (8/10) that started yesterday in the right temporal region, radiates to the neck, accompanied by nausea and light sensitivity...'}",
   "generateAnswers": true
 }
 `
@@ -62,14 +68,28 @@ Return a JSON object with this exact structure:
         [{ role: 'user', content: prompt }],
         'gpt-5-nano',
         {
-          temperature: 0.3,
-          maxTokens: 500,
-          responseFormat: 'json_object'
+          responseFormat: 'json_object',
+          reasoningEffort: 'low',
+          verbosity: 'low'
         }
       )
 
-      const questionData = JSON.parse(response)
-      return Question.parse(questionData)
+      // Add debugging for response
+      console.log('Raw response from OpenAI (initial question):', response)
+      
+      if (!response || response.trim() === '') {
+        throw new Error('Empty response from OpenAI API')
+      }
+
+      let questionData
+      try {
+        questionData = JSON.parse(response)
+      } catch (parseError) {
+        console.error('JSON Parse Error (initial question):', parseError)
+        console.error('Response that failed to parse:', response)
+        throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
+      }
+      return questionData as Question
     } catch (error) {
       console.error('Failed to generate initial question:', error)
       // Fallback question
@@ -101,11 +121,11 @@ Return a JSON object with this exact structure:
     const isSpanish = language === 'es'
     
     const prompt = `
-You are a medical AI assistant creating follow-up questions for a symptom assessment.
+You are a medical AI assistant creating follow-up questions for a clinical symptom assessment. This follows real medical diagnostic methodology.
 
 ${isSpanish ? 'IMPORTANTE: Responde completamente en español. Todas las preguntas, descripciones y opciones deben estar en español.' : 'IMPORTANT: Respond in English.'}
 
-Based on the patient's previous responses, generate the next most relevant question to help with medical assessment.
+Based on the patient's previous responses, generate the next most clinically relevant question following medical diagnostic principles.
 
 Previous responses context:
 ${context}
@@ -115,31 +135,35 @@ Question number: ${questionCount + 1} of maximum 8 questions.
 IMPORTANT: DO NOT repeat or rephrase questions that have already been asked. Previously asked questions:
 ${askedQuestions}
 
-Make sure your new question explores different aspects and doesn't duplicate information already gathered.
+Follow clinical diagnostic methodology:
+1. Use SOCRATES mnemonic (Site, Onset, Character, Radiation, Associated symptoms, Time course, Exacerbating/Relieving factors, Severity)
+2. Focus on differential diagnosis
+3. Identify red flag symptoms
+4. Gather information for risk stratification
+5. Consider organ systems involved
+6. Assess symptom progression and timeline
 
 Generate a JSON object for the next question. Choose the most appropriate question type based on what information is needed:
 
 Question types available:
-- "ai_single_choice": For AI-generated single choice options
-- "ai_multiple_choice": For AI-generated multiple choice options  
-- "ai_text_input": For text input with AI-powered autocomplete
-- "single_choice": For predefined single choice options
-- "multiple_choice": For predefined multiple choice options
-- "text_input": For basic text responses
-- "number_input": For numeric values (age, duration, etc.)
-- "boolean": For yes/no questions
-- "scale": For rating severity (1-10 scale)
+- "ai_single_choice": For AI-generated single choice options (symptom characteristics, locations, etc.)
+- "ai_multiple_choice": For AI-generated multiple choice options (associated symptoms, risk factors)
+- "ai_text_input": For text input with AI-powered autocomplete (detailed descriptions)
+- "number_input": For numeric input (duration, severity scale, vital signs)
+- "boolean": For yes/no questions (red flags, medical history)
 
 Prefer AI-powered question types (ai_single_choice, ai_multiple_choice, ai_text_input) for medical content to provide contextual, personalized options.
 
 Focus on gathering critical information for medical assessment such as:
-- Symptom severity and characteristics
-- Duration and onset
-- Associated symptoms
-- Location/body parts affected
-- Triggers or relieving factors
-- Medical history relevance
-- Impact on daily activities
+- Symptom severity and characteristics (quality, intensity, progression)
+- Duration and onset (acute vs chronic, sudden vs gradual)
+- Associated symptoms and systemic manifestations
+- Location/body parts affected (precise anatomical references)
+- Triggers or relieving factors (environmental, positional, medication)
+- Medical history relevance (comorbidities, medications, allergies)
+- Red flag symptoms and warning signs
+- Impact on daily activities and functional status
+- Risk factors and family history
 
 Return a JSON object with this structure:
 {
@@ -171,14 +195,63 @@ Make sure the question is medically relevant and builds on previous responses.
           [{ role: 'user', content: currentPrompt }],
           'gpt-5-nano',
           {
-            temperature: 0.4 + (attempts * 0.1), // Increase randomness with each attempt
-            maxTokens: 800,
-            responseFormat: 'json_object'
+            responseFormat: 'json_object',
+            reasoningEffort: 'medium',
+            verbosity: 'low'
           }
         )
 
-        const questionData = JSON.parse(response)
-        const question = Question.parse(questionData)
+        // Add debugging for response
+        console.log('Raw response from OpenAI:', response)
+        
+        if (!response || response.trim() === '') {
+          throw new Error('Empty response from OpenAI API')
+        }
+
+        let questionData
+        try {
+          questionData = JSON.parse(response)
+        } catch (parseError) {
+          console.error('JSON Parse Error:', parseError)
+          console.error('Response that failed to parse:', response)
+          
+          // Try to fix truncated JSON by attempting to complete it
+          if (response.includes('"id"') && response.includes('"type"')) {
+            console.log('Attempting to fix truncated JSON response...')
+            try {
+              // Try to complete the JSON by adding missing closing braces
+              let fixedResponse = response.trim()
+              if (!fixedResponse.endsWith('}')) {
+                // Count opening and closing braces to determine how many are missing
+                const openBraces = (fixedResponse.match(/\{/g) || []).length
+                const closeBraces = (fixedResponse.match(/\}/g) || []).length
+                const missingBraces = openBraces - closeBraces
+                
+                if (missingBraces > 0) {
+                  fixedResponse += '}'.repeat(missingBraces)
+                  console.log('Fixed JSON by adding missing closing braces')
+                }
+              }
+              
+              questionData = JSON.parse(fixedResponse)
+              console.log('Successfully fixed truncated JSON')
+            } catch (fixError) {
+              console.error('Failed to fix truncated JSON:', fixError)
+              throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
+            }
+          } else {
+            throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
+          }
+        }
+        const question = questionData as Question
+        
+        console.log('Generated question:', {
+          id: question.id,
+          type: question.type,
+          text: question.text,
+          generateAnswers: question.generateAnswers,
+          answerContext: question.answerContext
+        })
         
         // Validate question uniqueness
         if (this.validateQuestionUniqueness(question, previousResponses)) {
@@ -293,14 +366,29 @@ Make sure the question is medically relevant and builds on previous responses.
     const context = this.buildContext(responses)
     
     const prompt = `
-Analyze these patient responses and determine if an emergency screening question should be asked:
+Analyze these patient responses and determine if an emergency screening question should be asked based on clinical red flag symptoms and emergency indicators.
 
 ${context}
+
+Consider these emergency indicators:
+- Severe pain (chest, abdominal, head)
+- Difficulty breathing or shortness of breath
+- Loss of consciousness or altered mental status
+- Severe bleeding or trauma
+- Signs of stroke (FAST: Face drooping, Arm weakness, Speech difficulty, Time)
+- Signs of heart attack (chest pain, pressure, radiating pain)
+- Severe allergic reactions
+- Signs of shock (pale, cold, rapid pulse)
+- Severe dehydration
+- High fever with other concerning symptoms
+- Neurological symptoms (seizures, paralysis, severe headache)
+- Severe abdominal pain
+- Signs of infection (high fever, rapid deterioration)
 
 Return a JSON object:
 {
   "needsEmergencyScreen": true/false,
-  "reason": "brief explanation"
+  "reason": "brief explanation of why emergency screening is/is not needed"
 }
 `
 
@@ -309,9 +397,9 @@ Return a JSON object:
         [{ role: 'user', content: prompt }],
         'gpt-5-nano',
         {
-          temperature: 0.1,
-          maxTokens: 200,
-          responseFormat: 'json_object'
+          responseFormat: 'json_object',
+          reasoningEffort: 'low',
+          verbosity: 'low'
         }
       )
 
@@ -327,20 +415,24 @@ Return a JSON object:
     return {
       id: 'emergency_symptoms',
       type: 'multiple_choice',
-      text: 'Are you experiencing any of these symptoms right now?',
-      description: 'Select all that apply. These may require immediate medical attention.',
+      text: '¿Estás experimentando alguno de estos síntomas en este momento?',
+      description: 'Selecciona todos los que apliquen. Estos síntomas pueden requerir atención médica inmediata.',
       required: true,
       generateAnswers: false,
       options: [
-        { id: 'chest_pain', label: 'Severe chest pain', value: 'chest_pain' },
-        { id: 'breathing_difficulty', label: 'Difficulty breathing', value: 'breathing_difficulty' },
-        { id: 'severe_bleeding', label: 'Severe bleeding', value: 'severe_bleeding' },
-        { id: 'loss_consciousness', label: 'Loss of consciousness', value: 'loss_consciousness' },
-        { id: 'severe_head_injury', label: 'Severe head injury', value: 'severe_head_injury' },
-        { id: 'stroke_symptoms', label: 'Signs of stroke (facial drooping, arm weakness, speech difficulty)', value: 'stroke_symptoms' },
-        { id: 'severe_allergic', label: 'Severe allergic reaction', value: 'severe_allergic' },
-        { id: 'suicidal_thoughts', label: 'Thoughts of self-harm', value: 'suicidal_thoughts' },
-        { id: 'none', label: 'None of the above', value: 'none' }
+        { id: 'chest_pain', label: 'Dolor torácico severo o presión en el pecho', value: 'chest_pain' },
+        { id: 'breathing_difficulty', label: 'Dificultad para respirar o falta de aire', value: 'breathing_difficulty' },
+        { id: 'stroke_symptoms', label: 'Signos de accidente cerebrovascular (caída facial, debilidad en brazo, dificultad para hablar)', value: 'stroke_symptoms' },
+        { id: 'severe_bleeding', label: 'Hemorragia severa o sangrado incontrolable', value: 'severe_bleeding' },
+        { id: 'loss_consciousness', label: 'Pérdida de conciencia o desmayo', value: 'loss_consciousness' },
+        { id: 'severe_head_injury', label: 'Lesión severa en la cabeza o trauma craneal', value: 'severe_head_injury' },
+        { id: 'severe_allergic', label: 'Reacción alérgica severa (hinchazón facial, dificultad para respirar)', value: 'severe_allergic' },
+        { id: 'severe_abdominal_pain', label: 'Dolor abdominal severo o rigidez abdominal', value: 'severe_abdominal_pain' },
+        { id: 'high_fever', label: 'Fiebre alta con otros síntomas preocupantes', value: 'high_fever' },
+        { id: 'seizures', label: 'Convulsiones o crisis epilépticas', value: 'seizures' },
+        { id: 'severe_headache', label: 'Dolor de cabeza severo y repentino (como un trueno)', value: 'severe_headache' },
+        { id: 'suicidal_thoughts', label: 'Pensamientos de autolesión o suicidio', value: 'suicidal_thoughts' },
+        { id: 'none', label: 'Ninguno de los anteriores', value: 'none' }
       ]
     }
   }

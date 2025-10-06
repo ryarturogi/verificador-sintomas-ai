@@ -1252,5 +1252,76 @@ export const en: Translations = {
     scaleLabel: "Scale",
     lowLabel: "Low",
     highLabel: "High"
+  },
+
+  // Symptom autocomplete
+  symptomAutocomplete: {
+    orDescribeSymptoms: "Or describe your symptoms in your own words:",
+    describeSymptomsPlaceholder: "Describe your symptoms in detail...",
+    typeSymptomsPlaceholder: "Type your symptoms here...",
+    noMatchingSymptoms: "No matching symptoms found",
+    generatingSuggestions: "Generating AI suggestions...",
+    popularSymptoms: {
+      headache: "Headache",
+      fever: "Fever",
+      cough: "Cough",
+      soreThroat: "Sore throat",
+      nausea: "Nausea",
+      dizziness: "Dizziness",
+      fatigue: "Fatigue",
+      shortnessOfBreath: "Shortness of breath"
+    }
+  },
+
+  // Medical options
+  medicalOptions: {
+    severity: {
+      mild: "Mild",
+      moderate: "Moderate",
+      severe: "Severe",
+      verySevere: "Very severe",
+      unbearable: "Unbearable"
+    },
+    duration: {
+      minutes: "Minutes",
+      hours: "Hours",
+      days: "Days",
+      weeks: "Weeks",
+      months: "Months"
+    },
+    location: {
+      head: "Head",
+      chest: "Chest",
+      abdomen: "Abdomen",
+      back: "Back",
+      arms: "Arms",
+      legs: "Legs"
+    },
+    symptoms: {
+      cough: "Cough",
+      soreThroat: "Sore throat",
+      headache: "Headache",
+      muscleAches: "Muscle aches",
+      fatigue: "Fatigue",
+      nausea: "Nausea",
+      vomiting: "Vomiting",
+      fever: "Fever",
+      chills: "Chills",
+      sweating: "Sweating",
+      dizziness: "Dizziness",
+      shortnessOfBreath: "Shortness of breath",
+      chestPain: "Chest pain",
+      abdominalPain: "Abdominal pain",
+      backPain: "Back pain",
+      jointPain: "Joint pain"
+    },
+    responses: {
+      yes: "Yes",
+      no: "No",
+      notSure: "Not sure",
+      sometimes: "Sometimes",
+      always: "Always",
+      never: "Never"
+    }
   }
 }

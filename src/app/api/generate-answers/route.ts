@@ -15,6 +15,15 @@ export async function POST(request: NextRequest) {
       language = 'en'
     } = body
 
+    console.log('Generate answers API called with:', {
+      questionText,
+      questionType,
+      requestType,
+      maxOptions,
+      language,
+      previousResponsesCount: previousResponses?.length || 0
+    })
+
     let result = null
 
     switch (requestType) {
@@ -26,6 +35,7 @@ export async function POST(request: NextRequest) {
           maxOptions,
           language
         )
+        console.log('Generated answer options:', result)
         break
 
       case 'suggestions':

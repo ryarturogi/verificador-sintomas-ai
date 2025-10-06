@@ -1,8 +1,36 @@
 "use client";
 
 import { forwardRef, useMemo } from "react";
+import Select from "react-select";
 import AsyncSelect from "react-select/async";
 import { cn } from "@/lib/utils";
+import { Edit3 } from "lucide-react";
+
+// Custom Option component for enhanced styling
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CustomOption = (props: any) => {
+  const { data, children, innerRef, innerProps } = props;
+  const isCustom = data?.data?.custom;
+  
+  return (
+    <div
+      ref={innerRef}
+      {...innerProps}
+      className={cn(
+        "flex items-center px-3 py-2 cursor-pointer rounded-md mx-1 my-0.5",
+        props.isSelected 
+          ? "bg-cyan-600 text-white" 
+          : props.isFocused 
+          ? "bg-cyan-50 text-gray-900"
+          : "bg-white text-gray-900",
+        "hover:bg-cyan-50"
+      )}
+    >
+      {isCustom && <Edit3 className="mr-2 h-4 w-4 text-amber-600" />}
+      <span className="flex-1">{children}</span>
+    </div>
+  );
+};
 
 export interface Option {
   value: string;
@@ -11,7 +39,8 @@ export interface Option {
 }
 
 export interface AsyncAutocompleteProps {
-  loadOptions: (inputValue: string) => Promise<Option[]>;
+  loadOptions?: (inputValue: string) => Promise<Option[]>;
+  options?: Option[];
   onChange?: (option: Option | null) => void;
   onInputChange?: (value: string) => void;
   placeholder?: string;
@@ -85,27 +114,18 @@ const customStyles: Record<string, StyleFn | (() => Record<string, unknown>)> = 
     boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
     border: "1px solid #e5e7eb",
     fontSize: "0.875rem",
+    zIndex: 999999,
+    position: "relative",
   }),
   menuList: (provided) => ({
     ...provided,
     padding: "0.25rem",
     maxHeight: "200px",
   }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected
-      ? "#0891b2"
-      : state.isFocused
-      ? "#ecfeff"
-      : "#ffffff",
-    color: state.isSelected ? "#ffffff" : "#111827",
-    padding: "0.75rem",
-    borderRadius: "0.375rem",
-    margin: "0.125rem 0",
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: state.isSelected ? "#0891b2" : "#ecfeff",
-    },
+  option: () => ({
+    // Custom option component will handle all styling
+    padding: 0,
+    backgroundColor: "transparent",
   }),
   loadingMessage: (provided) => ({
     ...provided,
@@ -128,6 +148,7 @@ const AsyncAutocomplete = forwardRef<any, AsyncAutocompleteProps>(
   (
     {
       loadOptions,
+      options,
       onChange,
       onInputChange,
       placeholder = "Type to search...",
@@ -148,7 +169,20 @@ const AsyncAutocomplete = forwardRef<any, AsyncAutocompleteProps>(
     },
     ref
   ) => {
+    const mergedStyles = useMemo(() => {
+      return styles ? { ...customStyles, ...styles } : customStyles;
+    }, [styles]);
+
+    const mergedComponents = useMemo(() => {
+      return {
+        Option: CustomOption,
+        ...components
+      };
+    }, [components]);
+
     const debouncedLoadOptions = useMemo(() => {
+      if (!loadOptions) return undefined;
+      
       return (inputValue: string, callback: (options: Option[]) => void) => {
         if (debounceTimer) {
           clearTimeout(debounceTimer);
@@ -156,8 +190,8 @@ const AsyncAutocomplete = forwardRef<any, AsyncAutocompleteProps>(
         
         debounceTimer = setTimeout(async () => {
           try {
-            const options = await loadOptions(inputValue);
-            callback(options);
+            const result = await loadOptions(inputValue);
+            callback(result);
           } catch (error) {
             console.error("Error loading options:", error);
             callback([]);
@@ -166,9 +200,32 @@ const AsyncAutocomplete = forwardRef<any, AsyncAutocompleteProps>(
       };
     }, [loadOptions, debounceDelay]);
 
-    const mergedStyles = useMemo(() => {
-      return styles ? { ...customStyles, ...styles } : customStyles;
-    }, [styles]);
+    // If options are provided, use regular Select (like your example)
+    if (options) {
+      return (
+        <Select
+          ref={ref}
+          options={options}
+          onChange={onChange}
+          onInputChange={onInputChange}
+          placeholder={placeholder}
+          value={value}
+          className={cn("react-select-container", className)}
+          classNamePrefix="react-select"
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          isClearable={isClearable}
+          isSearchable={true}
+          menuPortalTarget={menuPortalTarget || (typeof document !== 'undefined' ? document.body : null)}
+          menuPlacement="auto"
+          menuShouldBlockScroll={true}
+          styles={mergedStyles}
+          components={mergedComponents}
+          noOptionsMessage={() => noOptionsMessage}
+          {...props}
+        />
+      );
+    }
 
     return (
       <AsyncSelect
@@ -185,9 +242,11 @@ const AsyncAutocomplete = forwardRef<any, AsyncAutocompleteProps>(
         isClearable={isClearable}
         cacheOptions={cacheOptions}
         defaultOptions={defaultOptions}
-        menuPortalTarget={menuPortalTarget}
+        menuPortalTarget={menuPortalTarget || (typeof document !== 'undefined' ? document.body : null)}
+        menuPlacement="auto"
+        menuShouldBlockScroll={true}
         styles={mergedStyles}
-        components={components}
+        components={mergedComponents}
         noOptionsMessage={() => noOptionsMessage}
         loadingMessage={() => loadingMessage}
         {...props}

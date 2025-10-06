@@ -60,17 +60,78 @@ Make sure options are:
 `
 
     try {
+      console.log('Generating answer options with prompt:', {
+        questionText,
+        questionType,
+        maxOptions,
+        language,
+        context: context.substring(0, 100) + '...'
+      })
+      
       const response = await createChatCompletion(
         [{ role: 'user', content: prompt }],
-        'gpt-5-nano',
+        'gpt-5-nano', // Using gpt-5-nano as requested
         {
-          temperature: 0.4,
-          maxTokens: 800,
           responseFormat: 'json_object'
         }
       )
 
-      const result = JSON.parse(response)
+      // Add debugging for response
+      console.log('Raw response from OpenAI (answer generator):', response)
+      
+      if (!response || response.trim() === '') {
+        throw new Error('Empty response from OpenAI API')
+      }
+
+      let result
+      try {
+        result = JSON.parse(response)
+      } catch (parseError) {
+        console.error('JSON Parse Error in answer generator:', parseError)
+        console.error('Response that failed to parse:', response)
+        
+        // Try to fix truncated JSON by attempting to complete it
+        if (response.includes('[') || response.includes('"id"') || response.includes('"label"')) {
+          console.log('Attempting to fix truncated JSON response in answer generator...')
+          try {
+            // Try to complete the JSON by adding missing closing brackets/braces
+            let fixedResponse = response.trim()
+            
+            // Check if it's an array that needs closing
+            if (fixedResponse.startsWith('[') && !fixedResponse.endsWith(']')) {
+              // Count opening and closing brackets
+              const openBrackets = (fixedResponse.match(/\[/g) || []).length
+              const closeBrackets = (fixedResponse.match(/\]/g) || []).length
+              const missingBrackets = openBrackets - closeBrackets
+              
+              if (missingBrackets > 0) {
+                fixedResponse += ']'.repeat(missingBrackets)
+                console.log('Fixed JSON array by adding missing closing brackets')
+              }
+            }
+            
+            // Check for missing closing braces in objects
+            if (!fixedResponse.endsWith('}') && !fixedResponse.endsWith(']')) {
+              const openBraces = (fixedResponse.match(/\{/g) || []).length
+              const closeBraces = (fixedResponse.match(/\}/g) || []).length
+              const missingBraces = openBraces - closeBraces
+              
+              if (missingBraces > 0) {
+                fixedResponse += '}'.repeat(missingBraces)
+                console.log('Fixed JSON by adding missing closing braces')
+              }
+            }
+            
+            result = JSON.parse(fixedResponse)
+            console.log('Successfully fixed truncated JSON in answer generator')
+          } catch (fixError) {
+            console.error('Failed to fix truncated JSON in answer generator:', fixError)
+            throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
+          }
+        } else {
+          throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
+        }
+      }
       return result.options || this.getFallbackOptions(questionType, language)
     } catch (error) {
       console.error('Failed to generate answer options:', error)
@@ -125,8 +186,6 @@ Keep suggestions concise and patient-friendly.
         [{ role: 'user', content: prompt }],
         'gpt-5-nano',
         {
-          temperature: 0.3,
-          maxTokens: 300,
           responseFormat: 'json_object'
         }
       )
@@ -170,8 +229,6 @@ Include 8-10 most relevant symptoms for this context.
         [{ role: 'user', content: prompt }],
         'gpt-5-nano',
         {
-          temperature: 0.3,
-          maxTokens: 600,
           responseFormat: 'json_object'
         }
       )
@@ -240,6 +297,24 @@ Include 8-10 most relevant symptoms for this context.
           { id: 'frequent', label: 'Frequently (daily)', value: 'frequent' },
           { id: 'occasional', label: 'Occasionally (weekly)', value: 'occasional' },
           { id: 'rare', label: 'Rarely (monthly)', value: 'rare' }
+        ]
+      
+      case 'ai_multiple_choice':
+        // For AI multiple choice questions, provide contextual medical options
+        return isSpanish ? [
+          { id: 'cough', label: 'Tos (Cough)', value: 'cough' },
+          { id: 'sore_throat', label: 'Dolor de garganta (Sore throat)', value: 'sore_throat' },
+          { id: 'headache', label: 'Dolor de cabeza (Headache)', value: 'headache' },
+          { id: 'muscle_aches', label: 'Dolores musculares (Muscle aches)', value: 'muscle_aches' },
+          { id: 'fatigue', label: 'Fatiga (Fatigue)', value: 'fatigue' },
+          { id: 'nausea', label: 'Náuseas (Nausea)', value: 'nausea' }
+        ] : [
+          { id: 'cough', label: 'Cough', value: 'cough' },
+          { id: 'sore_throat', label: 'Sore throat', value: 'sore_throat' },
+          { id: 'headache', label: 'Headache', value: 'headache' },
+          { id: 'muscle_aches', label: 'Muscle aches', value: 'muscle_aches' },
+          { id: 'fatigue', label: 'Fatigue', value: 'fatigue' },
+          { id: 'nausea', label: 'Nausea', value: 'nausea' }
         ]
       
       default:

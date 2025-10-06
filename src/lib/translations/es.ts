@@ -1252,5 +1252,76 @@ export const es: Translations = {
     scaleLabel: "Escala",
     lowLabel: "Bajo",
     highLabel: "Alto"
+  },
+
+  // Symptom autocomplete
+  symptomAutocomplete: {
+    orDescribeSymptoms: "O describe tus síntomas con tus propias palabras:",
+    describeSymptomsPlaceholder: "Describe tus síntomas en detalle...",
+    typeSymptomsPlaceholder: "Escribe tus síntomas aquí...",
+    noMatchingSymptoms: "No se encontraron síntomas coincidentes",
+    generatingSuggestions: "Generando sugerencias de IA...",
+    popularSymptoms: {
+      headache: "Dolor de cabeza (Headache)",
+      fever: "Fiebre (Fever)",
+      cough: "Tos (Cough)",
+      soreThroat: "Dolor de garganta (Sore throat)",
+      nausea: "Náuseas (Nausea)",
+      dizziness: "Mareos (Dizziness)",
+      fatigue: "Fatiga (Fatigue)",
+      shortnessOfBreath: "Dificultad para respirar (Shortness of breath)"
+    }
+  },
+
+  // Medical options with English translations
+  medicalOptions: {
+    severity: {
+      mild: "Leve (Mild)",
+      moderate: "Moderado (Moderate)",
+      severe: "Severo (Severe)",
+      verySevere: "Muy severo (Very severe)",
+      unbearable: "Insoportable (Unbearable)"
+    },
+    duration: {
+      minutes: "Minutos (Minutes)",
+      hours: "Horas (Hours)",
+      days: "Días (Days)",
+      weeks: "Semanas (Weeks)",
+      months: "Meses (Months)"
+    },
+    location: {
+      head: "Cabeza (Head)",
+      chest: "Pecho (Chest)",
+      abdomen: "Abdomen (Abdomen)",
+      back: "Espalda (Back)",
+      arms: "Brazos (Arms)",
+      legs: "Piernas (Legs)"
+    },
+    symptoms: {
+      cough: "Tos (Cough)",
+      soreThroat: "Dolor de garganta (Sore throat)",
+      headache: "Dolor de cabeza (Headache)",
+      muscleAches: "Dolores musculares (Muscle aches)",
+      fatigue: "Fatiga (Fatigue)",
+      nausea: "Náuseas (Nausea)",
+      vomiting: "Vómitos (Vomiting)",
+      fever: "Fiebre (Fever)",
+      chills: "Escalofríos (Chills)",
+      sweating: "Sudoración (Sweating)",
+      dizziness: "Mareos (Dizziness)",
+      shortnessOfBreath: "Dificultad para respirar (Shortness of breath)",
+      chestPain: "Dolor de pecho (Chest pain)",
+      abdominalPain: "Dolor abdominal (Abdominal pain)",
+      backPain: "Dolor de espalda (Back pain)",
+      jointPain: "Dolor articular (Joint pain)"
+    },
+    responses: {
+      yes: "Sí (Yes)",
+      no: "No (No)",
+      notSure: "No estoy seguro (Not sure)",
+      sometimes: "A veces (Sometimes)",
+      always: "Siempre (Always)",
+      never: "Nunca (Never)"
+    }
   }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Question, QuestionOption, QuestionResponse } from '@/types/dynamic-questionnaire'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -27,12 +27,83 @@ export function AIAnswerSelector({
   const [aiOptions, setAiOptions] = useState<QuestionOption[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>('')
+  const [hasGenerated, setHasGenerated] = useState(false) // Track if options have been generated
+  const requestInProgress = useRef<boolean>(false) // Track if request is in progress
   const { language } = useLanguage()
   const t = useTranslations()
 
+  const generateFallbackOptions = (question: Question): QuestionOption[] => {
+    const questionText = question.text.toLowerCase()
+    
+    // Generate contextual fallback options based on question content
+    if (questionText.includes('symptoms accompany') || questionText.includes('associated symptoms')) {
+      return [
+        { id: 'nausea', label: 'Nausea', value: 'nausea' },
+        { id: 'vomiting', label: 'Vomiting', value: 'vomiting' },
+        { id: 'dizziness', label: 'Dizziness', value: 'dizziness' },
+        { id: 'fatigue', label: 'Fatigue', value: 'fatigue' },
+        { id: 'fever', label: 'Fever', value: 'fever' },
+        { id: 'sensitivity_light', label: 'Sensitivity to light', value: 'sensitivity_light' }
+      ]
+    }
+    
+    if (questionText.includes('severity') || questionText.includes('pain level')) {
+      return [
+        { id: 'mild', label: 'Mild (Leve)', value: 'mild' },
+        { id: 'moderate', label: 'Moderate (Moderado)', value: 'moderate' },
+        { id: 'severe', label: 'Severe (Severo)', value: 'severe' },
+        { id: 'very_severe', label: 'Very severe (Muy severo)', value: 'very_severe' },
+        { id: 'unbearable', label: 'Unbearable (Insoportable)', value: 'unbearable' }
+      ]
+    }
+    
+    if (questionText.includes('duration') || questionText.includes('how long')) {
+      return [
+        { id: 'minutes', label: 'Minutes (Minutos)', value: 'minutes' },
+        { id: 'hours', label: 'Hours (Horas)', value: 'hours' },
+        { id: 'days', label: 'Days (Días)', value: 'days' },
+        { id: 'weeks', label: 'Weeks (Semanas)', value: 'weeks' },
+        { id: 'months', label: 'Months (Meses)', value: 'months' }
+      ]
+    }
+    
+    if (questionText.includes('location') || questionText.includes('where')) {
+      return [
+        { id: 'head', label: 'Head (Cabeza)', value: 'head' },
+        { id: 'chest', label: 'Chest (Pecho)', value: 'chest' },
+        { id: 'abdomen', label: 'Abdomen (Abdomen)', value: 'abdomen' },
+        { id: 'back', label: 'Back (Espalda)', value: 'back' },
+        { id: 'arms', label: 'Arms (Brazos)', value: 'arms' },
+        { id: 'legs', label: 'Legs (Piernas)', value: 'legs' }
+      ]
+    }
+    
+    // Default fallback options
+    return [
+      { id: 'yes', label: 'Yes (Sí)', value: 'yes' },
+      { id: 'no', label: 'No (No)', value: 'no' },
+      { id: 'not_sure', label: 'Not sure (No estoy seguro)', value: 'not_sure' }
+    ]
+  }
+
   const generateAIOptions = useCallback(async () => {
+    // Prevent duplicate calls
+    if (requestInProgress.current || hasGenerated) {
+      console.log('Skipping duplicate API call for question:', question.text)
+      return
+    }
+    
+    requestInProgress.current = true
     setIsLoading(true)
     setError('')
+    setHasGenerated(true)
+    
+    console.log('Generating AI options for question:', {
+      questionText: question.text,
+      questionType: question.type,
+      generateAnswers: question.generateAnswers,
+      previousResponses: previousResponses.length
+    })
     
     try {
       const response = await fetch('/api/generate-answers', {
@@ -50,27 +121,43 @@ export function AIAnswerSelector({
         }),
       })
 
+      console.log('API response status:', response.status)
+      
       if (response.ok) {
         const data = await response.json()
+        console.log('Generated AI options:', data.result)
         setAiOptions(data.result || [])
       } else {
-        throw new Error('Failed to generate options')
+        const errorData = await response.json()
+        console.error('API error response:', errorData)
+        throw new Error(`Failed to generate options: ${errorData.error || 'Unknown error'}`)
       }
     } catch (error) {
       console.error('Failed to generate AI options:', error)
       setError(t.errors.analysisError)
-      // Use fallback options if available
-      setAiOptions(question.options || [])
+      
+      // Generate contextual fallback options based on question type
+      const fallbackOptions = generateFallbackOptions(question)
+      setAiOptions(fallbackOptions)
     } finally {
       setIsLoading(false)
+      requestInProgress.current = false
     }
-  }, [question, previousResponses, language, t.errors.analysisError])
+  }, [question.text, question.type, question.generateAnswers, question.answerContext?.maxOptions, previousResponses, language, t.errors.analysisError, hasGenerated])
+
+  // Reset generation state when question changes
+  useEffect(() => {
+    setHasGenerated(false)
+    setAiOptions([])
+    setError('')
+    requestInProgress.current = false
+  }, [question.id, question.text])
 
   useEffect(() => {
-    if (question.generateAnswers) {
+    if (question.generateAnswers && !hasGenerated && !isLoading && !requestInProgress.current) {
       generateAIOptions()
     }
-  }, [question, language, generateAIOptions]) // Re-generate when language changes
+  }, [question.generateAnswers, language, hasGenerated, isLoading, generateAIOptions]) // Only re-generate when generateAnswers or language changes
 
   const handleOptionSelect = (optionValue: string) => {
     if (isMultiple) {

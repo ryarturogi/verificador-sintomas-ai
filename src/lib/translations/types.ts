@@ -1270,4 +1270,75 @@ export interface Translations {
     lowLabel: string
     highLabel: string
   }
+
+  // Symptom autocomplete
+  symptomAutocomplete: {
+    orDescribeSymptoms: string
+    describeSymptomsPlaceholder: string
+    typeSymptomsPlaceholder: string
+    noMatchingSymptoms: string
+    generatingSuggestions: string
+    popularSymptoms: {
+      headache: string
+      fever: string
+      cough: string
+      soreThroat: string
+      nausea: string
+      dizziness: string
+      fatigue: string
+      shortnessOfBreath: string
+    }
+  }
+
+  // Medical options with English translations
+  medicalOptions: {
+    severity: {
+      mild: string
+      moderate: string
+      severe: string
+      verySevere: string
+      unbearable: string
+    }
+    duration: {
+      minutes: string
+      hours: string
+      days: string
+      weeks: string
+      months: string
+    }
+    location: {
+      head: string
+      chest: string
+      abdomen: string
+      back: string
+      arms: string
+      legs: string
+    }
+    symptoms: {
+      cough: string
+      soreThroat: string
+      headache: string
+      muscleAches: string
+      fatigue: string
+      nausea: string
+      vomiting: string
+      fever: string
+      chills: string
+      sweating: string
+      dizziness: string
+      shortnessOfBreath: string
+      chestPain: string
+      abdominalPain: string
+      backPain: string
+      jointPain: string
+    }
+    responses: {
+      yes: string
+      no: string
+      notSure: string
+      sometimes: string
+      always: string
+      never: string
+    }
+  }
 }

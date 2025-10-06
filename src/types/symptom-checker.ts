@@ -52,7 +52,7 @@ export type EmergencySymptom = typeof EmergencySymptoms[number]
 
 export interface GPTModelConfig {
   model: 'gpt-5-nano'
-  temperature: number
-  maxTokens: number
+  temperature?: number // Optional since gpt-5-nano doesn't support temperature
+  maxTokens?: number // Optional since gpt-5-nano uses default token limits
   useCase: 'primary' | 'quick' | 'emergency'
 }
