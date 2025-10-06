@@ -39,8 +39,8 @@ export async function POST(request: NextRequest) {
         break
 
       case 'symptoms':
-        const { bodyPart, symptomType } = body
-        result = await answerGenerator.generateSymptomOptions(bodyPart, symptomType, language)
+        const { bodyPart, symptomType, query } = body
+        result = await answerGenerator.generateSymptomOptions(bodyPart, symptomType, language, query)
         break
 
       default:

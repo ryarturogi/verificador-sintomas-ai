@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { SymptomAutocomplete } from '@/components/ui/symptom-autocomplete'
+import { Option } from '@/components/ui/async-autocomplete'
 import { Check, ArrowRight, ArrowLeft, MessageCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useTranslations } from '@/contexts/language-context'
-import { AIAutocompleteInput } from './ai-autocomplete-input'
 import { AIAnswerSelector } from './ai-answer-selector'
 import { medicalDesignTokens as designTokens } from '@/lib/design-tokens'
 
@@ -36,10 +37,38 @@ export function DynamicQuestion({
 }: DynamicQuestionProps) {
   const [answer, setAnswer] = useState<string | number | boolean | string[]>('')
   const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+  const [selectedAutocomplete, setSelectedAutocomplete] = useState<Option | null>(null)
   const [error, setError] = useState<string>('')
   const t = useTranslations()
 
   const progress = (questionNumber / totalQuestions) * 100
+
+  // Helper function to determine if question should use autocomplete
+  const shouldUseAutocomplete = (question: Question): { use: boolean; type: 'symptom' | 'destination' | 'condition' } => {
+    const questionText = question.text.toLowerCase();
+    const placeholder = question.placeholder?.toLowerCase() || '';
+    
+    // Check for symptom-related keywords
+    const symptomKeywords = ['symptom', 'feel', 'experience', 'pain', 'ache', 'discomfort', 'describe', 'problem'];
+    const destinationKeywords = ['doctor', 'hospital', 'clinic', 'specialist', 'facility', 'location', 'where'];
+    const conditionKeywords = ['condition', 'diagnosis', 'disease', 'illness', 'medical history'];
+    
+    const hasSymptomKeywords = symptomKeywords.some(keyword => 
+      questionText.includes(keyword) || placeholder.includes(keyword)
+    );
+    const hasDestinationKeywords = destinationKeywords.some(keyword => 
+      questionText.includes(keyword) || placeholder.includes(keyword)
+    );
+    const hasConditionKeywords = conditionKeywords.some(keyword => 
+      questionText.includes(keyword) || placeholder.includes(keyword)
+    );
+    
+    if (hasSymptomKeywords) return { use: true, type: 'symptom' };
+    if (hasDestinationKeywords) return { use: true, type: 'destination' };
+    if (hasConditionKeywords) return { use: true, type: 'condition' };
+    
+    return { use: false, type: 'symptom' };
+  };
 
   const handleSubmit = () => {
     setError('')
@@ -94,11 +123,19 @@ export function DynamicQuestion({
         break
       case 'ai_text_input':
       case 'text_input':
-        if (!answer || (answer as string).trim().length < 3) {
+        // Check if this question should use autocomplete
+        const autocompleteInfo = shouldUseAutocomplete(question);
+        if (autocompleteInfo.use && selectedAutocomplete) {
+          finalAnswer = selectedAutocomplete.label;
+        } else if (autocompleteInfo.use && !selectedAutocomplete && (!answer || (answer as string).trim().length < 3)) {
           setError(t.errors.provideMoreDetail)
           return
+        } else if (!answer || (answer as string).trim().length < 3) {
+          setError(t.errors.provideMoreDetail)
+          return
+        } else {
+          finalAnswer = (answer as string).trim()
         }
-        finalAnswer = (answer as string).trim()
         break
       default:
         finalAnswer = answer as string
@@ -151,14 +188,33 @@ export function DynamicQuestion({
         )
 
       case 'ai_text_input':
-        return (
-          <AIAutocompleteInput
-            questionText={question.text}
-            previousResponses={previousResponses}
+        const autocompleteInfo = shouldUseAutocomplete(question);
+        
+        if (autocompleteInfo.use) {
+          return (
+            <SymptomAutocomplete
+              type={autocompleteInfo.type}
+              onSymptomSelect={setSelectedAutocomplete}
+              value={selectedAutocomplete}
+              placeholder={question.placeholder}
+              className="[&_.react-select__control]:border-cyan-200 [&_.react-select__control]:focus:border-cyan-500 [&_.react-select__control]:hover:border-cyan-300"
+            />
+          );
+        }
+        
+        return question.text.toLowerCase().includes('describe') ? (
+          <Textarea
             value={answer as string}
-            onChange={(value) => setAnswer(value)}
+            onChange={(e) => setAnswer(e.target.value)}
             placeholder={question.placeholder}
-            multiline={question.text.toLowerCase().includes('describe')}
+            className="text-base"
+            rows={4}
+          />
+        ) : (
+          <Input
+            value={answer as string}
+            onChange={(e) => setAnswer(e.target.value)}
+            placeholder={question.placeholder}
             className="text-base"
           />
         )
@@ -320,6 +376,20 @@ export function DynamicQuestion({
         )
 
       case 'text_input':
+        const textAutocompleteInfo = shouldUseAutocomplete(question);
+        
+        if (textAutocompleteInfo.use) {
+          return (
+            <SymptomAutocomplete
+              type={textAutocompleteInfo.type}
+              onSymptomSelect={setSelectedAutocomplete}
+              value={selectedAutocomplete}
+              placeholder={question.placeholder}
+              className="[&_.react-select__control]:border-cyan-200 [&_.react-select__control]:focus:border-cyan-500 [&_.react-select__control]:hover:border-cyan-300"
+            />
+          );
+        }
+        
         return question.text.toLowerCase().includes('describe') ? (
           <Textarea
             placeholder={question.placeholder}

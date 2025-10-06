@@ -139,7 +139,7 @@ Keep suggestions concise and patient-friendly.
     }
   }
 
-  async generateSymptomOptions(bodyPart?: string, symptomType?: string, language: string = 'en'): Promise<QuestionOption[]> {
+  async generateSymptomOptions(bodyPart?: string, symptomType?: string, language: string = 'en', query?: string): Promise<QuestionOption[]> {
     const isSpanish = language === 'es'
     
     const prompt = `
@@ -147,8 +147,11 @@ Generate common symptom options for medical questionnaire.
 
 ${isSpanish ? 'IMPORTANTE: Responde completamente en español. Todas las opciones y etiquetas deben estar en español.' : 'IMPORTANT: Respond in English.'}
 
+${query ? `Search query: "${query}" - Include symptoms that match or relate to this query` : ''}
 ${bodyPart ? `Body part: ${bodyPart}` : ''}
 ${symptomType ? `Symptom type: ${symptomType}` : ''}
+
+${query ? 'Focus on generating symptoms that contain or relate to the search query.' : 'Generate general common symptoms.'}
 
 Return JSON array of symptom options:
 [
@@ -159,7 +162,7 @@ Return JSON array of symptom options:
   }
 ]
 
-Include 8-10 most common symptoms for this context.
+Include 8-10 most relevant symptoms for this context.
 `
 
     try {
