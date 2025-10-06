@@ -1,5 +1,5 @@
 import { DoctorSpecialty, ConsultationRequest, ConsultationResponse } from '@/types/consultation'
-import { createChatCompletion } from '@/lib/openai'
+import { callGPT5Server } from '@/lib/gpt5-server'
 
 /**
  * AI Doctor Service for handling consultations with different medical specialties
@@ -76,12 +76,13 @@ export class AIDoctorService {
       // Build conversation context
       const conversationMessages = this.buildConversationMessages(systemPrompt, userPrompt, request)
       
-      const content = await createChatCompletion(
+      const content = await callGPT5Server<string>(
         conversationMessages,
         'gpt-5-nano',
         {
           temperature: 0.7,
-          maxTokens: 600
+          maxTokens: 600,
+          responseFormat: 'text'
         }
       )
       

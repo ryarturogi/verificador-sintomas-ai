@@ -56,7 +56,7 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
   const doctors: Doctor[] = [
     {
       id: 'dr-henry',
-      name: 'Dr. Henry (AI)',
+      name: t.aiAgents.general.name,
       specialty: 'general_medicine',
       specialtyDisplayName: t.homepage.aiGeneralMedicine,
       description: t.doctorSelection.specializedInComprehensive,
@@ -69,7 +69,7 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
     },
     {
       id: 'dr-floyd-miles',
-      name: 'Dr. Floyd Miles (AI)',
+      name: t.aiAgents.cardiology.name,
       specialty: 'cardiology',
       specialtyDisplayName: t.homepage.aiCardiology,
       description: t.doctorSelection.specializedInHeartHealth,
@@ -82,7 +82,7 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
     },
     {
       id: 'dr-mckinney',
-      name: 'Dr. McKinney (AI)',
+      name: t.aiAgents.neurology.name,
       specialty: 'neurology',
       specialtyDisplayName: t.homepage.aiNeurology,
       description: t.doctorSelection.specializedInBrainConditions,
@@ -95,7 +95,7 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
     },
     {
       id: 'dr-jacob',
-      name: 'Dr. Jacob (AI)',
+      name: t.aiAgents.pediatrics.name,
       specialty: 'pediatrics',
       specialtyDisplayName: t.homepage.aiPediatrics,
       description: t.doctorSelection.specializedInChildHealth,
@@ -108,7 +108,7 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
     },
     {
       id: 'dr-warren',
-      name: 'Dr. Warren (AI)',
+      name: t.aiAgents.internalMedicine.name,
       specialty: 'internal_medicine',
       specialtyDisplayName: t.homepage.internalMedicine,
       description: t.doctorSelection.specializedInAdultMedicine,

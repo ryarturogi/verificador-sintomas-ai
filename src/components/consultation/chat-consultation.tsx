@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { ConsultationHistoryService } from '@/services/consultation-history-service'
 import { ConsultationExitDialog } from '@/components/ui/confirmation-dialog'
 import { useNavigationConfirmation } from '@/hooks/use-navigation-lock'
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer'
 // import { Card } from '@/components/ui/card'
 // import { LoadingSpinner } from '@/components/ui/loading-spinner'
 
@@ -293,7 +294,14 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
                     : 'bg-white border border-gray-200 text-gray-900 rounded-bl-md shadow-sm'
                 }`}
               >
-                <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                {message.sender === 'doctor' ? (
+                  <MarkdownRenderer 
+                    content={message.content} 
+                    className="text-sm leading-relaxed"
+                  />
+                ) : (
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                )}
                 <p className={`text-xs mt-1 ${
                   message.sender === 'user' ? 'text-cyan-100' : 'text-gray-500'
                 }`}>

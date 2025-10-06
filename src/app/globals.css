@@ -436,3 +436,103 @@
     }
   }
 }
+
+/* Markdown content styles for chat messages */
+.markdown-content {
+  @apply text-sm leading-relaxed;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  @apply font-semibold text-gray-900 mb-2 mt-4 first:mt-0;
+}
+
+.markdown-content h1 {
+  @apply text-lg;
+}
+
+.markdown-content h2 {
+  @apply text-base;
+}
+
+.markdown-content h3 {
+  @apply text-sm;
+}
+
+.markdown-content p {
+  @apply mb-3 last:mb-0;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  @apply mb-3 pl-4;
+}
+
+.markdown-content ul {
+  @apply list-disc;
+}
+
+.markdown-content ol {
+  @apply list-decimal;
+}
+
+.markdown-content li {
+  @apply mb-1;
+}
+
+.markdown-content strong {
+  @apply font-semibold text-gray-900;
+}
+
+.markdown-content em {
+  @apply italic;
+}
+
+.markdown-content code {
+  @apply bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-xs font-mono;
+}
+
+.markdown-content pre {
+  @apply bg-gray-100 p-3 rounded-lg overflow-x-auto mb-3;
+}
+
+.markdown-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-cyan-200 pl-4 py-2 mb-3 bg-cyan-50;
+}
+
+.markdown-content a {
+  @apply text-cyan-600 hover:text-cyan-700 underline;
+}
+
+.markdown-content hr {
+  @apply border-gray-200 my-4;
+}
+
+/* Inline markdown styles */
+.markdown-inline {
+  @apply text-sm;
+}
+
+.markdown-inline strong {
+  @apply font-semibold;
+}
+
+.markdown-inline em {
+  @apply italic;
+}
+
+.markdown-inline code {
+  @apply bg-gray-100 text-gray-800 px-1 py-0.5 rounded text-xs font-mono;
+}
+
+.markdown-inline a {
+  @apply text-cyan-600 hover:text-cyan-700 underline;
+}

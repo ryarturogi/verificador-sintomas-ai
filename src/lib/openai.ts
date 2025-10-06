@@ -78,14 +78,36 @@ export async function createChatCompletion(
 
       const completion = await openai.chat.completions.create(requestBody)
 
-      const content = completion.choices[0]?.message?.content || ''
+      // Handle different response formats for GPT-5 models
+      let content = completion.choices[0]?.message?.content || ''
+      
+      // For GPT-5 models, check if content is in a different field
+      if (!content && modelToUse.includes('gpt-5')) {
+        const choice = completion.choices[0]
+        if (choice?.message) {
+          // Check for alternative content fields that might exist in GPT-5 responses
+          const messageObj = choice.message as unknown as Record<string, unknown>
+          content = (messageObj?.text as string) || 
+                   (messageObj?.response as string) || 
+                   (messageObj?.reasoning as string) ||
+                   choice.message.content || ''
+        }
+      }
       
       if (!content) {
         console.error('Empty response from OpenAI API:', {
           model: modelToUse,
           choices: completion.choices,
-          usage: completion.usage
+          usage: completion.usage,
+          fullResponse: JSON.stringify(completion, null, 2)
         })
+        
+        // For GPT-5 models, try to provide a more helpful error message
+        if (modelToUse.includes('gpt-5')) {
+          console.log('GPT-5 model may not be available or may have different response format')
+          throw new Error('GPT-5 model returned empty response. This may indicate the model is not available or has a different response format.')
+        }
+        
         throw new Error('Empty response from OpenAI API')
       }
       
@@ -93,31 +115,39 @@ export async function createChatCompletion(
     } catch (modelError: unknown) {
       // If GPT-5-nano is not available, fall back to GPT-4o-mini
       const error = modelError as { status?: number; message?: string }
-      if (error?.status === 404 || error?.message?.includes('model') || error?.message?.includes('does not exist')) {
-        console.log(`GPT-5-nano model not available, falling back to GPT-4o-mini`)
+      if (error?.status === 404 || 
+          error?.message?.includes('model') || 
+          error?.message?.includes('does not exist') ||
+          error?.message?.includes('GPT-5 model returned empty response')) {
+        console.log(`GPT-5-nano model not available or returned empty response, falling back to GPT-4o-mini`)
         
-        const completion = await openai.chat.completions.create({
-          model: 'gpt-4o-mini',
-          messages,
-          temperature,
-          max_tokens: maxTokens,
-          response_format: responseFormat === 'json_object' 
-            ? { type: 'json_object' } 
-            : undefined,
-        })
-
-        const content = completion.choices[0]?.message?.content || ''
-        
-        if (!content) {
-          console.error('Empty response from OpenAI API (fallback):', {
+        try {
+          const completion = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
-            choices: completion.choices,
-            usage: completion.usage
+            messages,
+            temperature,
+            max_tokens: maxTokens,
+            response_format: responseFormat === 'json_object' 
+              ? { type: 'json_object' } 
+              : undefined,
           })
-          throw new Error('Empty response from OpenAI API')
+
+          const content = completion.choices[0]?.message?.content || ''
+          
+          if (!content) {
+            console.error('Empty response from OpenAI API (fallback):', {
+              model: 'gpt-4o-mini',
+              choices: completion.choices,
+              usage: completion.usage
+            })
+            throw new Error('Empty response from OpenAI API')
+          }
+          
+          return content
+        } catch (fallbackError) {
+          console.error('Fallback to GPT-4o-mini also failed:', fallbackError)
+          throw new Error('Both GPT-5 and GPT-4o-mini models failed. Please check your API configuration.')
         }
-        
-        return content
       }
       throw modelError
     }

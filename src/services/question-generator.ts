@@ -1,4 +1,4 @@
-import { createChatCompletion } from '@/lib/openai'
+import { callGPT5Server } from '@/lib/gpt5-server'
 import { 
   Question, 
   QuestionResponse
@@ -64,7 +64,7 @@ Return a JSON object with this exact structure:
 `
 
     try {
-      const response = await createChatCompletion(
+      const response = await callGPT5Server(
         [{ role: 'user', content: prompt }],
         'gpt-5-nano',
         {
@@ -77,19 +77,12 @@ Return a JSON object with this exact structure:
       // Add debugging for response
       console.log('Raw response from OpenAI (initial question):', response)
       
-      if (!response || response.trim() === '') {
+      if (!response) {
         throw new Error('Empty response from OpenAI API')
       }
 
-      let questionData
-      try {
-        questionData = JSON.parse(response)
-      } catch (parseError) {
-        console.error('JSON Parse Error (initial question):', parseError)
-        console.error('Response that failed to parse:', response)
-        throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
-      }
-      return questionData as Question
+      // Response is already parsed by callGPT5Server
+      return response as Question
     } catch (error) {
       console.error('Failed to generate initial question:', error)
       // Fallback question
@@ -191,7 +184,7 @@ Make sure the question is medically relevant and builds on previous responses.
       let currentPrompt = prompt
       
       while (attempts < maxAttempts) {
-        const response = await createChatCompletion(
+        const response = await callGPT5Server(
           [{ role: 'user', content: currentPrompt }],
           'gpt-5-nano',
           {
@@ -204,45 +197,12 @@ Make sure the question is medically relevant and builds on previous responses.
         // Add debugging for response
         console.log('Raw response from OpenAI:', response)
         
-        if (!response || response.trim() === '') {
+        if (!response) {
           throw new Error('Empty response from OpenAI API')
         }
 
-        let questionData
-        try {
-          questionData = JSON.parse(response)
-        } catch (parseError) {
-          console.error('JSON Parse Error:', parseError)
-          console.error('Response that failed to parse:', response)
-          
-          // Try to fix truncated JSON by attempting to complete it
-          if (response.includes('"id"') && response.includes('"type"')) {
-            console.log('Attempting to fix truncated JSON response...')
-            try {
-              // Try to complete the JSON by adding missing closing braces
-              let fixedResponse = response.trim()
-              if (!fixedResponse.endsWith('}')) {
-                // Count opening and closing braces to determine how many are missing
-                const openBraces = (fixedResponse.match(/\{/g) || []).length
-                const closeBraces = (fixedResponse.match(/\}/g) || []).length
-                const missingBraces = openBraces - closeBraces
-                
-                if (missingBraces > 0) {
-                  fixedResponse += '}'.repeat(missingBraces)
-                  console.log('Fixed JSON by adding missing closing braces')
-                }
-              }
-              
-              questionData = JSON.parse(fixedResponse)
-              console.log('Successfully fixed truncated JSON')
-            } catch (fixError) {
-              console.error('Failed to fix truncated JSON:', fixError)
-              throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
-            }
-          } else {
-            throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
-          }
-        }
+        // Response is already parsed by callGPT5Server
+        const questionData = response
         const question = questionData as Question
         
         console.log('Generated question:', {
@@ -393,7 +353,7 @@ Return a JSON object:
 `
 
     try {
-      const response = await createChatCompletion(
+      const response = await callGPT5Server<{ needsEmergencyScreen: boolean }>(
         [{ role: 'user', content: prompt }],
         'gpt-5-nano',
         {
@@ -403,8 +363,8 @@ Return a JSON object:
         }
       )
 
-      const result = JSON.parse(response)
-      return result.needsEmergencyScreen === true
+      // Response is already parsed by callGPT5Server
+      return response.needsEmergencyScreen === true
     } catch (error) {
       console.error('Failed to check emergency need:', error)
       return false

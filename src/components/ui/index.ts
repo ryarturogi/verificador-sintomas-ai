@@ -17,6 +17,7 @@ export { LoadingCard } from './loading-spinner'
 export { LanguageSwitcher } from './language-switcher'
 export { Header } from './header'
 export { Footer } from './footer'
+export { MarkdownRenderer, InlineMarkdownRenderer } from './markdown-renderer'
 
 // Re-export common icons for convenience
 export { 
