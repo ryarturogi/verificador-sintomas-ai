@@ -25,6 +25,15 @@ import {
   Phone,
   AlertTriangle,
   CheckCircle,
+  // Agent icons
+  Baby,
+  Microscope,
+  Camera,
+  AlertCircle,
+  Target,
+  // Image scanning icons
+  Scan,
+  Upload,
   // Info
 } from "lucide-react";
 import { LoadingCard } from "@/components/ui/loading-spinner";
@@ -55,15 +64,28 @@ export function ModernHomepage() {
   const t = useTranslations();
   const { language } = useLanguage();
 
-  // Doctor data with specialties and personalized benefits
-  const doctorData = [
+  // Sync searchQuery with selectedSymptom for quick actions
+  useEffect(() => {
+    if (searchQuery && !selectedSymptom) {
+      // Create an option from the search query
+      const option: Option = {
+        value: searchQuery.toLowerCase().replace(/\s+/g, "-"),
+        label: searchQuery,
+        data: { type: "quick_action", original: searchQuery }
+      };
+      setSelectedSymptom(option);
+    }
+  }, [searchQuery, selectedSymptom]);
+
+  // Agent data with specialties and personalized benefits
+  const agentData = [
     {
-      name: "Dr. Henry",
+      name: "Agente General",
       specialty: language === "es" ? "Medicina General" : "General Medicine",
       description:
         language === "es"
-          ? "VitalCheck te da las herramientas e información que necesitas para cuidar tu salud con el Dr. Henry."
-          : "VitalCheck gives you the tools and information you need to take care of your health with Dr. Henry.",
+          ? "VitalCheck te da las herramientas e información que necesitas para cuidar tu salud con nuestro agente especializado."
+          : "VitalCheck gives you the tools and information you need to take care of your health with our specialized agent.",
       benefits: [
         language === "es"
           ? "Acceso 24/7 - comunícate cuando lo necesites"
@@ -75,15 +97,15 @@ export function ModernHomepage() {
           ? "Planes flexibles para satisfacer tus necesidades"
           : "Flexible plans to meet your needs and lifestyle",
         language === "es"
-          ? "Diagnósticos precisos con IA avanzada"
-          : "Accurate diagnostics with advanced AI",
+          ? "Diagnósticos precisos con tecnología avanzada"
+          : "Accurate diagnostics with advanced technology",
         language === "es"
           ? "Ahorra dinero mientras recibes atención de alta calidad"
           : "Save money while receiving high-quality care",
       ],
     },
     {
-      name: "Dr. Floyd Miles",
+      name: "Agente Cardiología",
       specialty: language === "es" ? "Cardiología" : "Cardiology",
       description:
         language === "es"
@@ -91,8 +113,8 @@ export function ModernHomepage() {
           : "Cardiovascular health specialist with cutting-edge technology for your heart care.",
       benefits: [
         language === "es"
-          ? "Monitoreo cardíaco 24/7 con IA"
-          : "24/7 cardiac monitoring with AI",
+          ? "Monitoreo cardíaco 24/7 con tecnología avanzada"
+          : "24/7 cardiac monitoring with advanced technology",
         language === "es"
           ? "Consultas virtuales especializadas"
           : "Specialized virtual consultations",
@@ -108,7 +130,7 @@ export function ModernHomepage() {
       ],
     },
     {
-      name: "Dr. McKinney",
+      name: "Agente Neurología",
       specialty: language === "es" ? "Neurología" : "Neurology",
       description:
         language === "es"
@@ -116,8 +138,8 @@ export function ModernHomepage() {
           : "Neurology expert with advanced neurological diagnosis and treatment techniques.",
       benefits: [
         language === "es"
-          ? "Evaluaciones neurológicas con IA"
-          : "AI-powered neurological evaluations",
+          ? "Evaluaciones neurológicas con tecnología avanzada"
+          : "Advanced technology neurological evaluations",
         language === "es"
           ? "Detección temprana de condiciones neurológicas"
           : "Early detection of neurological conditions",
@@ -133,7 +155,7 @@ export function ModernHomepage() {
       ],
     },
     {
-      name: "Dr. Jacob",
+      name: "Agente Pediatría",
       specialty: language === "es" ? "Pediatría" : "Pediatrics",
       description:
         language === "es"
@@ -156,7 +178,7 @@ export function ModernHomepage() {
       ],
     },
     {
-      name: "Dr. Warren",
+      name: "Agente Medicina Interna",
       specialty: language === "es" ? "Medicina Interna" : "Internal Medicine",
       description:
         language === "es"
@@ -861,37 +883,43 @@ export function ModernHomepage() {
 
                             const procedures = [
                               {
-                                name: "CT Scan",
+                                name: t.homepage.aiCtScan,
+                                description: t.homepage.aiCtScanDescription,
                                 icon: Activity,
                                 color: "bg-gray-100",
                                 selected: false,
                               },
                               {
-                                name: "MRI",
+                                name: t.homepage.aiMri,
+                                description: t.homepage.aiMriDescription,
                                 icon: Brain,
                                 color: "bg-cyan-100",
                                 selected: false,
                               },
                               {
-                                name: "X-Ray",
+                                name: t.homepage.aiXray,
+                                description: t.homepage.aiXrayDescription,
                                 icon: Shield,
                                 color: "bg-cyan-100",
                                 selected: false,
                               },
                               {
-                                name: "Blood Test",
+                                name: t.homepage.aiBloodTest,
+                                description: t.homepage.aiBloodTestDescription,
                                 icon: Heart,
                                 color: "bg-red-100",
                                 selected: false,
                               },
                               {
-                                name: "Ultrasound",
+                                name: t.homepage.aiUltrasound,
+                                description: t.homepage.aiUltrasoundDescription,
                                 icon: UserCheck,
                                 color: "bg-green-100",
                                 selected: false,
                               },
                               {
-                                name: "Endoscopy",
+                                name: t.homepage.aiEndoscopy,
+                                description: t.homepage.aiEndoscopyDescription,
                                 icon: Stethoscope,
                                 color: "bg-teal-100",
                                 selected: false,
@@ -900,6 +928,7 @@ export function ModernHomepage() {
 
                             type TabItem = {
                               name: string;
+                              description?: string;
                               icon: React.ComponentType<{ className?: string }>;
                               color: string;
                               selected: boolean;
@@ -937,118 +966,15 @@ export function ModernHomepage() {
                     </motion.div>
                   </motion.div>
 
-                  {/* Find the Right Doctor and Interactive Doctor Slider Combined Section */}
+                  {/* Find the Right Agent and Interactive Agent Slider Combined Section */}
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.7 }}
                     className="min-h-screen flex flex-col"
                   >
-                    {/* Find the Right Doctor Section */}
-                    <div className="flex-1 flex flex-col items-center py-8">
-                      <div className="w-full max-w-4xl">
-                        {/* Header Section */}
-                        <div className="text-center mb-8">
-                          <h2 className="text-2xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-                            {t.homepage.findRightDoctor}{" "}
-                            {t.homepage.rightAtFingerips}
-                          </h2>
-                          <p className="text-lg text-gray-600 mb-6">
-                            {t.homepage.toolsAndInformation}
-                          </p>
-                        </div>
 
-                        {/* Search Section */}
-                        <div className="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-3xl p-8 mb-8">
-                          <h3 className="heading-xl text-gray-900 mb-6 text-center">
-                            {t.homepage.findBestDoctor}
-                          </h3>
-
-                          <div className="space-y-4 mb-6">
-                            <div className="relative">
-                              <AISymptomAutocomplete
-                                onSymptomSelect={setSelectedSymptom}
-                                value={selectedSymptom}
-                                placeholder={t.homepage.searchDoctor}
-                                className="[&_.react-select-container]:h-12 [&_.react-select__control]:h-12 [&_.react-select__control]:rounded-lg [&_.react-select__control]:border-gray-200 [&_.react-select__control]:focus:border-cyan-500"
-                              />
-                            </div>
-                          </div>
-
-                          <Button className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg font-semibold">
-                            {t.homepage.searchNow}
-                          </Button>
-                        </div>
-
-                        {/* Features Section */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                          <div className="flex items-start space-x-3">
-                            <div className="p-2 bg-cyan-100 rounded-lg overflow-hidden">
-                              <div className="w-8 h-8 rounded overflow-hidden relative">
-                                <Image
-                                  src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
-                                  alt="Hospital Search"
-                                  fill
-                                  className="object-cover"
-                                />
-                              </div>
-                            </div>
-                            <div>
-                              <h3 className="font-semibold text-gray-900 mb-1 text-sm">
-                                {t.homepage.searchNearestHospital}
-                              </h3>
-                              <p className="text-gray-600 text-sm">
-                                {t.homepage.findDoctorsHospitals}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex items-start space-x-3">
-                            <div className="p-2 bg-cyan-100 rounded-lg overflow-hidden">
-                              <div className="w-8 h-8 rounded overflow-hidden relative">
-                                <Image
-                                  src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
-                                  alt="Doctor Appointment"
-                                  fill
-                                  className="object-cover"
-                                />
-                              </div>
-                            </div>
-                            <div>
-                              <h3 className="font-semibold text-gray-900 mb-1 text-sm">
-                                {t.homepage.appointmentBestDoctor}
-                              </h3>
-                              <p className="text-gray-600 text-sm">
-                                {t.homepage.convenientlySchedule}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex items-start space-x-3">
-                            <div className="p-2 bg-cyan-100 rounded-lg overflow-hidden">
-                              <div className="w-8 h-8 rounded overflow-hidden relative">
-                                <Image
-                                  src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
-                                  alt="Medical Consultation"
-                                  fill
-                                  className="object-cover"
-                                />
-                              </div>
-                            </div>
-                            <div>
-                              <h3 className="font-semibold text-gray-900 mb-1 text-sm">
-                                {t.homepage.getConsultant}
-                              </h3>
-                              <p className="text-gray-600 text-sm">
-                                {t.homepage.connectQualified}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Interactive Doctor Slider Section */}
+                    {/* Interactive Agent Slider Section */}
                     <div className="flex-1 flex items-center py-8">
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center w-full">
                         <div className="relative">
@@ -1063,16 +989,16 @@ export function ModernHomepage() {
                               >
                                 <Image
                                   src={(() => {
-                                    const doctorImages = [
-                                      "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Dr. Henry
-                                      "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Dr. Floyd Miles
-                                      "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Dr. McKinney
-                                      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Dr. Jacob
-                                      "https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Dr. Warren - Updated working image
+                                    const agentImages = [
+                                      "https://images.unsplash.com/photo-1677442136019-21780ccad005?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente General - AI Brain
+                                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Cardiología - Data Visualization
+                                      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Neurología - Neural Network
+                                      "https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Pediatría - AI Interface
+                                      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // Agente Medicina Interna - Medical AI
                                     ];
-                                    return doctorImages[selectedDoctorIndex];
+                                    return agentImages[selectedDoctorIndex];
                                   })()}
-                                  alt={`${doctorData[selectedDoctorIndex].name} - ${doctorData[selectedDoctorIndex].specialty}`}
+                                  alt={`${agentData[selectedDoctorIndex].name} - ${agentData[selectedDoctorIndex].specialty}`}
                                   fill
                                   className="object-cover object-[center_20%]"
                                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -1080,11 +1006,11 @@ export function ModernHomepage() {
                               </motion.div>
                             </div>
 
-                            {/* Interactive Doctor List */}
+                            {/* Interactive Agent List */}
                             <div className="space-y-3">
-                              {doctorData.map((doctor, index) => (
+                              {agentData.map((agent, index) => (
                                 <motion.button
-                                  key={doctor.name}
+                                  key={agent.name}
                                   onClick={() => setSelectedDoctorIndex(index)}
                                   className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-300 ${
                                     selectedDoctorIndex === index
@@ -1112,7 +1038,7 @@ export function ModernHomepage() {
                                     </div>
                                     <div className="text-left">
                                       <div className="font-medium">
-                                        {doctor.name}
+                                        {agent.name}
                                       </div>
                                       <div
                                         className={`text-xs ${
@@ -1121,7 +1047,7 @@ export function ModernHomepage() {
                                             : "text-gray-500"
                                         }`}
                                       >
-                                        {doctor.specialty}
+                                        {agent.specialty}
                                       </div>
                                     </div>
                                   </div>
@@ -1151,11 +1077,11 @@ export function ModernHomepage() {
                               {t.homepage.whyChoose}
                             </h2>
                             <p className="text-lg text-gray-600 mb-6">
-                              {doctorData[selectedDoctorIndex].description}
+                              {agentData[selectedDoctorIndex].description}
                             </p>
 
                             <div className="space-y-3 mb-6">
-                              {doctorData[selectedDoctorIndex].benefits.map(
+                              {agentData[selectedDoctorIndex].benefits.map(
                                 (benefit, index) => (
                                   <motion.div
                                     key={index}
@@ -1192,14 +1118,14 @@ export function ModernHomepage() {
                     transition={{ duration: 0.8, delay: 0.9 }}
                     className="min-h-screen flex flex-col"
                   >
-                    {/* Meet Our Specialists Section */}
+                    {/* Specialized Agents Section */}
                     <div className="flex-1 flex flex-col justify-center py-8">
                       <div className="text-center mb-12">
                         <h2 className="heading-xl lg:heading-2xl text-gray-900 mb-3">
                           {t.homepage.meetSpecialists}
                         </h2>
                         <p className="text-lg text-gray-600">
-                          {t.homepage.toolsAndInformation}
+                          {t.homepage.aiAgentsSubtitle}
                         </p>
                       </div>
 
@@ -1211,38 +1137,54 @@ export function ModernHomepage() {
                           {[
                             [
                               {
-                                name: t.homepage.drLeslieAlexander,
-                                specialty: t.homepage.dentalSurgery,
+                                name: t.homepage.aiGeneralMedicine,
+                                specialty: t.homepage.aiGeneralDescription,
+                                icon: Stethoscope,
+                                color: "from-blue-100 to-blue-200"
                               },
                               {
-                                name: t.homepage.drKathrynMurphy,
-                                specialty: t.homepage.pediatricMedicine,
+                                name: t.homepage.aiCardiology,
+                                specialty: t.homepage.aiCardiologyDescription,
+                                icon: Heart,
+                                color: "from-red-100 to-red-200"
                               },
                               {
-                                name: t.homepage.drRobertFox,
-                                specialty: t.homepage.gastroenterologist,
+                                name: t.homepage.aiNeurology,
+                                specialty: t.homepage.aiNeurologyDescription,
+                                icon: Brain,
+                                color: "from-purple-100 to-purple-200"
                               },
                               {
-                                name: t.homepage.drEstherHoward,
-                                specialty: t.homepage.thoracicSurgeons,
+                                name: t.homepage.aiPediatrics,
+                                specialty: t.homepage.aiPediatricsDescription,
+                                icon: Baby,
+                                color: "from-pink-100 to-pink-200"
                               },
                             ],
                             [
                               {
-                                name: t.homepage.drAlbertFlores,
-                                specialty: t.homepage.internNeurologist,
+                                name: t.homepage.aiDermatology,
+                                specialty: t.homepage.aiDermatologyDescription,
+                                icon: Microscope,
+                                color: "from-green-100 to-green-200"
                               },
                               {
-                                name: t.homepage.drJeromeBell,
-                                specialty: t.homepage.obstetricsGynecologists,
+                                name: t.homepage.aiRadiology,
+                                specialty: t.homepage.aiRadiologyDescription,
+                                icon: Camera,
+                                color: "from-cyan-100 to-cyan-200"
                               },
                               {
-                                name: t.homepage.drArleneMcCoy,
-                                specialty: t.homepage.cardiologists,
+                                name: t.homepage.aiEmergency,
+                                specialty: t.homepage.aiEmergencyDescription,
+                                icon: AlertCircle,
+                                color: "from-orange-100 to-orange-200"
                               },
                               {
-                                name: t.homepage.drJennyWilson,
-                                specialty: t.homepage.internDermatologist,
+                                name: t.homepage.aiOncology,
+                                specialty: t.homepage.aiOncologyDescription,
+                                icon: Target,
+                                color: "from-yellow-100 to-yellow-200"
                               },
                             ],
                           ].map((slide, slideIndex) => (
@@ -1251,37 +1193,24 @@ export function ModernHomepage() {
                               className="w-full flex-shrink-0"
                             >
                               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-                                {slide.map((doctor, index) => (
+                                {slide.map((agent) => (
                                   <motion.div
-                                    key={doctor.name}
-                                    className="bg-white rounded-lg lg:rounded-xl p-3 lg:p-4 shadow-lg hover:shadow-xl transition-all duration-300"
+                                    key={agent.name}
+                                    className="bg-white rounded-lg lg:rounded-xl p-3 lg:p-4 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                                     whileHover={{ y: -3 }}
+                                    onClick={() => {
+                                      // Handle agent selection
+                                      console.log('Selected agent:', agent.name);
+                                    }}
                                   >
-                                    <div className="w-full h-24 lg:h-32 rounded-md lg:rounded-lg mb-2 lg:mb-3 overflow-hidden bg-gradient-to-br from-cyan-100 to-cyan-200 relative">
-                                      <Image
-                                        src={(() => {
-                                          const images = [
-                                            "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                                            "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                                            "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                                            "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                                            "https://images.unsplash.com/photo-1618498082410-b4aa22193b38?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                                            "https://images.unsplash.com/photo-1594824609072-57c2d2bb8b86?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                                            "https://images.unsplash.com/photo-1643297654416-05795d62e39c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                                            "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                                          ];
-                                          return images[index % images.length];
-                                        })()}
-                                        alt={doctor.name}
-                                        fill
-                                        className="object-cover object-center"
-                                      />
+                                    <div className={`w-full h-24 lg:h-32 rounded-md lg:rounded-lg mb-2 lg:mb-3 overflow-hidden bg-gradient-to-br ${agent.color} relative flex items-center justify-center`}>
+                                      <agent.icon className="h-8 w-8 lg:h-10 lg:w-10 text-gray-700" />
                                     </div>
                                     <h3 className="font-bold text-gray-900 mb-1 text-xs lg:text-sm leading-tight">
-                                      {doctor.name}
+                                      {agent.name}
                                     </h3>
                                     <p className="text-gray-600 text-xs leading-tight">
-                                      {doctor.specialty}
+                                      {agent.specialty}
                                     </p>
                                   </motion.div>
                                 ))}
@@ -1304,6 +1233,134 @@ export function ModernHomepage() {
                             }`}
                           />
                         ))}
+                      </div>
+                    </div>
+
+                    {/* Image Scanning Section */}
+                    <div className="flex-1 flex flex-col justify-center py-8">
+                      <div className="text-center mb-12">
+                        <h2 className="heading-xl lg:heading-2xl text-gray-900 mb-3">
+                          {t.homepage.imageScanning}
+                        </h2>
+                        <p className="text-lg text-gray-600">
+                          {t.homepage.imageScanningDescription}
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* MRI Analysis */}
+                        <motion.div
+                          className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                          whileHover={{ y: -3 }}
+                          onClick={() => {
+                            console.log('MRI Analysis selected');
+                          }}
+                        >
+                          <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                            <Scan className="h-8 w-8 text-blue-700" />
+                          </div>
+                          <h3 className="font-bold text-gray-900 mb-2 text-center">
+                            {t.homepage.mriAnalysis}
+                          </h3>
+                          <p className="text-gray-600 text-sm text-center">
+                            Análisis avanzado de resonancia magnética
+                          </p>
+                        </motion.div>
+
+                        {/* CT Scan Analysis */}
+                        <motion.div
+                          className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                          whileHover={{ y: -3 }}
+                          onClick={() => {
+                            console.log('CT Scan Analysis selected');
+                          }}
+                        >
+                          <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                            <Microscope className="h-8 w-8 text-green-700" />
+                          </div>
+                          <h3 className="font-bold text-gray-900 mb-2 text-center">
+                            {t.homepage.ctScanAnalysis}
+                          </h3>
+                          <p className="text-gray-600 text-sm text-center">
+                            Interpretación de tomografías computarizadas
+                          </p>
+                        </motion.div>
+
+                        {/* X-ray Analysis */}
+                        <motion.div
+                          className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                          whileHover={{ y: -3 }}
+                          onClick={() => {
+                            console.log('X-ray Analysis selected');
+                          }}
+                        >
+                          <div className="w-16 h-16 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                            <Camera className="h-8 w-8 text-cyan-700" />
+                          </div>
+                          <h3 className="font-bold text-gray-900 mb-2 text-center">
+                            {t.homepage.xrayAnalysis}
+                          </h3>
+                          <p className="text-gray-600 text-sm text-center">
+                            Análisis de radiografías y rayos X
+                          </p>
+                        </motion.div>
+
+                        {/* Ultrasound Analysis */}
+                        <motion.div
+                          className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                          whileHover={{ y: -3 }}
+                          onClick={() => {
+                            console.log('Ultrasound Analysis selected');
+                          }}
+                        >
+                          <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                            <Activity className="h-8 w-8 text-purple-700" />
+                          </div>
+                          <h3 className="font-bold text-gray-900 mb-2 text-center">
+                            {t.homepage.ultrasoundAnalysis}
+                          </h3>
+                          <p className="text-gray-600 text-sm text-center">
+                            Interpretación de ecografías
+                          </p>
+                        </motion.div>
+
+                        {/* Pathology Analysis */}
+                        <motion.div
+                          className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                          whileHover={{ y: -3 }}
+                          onClick={() => {
+                            console.log('Pathology Analysis selected');
+                          }}
+                        >
+                          <div className="w-16 h-16 bg-gradient-to-br from-red-100 to-red-200 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                            <Microscope className="h-8 w-8 text-red-700" />
+                          </div>
+                          <h3 className="font-bold text-gray-900 mb-2 text-center">
+                            {t.homepage.pathologyAnalysis}
+                          </h3>
+                          <p className="text-gray-600 text-sm text-center">
+                            Análisis de muestras patológicas
+                          </p>
+                        </motion.div>
+
+                        {/* Upload Image Button */}
+                        <motion.div
+                          className="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-dashed border-cyan-300"
+                          whileHover={{ y: -3 }}
+                          onClick={() => {
+                            console.log('Upload medical image');
+                          }}
+                        >
+                          <div className="w-16 h-16 bg-gradient-to-br from-cyan-200 to-cyan-300 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                            <Upload className="h-8 w-8 text-cyan-700" />
+                          </div>
+                          <h3 className="font-bold text-gray-900 mb-2 text-center">
+                            Subir Imagen
+                          </h3>
+                          <p className="text-gray-600 text-sm text-center">
+                            Carga tu imagen médica para análisis
+                          </p>
+                        </motion.div>
                       </div>
                     </div>
 
@@ -1455,7 +1512,7 @@ export function ModernHomepage() {
                           <div className="relative group overflow-hidden rounded-2xl">
                             <Image
                               src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                              alt="AI Technology in Healthcare"
+                              alt="Advanced Technology in Healthcare"
                               width={600}
                               height={256}
                               className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
@@ -1705,7 +1762,7 @@ export function ModernHomepage() {
                               >
                                 <Image
                                   src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
-                                  alt="Advanced Medical AI"
+                                  alt="Advanced Medical Technology"
                                   fill
                                   className="object-cover"
                                 />

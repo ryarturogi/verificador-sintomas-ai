@@ -143,7 +143,7 @@ export function AIAnswerSelector({
       setIsLoading(false)
       requestInProgress.current = false
     }
-  }, [question.text, question.type, question.generateAnswers, question.answerContext?.maxOptions, previousResponses, language, t.errors.analysisError, hasGenerated])
+  }, [question, previousResponses, language, t.errors.analysisError, hasGenerated])
 
   // Reset generation state when question changes
   useEffect(() => {

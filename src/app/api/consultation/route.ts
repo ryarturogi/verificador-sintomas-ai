@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
           responseTime: '2-3 minutes',
           rating: 4.9,
           consultationCount: 1250,
-          avatar: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1677442136019-21780ccad005?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         },
         {
           id: 'dr-floyd-miles',
@@ -120,7 +120,7 @@ export async function GET(request: NextRequest) {
           responseTime: '3-5 minutes',
           rating: 4.8,
           consultationCount: 890,
-          avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         },
         {
           id: 'dr-mckinney',
@@ -133,7 +133,7 @@ export async function GET(request: NextRequest) {
           responseTime: '4-6 minutes',
           rating: 4.7,
           consultationCount: 650,
-          avatar: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         },
         {
           id: 'dr-jacob',
@@ -146,7 +146,7 @@ export async function GET(request: NextRequest) {
           responseTime: '2-4 minutes',
           rating: 4.9,
           consultationCount: 1100,
-          avatar: 'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         },
         {
           id: 'dr-warren',
@@ -159,7 +159,7 @@ export async function GET(request: NextRequest) {
           responseTime: '3-5 minutes',
           rating: 4.8,
           consultationCount: 980,
-          avatar: 'https://images.unsplash.com/photo-1594824609072-57c2d2bb8b86?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+          avatar: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
         }
       ]
       

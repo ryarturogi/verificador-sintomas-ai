@@ -147,6 +147,52 @@ export interface HomepageTranslations {
   whyChoose: string
   getFreeConsultation: string
   meetSpecialists: string
+  aiAgentsSubtitle: string
+  // Agents
+  aiGeneralMedicine: string
+  aiCardiology: string
+  aiNeurology: string
+  aiPediatrics: string
+  aiDermatology: string
+  aiRadiology: string
+  aiEmergency: string
+  aiOncology: string
+  
+  // Agent descriptions
+  aiGeneralDescription: string
+  aiCardiologyDescription: string
+  aiNeurologyDescription: string
+  aiPediatricsDescription: string
+  aiDermatologyDescription: string
+  aiRadiologyDescription: string
+  aiEmergencyDescription: string
+  aiOncologyDescription: string
+  
+  // Image scanning features
+  imageScanning: string
+  imageScanningDescription: string
+  mriAnalysis: string
+  ctScanAnalysis: string
+  xrayAnalysis: string
+  ultrasoundAnalysis: string
+  pathologyAnalysis: string
+  
+  // Medical Procedures
+  aiCtScan: string
+  aiMri: string
+  aiXray: string
+  aiBloodTest: string
+  aiUltrasound: string
+  aiEndoscopy: string
+  
+  // Procedure descriptions
+  aiCtScanDescription: string
+  aiMriDescription: string
+  aiXrayDescription: string
+  aiBloodTestDescription: string
+  aiUltrasoundDescription: string
+  aiEndoscopyDescription: string
+  
   drLeslieAlexander: string
   dentalSurgery: string
   drKathrynMurphy: string

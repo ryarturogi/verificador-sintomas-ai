@@ -112,7 +112,7 @@ export function ConsultationPortal() {
                 <div className="flex items-center justify-center space-x-4">
                   <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-cyan-200 relative">
                     <Image 
-                      src={selectedDoctor.avatar || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
+                      src={selectedDoctor.avatar || 'https://images.unsplash.com/photo-1677442136019-21780ccad005?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
                       alt={selectedDoctor.name}
                       fill
                       className="object-cover"

@@ -11,7 +11,7 @@ export interface GPT5Options {
   cacheTTL?: number
 }
 
-export interface GPT5Response<T = any> {
+export interface GPT5Response<T = unknown> {
   data: T | null
   loading: boolean
   error: string | null
@@ -26,9 +26,9 @@ interface CacheEntry<T> {
   ttl: number
 }
 
-const globalCache = new Map<string, CacheEntry<any>>()
+const globalCache = new Map<string, CacheEntry<unknown>>()
 
-export function useGPT5<T = any>(
+export function useGPT5<T = unknown>(
   model: 'gpt-5-nano' = 'gpt-5-nano',
   options: GPT5Options = {}
 ) {
@@ -60,7 +60,7 @@ export function useGPT5<T = any>(
       return null
     }
 
-    return entry.data
+    return entry.data as T
   }, [])
 
   const setCachedData = useCallback(<T>(cacheKey: string, data: T, ttl: number): void => {
@@ -118,7 +118,7 @@ export function useGPT5<T = any>(
           
           try {
             parsedData = JSON.parse(fixedResponse)
-          } catch (fixError) {
+          } catch {
             throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
           }
         }
