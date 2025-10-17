@@ -47,10 +47,6 @@ export function PatientPortalLayout() {
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
-  useEffect(() => {
-    initializeSession()
-  }, [initializeSession])
-
   const initializeSession = useCallback(async () => {
     try {
       setIsLoading(true)
@@ -107,6 +103,10 @@ export function PatientPortalLayout() {
     }
   }, [isHealthcareProfessional])
 
+  useEffect(() => {
+    initializeSession()
+  }, [initializeSession])
+
   const handleLogout = () => {
     signOut()
   }
@@ -155,7 +155,7 @@ export function PatientPortalLayout() {
   //   }
   // }
 
-  const handleNavigation = (view: 'dashboard' | 'profile' | 'consultations' | 'medical-history') => {
+  const handleNavigation = (view: string) => {
     setCurrentView(view)
   }
 

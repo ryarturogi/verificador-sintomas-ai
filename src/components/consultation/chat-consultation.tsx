@@ -158,6 +158,20 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
     return quickActions[specialty as keyof typeof quickActions] || quickActions.general_medicine
   }
 
+  const generateDoctorResponse = useCallback((userMessage: string, specialty: string): string => {
+    // Mock AI responses based on specialty
+    const responses = {
+      general_medicine: t.mockResponses.generalMedicine,
+      cardiology: t.mockResponses.cardiology,
+      neurology: t.mockResponses.neurology,
+      pediatrics: t.mockResponses.pediatrics,
+      internal_medicine: t.mockResponses.internalMedicine
+    }
+
+    const specialtyResponses = responses[specialty as keyof typeof responses] || responses.general_medicine
+    return specialtyResponses[Math.floor(Math.random() * specialtyResponses.length)]
+  }, [t.mockResponses])
+
   const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || isLoading) return
 
@@ -362,21 +376,6 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
 
     translateMessages()
   }, [language, session.id, messages])
-
-
-  const generateDoctorResponse = (userMessage: string, specialty: string): string => {
-    // Mock AI responses based on specialty
-    const responses = {
-      general_medicine: t.mockResponses.generalMedicine,
-      cardiology: t.mockResponses.cardiology,
-      neurology: t.mockResponses.neurology,
-      pediatrics: t.mockResponses.pediatrics,
-      internal_medicine: t.mockResponses.internalMedicine
-    }
-
-    const specialtyResponses = responses[specialty as keyof typeof responses] || responses.general_medicine
-    return specialtyResponses[Math.floor(Math.random() * specialtyResponses.length)]
-  }
 
   return (
     <motion.div 

@@ -245,7 +245,7 @@ export function PatientNav({
                     {item.id === 'dashboard' && (
                       <div className="absolute -top-1 -right-1 w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
                     )}
-                    {item.id === 'consultations' && item.badge && (
+                    {item.id === 'consultations' && (
                       <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     )}
                   </div>
@@ -278,14 +278,6 @@ export function PatientNav({
                       </div>
                     )}
                   </div>
-                  {item.badge && (
-                    <span className={cn(
-                      "inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white rounded-full",
-                      `bg-${item.color}-500`
-                    )}>
-                      {item.badge}
-                    </span>
-                  )}
                 </button>
               )
             })}

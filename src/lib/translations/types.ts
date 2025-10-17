@@ -23,6 +23,8 @@ export interface CommonTranslations {
   send: string
   backToHome: string
   goHome: string
+  confirmExit: string
+  exitQuestionnaire: string
   
   // Form elements
   name: string
@@ -363,7 +365,7 @@ export interface EmergencyTranslations {
   alertGenerated: string
 }
 
-// Questionnaire System
+  // Questionnaire System
 export interface QuestionnaireTranslations {
   // Main questionnaire flow
   preparing: string
@@ -380,6 +382,7 @@ export interface QuestionnaireTranslations {
   questionsAnswered: string
   poweredBy: string
   useArrows: string
+  exitWarning: string
   
   // Page content
   title: string
@@ -1308,6 +1311,10 @@ export interface Translations {
     doctorTyping: string
     typeMessage: string
     send: string
+    sending: string
+    typingIndicator: string
+    messagesInQueue: string
+    startConversation: string
   }
   
   // Scale

@@ -27,6 +27,8 @@ export const es: Translations = {
     send: "Enviar",
     backToHome: "Volver al Inicio",
     goHome: "Ir al Inicio",
+    confirmExit: "Confirmar Salida",
+    exitQuestionnaire: "Salir del Cuestionario",
     
     // Form elements
     name: "Nombre",
@@ -379,6 +381,7 @@ export const es: Translations = {
     questionsAnswered: "preguntas respondidas",
     poweredBy: "Impulsado por tecnología avanzada",
     useArrows: "Usa las teclas de flecha para navegar",
+    exitWarning: "¿Estás seguro de que quieres salir? Tu progreso se perderá y tendrás que empezar de nuevo.",
     
     // Page content
     title: "Evaluaciones de Salud Inteligentes",

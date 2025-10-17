@@ -79,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const user: User | null = extractHealthcareUser(clerkUser)
+  const user: User | null = extractHealthcareUser(clerkUser || null)
 
   const logout = async () => {
     await signOut()

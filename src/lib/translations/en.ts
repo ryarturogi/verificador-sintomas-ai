@@ -27,6 +27,8 @@ export const en: Translations = {
     send: "Send",
     backToHome: "Back to Home",
     goHome: "Go Home",
+    confirmExit: "Confirm Exit",
+    exitQuestionnaire: "Exit Questionnaire",
     
     // Form elements
     name: "Name",
@@ -379,6 +381,7 @@ export const en: Translations = {
     questionsAnswered: "questions answered",
     poweredBy: "Powered by advanced technology",
     useArrows: "Use arrow keys to navigate",
+    exitWarning: "Are you sure you want to leave? Your progress will be lost and you'll need to start over.",
     
     // Page content
     title: "Intelligent Health Assessments",

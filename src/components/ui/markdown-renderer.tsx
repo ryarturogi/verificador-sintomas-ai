@@ -22,14 +22,6 @@ export function MarkdownRenderer({ content, className = '' }: MarkdownRendererPr
         breaks: true, // Convert line breaks to <br>
         gfm: true, // GitHub Flavored Markdown
         pedantic: false, // Don't be pedantic about markdown
-        sanitize: false, // Allow HTML (we'll sanitize manually if needed)
-        smartLists: true, // Smart list handling
-        smartypants: true, // Smart quotes and dashes
-        tables: true, // Enable tables
-        taskLists: true, // Enable task lists
-        mangle: false, // Don't mangle email addresses
-        headerIds: false, // Don't add IDs to headers
-        xhtml: false, // Use HTML5 instead of XHTML
       })
 
       // Parse markdown to HTML
@@ -61,14 +53,6 @@ export function InlineMarkdownRenderer({ content, className = '' }: MarkdownRend
         breaks: true,
         gfm: true,
         pedantic: false,
-        sanitize: false,
-        smartLists: true,
-        smartypants: true,
-        tables: true,
-        taskLists: true,
-        mangle: false,
-        headerIds: false,
-        xhtml: false,
       })
 
       const htmlContent = marked.parse(content) as string
