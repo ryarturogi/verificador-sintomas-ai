@@ -20,7 +20,12 @@ import { useScrollToTop } from '@/hooks/use-scroll-to-top'
 
 type AppState = 'disclaimer' | 'questionnaire' | 'loading' | 'results' | 'error' | 'config-error' | 'declined'
 
-export function SymptomChecker() {
+interface SymptomCheckerProps {
+  initialQuery?: string
+  initialTopic?: string
+}
+
+export function SymptomChecker({ initialQuery, initialTopic }: SymptomCheckerProps) {
   const [state, setState] = useState<AppState>('disclaimer')
   const [results, setResults] = useState<AssessmentResult | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -262,6 +267,8 @@ export function SymptomChecker() {
               <DynamicQuestionnaire 
                 onComplete={handleQuestionnaireComplete}
                 onEmergencyDetected={handleEmergencyDetected}
+                initialQuery={initialQuery}
+                initialTopic={initialTopic}
               />
             </motion.div>
           )}

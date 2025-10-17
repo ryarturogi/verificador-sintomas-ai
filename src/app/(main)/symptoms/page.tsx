@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -21,6 +22,7 @@ import { useLanguage } from '@/contexts/language-context'
 
 export default function SymptomsPage() {
   const { t } = useLanguage()
+  const router = useRouter()
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
 
@@ -153,6 +155,11 @@ export default function SymptomsPage() {
     }
   }
 
+  const handleAnalyzeSymptom = (symptomName: string) => {
+    // Navigate to symptom checker with the specific symptom as initial query
+    router.push(`/symptom-checker?query=${encodeURIComponent(symptomName)}`)
+  }
+
   return (
     <div className="bg-gradient-to-br from-slate-50 via-cyan-50 to-cyan-100">
 
@@ -261,7 +268,10 @@ export default function SymptomsPage() {
                     </p>
                   </div>
                   
-                  <Button className="w-full group-hover:bg-cyan-600 group-hover:text-white transition-colors duration-300">
+                  <Button 
+                    onClick={() => handleAnalyzeSymptom(symptom.name)}
+                    className="w-full group-hover:bg-cyan-600 group-hover:text-white transition-colors duration-300"
+                  >
                     Analyze Symptom
                     <ArrowRight className="ml-2 icon-sm group-hover:translate-x-1 transition-transform duration-300" />
                   </Button>

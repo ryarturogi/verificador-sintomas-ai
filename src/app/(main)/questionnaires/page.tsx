@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/contexts/language-context'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,7 @@ import Link from 'next/link'
 
 export default function QuestionnairesPage() {
   const { t } = useLanguage()
+  const router = useRouter()
   const questionnaireTypes = [
     {
       title: t.questionnaire.types.generalHealth.title,
@@ -69,6 +71,21 @@ export default function QuestionnairesPage() {
       color: "from-teal-500 to-cyan-500"
     }
   ]
+
+  const handleStartAssessment = (questionnaireType: string) => {
+    // Map questionnaire types to appropriate routes or parameters
+    const typeMapping: Record<string, string> = {
+      'generalHealth': 'general',
+      'symptomAnalysis': 'symptoms', 
+      'mentalHealth': 'mental',
+      'chronicCondition': 'chronic',
+      'emergencyAssessment': 'emergency',
+      'preventiveCare': 'preventive'
+    }
+    
+    const topic = typeMapping[questionnaireType] || 'general'
+    router.push(`/symptom-checker?topic=${topic}`)
+  }
 
   const benefits = [
     {
@@ -146,7 +163,10 @@ export default function QuestionnairesPage() {
                     </div>
                   </div>
                   
-                  <Button className="w-full group-hover:bg-cyan-600 group-hover:text-white transition-colors duration-300">
+                  <Button 
+                    onClick={() => handleStartAssessment(questionnaire.title.toLowerCase().replace(/\s+/g, ''))}
+                    className="w-full group-hover:bg-cyan-600 group-hover:text-white transition-colors duration-300"
+                  >
                     {t.questionnaire.startAssessment}
                     <ArrowRight className="ml-2 icon-sm group-hover:translate-x-1 transition-transform duration-300" />
                   </Button>
