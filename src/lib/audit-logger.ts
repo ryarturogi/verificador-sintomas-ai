@@ -31,6 +31,7 @@ export type AuditEventType =
   | 'PHI_ACCESS'
   | 'SESSION_EVENT'
   | 'CONSENT_EVENT'
+  | 'HEALTHCARE_PROFESSIONAL_EVENT'
 
 class AuditLogger {
   private events: AuditEvent[] = []
@@ -266,6 +267,30 @@ class AuditLogger {
       dataAccessEvents: this.events.filter(e => e.eventType === 'MEDICAL_DATA_ACCESS').length,
     }
   }
+
+  // Log healthcare professional events
+  async logHealthcareEvent(details: {
+    sessionId: string
+    action: string
+    timestamp: string
+    details: Record<string, unknown>
+    ipAddress?: string
+    userAgent?: string
+  }): Promise<void> {
+    await this.logEvent({
+      sessionId: details.sessionId,
+      eventType: 'HEALTHCARE_PROFESSIONAL_EVENT',
+      resource: 'HEALTHCARE_SYSTEM',
+      action: details.action,
+      outcome: 'SUCCESS',
+      details: anonymizeForLogging(details.details),
+      riskLevel: 'LOW',
+      dataClassification: 'PHI',
+      complianceFlags: ['HIPAA', 'AUDIT_TRAIL'],
+      ipAddress: details.ipAddress,
+      userAgent: details.userAgent
+    })
+  }
 }
 
 // Singleton instance for application-wide use
@@ -287,4 +312,7 @@ export const audit = {
   
   event: (details: Partial<AuditEvent>) => 
     auditLogger.logEvent(details),
+  
+  healthcare: (details: Parameters<typeof auditLogger.logHealthcareEvent>[0]) => 
+    auditLogger.logHealthcareEvent(details),
 }

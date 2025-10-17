@@ -26,9 +26,10 @@ export async function POST(request: NextRequest) {
       await audit.security({
         sessionId,
         action: 'DATA_INTEGRITY_VIOLATION',
+        threat: 'INVALID_REQUEST_DATA',
         severity: 'HIGH',
         ipAddress: clientIP,
-        details: 'Invalid medical image analysis request data'
+        mitigation: 'REQUEST_REJECTED'
       })
       
       return NextResponse.json(
@@ -38,10 +39,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Sanitize inputs
-    const sanitizedImage = sanitizeInput(body.image, 'base64')
-    const sanitizedImageType = sanitizeInput(body.imageType, 'alphanumeric')
-    const sanitizedLanguage = sanitizeInput(body.language, 'alphanumeric')
-    const sanitizedSystemPrompt = sanitizeInput(body.systemPrompt, 'text')
+    const sanitizedImage = sanitizeInput(body.image)
+    const sanitizedImageType = sanitizeInput(body.imageType)
+    const sanitizedLanguage = sanitizeInput(body.language)
+    const sanitizedSystemPrompt = sanitizeInput(body.systemPrompt)
 
     if (!sanitizedImage || !sanitizedImageType) {
       return NextResponse.json(
@@ -102,9 +103,10 @@ export async function POST(request: NextRequest) {
       await audit.security({
         sessionId,
         action: 'EXTERNAL_API_FAILURE',
+        threat: 'API_FAILURE',
         severity: 'MEDIUM',
         ipAddress: clientIP,
-        details: `OpenAI Vision API failed: ${openaiResponse.status}`
+        mitigation: 'API_ERROR_HANDLED'
       })
 
       return NextResponse.json(
@@ -129,6 +131,7 @@ export async function POST(request: NextRequest) {
       action: 'MEDICAL_IMAGE_ANALYSIS_COMPLETED',
       dataType: 'MEDICAL_IMAGE_ANALYSIS_RESULT',
       patientDataInvolved: true,
+      consentVerified: true,
       ipAddress: clientIP,
       userAgent,
     })
@@ -146,13 +149,14 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Medical image analysis error:', error)
 
-    await audit.security({
-      sessionId,
-      action: 'MEDICAL_IMAGE_ANALYSIS_ERROR',
-      severity: 'HIGH',
-      ipAddress: clientIP,
-      details: error instanceof Error ? error.message : 'Unknown error during image analysis'
-    })
+      await audit.security({
+        sessionId,
+        action: 'MEDICAL_IMAGE_ANALYSIS_ERROR',
+        threat: 'ANALYSIS_FAILURE',
+        severity: 'HIGH',
+        ipAddress: clientIP,
+        mitigation: 'ERROR_HANDLED'
+      })
 
     return NextResponse.json(
       { 

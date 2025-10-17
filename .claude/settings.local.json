@@ -24,7 +24,8 @@
       "WebFetch(domain:react-select.com)",
       "WebFetch(domain:github.com)",
       "Bash(pnpm remove:*)",
-      "Bash(pnpm list:*)"
+      "Bash(pnpm list:*)",
+      "Bash(cat:*)"
     ],
     "deny": []
   }

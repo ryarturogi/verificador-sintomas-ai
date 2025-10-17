@@ -1544,5 +1544,168 @@ export const en: Translations = {
       "Given your symptoms and medical history, I suggest monitoring your condition closely and consulting with your primary care physician for a thorough evaluation.",
       "Your symptoms may be related to your existing conditions. It's important to continue your current medications and report any changes to your healthcare provider."
     ]
+  },
+
+  // Healthcare Professional Portal
+  healthcare: {
+    // Dashboard
+    dashboard: {
+      title: "Healthcare Professional Dashboard",
+      subtitle: "Manage patients, consultations, and medical tools",
+      welcome: "Welcome back",
+      overview: "Overview",
+      quickActions: "Quick Actions",
+      recentActivity: "Recent Activity",
+      statistics: "Statistics"
+    },
+
+    // Navigation
+    nav: {
+      dashboard: "Dashboard",
+      patients: "Patients",
+      consultations: "Consultations",
+      medicalTools: "Medical Tools",
+      medicalRecords: "Medical Records",
+      analytics: "Analytics",
+      administration: "Administration",
+      signOut: "Sign Out"
+    },
+
+    // Patient Management
+    patients: {
+      title: "Patient Management",
+      subtitle: "Manage and track your patients",
+      searchPatients: "Search patients...",
+      addPatient: "Add Patient",
+      patientList: "Patient List",
+      recentPatients: "Recent Patients",
+      patientDetails: "Patient Details",
+      medicalHistory: "Medical History",
+      currentConditions: "Current Conditions",
+      medications: "Medications",
+      allergies: "Allergies",
+      vitalSigns: "Vital Signs",
+      lastVisit: "Last Visit",
+      nextAppointment: "Next Appointment"
+    },
+
+    // Consultations
+    consultations: {
+      title: "Consultations",
+      subtitle: "Manage medical consultations",
+      newConsultation: "New Consultation",
+      consultationHistory: "Consultation History",
+      activeConsultations: "Active Consultations",
+      pendingConsultations: "Pending Consultations",
+      consultationDetails: "Consultation Details",
+      patientNotes: "Patient Notes",
+      diagnosis: "Diagnosis",
+      treatment: "Treatment",
+      followUp: "Follow Up",
+      urgency: "Urgency",
+      status: "Status"
+    },
+
+    // Medical Tools
+    medicalTools: {
+      title: "Medical Tools",
+      subtitle: "Clinical decision support and medical utilities",
+      symptomAnalyzer: "Symptom Analyzer",
+      differentialDiagnosis: "Differential Diagnosis",
+      drugInteractions: "Drug Interactions",
+      treatmentPlanner: "Treatment Planner",
+      medicalCalculator: "Medical Calculator",
+      clinicalGuidelines: "Clinical Guidelines",
+      referenceMaterials: "Reference Materials"
+    },
+
+    // Medical Records
+    medicalRecords: {
+      title: "Medical Records",
+      subtitle: "Access and manage patient medical records",
+      patientRecords: "Patient Records",
+      searchRecords: "Search Records",
+      filterBy: "Filter by",
+      recordType: "Record Type",
+      dateRange: "Date Range",
+      viewRecord: "View Record",
+      editRecord: "Edit Record",
+      addNote: "Add Note"
+    },
+
+    // Analytics
+    analytics: {
+      title: "Analytics",
+      subtitle: "Healthcare analytics and reporting",
+      overview: "Overview",
+      patientStatistics: "Patient Statistics",
+      consultationMetrics: "Consultation Metrics",
+      performanceReports: "Performance Reports",
+      trends: "Trends",
+      insights: "Insights"
+    },
+
+    // Administration
+    administration: {
+      title: "Administration",
+      subtitle: "System administration and user management",
+      userManagement: "User Management",
+      roleManagement: "Role Management",
+      systemSettings: "System Settings",
+      permissions: "Permissions",
+      auditLogs: "Audit Logs",
+      systemHealth: "System Health"
+    },
+
+    // User Roles
+    roles: {
+      doctor: "Doctor",
+      nurse: "Nurse",
+      medicalStaff: "Medical Staff",
+      specialist: "Specialist",
+      administrator: "Administrator"
+    },
+
+    // Permissions
+    permissions: {
+      readPatients: "Read Patients",
+      writePatients: "Write Patients",
+      readMedicalRecords: "Read Medical Records",
+      writeMedicalRecords: "Write Medical Records",
+      prescribeMedications: "Prescribe Medications",
+      orderTests: "Order Tests",
+      accessEmergencyCases: "Access Emergency Cases",
+      manageOtherProfessionals: "Manage Other Professionals",
+      viewAnalytics: "View Analytics",
+      manageSystemSettings: "Manage System Settings",
+      accessAiTools: "Access AI Tools",
+      createConsultations: "Create Consultations",
+      reviewCases: "Review Cases",
+      approveTreatments: "Approve Treatments"
+    },
+
+    // Status and Actions
+    status: {
+      active: "Active",
+      inactive: "Inactive",
+      pending: "Pending",
+      completed: "Completed",
+      cancelled: "Cancelled",
+      emergency: "Emergency",
+      urgent: "Urgent",
+      normal: "Normal"
+    },
+
+    actions: {
+      view: "View",
+      edit: "Edit",
+      delete: "Delete",
+      approve: "Approve",
+      reject: "Reject",
+      assign: "Assign",
+      transfer: "Transfer",
+      archive: "Archive",
+      restore: "Restore"
+    }
   }
 }

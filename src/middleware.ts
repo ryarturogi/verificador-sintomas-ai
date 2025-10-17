@@ -10,7 +10,9 @@ const rateLimitStore = new Map<string, { count: number; resetTime: number }>()
 // Define protected routes
 const isProtectedRoute = createRouteMatcher([
   '/patient-portal(.*)',
+  '/healthcare(.*)',
   '/api/patient(.*)',
+  '/api/healthcare(.*)',
 ])
 
 export default clerkMiddleware(async (auth, request: NextRequest) => {

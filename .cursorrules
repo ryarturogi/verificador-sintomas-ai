@@ -1,0 +1,222 @@
+# Cursor Rules for Verificador Sintomas AI - Healthcare Professional Platform
+
+## Project Overview
+This is a Next.js 15 + TypeScript + Vercel AI SDK 5.0 + OpenAI GPT-5 series models AI coding assistant for healthcare professionals. The platform serves both patients and healthcare professionals with role-based access.
+
+## Core Technologies
+- Next.js 15 with App Router
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- shadcn/ui components
+- Framer Motion
+- Clerk for authentication
+- OpenAI GPT-5 for AI features
+
+## User Types & Roles
+- **Healthcare Professionals ONLY**: 
+  - Doctors (general_medicine, specialists)
+  - Nurses
+  - Medical Staff
+  - Administrators
+- **Role-based permissions**: Each role has specific permissions for different features
+- **NO PATIENT ACCESS**: This application is exclusively for certified healthcare professionals
+
+## Translation Requirements - CRITICAL
+**ALWAYS include translations for any new text, labels, or UI elements:**
+
+1. **English (en.ts)**: Primary language
+2. **Spanish (es.ts)**: Secondary language
+3. **All new UI text MUST be added to both translation files**
+4. **Use the translation system consistently**: `const { t } = useLanguage()`
+5. **Translation keys follow this structure**:
+   ```typescript
+   // For healthcare professional features
+   healthcare: {
+     dashboard: {
+       title: string
+       subtitle: string
+       // ... more keys
+     }
+   }
+   ```
+
+## Code Style & Standards
+
+### TypeScript
+- Use strict TypeScript with proper typing
+- Define interfaces for all data structures
+- Use Zod for validation schemas
+- Prefer type safety over any types
+
+### React Components
+- Use functional components with hooks
+- Implement proper error boundaries
+- Use proper loading states
+- Follow React 19 best practices
+
+### Styling
+- Use Tailwind CSS classes
+- Follow design system tokens from `src/lib/design-tokens.ts`
+- Use shadcn/ui components when possible
+- Maintain responsive design
+
+### File Organization
+```
+src/
+├── app/                    # Next.js App Router
+├── components/
+│   ├── ui/                # shadcn/ui base components
+│   ├── patient-portal/    # Patient-specific components
+│   ├── healthcare/        # Healthcare professional components
+│   └── symptom-checker/   # Symptom analysis components
+├── lib/
+│   ├── translations/      # Translation files
+│   └── utils.ts          # Utility functions
+├── services/              # Business logic services
+├── types/                 # TypeScript type definitions
+└── hooks/                 # Custom React hooks
+```
+
+## Healthcare Professional Features
+
+### Dashboard Views
+- **Doctor Dashboard**: Patient management, consultations, medical tools
+- **Nurse Dashboard**: Patient care, consultations, medical records
+- **Medical Staff Dashboard**: Limited access to patient data
+- **Administrator Dashboard**: System management, user management
+
+### Medical Tools
+- Clinical decision support
+- Symptom analysis for professionals
+- Medical image analysis
+- Drug interaction checking
+- Treatment planning
+
+### Patient Management (for Healthcare Professionals)
+- Patient search and filtering
+- Medical history access
+- Consultation management
+- Clinical notes
+- Patient care coordination
+
+## Security & Compliance
+- HIPAA compliance for medical data
+- Role-based access control
+- Audit logging for all medical data access
+- Secure session management
+- Data encryption for sensitive information
+
+## API Design
+- RESTful API endpoints
+- Proper error handling
+- Input validation with Zod
+- Rate limiting
+- Authentication middleware
+
+## Testing Strategy
+- Unit tests for business logic
+- Integration tests for API endpoints
+- Component testing for UI
+- E2E tests for critical user flows
+
+## Common Patterns
+
+### Translation Usage
+```typescript
+// Always use translations
+const { t } = useLanguage()
+
+// In JSX
+<h1>{t.healthcare.dashboard.title}</h1>
+<p>{t.healthcare.dashboard.subtitle}</p>
+```
+
+### Role-based Rendering
+```typescript
+const { isHealthcareProfessional, hasPermission } = useAuth()
+
+// Check permissions
+{hasPermission('read_medical_records') && (
+  <MedicalRecordsComponent />
+)}
+```
+
+### Error Handling
+```typescript
+try {
+  // API call
+} catch (error) {
+  console.error('Error:', error)
+  setError('Failed to load data')
+}
+```
+
+## File Naming Conventions
+- Components: PascalCase (e.g., `PatientDashboard.tsx`)
+- Hooks: camelCase with `use` prefix (e.g., `usePatientData.ts`)
+- Services: camelCase (e.g., `patientService.ts`)
+- Types: PascalCase (e.g., `PatientData.ts`)
+- API routes: kebab-case (e.g., `patient-data/route.ts`)
+
+## Git Workflow
+- Use descriptive commit messages
+- Create feature branches for new functionality
+- Test thoroughly before merging
+- Update translations with every UI change
+
+## Performance Considerations
+- Use React.memo for expensive components
+- Implement proper loading states
+- Optimize images and assets
+- Use Next.js Image component
+- Implement proper caching strategies
+
+## Accessibility
+- Use semantic HTML
+- Implement proper ARIA labels
+- Ensure keyboard navigation
+- Test with screen readers
+- Maintain color contrast ratios
+
+## Deployment
+- Use Vercel for deployment
+- Environment variables for configuration
+- Proper error monitoring
+- Performance monitoring
+
+## Code Review Checklist
+- [ ] Translations added for all new text
+- [ ] TypeScript types properly defined
+- [ ] Error handling implemented
+- [ ] Loading states added
+- [ ] Accessibility considerations
+- [ ] Security best practices followed
+- [ ] Performance optimizations applied
+- [ ] Tests written for new functionality
+
+## Common Commands
+```bash
+# Development
+npm run dev
+
+# Build
+npm run build
+
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
+
+# Add new shadcn/ui component
+npx shadcn@latest add [component-name]
+```
+
+## Important Notes
+- **ALWAYS add translations** for any new UI text
+- **Test with different user roles** to ensure proper access control
+- **Follow HIPAA guidelines** for medical data handling
+- **Use proper error boundaries** for better UX
+- **Implement proper loading states** for all async operations
+- **Maintain consistent design system** across all components

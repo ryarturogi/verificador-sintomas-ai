@@ -1544,5 +1544,168 @@ export const es: Translations = {
       "Dados tus síntomas e historial médico, sugiero monitorear tu condición de cerca y consultar con tu médico de atención primaria para una evaluación exhaustiva.",
       "Tus síntomas pueden estar relacionados con tus condiciones existentes. Es importante continuar con tus medicamentos actuales y reportar cualquier cambio a tu proveedor de salud."
     ]
+  },
+
+  // Portal de Profesionales de la Salud
+  healthcare: {
+    // Dashboard
+    dashboard: {
+      title: "Panel de Profesionales de la Salud",
+      subtitle: "Gestiona pacientes, consultas y herramientas médicas",
+      welcome: "Bienvenido de nuevo",
+      overview: "Resumen",
+      quickActions: "Acciones Rápidas",
+      recentActivity: "Actividad Reciente",
+      statistics: "Estadísticas"
+    },
+
+    // Navegación
+    nav: {
+      dashboard: "Panel",
+      patients: "Pacientes",
+      consultations: "Consultas",
+      medicalTools: "Herramientas Médicas",
+      medicalRecords: "Registros Médicos",
+      analytics: "Analíticas",
+      administration: "Administración",
+      signOut: "Cerrar Sesión"
+    },
+
+    // Gestión de Pacientes
+    patients: {
+      title: "Gestión de Pacientes",
+      subtitle: "Gestiona y rastrea tus pacientes",
+      searchPatients: "Buscar pacientes...",
+      addPatient: "Agregar Paciente",
+      patientList: "Lista de Pacientes",
+      recentPatients: "Pacientes Recientes",
+      patientDetails: "Detalles del Paciente",
+      medicalHistory: "Historial Médico",
+      currentConditions: "Condiciones Actuales",
+      medications: "Medicamentos",
+      allergies: "Alergias",
+      vitalSigns: "Signos Vitales",
+      lastVisit: "Última Visita",
+      nextAppointment: "Próxima Cita"
+    },
+
+    // Consultas
+    consultations: {
+      title: "Consultas",
+      subtitle: "Gestiona consultas médicas",
+      newConsultation: "Nueva Consulta",
+      consultationHistory: "Historial de Consultas",
+      activeConsultations: "Consultas Activas",
+      pendingConsultations: "Consultas Pendientes",
+      consultationDetails: "Detalles de la Consulta",
+      patientNotes: "Notas del Paciente",
+      diagnosis: "Diagnóstico",
+      treatment: "Tratamiento",
+      followUp: "Seguimiento",
+      urgency: "Urgencia",
+      status: "Estado"
+    },
+
+    // Herramientas Médicas
+    medicalTools: {
+      title: "Herramientas Médicas",
+      subtitle: "Apoyo a decisiones clínicas y utilidades médicas",
+      symptomAnalyzer: "Analizador de Síntomas",
+      differentialDiagnosis: "Diagnóstico Diferencial",
+      drugInteractions: "Interacciones Medicamentosas",
+      treatmentPlanner: "Planificador de Tratamiento",
+      medicalCalculator: "Calculadora Médica",
+      clinicalGuidelines: "Guías Clínicas",
+      referenceMaterials: "Materiales de Referencia"
+    },
+
+    // Registros Médicos
+    medicalRecords: {
+      title: "Registros Médicos",
+      subtitle: "Accede y gestiona registros médicos de pacientes",
+      patientRecords: "Registros de Pacientes",
+      searchRecords: "Buscar Registros",
+      filterBy: "Filtrar por",
+      recordType: "Tipo de Registro",
+      dateRange: "Rango de Fechas",
+      viewRecord: "Ver Registro",
+      editRecord: "Editar Registro",
+      addNote: "Agregar Nota"
+    },
+
+    // Analíticas
+    analytics: {
+      title: "Analíticas",
+      subtitle: "Analíticas de salud y reportes",
+      overview: "Resumen",
+      patientStatistics: "Estadísticas de Pacientes",
+      consultationMetrics: "Métricas de Consultas",
+      performanceReports: "Reportes de Rendimiento",
+      trends: "Tendencias",
+      insights: "Perspectivas"
+    },
+
+    // Administración
+    administration: {
+      title: "Administración",
+      subtitle: "Administración del sistema y gestión de usuarios",
+      userManagement: "Gestión de Usuarios",
+      roleManagement: "Gestión de Roles",
+      systemSettings: "Configuración del Sistema",
+      permissions: "Permisos",
+      auditLogs: "Registros de Auditoría",
+      systemHealth: "Salud del Sistema"
+    },
+
+    // Roles de Usuario
+    roles: {
+      doctor: "Doctor",
+      nurse: "Enfermero",
+      medicalStaff: "Personal Médico",
+      specialist: "Especialista",
+      administrator: "Administrador"
+    },
+
+    // Permisos
+    permissions: {
+      readPatients: "Leer Pacientes",
+      writePatients: "Escribir Pacientes",
+      readMedicalRecords: "Leer Registros Médicos",
+      writeMedicalRecords: "Escribir Registros Médicos",
+      prescribeMedications: "Recetar Medicamentos",
+      orderTests: "Solicitar Pruebas",
+      accessEmergencyCases: "Acceder a Casos de Emergencia",
+      manageOtherProfessionals: "Gestionar Otros Profesionales",
+      viewAnalytics: "Ver Analíticas",
+      manageSystemSettings: "Gestionar Configuración del Sistema",
+      accessAiTools: "Acceder a Herramientas de IA",
+      createConsultations: "Crear Consultas",
+      reviewCases: "Revisar Casos",
+      approveTreatments: "Aprobar Tratamientos"
+    },
+
+    // Estado y Acciones
+    status: {
+      active: "Activo",
+      inactive: "Inactivo",
+      pending: "Pendiente",
+      completed: "Completado",
+      cancelled: "Cancelado",
+      emergency: "Emergencia",
+      urgent: "Urgente",
+      normal: "Normal"
+    },
+
+    actions: {
+      view: "Ver",
+      edit: "Editar",
+      delete: "Eliminar",
+      approve: "Aprobar",
+      reject: "Rechazar",
+      assign: "Asignar",
+      transfer: "Transferir",
+      archive: "Archivar",
+      restore: "Restaurar"
+    }
   }
 }

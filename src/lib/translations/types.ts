@@ -1538,4 +1538,167 @@ export interface Translations {
     pediatrics: string[]
     internalMedicine: string[]
   }
+
+  // Healthcare Professional Portal
+  healthcare: {
+    // Dashboard
+    dashboard: {
+      title: string
+      subtitle: string
+      welcome: string
+      overview: string
+      quickActions: string
+      recentActivity: string
+      statistics: string
+    }
+
+    // Navigation
+    nav: {
+      dashboard: string
+      patients: string
+      consultations: string
+      medicalTools: string
+      medicalRecords: string
+      analytics: string
+      administration: string
+      signOut: string
+    }
+
+    // Patient Management
+    patients: {
+      title: string
+      subtitle: string
+      searchPatients: string
+      addPatient: string
+      patientList: string
+      recentPatients: string
+      patientDetails: string
+      medicalHistory: string
+      currentConditions: string
+      medications: string
+      allergies: string
+      vitalSigns: string
+      lastVisit: string
+      nextAppointment: string
+    }
+
+    // Consultations
+    consultations: {
+      title: string
+      subtitle: string
+      newConsultation: string
+      consultationHistory: string
+      activeConsultations: string
+      pendingConsultations: string
+      consultationDetails: string
+      patientNotes: string
+      diagnosis: string
+      treatment: string
+      followUp: string
+      urgency: string
+      status: string
+    }
+
+    // Medical Tools
+    medicalTools: {
+      title: string
+      subtitle: string
+      symptomAnalyzer: string
+      differentialDiagnosis: string
+      drugInteractions: string
+      treatmentPlanner: string
+      medicalCalculator: string
+      clinicalGuidelines: string
+      referenceMaterials: string
+    }
+
+    // Medical Records
+    medicalRecords: {
+      title: string
+      subtitle: string
+      patientRecords: string
+      searchRecords: string
+      filterBy: string
+      recordType: string
+      dateRange: string
+      viewRecord: string
+      editRecord: string
+      addNote: string
+    }
+
+    // Analytics
+    analytics: {
+      title: string
+      subtitle: string
+      overview: string
+      patientStatistics: string
+      consultationMetrics: string
+      performanceReports: string
+      trends: string
+      insights: string
+    }
+
+    // Administration
+    administration: {
+      title: string
+      subtitle: string
+      userManagement: string
+      roleManagement: string
+      systemSettings: string
+      permissions: string
+      auditLogs: string
+      systemHealth: string
+    }
+
+    // User Roles
+    roles: {
+      doctor: string
+      nurse: string
+      medicalStaff: string
+      specialist: string
+      administrator: string
+    }
+
+    // Permissions
+    permissions: {
+      readPatients: string
+      writePatients: string
+      readMedicalRecords: string
+      writeMedicalRecords: string
+      prescribeMedications: string
+      orderTests: string
+      accessEmergencyCases: string
+      manageOtherProfessionals: string
+      viewAnalytics: string
+      manageSystemSettings: string
+      accessAiTools: string
+      createConsultations: string
+      reviewCases: string
+      approveTreatments: string
+    }
+
+    // Status and Actions
+    status: {
+      active: string
+      inactive: string
+      pending: string
+      completed: string
+      cancelled: string
+      emergency: string
+      urgent: string
+      normal: string
+    }
+
+    actions: {
+      view: string
+      edit: string
+      delete: string
+      approve: string
+      reject: string
+      assign: string
+      transfer: string
+      archive: string
+      restore: string
+    }
+  }
 }

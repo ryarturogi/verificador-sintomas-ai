@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+// import Link from 'next/link'
+// import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/contexts/language-context'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -16,71 +16,139 @@ import {
   Menu,
   X
 } from 'lucide-react'
-import { PatientPortalNavItem } from '@/types/patient'
+// import { PatientPortalNavItem } from '@/types/patient'
 
 interface PatientNavProps {
   patientName?: string
   onLogout?: () => void
+  isHealthcareProfessional?: boolean
+  userRole?: string
+  availableViews?: string[]
+  currentView?: string
+  onNavigate?: (view: string) => void
 }
 
-const getNavigationItems = (t: ReturnType<typeof useLanguage>['t']): PatientPortalNavItem[] => [
-  {
-    id: 'dashboard',
-    label: t.patientPortal.nav.dashboard,
-    href: '/patient-portal',
-    icon: 'LayoutDashboard',
-    description: t.patientPortal.nav.dashboardDescription,
-    color: 'cyan',
-    gradient: 'from-cyan-50 to-blue-50',
-    borderColor: 'border-cyan-500',
-    textColor: 'text-cyan-700',
-    iconColor: 'text-cyan-600',
-    badge: 3 // Example: 3 new updates
-  },
-  {
-    id: 'profile',
-    label: t.patientPortal.nav.profile,
-    href: '/patient-portal/profile',
-    icon: 'User',
-    description: t.patientPortal.nav.profileDescription,
-    color: 'blue',
-    gradient: 'from-blue-50 to-indigo-50',
-    borderColor: 'border-blue-500',
-    textColor: 'text-blue-700',
-    iconColor: 'text-blue-600'
-  },
-  {
-    id: 'consultations',
-    label: t.patientPortal.nav.consultations,
-    href: '/patient-portal/consultations',
-    icon: 'MessageSquare',
-    description: t.patientPortal.nav.consultationsDescription,
-    color: 'green',
-    gradient: 'from-green-50 to-emerald-50',
-    borderColor: 'border-green-500',
-    textColor: 'text-green-700',
-    iconColor: 'text-green-600',
-    badge: 1 // Example: 1 new consultation
-  },
-  {
-    id: 'medical-history',
-    label: t.patientPortal.nav.medicalHistory,
-    href: '/patient-portal/medical-history',
-    icon: 'FileText',
-    description: t.patientPortal.nav.medicalHistoryDescription,
-    color: 'purple',
-    gradient: 'from-purple-50 to-violet-50',
-    borderColor: 'border-purple-500',
-    textColor: 'text-purple-700',
-    iconColor: 'text-purple-600'
-  }
-]
+// const getNavigationItems = (t: ReturnType<typeof useLanguage>['t']): PatientPortalNavItem[] => [
+//   {
+//     id: 'dashboard',
+//     label: t.patientPortal.nav.dashboard,
+//     href: '/patient-portal',
+//     icon: 'LayoutDashboard',
+//     description: t.patientPortal.nav.dashboardDescription,
+//     color: 'cyan',
+//     gradient: 'from-cyan-50 to-blue-50',
+//     borderColor: 'border-cyan-500',
+//     textColor: 'text-cyan-700',
+//     iconColor: 'text-cyan-600',
+//     badge: 3 // Example: 3 new updates
+//   },
+//   {
+//     id: 'profile',
+//     label: t.patientPortal.nav.profile,
+//     href: '/patient-portal/profile',
+//     icon: 'User',
+//     description: t.patientPortal.nav.profileDescription,
+//     color: 'blue',
+//     gradient: 'from-blue-50 to-indigo-50',
+//     borderColor: 'border-blue-500',
+//     textColor: 'text-blue-700',
+//     iconColor: 'text-blue-600'
+//   },
+//   {
+//     id: 'consultations',
+//     label: t.patientPortal.nav.consultations,
+//     href: '/patient-portal/consultations',
+//     icon: 'MessageSquare',
+//     description: t.patientPortal.nav.consultationsDescription,
+//     color: 'green',
+//     gradient: 'from-green-50 to-emerald-50',
+//     borderColor: 'border-green-500',
+//     textColor: 'text-green-700',
+//     iconColor: 'text-green-600',
+//     badge: 1 // Example: 1 new consultation
+//   },
+//   {
+//     id: 'medical-history',
+//     label: t.patientPortal.nav.medicalHistory,
+//     href: '/patient-portal/medical-history',
+//     icon: 'FileText',
+//     description: t.patientPortal.nav.medicalHistoryDescription,
+//     color: 'purple',
+//     gradient: 'from-purple-50 to-violet-50',
+//     borderColor: 'border-purple-500',
+//     textColor: 'text-purple-700',
+//     iconColor: 'text-purple-600'
+//   }
+// ]
 
-export function PatientNav({ patientName, onLogout }: PatientNavProps) {
+export function PatientNav({ 
+  patientName, 
+  onLogout, 
+  // isHealthcareProfessional = false, 
+  // userRole, 
+  availableViews = [], 
+  currentView, 
+  onNavigate 
+}: PatientNavProps) {
   const { t } = useLanguage()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
-  const navigationItems = getNavigationItems(t)
+  // const pathname = usePathname()
+  
+  // Get navigation items for healthcare professionals only
+  const getNavigationItemsForUser = () => {
+    return [
+      {
+        id: 'dashboard',
+        label: t.healthcare.nav.dashboard,
+        href: '/patient-portal',
+        icon: 'LayoutDashboard',
+        description: t.healthcare.dashboard.overview,
+        color: 'cyan',
+        gradient: 'from-cyan-50 to-blue-50',
+        borderColor: 'border-cyan-500',
+        textColor: 'text-cyan-700',
+        iconColor: 'text-cyan-600'
+      },
+      {
+        id: 'patients',
+        label: t.healthcare.nav.patients,
+        href: '/patient-portal/patients',
+        icon: 'User',
+        description: t.healthcare.patients.subtitle,
+        color: 'blue',
+        gradient: 'from-blue-50 to-indigo-50',
+        borderColor: 'border-blue-500',
+        textColor: 'text-blue-700',
+        iconColor: 'text-blue-600'
+      },
+      {
+        id: 'consultations',
+        label: t.healthcare.nav.consultations,
+        href: '/patient-portal/consultations',
+        icon: 'MessageSquare',
+        description: t.healthcare.consultations.subtitle,
+        color: 'green',
+        gradient: 'from-green-50 to-emerald-50',
+        borderColor: 'border-green-500',
+        textColor: 'text-green-700',
+        iconColor: 'text-green-600'
+      },
+      {
+        id: 'medical-tools',
+        label: t.healthcare.nav.medicalTools,
+        href: '/patient-portal/medical-tools',
+        icon: 'FileText',
+        description: t.healthcare.medicalTools.subtitle,
+        color: 'purple',
+        gradient: 'from-purple-50 to-violet-50',
+        borderColor: 'border-purple-500',
+        textColor: 'text-purple-700',
+        iconColor: 'text-purple-600'
+      }
+    ].filter(item => availableViews.includes(item.id))
+  }
+  
+  const navigationItems = getNavigationItemsForUser()
 
   const getIcon = (iconName: string) => {
     const icons = {
@@ -145,15 +213,21 @@ export function PatientNav({ patientName, onLogout }: PatientNavProps) {
           <div className="flex-1 p-4 space-y-2">
             {navigationItems.map((item) => {
               const Icon = getIcon(item.icon)
-              const isActive = pathname === item.href
+              const isActive = currentView === item.id
+              
+              const handleClick = () => {
+                setIsMobileMenuOpen(false)
+                if (onNavigate) {
+                  onNavigate(item.id)
+                }
+              }
               
               return (
-                <Link
+                <button
                   key={item.id}
-                  href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={handleClick}
                   className={cn(
-                    "flex items-center space-x-3 px-4 py-4 rounded-xl transition-all duration-300 group",
+                    "flex items-center space-x-3 px-4 py-4 rounded-xl transition-all duration-300 group w-full text-left",
                     "hover:shadow-lg focus:outline-none hover:-translate-y-1",
                     isActive 
                       ? `bg-gradient-to-r ${item.gradient} ${item.textColor} border-r-4 ${item.borderColor} shadow-lg` 
@@ -212,7 +286,7 @@ export function PatientNav({ patientName, onLogout }: PatientNavProps) {
                       {item.badge}
                     </span>
                   )}
-                </Link>
+                </button>
               )
             })}
           </div>
@@ -225,7 +299,7 @@ export function PatientNav({ patientName, onLogout }: PatientNavProps) {
               className="w-full justify-start text-slate-700 hover:text-red-700 hover:bg-red-50/80 transition-all duration-200"
             >
               <LogOut className="icon-sm mr-3" />
-              {t.patientPortal.nav.signOut}
+{t.healthcare.nav.signOut}
             </Button>
           </div>
         </div>

@@ -122,12 +122,55 @@ export class SecureCookieManager {
   }
 
   /**
+   * Set healthcare professional session cookies
+   */
+  setHealthcareSessionCookies(
+    response: NextResponse,
+    sessionId: string,
+    refreshToken: string,
+    rememberMe: boolean = false
+  ): void {
+    // Set healthcare session cookie
+    this.setSecureCookie(response, 'healthcare_session', sessionId, {
+      maxAge: rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60, // 30 days or 1 day
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict'
+    })
+
+    // Set healthcare refresh token cookie
+    this.setSecureCookie(response, 'healthcare_refresh', refreshToken, {
+      maxAge: rememberMe ? 30 * 24 * 60 * 60 : 7 * 24 * 60 * 60, // 30 days or 7 days
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict'
+    })
+
+    // Set healthcare remember me flag
+    response.cookies.set('healthcare_remember_me', rememberMe.toString(), {
+      httpOnly: false,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60
+    })
+  }
+
+  /**
    * Clear all session cookies
    */
   clearSessionCookies(response: NextResponse): void {
     this.deleteSecureCookie(response, 'session')
     this.deleteSecureCookie(response, 'refresh')
     response.cookies.delete('remember_me')
+  }
+
+  /**
+   * Clear all healthcare session cookies
+   */
+  clearHealthcareSessionCookies(response: NextResponse): void {
+    this.deleteSecureCookie(response, 'healthcare_session')
+    this.deleteSecureCookie(response, 'healthcare_refresh')
+    response.cookies.delete('healthcare_remember_me')
   }
 
   /**

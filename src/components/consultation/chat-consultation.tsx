@@ -35,7 +35,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [messageQueue, setMessageQueue] = useState<string[]>([]) // Queue for pending messages
   const [translatedMessages, setTranslatedMessages] = useState<{[key: string]: string}>({})
-  const [isTranslating, setIsTranslating] = useState(false)
+  // const [isTranslating, setIsTranslating] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -158,7 +158,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
     return quickActions[specialty as keyof typeof quickActions] || quickActions.general_medicine
   }
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || isLoading) return
 
     const userMessage: ConsultationMessage = {
@@ -265,7 +265,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
       // Translate the new doctor message
       try {
         const translatedContent = await chatTranslationService.translateMessage(
-          messageContent,
+          doctorMessage.content,
           language,
           session.id
         )
@@ -279,7 +279,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [inputMessage, isLoading, messages, language, session, generateDoctorResponse])
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -289,36 +289,35 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
   }
 
   // Add message to queue for future processing
-  const addToQueue = (message: string) => {
-    setMessageQueue(prev => [...prev, message])
-  }
-
-  // Process next message in queue
-  const processNextInQueue = () => {
-    if (messageQueue.length > 0 && !isLoading) {
-      const nextMessage = messageQueue[0]
-      setMessageQueue(prev => prev.slice(1))
-      setInputMessage(nextMessage)
-      // Auto-send the queued message
-      setTimeout(() => {
-        handleSendMessage()
-      }, 100)
-    }
-  }
+  // const addToQueue = (message: string) => {
+  //   setMessageQueue(prev => [...prev, message])
+  // }
 
   // Process queue when loading finishes
   useEffect(() => {
+    const processNextInQueue = () => {
+      if (messageQueue.length > 0 && !isLoading) {
+        const nextMessage = messageQueue[0]
+        setMessageQueue(prev => prev.slice(1))
+        setInputMessage(nextMessage)
+        // Auto-send the queued message
+        setTimeout(() => {
+          handleSendMessage()
+        }, 100)
+      }
+    }
+
     if (!isLoading && messageQueue.length > 0) {
       processNextInQueue()
     }
-  }, [isLoading, messageQueue.length])
+  }, [isLoading, messageQueue, handleSendMessage])
 
   // Translate messages when language changes
   useEffect(() => {
     const translateMessages = async () => {
       if (messages.length === 0) return
 
-      setIsTranslating(true)
+      // setIsTranslating(true)
       
       try {
         // Load existing translations for this consultation
@@ -357,12 +356,12 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
       } catch (error) {
         console.error('Translation error:', error)
       } finally {
-        setIsTranslating(false)
+        // setIsTranslating(false)
       }
     }
 
     translateMessages()
-  }, [language, session.id, messages.length])
+  }, [language, session.id, messages])
 
 
   const generateDoctorResponse = (userMessage: string, specialty: string): string => {
@@ -635,7 +634,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
             disabled={!inputMessage.trim() || isLoading}
             className="bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50"
           >
-            {isLoading ? t.consultationChat.sending || 'Enviando...' : t.consultationChat.send}
+            {isLoading ? 'Enviando...' : t.consultationChat.send}
           </Button>
         </div>
         {isLoading && (
