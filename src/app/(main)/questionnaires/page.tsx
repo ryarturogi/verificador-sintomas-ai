@@ -253,7 +253,7 @@ export default function QuestionnairesPage() {
                 <Button asChild size="lg" variant="secondary">
                   <Link href="/symptom-checker">{t.questionnaire.startGeneralAssessment}</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-cyan-600">
+                <Button asChild size="lg" variant="outline" className="text-white border-white bg-transparent hover:bg-white hover:text-cyan-600">
                   <Link href="/">{t.questionnaire.learnMore}</Link>
                 </Button>
               </div>

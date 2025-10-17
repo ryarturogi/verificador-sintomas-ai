@@ -349,7 +349,7 @@ export default function HelpPage() {
                 <Button asChild size="lg" variant="secondary">
                   <Link href="/contact">{t.help.contactSupport}</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-cyan-600">
+                <Button asChild size="lg" variant="outline" className="text-white bg-transparent border-white hover:bg-white hover:text-cyan-600">
                   <Link href="/">{t.help.startAssessment}</Link>
                 </Button>
               </div>

@@ -603,7 +603,7 @@ export function ModernHomepage() {
                           </div>
                           <Button
                             onClick={handleSearch}
-                            className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 lg:px-8 py-4 h-14 rounded-xl font-semibold transition-all duration-300 min-w-[100px] lg:min-w-[120px] flex items-center justify-center"
+                            className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 lg:px-8 py-0.5 h-12 rounded-xl font-semibold transition-all duration-300 min-w-[100px] lg:min-w-[120px] flex items-center justify-center"
                           >
                             <Activity className="icon-sm mr-2" />
                             <span className="hidden sm:inline">Search</span>
@@ -1578,7 +1578,7 @@ export function ModernHomepage() {
                                   className="w-full px-4 py-3 lg:py-4 rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-cyan-600 text-sm lg:text-base transition-all duration-300 border-0 min-h-12 lg:min-h-14"
                                 />
                               </div>
-                              <Button className="bg-white hover:bg-gray-100 text-cyan-600 px-6 lg:px-8 py-3 lg:py-4 rounded-lg font-semibold text-sm lg:text-base whitespace-nowrap transition-all duration-300 hover:shadow-lg border-0 flex items-center justify-center min-h-12 lg:min-h-14">
+                              <Button className="bg-transparent hover:bg-white text-white border border-white hover:text-cyan-600 px-6 lg:px-8 py-3 lg:py-4 rounded-lg font-semibold text-sm lg:text-base whitespace-nowrap transition-all duration-300 hover:shadow-lg flex items-center justify-center min-h-12 lg:min-h-14">
                                 {t.homepage.subscribe}
                               </Button>
                             </div>

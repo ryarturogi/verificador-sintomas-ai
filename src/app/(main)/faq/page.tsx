@@ -228,16 +228,16 @@ export default function FAQPage() {
         >
           <Card className="bg-gradient-to-r from-cyan-600 to-cyan-700 text-white">
             <CardContent className="p-8 lg:p-12">
-              <h2 className="text-3xl font-bold mb-4">Still have questions?</h2>
+              <h2 className="text-3xl font-bold mb-4">{t.faq.bannerTitle} </h2>
               <p className="text-xl mb-8 opacity-90">
-                Our support team is here to help you with any additional questions or concerns.
+                {t.faq.bannerDescription}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild variant="secondary" size="lg">
-                  <Link href="/contact">Contact Support</Link>
+                  <Link href="/contact">{t.help.contactSupport}</Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="text-white border-white hover:bg-white hover:text-cyan-600">
-                  <Link href="/">Start Assessment</Link>
+                <Button asChild variant="outline" size="lg" className="bg-transparent text-white border-white hover:bg-white hover:text-cyan-600">
+                  <Link href="/">{t.homepage.startAssessment}</Link>
                 </Button>
               </div>
             </CardContent>
