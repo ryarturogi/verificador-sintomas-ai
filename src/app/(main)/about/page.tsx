@@ -29,10 +29,10 @@ export default function AboutPage() {
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            About VitalCheck
+            {t.aboutPage.title}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Empowering healthcare decisions through advanced AI technology and compassionate care guidance.
+            {t.aboutPage.subtitle}
           </p>
         </motion.div>
 
@@ -47,16 +47,12 @@ export default function AboutPage() {
             <CardContent className="p-8 lg:p-12">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-6">{t.aboutPage.mission.title}</h2>
                   <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                    VitalCheck is dedicated to revolutionizing healthcare accessibility by providing 
-                    intelligent symptom analysis and medical guidance. We bridge the gap between 
-                    patients and healthcare providers through cutting-edge AI technology.
+                    {t.aboutPage.mission.description1}
                   </p>
                   <p className="text-lg text-gray-600 leading-relaxed">
-                    Our platform ensures that quality healthcare guidance is available 24/7, 
-                    helping individuals make informed decisions about their health while 
-                    maintaining the highest standards of medical ethics and patient privacy.
+                    {t.aboutPage.mission.description2}
                   </p>
                 </div>
                 <div className="relative">
@@ -82,7 +78,7 @@ export default function AboutPage() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mb-16"
         >
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Our Core Values</h2>
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">{t.aboutPage.coreValues.title}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
@@ -126,26 +122,26 @@ export default function AboutPage() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="mb-16"
         >
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Our Team</h2>
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">{t.aboutPage.team.title}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                name: "Dr. Sarah Mitchell",
-                role: "Chief Medical Officer",
+                name: t.aboutPage.team.members.sarahMitchell.name,
+                role: t.aboutPage.team.members.sarahMitchell.role,
                 image: "https://images.unsplash.com/photo-1594824609072-57c2d2bb8b86?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                description: "Board-certified physician with 15+ years in emergency medicine and AI healthcare applications."
+                description: t.aboutPage.team.members.sarahMitchell.description
               },
               {
-                name: "Alex Rodriguez",
-                role: "Chief Technology Officer", 
+                name: t.aboutPage.team.members.alexRodriguez.name,
+                role: t.aboutPage.team.members.alexRodriguez.role, 
                 image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                description: "AI researcher specializing in natural language processing and medical data analysis."
+                description: t.aboutPage.team.members.alexRodriguez.description
               },
               {
-                name: "Dr. Emily Chen",
-                role: "Head of Clinical Research",
+                name: t.aboutPage.team.members.emilyChen.name,
+                role: t.aboutPage.team.members.emilyChen.role,
                 image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-                description: "Clinical researcher focused on AI ethics in healthcare and patient safety protocols."
+                description: t.aboutPage.team.members.emilyChen.description
               }
             ].map((member, index) => (
               <Card key={index} className="text-center">
@@ -177,13 +173,13 @@ export default function AboutPage() {
         >
           <Card className="bg-gradient-to-r from-cyan-600 to-cyan-700 text-white">
             <CardContent className="p-8 lg:p-12">
-              <h2 className="text-3xl font-bold text-center mb-12">Our Impact</h2>
+              <h2 className="text-3xl font-bold text-center mb-12">{t.aboutPage.impact.title}</h2>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
                 {[
-                  { number: "500K+", label: "Assessments Completed" },
-                  { number: "98%", label: "User Satisfaction" },
-                  { number: "24/7", label: "Availability" },
-                  { number: "50+", label: "Medical Specialties" }
+                  { number: "500K+", label: t.aboutPage.impact.assessmentsCompleted },
+                  { number: "98%", label: t.aboutPage.impact.userSatisfaction },
+                  { number: "24/7", label: t.aboutPage.impact.availability },
+                  { number: "50+", label: t.aboutPage.impact.medicalSpecialties }
                 ].map((stat, index) => (
                   <div key={index}>
                     <div className="text-4xl font-bold mb-2">{stat.number}</div>
@@ -205,14 +201,13 @@ export default function AboutPage() {
           <Card className="bg-white/80 backdrop-blur-sm border border-white/20">
             <CardContent className="p-8 lg:p-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Ready to Experience VitalCheck?
+                {t.aboutPage.cta.title}
               </h2>
               <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-                Join thousands of users who trust VitalCheck for intelligent health guidance. 
-                Start your assessment today.
+                {t.aboutPage.cta.description}
               </p>
               <Button asChild size="lg" className="bg-cyan-600 hover:bg-cyan-700">
-                <Link href="/">Start Assessment</Link>
+                <Link href="/">{t.aboutPage.cta.buttonText}</Link>
               </Button>
             </CardContent>
           </Card>

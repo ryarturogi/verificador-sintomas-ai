@@ -3,20 +3,14 @@ import type { GPTModelConfig } from '@/types/symptom-checker'
 export const GPT_MODELS: Record<string, GPTModelConfig> = {
   PRIMARY: {
     model: 'gpt-5-nano',
-    temperature: 0.3,
-    maxTokens: 1500,
     useCase: 'primary',
   },
   QUICK: {
     model: 'gpt-5-nano',
-    temperature: 0.2,
-    maxTokens: 800,
     useCase: 'quick',
   },
   EMERGENCY: {
     model: 'gpt-5-nano',
-    temperature: 0.1,
-    maxTokens: 300,
     useCase: 'emergency',
   },
 }

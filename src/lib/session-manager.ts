@@ -4,6 +4,7 @@
  */
 
 import { auditLogger } from './audit-logger'
+import { HealthcareRole, PermissionLevel } from '@/types/healthcare-professional'
 
 export interface SecureSession {
   sessionId: string
@@ -11,6 +12,25 @@ export interface SecureSession {
   email: string
   name: string
   role: string
+  issuedAt: number
+  expiresAt: number
+  refreshToken: string
+  rememberMe: boolean
+  lastActivity: number
+  ipAddress: string
+  userAgent: string
+}
+
+export interface HealthcareSession {
+  sessionId: string
+  professionalId: string
+  email: string
+  name: string
+  role: HealthcareRole
+  specialty?: string
+  permissions: PermissionLevel[]
+  institution?: string
+  department?: string
   issuedAt: number
   expiresAt: number
   refreshToken: string
@@ -29,6 +49,7 @@ export interface SessionValidationResult {
 
 class SessionManager {
   private sessions = new Map<string, SecureSession>()
+  private healthcareSessions = new Map<string, HealthcareSession>()
   private refreshTokens = new Map<string, string>()
   private readonly SESSION_DURATION = 24 * 60 * 60 * 1000 // 24 hours
   private readonly REMEMBER_ME_DURATION = 30 * 24 * 60 * 60 * 1000 // 30 days
@@ -79,6 +100,70 @@ class SessionManager {
       details: {
         userId: this.anonymizeUserId(userId),
         email: this.anonymizeEmail(email),
+        rememberMe,
+        duration: duration / 1000 / 60 / 60 // hours
+      }
+    })
+
+    return session
+  }
+
+  /**
+   * Create a new healthcare professional session
+   */
+  async createHealthcareSession(
+    professionalId: string,
+    email: string,
+    name: string,
+    role: HealthcareRole,
+    specialty: string | undefined,
+    permissions: PermissionLevel[],
+    institution: string,
+    department: string,
+    rememberMe: boolean = false,
+    ipAddress: string,
+    userAgent: string
+  ): Promise<HealthcareSession> {
+    const sessionId = this.generateSecureSessionId()
+    const refreshToken = this.generateSecureRefreshToken()
+    const now = Date.now()
+    const duration = rememberMe ? this.REMEMBER_ME_DURATION : this.SESSION_DURATION
+
+    const session: HealthcareSession = {
+      sessionId,
+      professionalId,
+      email,
+      name,
+      role,
+      specialty,
+      permissions,
+      institution,
+      department,
+      issuedAt: now,
+      expiresAt: now + duration,
+      refreshToken,
+      rememberMe,
+      lastActivity: now,
+      ipAddress,
+      userAgent
+    }
+
+    // Store healthcare session
+    this.healthcareSessions.set(sessionId, session)
+    this.refreshTokens.set(refreshToken, sessionId)
+
+    // Log healthcare session creation
+    await auditLogger.logHealthcareEvent({
+      sessionId,
+      action: 'HEALTHCARE_SESSION_CREATED',
+      timestamp: new Date().toISOString(),
+      details: {
+        professionalId: this.anonymizeUserId(professionalId),
+        email: this.anonymizeEmail(email),
+        role,
+        specialty,
+        institution,
+        department,
         rememberMe,
         duration: duration / 1000 / 60 / 60 // hours
       }

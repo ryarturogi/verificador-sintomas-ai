@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { AISymptomAutocomplete } from '@/components/ui/ai-symptom-autocomplete'
+import { Option } from '@/components/ui/async-autocomplete'
 import { Check, ArrowRight, ArrowLeft, MessageCircle } from 'lucide-react'
+import { ImageUpload } from '@/components/ui/image-upload'
 import { motion } from 'framer-motion'
 import { useTranslations } from '@/contexts/language-context'
-import { AIAutocompleteInput } from './ai-autocomplete-input'
 import { AIAnswerSelector } from './ai-answer-selector'
 import { medicalDesignTokens as designTokens } from '@/lib/design-tokens'
 
@@ -36,10 +38,50 @@ export function DynamicQuestion({
 }: DynamicQuestionProps) {
   const [answer, setAnswer] = useState<string | number | boolean | string[]>('')
   const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+  const [selectedAutocomplete, setSelectedAutocomplete] = useState<Option | null>(null)
   const [error, setError] = useState<string>('')
+  const [uploadedImage, setUploadedImage] = useState<{
+    base64: string
+    filename: string
+    size: number
+    type: string
+  } | null>(null)
   const t = useTranslations()
 
   const progress = (questionNumber / totalQuestions) * 100
+
+  // Helper function to determine if question should use autocomplete
+  const shouldUseAutocomplete = (question: Question): { use: boolean; type: 'symptom' } => {
+    const questionText = question.text.toLowerCase();
+    const placeholder = question.placeholder?.toLowerCase() || '';
+    
+    // Check for symptom-related keywords
+    const symptomKeywords = ['symptom', 'feel', 'experience', 'pain', 'ache', 'discomfort', 'describe', 'problem'];
+    
+    const hasSymptomKeywords = symptomKeywords.some(keyword => 
+      questionText.includes(keyword) || placeholder.includes(keyword)
+    );
+    
+    if (hasSymptomKeywords) return { use: true, type: 'symptom' };
+    
+    return { use: false, type: 'symptom' };
+  };
+
+  // Clear autocomplete when user types manually
+  const handleManualInputChange = (value: string) => {
+    setAnswer(value)
+    if (value.trim().length > 0 && selectedAutocomplete) {
+      setSelectedAutocomplete(null)
+    }
+  }
+
+  // Clear manual input when user selects from autocomplete
+  const handleAutocompleteSelect = (option: Option | null) => {
+    setSelectedAutocomplete(option)
+    if (option && answer) {
+      setAnswer('')
+    }
+  }
 
   const handleSubmit = () => {
     setError('')
@@ -94,11 +136,34 @@ export function DynamicQuestion({
         break
       case 'ai_text_input':
       case 'text_input':
-        if (!answer || (answer as string).trim().length < 3) {
-          setError(t.errors.provideMoreDetail)
+        // Check if this question should use autocomplete
+        const autocompleteInfo = shouldUseAutocomplete(question);
+        
+        if (autocompleteInfo.use) {
+          // Use autocomplete selection if available, otherwise fall back to manual input
+          if (selectedAutocomplete) {
+            finalAnswer = selectedAutocomplete.label;
+          } else if (answer && (answer as string).trim().length >= 3) {
+            finalAnswer = (answer as string).trim();
+          } else {
+            setError(t.errors.provideMoreDetail)
+            return
+          }
+        } else {
+          // Regular text input validation
+          if (!answer || (answer as string).trim().length < 3) {
+            setError(t.errors.provideMoreDetail)
+            return
+          }
+          finalAnswer = (answer as string).trim()
+        }
+        break
+      case 'image_upload':
+        if (!uploadedImage) {
+          setError('Please upload an image to continue')
           return
         }
-        finalAnswer = (answer as string).trim()
+        finalAnswer = `Image uploaded: ${uploadedImage.filename}`
         break
       default:
         finalAnswer = answer as string
@@ -108,6 +173,9 @@ export function DynamicQuestion({
       questionId: question.id,
       answer: finalAnswer,
       timestamp: new Date(),
+      ...(uploadedImage && question.type === 'image_upload' && {
+        imageData: uploadedImage
+      })
     }
 
     onAnswer(response)
@@ -151,14 +219,54 @@ export function DynamicQuestion({
         )
 
       case 'ai_text_input':
-        return (
-          <AIAutocompleteInput
-            questionText={question.text}
-            previousResponses={previousResponses}
+        const autocompleteInfo = shouldUseAutocomplete(question);
+        
+        if (autocompleteInfo.use) {
+          return (
+            <div className="space-y-3">
+              <AISymptomAutocomplete
+                onSymptomSelect={handleAutocompleteSelect}
+                value={selectedAutocomplete}
+                placeholder={question.placeholder}
+                questionContext={question.text}
+                className="[&_.react-select__control]:border-cyan-200 [&_.react-select__control]:focus:border-cyan-500 [&_.react-select__control]:hover:border-cyan-300"
+              />
+              <div className="text-sm text-gray-600">
+                <p>{t.symptomAutocomplete.orDescribeSymptoms}</p>
+                {question.text.toLowerCase().includes('describe') ? (
+                  <Textarea
+                    value={answer as string}
+                    onChange={(e) => handleManualInputChange(e.target.value)}
+                    placeholder={t.symptomAutocomplete.describeSymptomsPlaceholder}
+                    className="text-base mt-2"
+                    rows={3}
+                  />
+                ) : (
+                  <Input
+                    value={answer as string}
+                    onChange={(e) => handleManualInputChange(e.target.value)}
+                    placeholder={t.symptomAutocomplete.typeSymptomsPlaceholder}
+                    className="text-base mt-2"
+                  />
+                )}
+              </div>
+            </div>
+          );
+        }
+        
+        return question.text.toLowerCase().includes('describe') ? (
+          <Textarea
             value={answer as string}
-            onChange={(value) => setAnswer(value)}
+            onChange={(e) => setAnswer(e.target.value)}
             placeholder={question.placeholder}
-            multiline={question.text.toLowerCase().includes('describe')}
+            className="text-base"
+            rows={4}
+          />
+        ) : (
+          <Input
+            value={answer as string}
+            onChange={(e) => setAnswer(e.target.value)}
+            placeholder={question.placeholder}
             className="text-base"
           />
         )
@@ -320,6 +428,19 @@ export function DynamicQuestion({
         )
 
       case 'text_input':
+        const textAutocompleteInfo = shouldUseAutocomplete(question);
+        
+        if (textAutocompleteInfo.use) {
+          return (
+            <AISymptomAutocomplete
+              onSymptomSelect={setSelectedAutocomplete}
+              value={selectedAutocomplete}
+              placeholder={question.placeholder}
+              className="[&_.react-select__control]:border-cyan-200 [&_.react-select__control]:focus:border-cyan-500 [&_.react-select__control]:hover:border-cyan-300"
+            />
+          );
+        }
+        
         return question.text.toLowerCase().includes('describe') ? (
           <Textarea
             placeholder={question.placeholder}
@@ -335,6 +456,26 @@ export function DynamicQuestion({
             value={answer as string}
             onChange={(e) => setAnswer(e.target.value)}
             className={designTokens.forms.input}
+          />
+        )
+
+      case 'image_upload':
+        return (
+          <ImageUpload
+            onImageSelect={(imageData) => {
+              setUploadedImage(imageData)
+              setAnswer(`Image uploaded: ${imageData.filename}`)
+            }}
+            onRemove={() => {
+              setUploadedImage(null)
+              setAnswer('')
+            }}
+            currentImage={uploadedImage}
+            acceptedTypes={question.imageUpload?.acceptedTypes}
+            maxSize={question.imageUpload?.maxSize}
+            imageType={question.imageUpload?.imageType}
+            placeholder={question.placeholder || `Upload ${question.imageUpload?.imageType || 'medical'} image`}
+            description={question.description || 'Please upload your medical image for analysis'}
           />
         )
 

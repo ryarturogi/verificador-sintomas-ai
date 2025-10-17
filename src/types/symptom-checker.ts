@@ -31,6 +31,13 @@ export const AssessmentResult = z.object({
   emergencyWarning: z.boolean(),
   emergencyMessage: z.string().optional(),
   followUpAdvice: z.string(),
+  imageAnalysis: z.object({
+    findings: z.array(z.string()),
+    analysis: z.string(),
+    suggestedSpecialties: z.array(z.string()),
+    urgencyLevel: z.enum(['low', 'medium', 'high', 'emergency']),
+    confidence: z.number(),
+  }).optional(),
 })
 
 export type AssessmentResult = z.infer<typeof AssessmentResult>
@@ -52,7 +59,7 @@ export type EmergencySymptom = typeof EmergencySymptoms[number]
 
 export interface GPTModelConfig {
   model: 'gpt-5-nano'
-  temperature: number
-  maxTokens: number
+  temperature?: number // Optional since gpt-5-nano doesn't support temperature
+  maxTokens?: number // Optional since gpt-5-nano uses default token limits
   useCase: 'primary' | 'quick' | 'emergency'
 }

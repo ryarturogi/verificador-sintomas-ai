@@ -28,7 +28,9 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
         const savedLanguage = localStorage.getItem('preferred-language') as Language
         if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'es')) {
           setLanguageState(savedLanguage)
-          document.documentElement.lang = savedLanguage
+          if (typeof document !== 'undefined') {
+            document.documentElement.lang = savedLanguage
+          }
         } else {
           // Detect browser language
           const browserLanguage = navigator.language.toLowerCase()
@@ -40,13 +42,17 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
           
           const detectedLanguage = isSpanish ? 'es' : 'en'
           setLanguageState(detectedLanguage)
-          document.documentElement.lang = detectedLanguage
+          if (typeof document !== 'undefined') {
+            document.documentElement.lang = detectedLanguage
+          }
           localStorage.setItem('preferred-language', detectedLanguage)
         }
       } catch (error) {
         console.warn('Failed to initialize language:', error)
         setLanguageState('en')
-        document.documentElement.lang = 'en'
+        if (typeof document !== 'undefined') {
+          document.documentElement.lang = 'en'
+        }
       } finally {
         setIsInitialized(true)
       }
@@ -59,9 +65,11 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
     setLanguageState(lang)
     localStorage.setItem('preferred-language', lang)
     
-    // Update document language and direction
-    document.documentElement.lang = lang
-    document.documentElement.dir = 'ltr'
+    // Update document language and direction (only if document is available)
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = lang
+      document.documentElement.dir = 'ltr'
+    }
   }
 
   const value: LanguageContextType = {

@@ -23,13 +23,48 @@ export class DynamicSymptomAnalyzer {
         [{ role: 'user', content: prompt }],
         modelConfig.model,
         {
-          temperature: modelConfig.temperature,
           maxTokens: modelConfig.maxTokens,
-          responseFormat: 'json_object'
+          responseFormat: 'json_object',
+          reasoningEffort: 'medium',
+          verbosity: 'medium'
         }
       )
 
-      const result = JSON.parse(response)
+      let result
+      try {
+        result = JSON.parse(response)
+      } catch (parseError) {
+        console.error('JSON Parse Error in dynamic analyzer:', parseError)
+        console.error('Response that failed to parse:', response)
+        
+        // Try to fix truncated JSON by attempting to complete it
+        if (response.includes('"severity"') || response.includes('"possibleConditions"')) {
+          console.log('Attempting to fix truncated JSON response in dynamic analyzer...')
+          try {
+            // Try to complete the JSON by adding missing closing braces
+            let fixedResponse = response.trim()
+            if (!fixedResponse.endsWith('}')) {
+              // Count opening and closing braces to determine how many are missing
+              const openBraces = (fixedResponse.match(/\{/g) || []).length
+              const closeBraces = (fixedResponse.match(/\}/g) || []).length
+              const missingBraces = openBraces - closeBraces
+              
+              if (missingBraces > 0) {
+                fixedResponse += '}'.repeat(missingBraces)
+                console.log('Fixed JSON by adding missing closing braces in dynamic analyzer')
+              }
+            }
+            
+            result = JSON.parse(fixedResponse)
+            console.log('Successfully fixed truncated JSON in dynamic analyzer')
+          } catch (fixError) {
+            console.error('Failed to fix truncated JSON in dynamic analyzer:', fixError)
+            throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
+          }
+        } else {
+          throw new Error(`Failed to parse JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`)
+        }
+      }
       
       const isSpanish = language === 'es'
       

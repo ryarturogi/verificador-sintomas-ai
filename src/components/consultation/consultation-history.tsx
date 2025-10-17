@@ -1,11 +1,12 @@
 'use client'
 
-// import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useLanguage } from '@/contexts/language-context'
 import { ConsultationSession } from '@/types/consultation'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { ConsultationHistoryService } from '@/services/consultation-history-service'
 
 interface ConsultationHistoryProps {
   onStartConsultation: (session: ConsultationSession) => void
@@ -18,85 +19,59 @@ interface ConsultationHistoryProps {
  */
 export function ConsultationHistory({ onStartConsultation, onBack }: ConsultationHistoryProps) {
   const { t } = useLanguage()
-  // const [selectedSession, setSelectedSession] = useState<string | null>(null)
+  const [consultationHistory, setConsultationHistory] = useState<ConsultationSession[]>([])
+  const [loading, setLoading] = useState(true)
+
+  // Load consultation history on component mount
+  useEffect(() => {
+    const loadHistory = () => {
+      try {
+        const history = ConsultationHistoryService.getHistory()
+        setConsultationHistory(history)
+      } catch (error) {
+        console.error('Error loading consultation history:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadHistory()
+  }, [])
 
   // Get doctor avatar based on doctor ID
   const getDoctorAvatar = (doctorId: string): string => {
     const doctorAvatars: Record<string, string> = {
-      'dr-henry': 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      'dr-floyd-miles': 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      'dr-mckinney': 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      'dr-jacob': 'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-      'dr-warren': 'https://images.unsplash.com/photo-1594824609072-57c2d2bb8b86?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+      'dr-henry': 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'dr-floyd-miles': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'dr-mckinney': 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'dr-jacob': 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+      'dr-warren': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     }
-    return doctorAvatars[doctorId] || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+    return doctorAvatars[doctorId] || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
   }
 
-  // Mock consultation history data
-  const consultationHistory: ConsultationSession[] = [
-    {
-      id: 'session-1',
-      doctorId: 'dr-henry',
-      doctorName: 'Dr. Henry',
-      doctorSpecialty: 'general_medicine',
-      startTime: new Date('2024-01-15T10:30:00'),
-      endTime: new Date('2024-01-15T10:45:00'),
-      messages: [
-        {
-          id: 'msg-1',
-          content: 'I have been experiencing headaches for the past week',
-          sender: 'user',
-          timestamp: new Date('2024-01-15T10:30:00'),
-          isTyping: false
-        },
-        {
-          id: 'msg-2',
-          content: 'I understand your concern about the headaches. Can you describe the intensity and any triggers?',
-          sender: 'doctor',
-          timestamp: new Date('2024-01-15T10:31:00'),
-          isTyping: false
-        }
-      ],
-      status: 'completed',
-      summary: 'Headache consultation - recommended monitoring and follow-up',
-      recommendations: [
-        'Monitor headache frequency and intensity',
-        'Keep a symptom diary',
-        'Consult primary care physician if symptoms persist'
-      ]
-    },
-    {
-      id: 'session-2',
-      doctorId: 'dr-floyd-miles',
-      doctorName: 'Dr. Floyd Miles',
-      doctorSpecialty: 'cardiology',
-      startTime: new Date('2024-01-10T14:20:00'),
-      endTime: new Date('2024-01-10T14:35:00'),
-      messages: [
-        {
-          id: 'msg-3',
-          content: 'I have been feeling chest discomfort and shortness of breath',
-          sender: 'user',
-          timestamp: new Date('2024-01-10T14:20:00'),
-          isTyping: false
-        },
-        {
-          id: 'msg-4',
-          content: 'Chest discomfort and shortness of breath require immediate attention. Please describe the exact nature of the discomfort.',
-          sender: 'doctor',
-          timestamp: new Date('2024-01-10T14:21:00'),
-          isTyping: false
-        }
-      ],
-      status: 'completed',
-      summary: 'Cardiac symptoms consultation - urgent evaluation recommended',
-      recommendations: [
-        'Seek immediate medical evaluation',
-        'Monitor vital signs',
-        'Avoid strenuous activities until evaluated'
-      ]
+  // Handle session deletion
+  const handleDeleteSession = (sessionId: string) => {
+    try {
+      ConsultationHistoryService.deleteSession(sessionId)
+      setConsultationHistory(prev => prev.filter(s => s.id !== sessionId))
+    } catch (error) {
+      console.error('Error deleting session:', error)
     }
-  ]
+  }
+
+  // Handle session restart
+  const handleRestartSession = (session: ConsultationSession) => {
+    const newSession: ConsultationSession = {
+      ...session,
+      id: `session-${Date.now()}`,
+      startTime: new Date(),
+      endTime: undefined,
+      messages: [],
+      status: 'active'
+    }
+    onStartConsultation(newSession)
+  }
 
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
@@ -119,6 +94,24 @@ export function ConsultationHistory({ onStartConsultation, onBack }: Consultatio
       default:
         return 'bg-gray-100 text-gray-800'
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-gray-900">
+            {t.consultation?.consultationHistory || 'Consultation History'}
+          </h2>
+          <Button onClick={onBack} variant="outline">
+            {t.common?.back || 'Back'}
+          </Button>
+        </div>
+        <Card className="p-8 text-center">
+          <p className="text-gray-500 text-lg">Loading consultation history...</p>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -218,24 +211,21 @@ export function ConsultationHistory({ onStartConsultation, onBack }: Consultatio
                   </Button>
                   {session.status === 'completed' && (
                     <Button
-                      onClick={() => {
-                        // Create a new session based on this one
-                        const newSession: ConsultationSession = {
-                          ...session,
-                          id: `session-${Date.now()}`,
-                          startTime: new Date(),
-                          endTime: undefined,
-                          messages: [],
-                          status: 'active'
-                        }
-                        onStartConsultation(newSession)
-                      }}
+                      onClick={() => handleRestartSession(session)}
                       size="sm"
                       variant="outline"
                     >
                       {t.consultation?.restartConsultation || 'Restart Consultation'}
                     </Button>
                   )}
+                  <Button
+                    onClick={() => handleDeleteSession(session.id)}
+                    size="sm"
+                    variant="outline"
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
+                    Delete
+                  </Button>
                 </div>
               </div>
             </Card>

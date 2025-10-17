@@ -16,6 +16,7 @@ import { useTranslations, useLanguage } from '@/contexts/language-context'
 import { AlertTriangle, Settings } from 'lucide-react'
 import { LoadingCard } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useScrollToTop } from '@/hooks/use-scroll-to-top'
 
 type AppState = 'disclaimer' | 'questionnaire' | 'loading' | 'results' | 'error' | 'config-error' | 'declined'
 
@@ -29,9 +30,7 @@ export function SymptomChecker() {
   const { language } = useLanguage()
 
   // Scroll to top when component mounts or state changes
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [state])
+  useScrollToTop([state])
 
   useEffect(() => {
     // Check if disclaimer was previously accepted

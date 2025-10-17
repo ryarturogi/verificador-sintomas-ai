@@ -1,8 +1,15 @@
 import { Question, QuestionResponse } from '@/types/dynamic-questionnaire'
+import { medicalImageAnalyzer } from './medical-image-analyzer'
 
 export class ClientQuestionService {
   
   async generateInitialQuestion(language: string = 'en', initialTopic?: string): Promise<Question> {
+    // Check if initialTopic is an image type
+    const imageTypes = ['mri', 'ct_scan', 'xray', 'ultrasound', 'pathology', 'general']
+    if (initialTopic && imageTypes.includes(initialTopic)) {
+      return await medicalImageAnalyzer.generateImageQuestion(initialTopic, [], language)
+    }
+
     try {
       const response = await fetch('/api/generate-question', {
         method: 'POST',

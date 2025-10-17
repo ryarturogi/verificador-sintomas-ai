@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { useLanguage } from '@/contexts/language-context'
 import { Doctor } from '@/types/consultation'
@@ -9,93 +10,147 @@ import { Button } from '@/components/ui/button'
 
 interface DoctorSelectionProps {
   onDoctorSelect: (doctor: Doctor) => void
+  preSelectedAgent?: string | null
 }
 
 /**
  * Component for selecting an AI doctor for consultation
  * Displays available doctors with their specialties and information
  */
-export function DoctorSelection({ onDoctorSelect }: DoctorSelectionProps) {
+export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSelectionProps) {
   const { t } = useLanguage()
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>('all')
+
+  // Function to update URL when specialty changes
+  const updateUrlWithSpecialty = (specialty: string) => {
+    const currentParams = new URLSearchParams(searchParams.toString())
+    
+    if (specialty === 'all') {
+      currentParams.delete('agent')
+    } else {
+      // Map specialty back to agent type
+      const specialtyToAgentMap: { [key: string]: string } = {
+        'general_medicine': 'agente-general',
+        'cardiology': 'agente-cardiologia',
+        'neurology': 'agente-neurologia',
+        'pediatrics': 'agente-pediatria',
+        'internal_medicine': 'agente-medicina-interna'
+      }
+      
+      const agentType = specialtyToAgentMap[specialty]
+      if (agentType) {
+        currentParams.set('agent', agentType)
+      }
+    }
+    
+    const newUrl = currentParams.toString() 
+      ? `/consultation?${currentParams.toString()}`
+      : '/consultation'
+    
+    router.replace(newUrl, { scroll: false })
+  }
 
   // AI Doctor Agents with different medical specializations
   const doctors: Doctor[] = [
     {
       id: 'dr-henry',
-      name: 'Dr. Henry (AI)',
+      name: t.aiAgents.general.name,
       specialty: 'general_medicine',
-      specialtyDisplayName: 'General Medicine AI',
-      description: 'AI agent specialized in comprehensive health assessment and general medical advice',
-      experience: 'AI-powered with medical knowledge base',
+      specialtyDisplayName: t.homepage.aiGeneralMedicine,
+      description: t.doctorSelection.specializedInComprehensive,
+      experience: t.doctorSelection.aiPoweredWithKnowledge,
       isAvailable: true,
       responseTime: '2-3 minutes',
       rating: 4.9,
       consultationCount: 1250,
-      avatar: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+      avatar: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     },
     {
       id: 'dr-floyd-miles',
-      name: 'Dr. Floyd Miles (AI)',
+      name: t.aiAgents.cardiology.name,
       specialty: 'cardiology',
-      specialtyDisplayName: 'Cardiology AI',
-      description: 'AI agent specialized in heart health, cardiovascular conditions, and cardiac symptoms',
-      experience: 'AI-powered with cardiology expertise',
+      specialtyDisplayName: t.homepage.aiCardiology,
+      description: t.doctorSelection.specializedInHeartHealth,
+      experience: t.doctorSelection.aiPoweredWithCardiology,
       isAvailable: true,
       responseTime: '3-5 minutes',
       rating: 4.8,
       consultationCount: 890,
-      avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+      avatar: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     },
     {
       id: 'dr-mckinney',
-      name: 'Dr. McKinney (AI)',
+      name: t.aiAgents.neurology.name,
       specialty: 'neurology',
-      specialtyDisplayName: 'Neurology AI',
-      description: 'AI agent specialized in brain and nervous system conditions, headaches, and neurological symptoms',
-      experience: 'AI-powered with neurology specialization',
+      specialtyDisplayName: t.homepage.aiNeurology,
+      description: t.doctorSelection.specializedInBrainConditions,
+      experience: t.doctorSelection.aiPoweredWithNeurology,
       isAvailable: true,
       responseTime: '4-6 minutes',
       rating: 4.7,
       consultationCount: 650,
-      avatar: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+      avatar: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     },
     {
       id: 'dr-jacob',
-      name: 'Dr. Jacob (AI)',
+      name: t.aiAgents.pediatrics.name,
       specialty: 'pediatrics',
-      specialtyDisplayName: 'Pediatrics AI',
-      description: 'AI agent specialized in child health, developmental concerns, and pediatric conditions',
-      experience: 'AI-powered with pediatric expertise',
+      specialtyDisplayName: t.homepage.aiPediatrics,
+      description: t.doctorSelection.specializedInChildHealth,
+      experience: t.doctorSelection.aiPoweredWithPediatric,
       isAvailable: true,
       responseTime: '2-4 minutes',
       rating: 4.9,
       consultationCount: 1100,
-      avatar: 'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+      avatar: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     },
     {
       id: 'dr-warren',
-      name: 'Dr. Warren (AI)',
+      name: t.aiAgents.internalMedicine.name,
       specialty: 'internal_medicine',
-      specialtyDisplayName: 'Internal Medicine AI',
-      description: 'AI agent specialized in adult medicine, chronic conditions, and complex medical cases',
-      experience: 'AI-powered with internal medicine expertise',
+      specialtyDisplayName: t.homepage.internalMedicine,
+      description: t.doctorSelection.specializedInAdultMedicine,
+      experience: t.doctorSelection.aiPoweredWithInternal,
       isAvailable: true,
       responseTime: '3-5 minutes',
       rating: 4.8,
       consultationCount: 980,
-      avatar: 'https://images.unsplash.com/photo-1594824609072-57c2d2bb8b86?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
+      avatar: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     }
   ]
 
   const specialties = [
-    { value: 'all', label: 'All AI Specialties' },
-    { value: 'general_medicine', label: 'General Medicine AI' },
-    { value: 'cardiology', label: 'Cardiology AI' },
-    { value: 'neurology', label: 'Neurology AI' },
-    { value: 'pediatrics', label: 'Pediatrics AI' },
-    { value: 'internal_medicine', label: 'Internal Medicine AI' }
+    { value: 'all', label: t.doctorSelection.allSpecialties },
+    { value: 'general_medicine', label: t.homepage.aiGeneralMedicine },
+    { value: 'cardiology', label: t.homepage.aiCardiology },
+    { value: 'neurology', label: t.homepage.aiNeurology },
+    { value: 'pediatrics', label: t.homepage.aiPediatrics },
+    { value: 'internal_medicine', label: t.homepage.internalMedicine }
   ]
+
+  // Handle pre-selected agent
+  useEffect(() => {
+    if (preSelectedAgent) {
+      // Map agent types to specialties
+      const agentToSpecialtyMap: { [key: string]: string } = {
+        'agente-general': 'general_medicine',
+        'agente-cardiologia': 'cardiology',
+        'agente-neurologia': 'neurology',
+        'agente-pediatria': 'pediatrics',
+        'agente-medicina-interna': 'internal_medicine',
+        'agente-psiquiatria': 'general_medicine', // Map to general for now
+        'radiologia': 'general_medicine', // Map to general for now
+        'patologia': 'general_medicine' // Map to general for now
+      }
+      
+      const specialty = agentToSpecialtyMap[preSelectedAgent]
+      if (specialty) {
+        setSelectedSpecialty(specialty)
+      }
+    }
+  }, [preSelectedAgent])
 
   const filteredDoctors = selectedSpecialty === 'all' 
     ? doctors 
@@ -112,7 +167,10 @@ export function DoctorSelection({ onDoctorSelect }: DoctorSelectionProps) {
           {specialties.map((specialty) => (
             <button
               key={specialty.value}
-              onClick={() => setSelectedSpecialty(specialty.value)}
+              onClick={() => {
+                setSelectedSpecialty(specialty.value)
+                updateUrlWithSpecialty(specialty.value)
+              }}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 selectedSpecialty === specialty.value
                   ? 'bg-cyan-600 text-white'
@@ -134,8 +192,9 @@ export function DoctorSelection({ onDoctorSelect }: DoctorSelectionProps) {
                 <Image 
                   src={doctor.avatar || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
                   alt={doctor.name}
-                  fill
-                  className="object-cover"
+                  width={64}
+                  height={64}
+                  className="object-cover w-full h-full"
                   sizes="64px"
                 />
               </div>
@@ -148,12 +207,12 @@ export function DoctorSelection({ onDoctorSelect }: DoctorSelectionProps) {
               <p className="text-sm text-gray-500">{doctor.experience}</p>
               
               <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-500">Response time:</span>
+                <span className="text-gray-500">{t.doctorSelection.responseTime}</span>
                 <span className="font-medium">{doctor.responseTime}</span>
               </div>
               
               <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-500">Rating:</span>
+                <span className="text-gray-500">{t.doctorSelection.rating}</span>
                 <div className="flex items-center space-x-1">
                   <span className="font-medium">{doctor.rating}</span>
                   <span className="text-yellow-400">★</span>
@@ -161,7 +220,7 @@ export function DoctorSelection({ onDoctorSelect }: DoctorSelectionProps) {
               </div>
               
               <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-500">Consultations:</span>
+                <span className="text-gray-500">{t.doctorSelection.consultations}</span>
                 <span className="font-medium">{doctor.consultationCount.toLocaleString()}</span>
               </div>
             </div>
@@ -172,7 +231,7 @@ export function DoctorSelection({ onDoctorSelect }: DoctorSelectionProps) {
                   doctor.isAvailable ? 'bg-green-500' : 'bg-red-500'
                 }`} />
                 <span className="text-sm text-gray-500">
-                  {doctor.isAvailable ? 'Available' : 'Busy'}
+                  {doctor.isAvailable ? t.doctorSelection.available : t.doctorSelection.busy}
                 </span>
               </div>
               

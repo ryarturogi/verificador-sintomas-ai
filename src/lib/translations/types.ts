@@ -23,6 +23,8 @@ export interface CommonTranslations {
   send: string
   backToHome: string
   goHome: string
+  confirmExit: string
+  exitQuestionnaire: string
   
   // Form elements
   name: string
@@ -147,6 +149,52 @@ export interface HomepageTranslations {
   whyChoose: string
   getFreeConsultation: string
   meetSpecialists: string
+  aiAgentsSubtitle: string
+  // Agents
+  aiGeneralMedicine: string
+  aiCardiology: string
+  aiNeurology: string
+  aiPediatrics: string
+  aiDermatology: string
+  aiRadiology: string
+  aiEmergency: string
+  aiOncology: string
+  
+  // Agent descriptions
+  aiGeneralDescription: string
+  aiCardiologyDescription: string
+  aiNeurologyDescription: string
+  aiPediatricsDescription: string
+  aiDermatologyDescription: string
+  aiRadiologyDescription: string
+  aiEmergencyDescription: string
+  aiOncologyDescription: string
+  
+  // Image scanning features
+  imageScanning: string
+  imageScanningDescription: string
+  mriAnalysis: string
+  ctScanAnalysis: string
+  xrayAnalysis: string
+  ultrasoundAnalysis: string
+  pathologyAnalysis: string
+  
+  // Medical Procedures
+  aiCtScan: string
+  aiMri: string
+  aiXray: string
+  aiBloodTest: string
+  aiUltrasound: string
+  aiEndoscopy: string
+  
+  // Procedure descriptions
+  aiCtScanDescription: string
+  aiMriDescription: string
+  aiXrayDescription: string
+  aiBloodTestDescription: string
+  aiUltrasoundDescription: string
+  aiEndoscopyDescription: string
+  
   drLeslieAlexander: string
   dentalSurgery: string
   drKathrynMurphy: string
@@ -317,7 +365,7 @@ export interface EmergencyTranslations {
   alertGenerated: string
 }
 
-// Questionnaire System
+  // Questionnaire System
 export interface QuestionnaireTranslations {
   // Main questionnaire flow
   preparing: string
@@ -334,6 +382,7 @@ export interface QuestionnaireTranslations {
   questionsAnswered: string
   poweredBy: string
   useArrows: string
+  exitWarning: string
   
   // Page content
   title: string
@@ -1262,6 +1311,10 @@ export interface Translations {
     doctorTyping: string
     typeMessage: string
     send: string
+    sending: string
+    typingIndicator: string
+    messagesInQueue: string
+    startConversation: string
   }
   
   // Scale
@@ -1269,5 +1322,390 @@ export interface Translations {
     scaleLabel: string
     lowLabel: string
     highLabel: string
+  }
+
+  // Symptom autocomplete
+  symptomAutocomplete: {
+    orDescribeSymptoms: string
+    describeSymptomsPlaceholder: string
+    typeSymptomsPlaceholder: string
+    noMatchingSymptoms: string
+    generatingSuggestions: string
+    popularSymptoms: {
+      headache: string
+      fever: string
+      cough: string
+      soreThroat: string
+      nausea: string
+      dizziness: string
+      fatigue: string
+      shortnessOfBreath: string
+    }
+  }
+
+  // Medical options with English translations
+  medicalOptions: {
+    severity: {
+      mild: string
+      moderate: string
+      severe: string
+      verySevere: string
+      unbearable: string
+    }
+    duration: {
+      minutes: string
+      hours: string
+      days: string
+      weeks: string
+      months: string
+    }
+    location: {
+      head: string
+      chest: string
+      abdomen: string
+      back: string
+      arms: string
+      legs: string
+    }
+    symptoms: {
+      cough: string
+      soreThroat: string
+      headache: string
+      muscleAches: string
+      fatigue: string
+      nausea: string
+      vomiting: string
+      fever: string
+      chills: string
+      sweating: string
+      dizziness: string
+      shortnessOfBreath: string
+      chestPain: string
+      abdominalPain: string
+      backPain: string
+      jointPain: string
+    }
+    responses: {
+      yes: string
+      no: string
+      notSure: string
+      sometimes: string
+      always: string
+      never: string
+    }
+  }
+
+  // AI Agent data
+  aiAgents: {
+    general: {
+      name: string
+      specialty: string
+      benefits: {
+        eliminateCommute: string
+        flexiblePlans: string
+        accurateDiagnostics: string
+      }
+    }
+    cardiology: {
+      name: string
+      specialty: string
+      benefits: {
+        specializedConsultations: string
+        personalizedPrevention: string
+        directAccess: string
+        continuousMonitoring: string
+      }
+    }
+    neurology: {
+      name: string
+      specialty: string
+      benefits: {
+        advancedEvaluations: string
+        earlyDetection: string
+        personalizedRehabilitation: string
+        continuousMonitoring: string
+        innovativeTherapies: string
+      }
+    }
+    pediatrics: {
+      name: string
+      specialty: string
+      benefits: {
+        childDevelopment: string
+        vaccinationCare: string
+        familyConsultations: string
+        personalizedGrowth: string
+      }
+    }
+    internalMedicine: {
+      name: string
+      specialty: string
+      benefits: {
+        chronicDiseaseManagement: string
+        careCoordination: string
+        advancedPreventive: string
+        predictiveAnalytics: string
+        personalizedCare: string
+      }
+    }
+  }
+
+  // About page
+  aboutPage: {
+    title: string
+    subtitle: string
+    mission: {
+      title: string
+      description1: string
+      description2: string
+    }
+    coreValues: {
+      title: string
+    }
+    team: {
+      title: string
+      members: {
+        sarahMitchell: {
+          name: string
+          role: string
+          description: string
+        }
+        alexRodriguez: {
+          name: string
+          role: string
+          description: string
+        }
+        emilyChen: {
+          name: string
+          role: string
+          description: string
+        }
+      }
+    }
+    impact: {
+      title: string
+      assessmentsCompleted: string
+      userSatisfaction: string
+      availability: string
+      medicalSpecialties: string
+    }
+    cta: {
+      title: string
+      description: string
+      buttonText: string
+    }
+  }
+
+  // Emergency messages
+  emergencyMessages: {
+    goToNearestER: string
+    doNotDelay: string
+    emergencySymptoms: string
+    call911: string
+    seekImmediateCare: string
+  }
+
+  // Common conditions
+  commonConditions: {
+    diabetes: string
+    hypertension: string
+    asthma: string
+    migraine: string
+    depression: string
+    anxiety: string
+  }
+
+  // Doctor selection
+  doctorSelection: {
+    allSpecialties: string
+    responseTime: string
+    rating: string
+    consultations: string
+    available: string
+    busy: string
+    quickActions: string
+    chooseSpecialty: string
+    aiPoweredWithKnowledge: string
+    specializedInComprehensive: string
+    specializedInHeartHealth: string
+    specializedInBrainConditions: string
+    specializedInChildHealth: string
+    specializedInAdultMedicine: string
+    aiPoweredWithCardiology: string
+    aiPoweredWithNeurology: string
+    aiPoweredWithPediatric: string
+    aiPoweredWithInternal: string
+  }
+
+  // Mock doctor responses
+  mockResponses: {
+    generalMedicine: string[]
+    cardiology: string[]
+    neurology: string[]
+    pediatrics: string[]
+    internalMedicine: string[]
+  }
+
+  // Healthcare Professional Portal
+  healthcare: {
+    // Dashboard
+    dashboard: {
+      title: string
+      subtitle: string
+      welcome: string
+      overview: string
+      quickActions: string
+      recentActivity: string
+      statistics: string
+    }
+
+    // Navigation
+    nav: {
+      dashboard: string
+      patients: string
+      consultations: string
+      medicalTools: string
+      medicalRecords: string
+      analytics: string
+      administration: string
+      signOut: string
+    }
+
+    // Patient Management
+    patients: {
+      title: string
+      subtitle: string
+      searchPatients: string
+      addPatient: string
+      patientList: string
+      recentPatients: string
+      patientDetails: string
+      medicalHistory: string
+      currentConditions: string
+      medications: string
+      allergies: string
+      vitalSigns: string
+      lastVisit: string
+      nextAppointment: string
+    }
+
+    // Consultations
+    consultations: {
+      title: string
+      subtitle: string
+      newConsultation: string
+      consultationHistory: string
+      activeConsultations: string
+      pendingConsultations: string
+      consultationDetails: string
+      patientNotes: string
+      diagnosis: string
+      treatment: string
+      followUp: string
+      urgency: string
+      status: string
+    }
+
+    // Medical Tools
+    medicalTools: {
+      title: string
+      subtitle: string
+      symptomAnalyzer: string
+      differentialDiagnosis: string
+      drugInteractions: string
+      treatmentPlanner: string
+      medicalCalculator: string
+      clinicalGuidelines: string
+      referenceMaterials: string
+    }
+
+    // Medical Records
+    medicalRecords: {
+      title: string
+      subtitle: string
+      patientRecords: string
+      searchRecords: string
+      filterBy: string
+      recordType: string
+      dateRange: string
+      viewRecord: string
+      editRecord: string
+      addNote: string
+    }
+
+    // Analytics
+    analytics: {
+      title: string
+      subtitle: string
+      overview: string
+      patientStatistics: string
+      consultationMetrics: string
+      performanceReports: string
+      trends: string
+      insights: string
+    }
+
+    // Administration
+    administration: {
+      title: string
+      subtitle: string
+      userManagement: string
+      roleManagement: string
+      systemSettings: string
+      permissions: string
+      auditLogs: string
+      systemHealth: string
+    }
+
+    // User Roles
+    roles: {
+      doctor: string
+      nurse: string
+      medicalStaff: string
+      specialist: string
+      administrator: string
+    }
+
+    // Permissions
+    permissions: {
+      readPatients: string
+      writePatients: string
+      readMedicalRecords: string
+      writeMedicalRecords: string
+      prescribeMedications: string
+      orderTests: string
+      accessEmergencyCases: string
+      manageOtherProfessionals: string
+      viewAnalytics: string
+      manageSystemSettings: string
+      accessAiTools: string
+      createConsultations: string
+      reviewCases: string
+      approveTreatments: string
+    }
+
+    // Status and Actions
+    status: {
+      active: string
+      inactive: string
+      pending: string
+      completed: string
+      cancelled: string
+      emergency: string
+      urgent: string
+      normal: string
+    }
+
+    actions: {
+      view: string
+      edit: string
+      delete: string
+      approve: string
+      reject: string
+      assign: string
+      transfer: string
+      archive: string
+      restore: string
+    }
   }
 }

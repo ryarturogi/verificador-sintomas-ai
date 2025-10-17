@@ -1,4 +1,4 @@
-import { createChatCompletion } from '@/lib/openai'
+import { callGPT5Server } from '@/lib/gpt5-server'
 import { QuestionResponse, QuestionOption } from '@/types/dynamic-questionnaire'
 
 export class AnswerGenerator {
@@ -60,17 +60,31 @@ Make sure options are:
 `
 
     try {
-      const response = await createChatCompletion(
+      console.log('Generating answer options with prompt:', {
+        questionText,
+        questionType,
+        maxOptions,
+        language,
+        context: context.substring(0, 100) + '...'
+      })
+      
+      const response = await callGPT5Server(
         [{ role: 'user', content: prompt }],
-        'gpt-5-nano',
+        'gpt-5-nano', // Using gpt-5-nano as requested
         {
-          temperature: 0.4,
-          maxTokens: 800,
           responseFormat: 'json_object'
         }
       )
 
-      const result = JSON.parse(response)
+      // Add debugging for response
+      console.log('Raw response from OpenAI (answer generator):', response)
+      
+      if (!response) {
+        throw new Error('Empty response from OpenAI API')
+      }
+
+      // Response is already parsed by callGPT5Server
+      const result = response as { options?: QuestionOption[] }
       return result.options || this.getFallbackOptions(questionType, language)
     } catch (error) {
       console.error('Failed to generate answer options:', error)
@@ -121,17 +135,16 @@ Keep suggestions concise and patient-friendly.
 `
 
     try {
-      const response = await createChatCompletion(
+      const response = await callGPT5Server(
         [{ role: 'user', content: prompt }],
         'gpt-5-nano',
         {
-          temperature: 0.3,
-          maxTokens: 300,
           responseFormat: 'json_object'
         }
       )
 
-      const result = JSON.parse(response)
+      // Response is already parsed by callGPT5Server
+      const result = response as { suggestions?: string[] }
       return result.suggestions || []
     } catch (error) {
       console.error('Failed to generate suggestions:', error)
@@ -139,7 +152,7 @@ Keep suggestions concise and patient-friendly.
     }
   }
 
-  async generateSymptomOptions(bodyPart?: string, symptomType?: string, language: string = 'en'): Promise<QuestionOption[]> {
+  async generateSymptomOptions(bodyPart?: string, symptomType?: string, language: string = 'en', query?: string): Promise<QuestionOption[]> {
     const isSpanish = language === 'es'
     
     const prompt = `
@@ -147,8 +160,11 @@ Generate common symptom options for medical questionnaire.
 
 ${isSpanish ? 'IMPORTANTE: Responde completamente en español. Todas las opciones y etiquetas deben estar en español.' : 'IMPORTANT: Respond in English.'}
 
+${query ? `Search query: "${query}" - Include symptoms that match or relate to this query` : ''}
 ${bodyPart ? `Body part: ${bodyPart}` : ''}
 ${symptomType ? `Symptom type: ${symptomType}` : ''}
+
+${query ? 'Focus on generating symptoms that contain or relate to the search query.' : 'Generate general common symptoms.'}
 
 Return JSON array of symptom options:
 [
@@ -159,21 +175,20 @@ Return JSON array of symptom options:
   }
 ]
 
-Include 8-10 most common symptoms for this context.
+Include 8-10 most relevant symptoms for this context.
 `
 
     try {
-      const response = await createChatCompletion(
+      const response = await callGPT5Server(
         [{ role: 'user', content: prompt }],
         'gpt-5-nano',
         {
-          temperature: 0.3,
-          maxTokens: 600,
           responseFormat: 'json_object'
         }
       )
 
-      const result = JSON.parse(response)
+      // Response is already parsed by callGPT5Server
+      const result = response as { options?: QuestionOption[] }
       return result.options || []
     } catch (error) {
       console.error('Failed to generate symptom options:', error)
@@ -237,6 +252,24 @@ Include 8-10 most common symptoms for this context.
           { id: 'frequent', label: 'Frequently (daily)', value: 'frequent' },
           { id: 'occasional', label: 'Occasionally (weekly)', value: 'occasional' },
           { id: 'rare', label: 'Rarely (monthly)', value: 'rare' }
+        ]
+      
+      case 'ai_multiple_choice':
+        // For AI multiple choice questions, provide contextual medical options
+        return isSpanish ? [
+          { id: 'cough', label: 'Tos (Cough)', value: 'cough' },
+          { id: 'sore_throat', label: 'Dolor de garganta (Sore throat)', value: 'sore_throat' },
+          { id: 'headache', label: 'Dolor de cabeza (Headache)', value: 'headache' },
+          { id: 'muscle_aches', label: 'Dolores musculares (Muscle aches)', value: 'muscle_aches' },
+          { id: 'fatigue', label: 'Fatiga (Fatigue)', value: 'fatigue' },
+          { id: 'nausea', label: 'Náuseas (Nausea)', value: 'nausea' }
+        ] : [
+          { id: 'cough', label: 'Cough', value: 'cough' },
+          { id: 'sore_throat', label: 'Sore throat', value: 'sore_throat' },
+          { id: 'headache', label: 'Headache', value: 'headache' },
+          { id: 'muscle_aches', label: 'Muscle aches', value: 'muscle_aches' },
+          { id: 'fatigue', label: 'Fatigue', value: 'fatigue' },
+          { id: 'nausea', label: 'Nausea', value: 'nausea' }
         ]
       
       default:
