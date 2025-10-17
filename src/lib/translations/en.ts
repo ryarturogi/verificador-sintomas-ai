@@ -1102,7 +1102,9 @@ export const en: Translations = {
         question: "How do I delete my account?",
         answer: "You can delete your account by going to your profile settings and selecting 'Delete Account'. This will permanently remove all your data from our systems."
       }
-    }
+    },
+    bannerTitle: "Still have questions?",
+    bannerDescription: "Our support team is here to help you with any additional questions or concerns."
   },
 
   // Medical AI / VitalCheck page
