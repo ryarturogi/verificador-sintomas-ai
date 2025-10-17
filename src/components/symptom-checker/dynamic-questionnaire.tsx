@@ -536,18 +536,21 @@ export function DynamicQuestionnaire({
 
       {/* Navigation Confirmation Dialog */}
       <Dialog open={showNavigationDialog} onOpenChange={() => {}}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent
+          className="sm:max-w-md"
+          handleCancelExit={handleCancelExit}
+        >
           <DialogHeader>
             <DialogTitle className="flex items-center space-x-2">
               <AlertTriangle className="h-5 w-5 text-orange-500" />
               <span>{t.common.confirmExit || 'Confirm Exit'}</span>
             </DialogTitle>
           </DialogHeader>
-          
+
           <div className="py-4">
             <p className="text-gray-600">
-              {t.questionnaire.exitWarning || 
-               'Are you sure you want to leave? Your progress will be lost and you\'ll need to start over.'}
+              {t.questionnaire.exitWarning ||
+                "Are you sure you want to leave? Your progress will be lost and you'll need to start over."}
             </p>
           </div>
 
@@ -570,5 +573,5 @@ export function DynamicQuestionnaire({
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

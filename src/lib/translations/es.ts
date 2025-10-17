@@ -1102,7 +1102,9 @@ export const es: Translations = {
         question: "¿Cómo elimino mi cuenta?",
         answer: "Puedes eliminar tu cuenta yendo a la configuración de tu perfil y seleccionando 'Eliminar Cuenta'. Esto eliminará permanentemente todos tus datos de nuestros sistemas."
       }
-    }
+    },
+    bannerTitle: "¿Aún tienes preguntas?",
+    bannerDescription: "Nuestro equipo de soporte está aquí para ayudarle con cualquier pregunta o inquietud adicional."
   },
 
   // Medical AI / VitalCheck page

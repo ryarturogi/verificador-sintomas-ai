@@ -13,10 +13,11 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { LanguageSwitcher } from '@/components/ui/language-switcher'
 import { useTranslations, useLanguage } from '@/contexts/language-context'
-import { AlertTriangle, Settings } from 'lucide-react'
+import { AlertTriangle, Settings, ArrowLeft } from 'lucide-react';
 import { LoadingCard } from '@/components/ui/loading-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useScrollToTop } from '@/hooks/use-scroll-to-top'
+import { useRouter } from 'next/navigation';
 
 type AppState = 'disclaimer' | 'questionnaire' | 'loading' | 'results' | 'error' | 'config-error' | 'declined'
 
@@ -33,6 +34,7 @@ export function SymptomChecker({ initialQuery, initialTopic }: SymptomCheckerPro
   const [responses, setResponses] = useState<QuestionResponse[]>([])
   const t = useTranslations()
   const { language } = useLanguage()
+  const router = useRouter();
 
   // Scroll to top when component mounts or state changes
   useScrollToTop([state])
@@ -139,6 +141,11 @@ export function SymptomChecker({ initialQuery, initialTopic }: SymptomCheckerPro
     setResponses([])
   }
 
+  const handleBackToHome = () => {
+    router.push('/');
+  };
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-cyan-100 py-8 px-4">
       <div className="max-w-6xl mx-auto">
@@ -148,7 +155,15 @@ export function SymptomChecker({ initialQuery, initialTopic }: SymptomCheckerPro
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-between items-center mb-4">
+            <Button
+              onClick={() => router.back()}
+              variant="outline"
+              className="flex items-center space-x-2 bg-white hover:bg-gray-50 border-gray-200 text-gray-700 hover:text-gray-900"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span>{t.common.back || 'Back'}</span>
+            </Button>
             <LanguageSwitcher />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
@@ -269,6 +284,7 @@ export function SymptomChecker({ initialQuery, initialTopic }: SymptomCheckerPro
                 onEmergencyDetected={handleEmergencyDetected}
                 initialQuery={initialQuery}
                 initialTopic={initialTopic}
+                onBackToHome={handleBackToHome}
               />
             </motion.div>
           )}

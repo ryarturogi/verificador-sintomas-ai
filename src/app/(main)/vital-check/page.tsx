@@ -330,7 +330,7 @@ export default function VitalCheckPage() {
                 <Button asChild size="lg" variant="secondary">
                   <Link href="/symptom-checker">{t.vitalCheck.tryAIAssessment}</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-cyan-600">
+                <Button asChild size="lg" variant="outline" className="text-white bg-transparent border-white hover:bg-white hover:text-cyan-600">
                   <Link href="/questionnaires">{t.vitalCheck.viewQuestionnaires}</Link>
                 </Button>
               </div>

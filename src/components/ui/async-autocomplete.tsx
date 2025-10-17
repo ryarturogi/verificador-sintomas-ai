@@ -70,8 +70,8 @@ type StyleFn = (provided: Record<string, unknown>, state: StyleState) => Record<
 const customStyles: Record<string, StyleFn | (() => Record<string, unknown>)> = {
   control: (provided, state) => ({
     ...provided,
-    minHeight: "2.75rem",
-    height: "2.75rem",
+    minHeight: "3rem",
+    height: "3rem",
     borderColor: state.isFocused ? "#0891b2" : "#d1d5db",
     borderRadius: "0.5rem",
     boxShadow: state.isFocused ? "0 0 0 1px #0891b2" : "none",

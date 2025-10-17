@@ -364,7 +364,7 @@ export default function SymptomsPage() {
                 <Button asChild size="lg" variant="secondary">
                   <Link href="/symptom-checker">{t.homepage.startAssessment}</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-cyan-600">
+                <Button asChild size="lg" variant="outline" className="text-white bg-transparent border-white hover:bg-white hover:text-cyan-600">
                   <Link href="/questionnaires">{t.navigation.questionnaires}</Link>
                 </Button>
               </div>

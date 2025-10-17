@@ -905,7 +905,9 @@ export interface FAQTranslations {
       question: string
       answer: string
     }
-  }
+  },
+  bannerTitle: string
+  bannerDescription: string
 }
 
 // Help & FAQ
