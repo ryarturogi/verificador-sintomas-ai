@@ -55,8 +55,8 @@ export const es: Translations = {
   
   navigation: {
     home: "Inicio",
-    questionnaires: "Cuestionarios",
-    symptoms: "Síntomas",
+    questionnaires: "Análisis con IA",
+    symptoms: "Verificador de Síntomas",
     vitalCheck: "VitalCheck",
     help: "Ayuda",
     contact: "Contacto",
@@ -66,12 +66,12 @@ export const es: Translations = {
   
   homepage: {
     // Hero section
-    mainTitle: "VitalCheck - Evaluación de salud inteligente",
-    mainSubtitle: "Cuestionario dinámico que se adapta a tus respuestas para una evaluación médica personalizada",
+    mainTitle: "VitalCheck - Verificador de Síntomas con IA",
+    mainSubtitle: "Evaluación diagnóstica avanzada con IA que analiza tus síntomas y proporciona información de salud inteligente",
     searchPlaceholder: "Describe tus síntomas...",
-    searchDoctor: "Buscar Doctor",
-    assessButton: "Evaluar",
-    startQuestionnaire: "Comenzar Cuestionario",
+    searchDoctor: "Analizar Síntomas",
+    assessButton: "Analizar",
+    startQuestionnaire: "Iniciar Análisis",
     
     // Features
     advancedTechnology: "Tecnología Avanzada",
@@ -121,12 +121,12 @@ export const es: Translations = {
     aboutVitalCheck: "Acerca de VitalCheck",
     
     // Additional homepage properties
-    feelBetterAbout: "Siéntete mejor sobre",
-    findingHealthcare: "encontrar atención médica",
+    feelBetterAbout: "Obtén información inteligente sobre",
+    findingHealthcare: "tus síntomas de salud",
     guessworkOut: "eliminamos las conjeturas de",
-    rightDoctors: "encontrar los doctores correctos",
-    profilesEveryDoctor: "Perfiles de cada doctor",
-    millionRatings: "Millones+ de calificaciones",
+    rightDoctors: "entender tus síntomas",
+    profilesEveryDoctor: "Análisis impulsado por IA",
+    millionRatings: "Millones+ de evaluaciones",
     setLocation: "Establece tu ubicación",
     youMayBeLookingFor: "Puedes estar buscando",
     topHospital: "Hospital Principal",
@@ -137,21 +137,21 @@ export const es: Translations = {
     specialties: "Especialidades",
     conditions: "Condiciones",
     procedures: "Procedimientos",
-    findRightDoctor: "Encuentra el doctor correcto",
+    findRightDoctor: "Obtener diagnóstico con IA",
     rightAtFingerips: "justo en tus dedos",
     toolsAndInformation: "herramientas e información",
-    findBestDoctor: "Encuentra el Mejor Doctor",
-    searchNow: "Buscar Ahora",
-    searchNearestHospital: "Buscar Hospital Más Cercano",
-    findDoctorsHospitals: "Encuentra doctores y hospitales cerca de ti",
-    appointmentBestDoctor: "Cita con el Mejor Doctor",
-    convenientlySchedule: "Programa citas convenientemente",
-    getConsultant: "Obtener Consultor",
-    connectQualified: "Conecta con profesionales de la salud calificados",
+    findBestDoctor: "Iniciar Análisis de Síntomas",
+    searchNow: "Analizar Ahora",
+    searchNearestHospital: "Verificación de Emergencia",
+    findDoctorsHospitals: "Obtén información de salud instantánea impulsada por IA",
+    appointmentBestDoctor: "Análisis de Salud con IA",
+    convenientlySchedule: "Obtén información diagnóstica instantánea",
+    getConsultant: "Obtener Análisis",
+    connectQualified: "Accede a evaluación diagnóstica avanzada con IA",
     whyChoose: "Por Qué Elegir",
-    getFreeConsultation: "Obtener Consulta Gratuita",
-    meetSpecialists: "Agentes Especializados",
-    aiAgentsSubtitle: "Tecnología médica especializada en diferentes áreas",
+    getFreeConsultation: "Iniciar Análisis",
+    meetSpecialists: "Especialistas de Diagnóstico con IA",
+    aiAgentsSubtitle: "Tecnología de IA avanzada especializada en diferentes áreas médicas",
     // AI Agents
     aiGeneralMedicine: "Medicina General",
     aiCardiology: "Cardiología", 
@@ -163,14 +163,14 @@ export const es: Translations = {
     aiOncology: "Oncología",
     
     // Agent descriptions
-    aiGeneralDescription: "Evaluación integral de síntomas y diagnóstico general",
-    aiCardiologyDescription: "Análisis especializado en condiciones cardíacas y vasculares",
-    aiNeurologyDescription: "Diagnóstico de trastornos neurológicos y del sistema nervioso",
-    aiPediatricsDescription: "Atención médica especializada para pacientes pediátricos",
-    aiDermatologyDescription: "Análisis de condiciones de la piel, cabello y uñas",
-    aiRadiologyDescription: "Interpretación de imágenes médicas (MRI, CT, Rayos X)",
-    aiEmergencyDescription: "Evaluación de emergencias médicas y síntomas críticos",
-    aiOncologyDescription: "Análisis especializado en detección y seguimiento oncológico",
+    aiGeneralDescription: "Evaluación integral de síntomas y análisis diagnóstico impulsado por IA",
+    aiCardiologyDescription: "Análisis especializado con IA de condiciones cardíacas y vasculares",
+    aiNeurologyDescription: "Diagnóstico con IA de trastornos neurológicos y del sistema nervioso",
+    aiPediatricsDescription: "Análisis especializado con IA para síntomas y condiciones pediátricas",
+    aiDermatologyDescription: "Análisis con IA de condiciones de la piel, cabello y uñas",
+    aiRadiologyDescription: "Interpretación con IA de imágenes médicas (MRI, CT, Rayos X)",
+    aiEmergencyDescription: "Evaluación con IA de emergencias médicas y análisis de síntomas críticos",
+    aiOncologyDescription: "Análisis especializado con IA en detección y seguimiento oncológico",
     
     // Image scanning features
     imageScanning: "Escaneo de Imágenes",
@@ -1254,50 +1254,50 @@ export const es: Translations = {
     }
   },
   
-  // Consultation
+  // Análisis con IA
   consultation: {
-    startConsultation: "Iniciar Consulta",
-    chooseSpecialty: "Elegir una Especialidad de Doctor IA",
+    startConsultation: "Iniciar Análisis con IA",
+    chooseSpecialty: "Elegir una Especialidad de Análisis con IA",
     select: "Seleccionar",
-    busy: "Ocupado",
-    noDoctorsFound: "No se encontraron doctores para esta especialidad",
-    startConversation: "Inicia una conversación con tu doctor",
-    consultationHistory: "Historial de Consultas",
-    noHistory: "No se encontró historial de consultas",
+    busy: "Procesando",
+    noDoctorsFound: "No se encontraron especialistas de IA para esta especialidad",
+    startConversation: "Inicia un análisis diagnóstico con IA",
+    consultationHistory: "Historial de Análisis",
+    noHistory: "No se encontró historial de análisis",
     viewDetails: "Ver Detalles",
-    restartConsultation: "Reiniciar Consulta",
-    title: "Consulta Gratuita con Doctor",
-    subtitle: "Obtén consejos médicos expertos de especialistas en diferentes campos médicos",
-    selectDoctor: "Seleccionar Doctor",
-    currentConsultation: "Consulta Actual",
+    restartConsultation: "Reiniciar Análisis",
+    title: "Análisis de Síntomas con IA",
+    subtitle: "Obtén información diagnóstica inteligente de especialistas de IA en diferentes campos médicos",
+    selectDoctor: "Seleccionar Especialista de IA",
+    currentConsultation: "Análisis Actual",
     history: "Historial",
-    selectedDoctor: "Doctor Seleccionado"
+    selectedDoctor: "Especialista de IA Seleccionado"
   },
   
-  // Consultation Chat
+  // Chat de Análisis con IA
   consultationChat: {
     welcomeMessages: {
-      generalMedicine: "¡Hola! Soy tu especialista en Medicina General. ¿Cómo puedo ayudarte hoy?",
-      cardiology: "¡Hola! Soy tu especialista en Cardiología. Puedo ayudar con preocupaciones relacionadas con el corazón.",
-      neurology: "¡Hola! Soy tu especialista en Neurología. Puedo ayudar con problemas del cerebro y sistema nervioso.",
-      pediatrics: "¡Hola! Soy tu especialista en Pediatría. Puedo ayudar con preocupaciones de salud infantil.",
-      internalMedicine: "¡Hola! Soy tu especialista en Medicina Interna. Puedo ayudar con condiciones médicas complejas."
+      generalMedicine: "¡Hola! Soy tu especialista de IA en Medicina General. Puedo analizar tus síntomas y proporcionar información diagnóstica.",
+      cardiology: "¡Hola! Soy tu especialista de IA en Cardiología. Puedo ayudar a analizar síntomas relacionados con el corazón.",
+      neurology: "¡Hola! Soy tu especialista de IA en Neurología. Puedo ayudar a analizar síntomas del cerebro y sistema nervioso.",
+      pediatrics: "¡Hola! Soy tu especialista de IA en Pediatría. Puedo ayudar a analizar síntomas de salud infantil.",
+      internalMedicine: "¡Hola! Soy tu especialista de IA en Medicina Interna. Puedo ayudar a analizar síntomas médicos complejos."
     },
     quickActions: {
-      generalMedicine: "Medicina General",
-      cardiology: "Cardiología",
-      neurology: "Neurología",
-      pediatrics: "Pediatría",
-      internalMedicine: "Medicina Interna"
+      generalMedicine: "Medicina General IA",
+      cardiology: "Cardiología IA",
+      neurology: "Neurología IA",
+      pediatrics: "Pediatría IA",
+      internalMedicine: "Medicina Interna IA"
     },
-    endConsultation: "Terminar Consulta",
-    doctorTyping: "El doctor está escribiendo...",
-    typeMessage: "Escribe tu mensaje...",
-    send: "Enviar",
-    sending: "Enviando...",
-    typingIndicator: "El doctor está escribiendo...",
-    messagesInQueue: "mensaje(s) en cola",
-    startConversation: "Inicia una conversación con tu doctor"
+    endConsultation: "Terminar Análisis",
+    doctorTyping: "La IA está analizando...",
+    typeMessage: "Describe tus síntomas...",
+    send: "Analizar",
+    sending: "Analizando...",
+    typingIndicator: "La IA está procesando...",
+    messagesInQueue: "análisis en cola",
+    startConversation: "Inicia análisis diagnóstico con IA"
   },
   
   // Scale
@@ -1566,7 +1566,7 @@ export const es: Translations = {
     nav: {
       dashboard: "Panel",
       patients: "Pacientes",
-      consultations: "Consultas",
+      analysis: "Análisis",
       medicalTools: "Herramientas Médicas",
       medicalRecords: "Registros Médicos",
       analytics: "Analíticas",
@@ -1592,14 +1592,14 @@ export const es: Translations = {
       nextAppointment: "Próxima Cita"
     },
 
-    // Consultas
-    consultations: {
-      title: "Consultas",
-      subtitle: "Gestiona consultas médicas",
-      newConsultation: "Nueva Consulta",
-      consultationHistory: "Historial de Consultas",
-      activeConsultations: "Consultas Activas",
-      pendingConsultations: "Consultas Pendientes",
+    // Análisis
+    analysis: {
+      title: "Análisis",
+      subtitle: "Gestiona análisis de síntomas con IA",
+      newAnalysis: "Nuevo Análisis",
+      analysisHistory: "Historial de Análisis",
+      activeAnalysis: "Análisis Activos",
+      pendingAnalysis: "Análisis Pendientes",
       consultationDetails: "Detalles de la Consulta",
       patientNotes: "Notas del Paciente",
       diagnosis: "Diagnóstico",
@@ -1682,7 +1682,7 @@ export const es: Translations = {
       viewAnalytics: "Ver Analíticas",
       manageSystemSettings: "Gestionar Configuración del Sistema",
       accessAiTools: "Acceder a Herramientas de IA",
-      createConsultations: "Crear Consultas",
+      createAnalysis: "Crear Análisis",
       reviewCases: "Revisar Casos",
       approveTreatments: "Aprobar Tratamientos"
     },

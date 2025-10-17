@@ -4,20 +4,20 @@ import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { useLanguage } from '@/contexts/language-context'
-import { Doctor } from '@/types/consultation'
+import { AIAnalysisSpecialist } from '@/types/consultation'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-interface DoctorSelectionProps {
-  onDoctorSelect: (doctor: Doctor) => void
+interface SpecialistSelectionProps {
+  onSpecialistSelect: (specialist: AIAnalysisSpecialist) => void
   preSelectedAgent?: string | null
 }
 
 /**
- * Component for selecting an AI doctor for consultation
- * Displays available doctors with their specialties and information
+ * Component for selecting an AI specialist for symptom analysis
+ * Displays available AI specialists with their specialties and information
  */
-export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSelectionProps) {
+export function DoctorSelection({ onSpecialistSelect, preSelectedAgent }: SpecialistSelectionProps) {
   const { t } = useLanguage()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -52,8 +52,8 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
     router.replace(newUrl, { scroll: false })
   }
 
-  // AI Doctor Agents with different medical specializations
-  const doctors: Doctor[] = [
+  // AI Analysis Specialists with different medical specializations
+  const specialists: AIAnalysisSpecialist[] = [
     {
       id: 'dr-henry',
       name: t.aiAgents.general.name,
@@ -63,8 +63,8 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
       experience: t.doctorSelection.aiPoweredWithKnowledge,
       isAvailable: true,
       responseTime: '2-3 minutes',
-      rating: 4.9,
-      consultationCount: 1250,
+      accuracy: 4.9,
+      analysisCount: 1250,
       avatar: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     },
     {
@@ -76,8 +76,8 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
       experience: t.doctorSelection.aiPoweredWithCardiology,
       isAvailable: true,
       responseTime: '3-5 minutes',
-      rating: 4.8,
-      consultationCount: 890,
+      accuracy: 4.8,
+      analysisCount: 890,
       avatar: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     },
     {
@@ -89,8 +89,8 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
       experience: t.doctorSelection.aiPoweredWithNeurology,
       isAvailable: true,
       responseTime: '4-6 minutes',
-      rating: 4.7,
-      consultationCount: 650,
+      accuracy: 4.7,
+      analysisCount: 650,
       avatar: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     },
     {
@@ -102,8 +102,8 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
       experience: t.doctorSelection.aiPoweredWithPediatric,
       isAvailable: true,
       responseTime: '2-4 minutes',
-      rating: 4.9,
-      consultationCount: 1100,
+      accuracy: 4.9,
+      analysisCount: 1100,
       avatar: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     },
     {
@@ -115,8 +115,8 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
       experience: t.doctorSelection.aiPoweredWithInternal,
       isAvailable: true,
       responseTime: '3-5 minutes',
-      rating: 4.8,
-      consultationCount: 980,
+      accuracy: 4.8,
+      analysisCount: 980,
       avatar: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
     }
   ]
@@ -152,9 +152,9 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
     }
   }, [preSelectedAgent])
 
-  const filteredDoctors = selectedSpecialty === 'all' 
-    ? doctors 
-    : doctors.filter(doctor => doctor.specialty === selectedSpecialty)
+  const filteredSpecialists = selectedSpecialty === 'all' 
+    ? specialists 
+    : specialists.filter(specialist => specialist.specialty === selectedSpecialty)
 
   return (
     <div className="space-y-6">
@@ -183,64 +183,64 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
         </div>
       </div>
 
-      {/* Doctors Grid */}
+      {/* AI Specialists Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredDoctors.map((doctor) => (
-          <Card key={doctor.id} className="p-6 hover:shadow-lg transition-shadow">
+        {filteredSpecialists.map((specialist) => (
+          <Card key={specialist.id} className="p-6 hover:shadow-lg transition-shadow">
             <div className="text-center mb-4">
               <div className="w-16 h-16 rounded-full overflow-hidden mx-auto mb-3 ring-2 ring-cyan-200 relative">
                 <Image 
-                  src={doctor.avatar || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
-                  alt={doctor.name}
+                  src={specialist.avatar || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'} 
+                  alt={specialist.name}
                   width={64}
                   height={64}
                   className="object-cover w-full h-full"
                   sizes="64px"
                 />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">{doctor.name}</h3>
-              <p className="text-cyan-600 font-medium">{doctor.specialtyDisplayName}</p>
+              <h3 className="text-lg font-semibold text-gray-900">{specialist.name}</h3>
+              <p className="text-cyan-600 font-medium">{specialist.specialtyDisplayName}</p>
             </div>
 
             <div className="space-y-3 mb-4">
-              <p className="text-sm text-gray-600">{doctor.description}</p>
-              <p className="text-sm text-gray-500">{doctor.experience}</p>
+              <p className="text-sm text-gray-600">{specialist.description}</p>
+              <p className="text-sm text-gray-500">{specialist.experience}</p>
               
               <div className="flex justify-between items-center text-sm">
                 <span className="text-gray-500">{t.doctorSelection.responseTime}</span>
-                <span className="font-medium">{doctor.responseTime}</span>
+                <span className="font-medium">{specialist.responseTime}</span>
               </div>
               
               <div className="flex justify-between items-center text-sm">
                 <span className="text-gray-500">{t.doctorSelection.rating}</span>
                 <div className="flex items-center space-x-1">
-                  <span className="font-medium">{doctor.rating}</span>
+                  <span className="font-medium">{specialist.accuracy}</span>
                   <span className="text-yellow-400">★</span>
                 </div>
               </div>
               
               <div className="flex justify-between items-center text-sm">
                 <span className="text-gray-500">{t.doctorSelection.consultations}</span>
-                <span className="font-medium">{doctor.consultationCount.toLocaleString()}</span>
+                <span className="font-medium">{specialist.analysisCount.toLocaleString()}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <div className={`w-2 h-2 rounded-full ${
-                  doctor.isAvailable ? 'bg-green-500' : 'bg-red-500'
+                  specialist.isAvailable ? 'bg-green-500' : 'bg-red-500'
                 }`} />
                 <span className="text-sm text-gray-500">
-                  {doctor.isAvailable ? t.doctorSelection.available : t.doctorSelection.busy}
+                  {specialist.isAvailable ? t.doctorSelection.available : t.doctorSelection.busy}
                 </span>
               </div>
               
               <Button
-                onClick={() => onDoctorSelect(doctor)}
-                disabled={!doctor.isAvailable}
+                onClick={() => onSpecialistSelect(specialist)}
+                disabled={!specialist.isAvailable}
                 className="bg-cyan-600 hover:bg-cyan-700 text-white"
               >
-                {doctor.isAvailable 
+                {specialist.isAvailable 
                   ? (t.consultation?.select || 'Select')
                   : (t.consultation?.busy || 'Busy')
                 }
@@ -250,10 +250,10 @@ export function DoctorSelection({ onDoctorSelect, preSelectedAgent }: DoctorSele
         ))}
       </div>
 
-      {filteredDoctors.length === 0 && (
+      {filteredSpecialists.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">
-            {t.consultation?.noDoctorsFound || 'No doctors found for this specialty'}
+            {t.consultation?.noDoctorsFound || 'No AI specialists found for this specialty'}
           </p>
         </div>
       )}

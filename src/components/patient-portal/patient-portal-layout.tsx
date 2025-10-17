@@ -26,7 +26,7 @@ export function PatientPortalLayout() {
   // Determine available views based on healthcare professional role
   const getAvailableViews = () => {
     // Healthcare professional views only
-    const views = ['dashboard', 'patients', 'consultations', 'medical-tools']
+    const views = ['dashboard', 'patients', 'analysis', 'medical-tools']
     if (hasPermission('read_medical_records')) {
       views.push('medical-records')
     }
@@ -277,10 +277,10 @@ export function PatientPortalLayout() {
                 </div>
               )}
 
-              {currentView === 'consultations' && (
+              {currentView === 'analysis' && (
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.healthcare.consultations.title}</h2>
-                  <p className="text-gray-600">{t.healthcare.consultations.subtitle}</p>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{t.healthcare.analysis.title}</h2>
+                  <p className="text-gray-600">{t.healthcare.analysis.subtitle}</p>
                 </div>
               )}
 

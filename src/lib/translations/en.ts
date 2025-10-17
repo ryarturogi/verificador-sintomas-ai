@@ -55,8 +55,8 @@ export const en: Translations = {
   
   navigation: {
     home: "Home",
-    questionnaires: "Questionnaires",
-    symptoms: "Symptoms",
+    questionnaires: "AI Analysis",
+    symptoms: "Symptom Checker",
     vitalCheck: "VitalCheck",
     help: "Help",
     contact: "Contact",
@@ -66,12 +66,12 @@ export const en: Translations = {
   
   homepage: {
     // Hero section
-    mainTitle: "VitalCheck - Intelligent Health Assessment Tool",
-    mainSubtitle: "Dynamic questionnaire that adapts to your responses for personalized medical assessment",
+    mainTitle: "VitalCheck - AI-Powered Symptom Checker",
+    mainSubtitle: "Advanced AI diagnostic evaluation that analyzes your symptoms and provides intelligent health insights",
     searchPlaceholder: "Describe your symptoms...",
-    searchDoctor: "Search Doctor",
-    assessButton: "Assess",
-    startQuestionnaire: "Start Questionnaire",
+    searchDoctor: "Analyze Symptoms",
+    assessButton: "Analyze",
+    startQuestionnaire: "Start Analysis",
     
     // Features
     advancedTechnology: "Advanced Technology",
@@ -121,12 +121,12 @@ export const en: Translations = {
     aboutVitalCheck: "About VitalCheck",
     
     // Additional homepage properties
-    feelBetterAbout: "Feel better about",
-    findingHealthcare: "finding healthcare",
+    feelBetterAbout: "Get intelligent insights about",
+    findingHealthcare: "your health symptoms",
     guessworkOut: "we take the guesswork out of",
-    rightDoctors: "finding the right doctors",
-    profilesEveryDoctor: "Profiles of every doctor",
-    millionRatings: "Million+ ratings",
+    rightDoctors: "understanding your symptoms",
+    profilesEveryDoctor: "AI-powered analysis",
+    millionRatings: "Million+ assessments",
     setLocation: "Set your location",
     youMayBeLookingFor: "You may be looking for",
     topHospital: "Top Hospital",
@@ -137,21 +137,21 @@ export const en: Translations = {
     specialties: "Specialties",
     conditions: "Conditions",
     procedures: "Procedures",
-    findRightDoctor: "Find the right doctor",
+    findRightDoctor: "Get AI diagnosis",
     rightAtFingerips: "right at your fingertips",
     toolsAndInformation: "tools and information",
-    findBestDoctor: "Find the Best Doctor",
-    searchNow: "Search Now",
-    searchNearestHospital: "Search Nearest Hospital",
-    findDoctorsHospitals: "Find doctors and hospitals near you",
-    appointmentBestDoctor: "Appointment with Best Doctor",
-    convenientlySchedule: "Conveniently schedule appointments",
-    getConsultant: "Get Consultant",
-    connectQualified: "Connect with qualified healthcare professionals",
+    findBestDoctor: "Start Symptom Analysis",
+    searchNow: "Analyze Now",
+    searchNearestHospital: "Emergency Check",
+    findDoctorsHospitals: "Get instant AI-powered health insights",
+    appointmentBestDoctor: "AI Health Analysis",
+    convenientlySchedule: "Get instant diagnostic insights",
+    getConsultant: "Get Analysis",
+    connectQualified: "Access advanced AI diagnostic evaluation",
     whyChoose: "Why Choose",
-    getFreeConsultation: "Get Free Consultation",
-    meetSpecialists: "Specialized Agents",
-    aiAgentsSubtitle: "Advanced medical technology specialized in different areas",
+    getFreeConsultation: "Start Analysis",
+    meetSpecialists: "AI Diagnostic Specialists",
+    aiAgentsSubtitle: "Advanced AI technology specialized in different medical areas",
     // AI Agents
     aiGeneralMedicine: "General Medicine",
     aiCardiology: "Cardiology", 
@@ -163,14 +163,14 @@ export const en: Translations = {
     aiOncology: "Oncology",
     
     // Agent descriptions
-    aiGeneralDescription: "Comprehensive symptom evaluation and general diagnosis",
-    aiCardiologyDescription: "Specialized analysis of cardiac and vascular conditions",
-    aiNeurologyDescription: "Diagnosis of neurological and nervous system disorders",
-    aiPediatricsDescription: "Specialized medical care for pediatric patients",
-    aiDermatologyDescription: "Analysis of skin, hair and nail conditions",
-    aiRadiologyDescription: "Medical image interpretation (MRI, CT, X-rays)",
-    aiEmergencyDescription: "Medical emergency evaluation and critical symptoms",
-    aiOncologyDescription: "Specialized analysis in oncology detection and follow-up",
+    aiGeneralDescription: "AI-powered comprehensive symptom evaluation and diagnostic analysis",
+    aiCardiologyDescription: "AI specialized analysis of cardiac and vascular conditions",
+    aiNeurologyDescription: "AI diagnosis of neurological and nervous system disorders",
+    aiPediatricsDescription: "AI specialized analysis for pediatric symptoms and conditions",
+    aiDermatologyDescription: "AI analysis of skin, hair and nail conditions",
+    aiRadiologyDescription: "AI medical image interpretation (MRI, CT, X-rays)",
+    aiEmergencyDescription: "AI medical emergency evaluation and critical symptom analysis",
+    aiOncologyDescription: "AI specialized analysis in oncology detection and follow-up",
     
     // Image scanning features
     imageScanning: "Image Scanning",
@@ -1254,50 +1254,50 @@ export const en: Translations = {
     }
   },
   
-  // Consultation
+  // AI Analysis
   consultation: {
-    startConsultation: "Start Consultation",
-    chooseSpecialty: "Choose a Doctor Specialty",
+    startConsultation: "Start AI Analysis",
+    chooseSpecialty: "Choose an AI Analysis Specialty",
     select: "Select",
-    busy: "Busy",
-    noDoctorsFound: "No doctors found for this specialty",
-    startConversation: "Start a conversation with your doctor",
-    consultationHistory: "Consultation History",
-    noHistory: "No consultation history found",
+    busy: "Processing",
+    noDoctorsFound: "No AI specialists found for this specialty",
+    startConversation: "Start AI diagnostic analysis",
+    consultationHistory: "Analysis History",
+    noHistory: "No analysis history found",
     viewDetails: "View Details",
-    restartConsultation: "Restart Consultation",
-    title: "Free Doctor Consultation",
-    subtitle: "Get expert medical advice from specialists in different medical fields",
-    selectDoctor: "Select Doctor",
-    currentConsultation: "Current Consultation",
+    restartConsultation: "Restart Analysis",
+    title: "AI-Powered Symptom Analysis",
+    subtitle: "Get intelligent diagnostic insights from AI specialists in different medical fields",
+    selectDoctor: "Select AI Specialist",
+    currentConsultation: "Current Analysis",
     history: "History",
-    selectedDoctor: "Selected Doctor"
+    selectedDoctor: "Selected AI Specialist"
   },
   
-  // Consultation Chat
+  // AI Analysis Chat
   consultationChat: {
     welcomeMessages: {
-      generalMedicine: "Hello! I'm your General Medicine specialist. How can I help you today?",
-      cardiology: "Hello! I'm your Cardiology specialist. I can help with heart-related concerns.",
-      neurology: "Hello! I'm your Neurology specialist. I can help with brain and nervous system issues.",
-      pediatrics: "Hello! I'm your Pediatrics specialist. I can help with children's health concerns.",
-      internalMedicine: "Hello! I'm your Internal Medicine specialist. I can help with complex medical conditions."
+      generalMedicine: "Hello! I'm your AI General Medicine specialist. I can analyze your symptoms and provide diagnostic insights.",
+      cardiology: "Hello! I'm your AI Cardiology specialist. I can help analyze heart-related symptoms and conditions.",
+      neurology: "Hello! I'm your AI Neurology specialist. I can help analyze brain and nervous system symptoms.",
+      pediatrics: "Hello! I'm your AI Pediatrics specialist. I can help analyze children's health symptoms.",
+      internalMedicine: "Hello! I'm your AI Internal Medicine specialist. I can help analyze complex medical symptoms."
     },
     quickActions: {
-      generalMedicine: "General Medicine",
-      cardiology: "Cardiology",
-      neurology: "Neurology",
-      pediatrics: "Pediatrics",
-      internalMedicine: "Internal Medicine"
+      generalMedicine: "General Medicine AI",
+      cardiology: "Cardiology AI",
+      neurology: "Neurology AI",
+      pediatrics: "Pediatrics AI",
+      internalMedicine: "Internal Medicine AI"
     },
-    endConsultation: "End Consultation",
-    doctorTyping: "Doctor is typing...",
-    typeMessage: "Type your message...",
-    send: "Send",
-    sending: "Sending...",
-    typingIndicator: "The doctor is writing...",
-    messagesInQueue: "message(s) in queue",
-    startConversation: "Start a conversation with your doctor"
+    endConsultation: "End Analysis",
+    doctorTyping: "AI is analyzing...",
+    typeMessage: "Describe your symptoms...",
+    send: "Analyze",
+    sending: "Analyzing...",
+    typingIndicator: "The AI is processing...",
+    messagesInQueue: "analysis in queue",
+    startConversation: "Start AI diagnostic analysis"
   },
   
   // Scale
@@ -1566,7 +1566,7 @@ export const en: Translations = {
     nav: {
       dashboard: "Dashboard",
       patients: "Patients",
-      consultations: "Consultations",
+      analysis: "Analysis",
       medicalTools: "Medical Tools",
       medicalRecords: "Medical Records",
       analytics: "Analytics",
@@ -1592,14 +1592,14 @@ export const en: Translations = {
       nextAppointment: "Next Appointment"
     },
 
-    // Consultations
-    consultations: {
-      title: "Consultations",
-      subtitle: "Manage medical consultations",
-      newConsultation: "New Consultation",
-      consultationHistory: "Consultation History",
-      activeConsultations: "Active Consultations",
-      pendingConsultations: "Pending Consultations",
+    // Analysis
+    analysis: {
+      title: "Analysis",
+      subtitle: "Manage AI symptom analysis",
+      newAnalysis: "New Analysis",
+      analysisHistory: "Analysis History",
+      activeAnalysis: "Active Analysis",
+      pendingAnalysis: "Pending Analysis",
       consultationDetails: "Consultation Details",
       patientNotes: "Patient Notes",
       diagnosis: "Diagnosis",
@@ -1682,7 +1682,7 @@ export const en: Translations = {
       viewAnalytics: "View Analytics",
       manageSystemSettings: "Manage System Settings",
       accessAiTools: "Access AI Tools",
-      createConsultations: "Create Consultations",
+      createAnalysis: "Create Analysis",
       reviewCases: "Review Cases",
       approveTreatments: "Approve Treatments"
     },

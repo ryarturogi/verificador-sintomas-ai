@@ -122,11 +122,11 @@ export function PatientNav({
         iconColor: 'text-blue-600'
       },
       {
-        id: 'consultations',
-        label: t.healthcare.nav.consultations,
-        href: '/patient-portal/consultations',
+        id: 'analysis',
+        label: t.healthcare.nav.analysis,
+        href: '/patient-portal/analysis',
         icon: 'MessageSquare',
-        description: t.healthcare.consultations.subtitle,
+        description: t.healthcare.analysis.subtitle,
         color: 'green',
         gradient: 'from-green-50 to-emerald-50',
         borderColor: 'border-green-500',

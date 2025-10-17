@@ -189,7 +189,7 @@ export class ConsultationHistoryService {
    */
   static getSessionsByDoctor(doctorId: string): ConsultationSession[] {
     const history = this.getHistory()
-    return history.filter(s => s.doctorId === doctorId)
+    return history.filter(s => s.specialistId === doctorId)
   }
 
   /**

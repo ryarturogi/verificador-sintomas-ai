@@ -1563,7 +1563,7 @@ export interface Translations {
     nav: {
       dashboard: string
       patients: string
-      consultations: string
+      analysis: string
       medicalTools: string
       medicalRecords: string
       analytics: string
@@ -1589,14 +1589,14 @@ export interface Translations {
       nextAppointment: string
     }
 
-    // Consultations
-    consultations: {
+    // Analysis
+    analysis: {
       title: string
       subtitle: string
-      newConsultation: string
-      consultationHistory: string
-      activeConsultations: string
-      pendingConsultations: string
+      newAnalysis: string
+      analysisHistory: string
+      activeAnalysis: string
+      pendingAnalysis: string
       consultationDetails: string
       patientNotes: string
       diagnosis: string
@@ -1679,7 +1679,7 @@ export interface Translations {
       viewAnalytics: string
       manageSystemSettings: string
       accessAiTools: string
-      createConsultations: string
+      createAnalysis: string
       reviewCases: string
       approveTreatments: string
     }

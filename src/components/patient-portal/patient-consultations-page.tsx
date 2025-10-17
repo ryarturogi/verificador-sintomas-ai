@@ -12,7 +12,7 @@ import { LoadingCard } from '@/components/ui/loading-spinner'
 import { motion } from 'framer-motion'
 import { MessageSquare, Calendar, Clock, Video } from 'lucide-react'
 
-export function PatientConsultationsPage() {
+export function PatientAnalysisPage() {
   const { t } = useLanguage()
   const { isSignedIn, isLoaded } = useAuth()
   const [, setSession] = useState<PatientSession | null>(null)
@@ -164,9 +164,9 @@ export function PatientConsultationsPage() {
 
             {/* Consultations Content */}
             <ConsultationHistory
-              consultations={[]} // This would be populated from your consultation system
-              onViewConsultation={(consultation) => {
-                console.log('View consultation:', consultation)
+              consultations={[]} // This would be populated from your analysis system
+              onViewConsultation={(analysis) => {
+                console.log('View analysis:', analysis)
               }}
               onStartNewConsultation={() => {
                 window.location.href = '/consultation'

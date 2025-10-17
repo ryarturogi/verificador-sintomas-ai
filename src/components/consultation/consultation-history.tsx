@@ -3,31 +3,31 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useLanguage } from '@/contexts/language-context'
-import { ConsultationSession } from '@/types/consultation'
+import { AnalysisSession } from '@/types/consultation'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ConsultationHistoryService } from '@/services/consultation-history-service'
 
-interface ConsultationHistoryProps {
-  onStartConsultation: (session: ConsultationSession) => void
+interface AnalysisHistoryProps {
+  onStartAnalysis: (session: AnalysisSession) => void
   onBack: () => void
 }
 
 /**
- * Component for displaying consultation history
- * Shows past consultations and allows restarting them
+ * Component for displaying analysis history
+ * Shows past analyses and allows restarting them
  */
-export function ConsultationHistory({ onStartConsultation, onBack }: ConsultationHistoryProps) {
+export function ConsultationHistory({ onStartAnalysis, onBack }: AnalysisHistoryProps) {
   const { t } = useLanguage()
-  const [consultationHistory, setConsultationHistory] = useState<ConsultationSession[]>([])
+  const [analysisHistory, setAnalysisHistory] = useState<AnalysisSession[]>([])
   const [loading, setLoading] = useState(true)
 
-  // Load consultation history on component mount
+  // Load analysis history on component mount
   useEffect(() => {
     const loadHistory = () => {
       try {
         const history = ConsultationHistoryService.getHistory()
-        setConsultationHistory(history)
+        setAnalysisHistory(history)
       } catch (error) {
         console.error('Error loading consultation history:', error)
       } finally {
@@ -54,15 +54,15 @@ export function ConsultationHistory({ onStartConsultation, onBack }: Consultatio
   const handleDeleteSession = (sessionId: string) => {
     try {
       ConsultationHistoryService.deleteSession(sessionId)
-      setConsultationHistory(prev => prev.filter(s => s.id !== sessionId))
+      setAnalysisHistory(prev => prev.filter(s => s.id !== sessionId))
     } catch (error) {
       console.error('Error deleting session:', error)
     }
   }
 
   // Handle session restart
-  const handleRestartSession = (session: ConsultationSession) => {
-    const newSession: ConsultationSession = {
+  const handleRestartSession = (session: AnalysisSession) => {
+    const newSession: AnalysisSession = {
       ...session,
       id: `session-${Date.now()}`,
       startTime: new Date(),
@@ -70,7 +70,7 @@ export function ConsultationHistory({ onStartConsultation, onBack }: Consultatio
       messages: [],
       status: 'active'
     }
-    onStartConsultation(newSession)
+    onStartAnalysis(newSession)
   }
 
   const formatDate = (date: Date) => {
@@ -119,7 +119,7 @@ export function ConsultationHistory({ onStartConsultation, onBack }: Consultatio
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-gray-900">
-          {t.consultation?.consultationHistory || 'Consultation History'}
+          {t.healthcare?.analysis?.analysisHistory || 'Analysis History'}
         </h2>
         <Button onClick={onBack} variant="outline">
           {t.common?.back || 'Back'}
@@ -127,32 +127,32 @@ export function ConsultationHistory({ onStartConsultation, onBack }: Consultatio
       </div>
 
       {/* History List */}
-      {consultationHistory.length === 0 ? (
+      {analysisHistory.length === 0 ? (
         <Card className="p-8 text-center">
           <p className="text-gray-500 text-lg">
-            {t.consultation?.noHistory || 'No consultation history found'}
+            {t.consultation?.noHistory || 'No analysis history found'}
           </p>
         </Card>
       ) : (
         <div className="space-y-4">
-          {consultationHistory.map((session) => (
+          {analysisHistory.map((session) => (
             <Card key={session.id} className="p-6">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
                     <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-cyan-200 relative">
                       <Image 
-                        src={getDoctorAvatar(session.doctorId)} 
-                        alt={session.doctorName}
+                        src={getDoctorAvatar(session.specialistId)} 
+                        alt={session.specialistName}
                         fill
                         className="object-cover"
                         sizes="40px"
                       />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{session.doctorName}</h3>
+                      <h3 className="font-semibold text-gray-900">{session.specialistName}</h3>
                       <p className="text-sm text-gray-600">
-                        {session.doctorSpecialty.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        {session.specialistSpecialty.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                       </p>
                     </div>
                   </div>
@@ -203,7 +203,7 @@ export function ConsultationHistory({ onStartConsultation, onBack }: Consultatio
 
                 <div className="flex flex-col space-y-2 ml-4">
                   <Button
-                    onClick={() => onStartConsultation(session)}
+                    onClick={() => onStartAnalysis(session)}
                     size="sm"
                     className="bg-cyan-600 hover:bg-cyan-700"
                   >
@@ -215,7 +215,7 @@ export function ConsultationHistory({ onStartConsultation, onBack }: Consultatio
                       size="sm"
                       variant="outline"
                     >
-                      {t.consultation?.restartConsultation || 'Restart Consultation'}
+                      {t.consultation?.restartConsultation || 'Restart Analysis'}
                     </Button>
                   )}
                   <Button

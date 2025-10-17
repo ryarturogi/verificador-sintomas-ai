@@ -7,25 +7,25 @@ import { useLanguage } from '@/contexts/language-context'
 import { DoctorSelection } from './doctor-selection'
 import { ChatConsultation } from './chat-consultation'
 import { ConsultationHistory } from './consultation-history'
-import { Doctor, ConsultationSession } from '@/types/consultation'
+import { AIAnalysisSpecialist, AnalysisSession } from '@/types/consultation'
 import { ConsultationHistoryService } from '@/services/consultation-history-service'
 import { ConsultationExitDialog } from '@/components/ui/confirmation-dialog'
 import { useNavigationConfirmation } from '@/hooks/use-navigation-lock'
 import { useScrollToTop } from '@/hooks/use-scroll-to-top'
 
 /**
- * Main consultation portal component that manages the consultation flow
- * Handles doctor selection, chat consultation, and consultation history
+ * Main analysis portal component that manages the AI analysis flow
+ * Handles AI specialist selection, chat analysis, and analysis history
  */
 export function ConsultationPortal() {
   const { t } = useLanguage()
   const searchParams = useSearchParams()
-  const [currentSession, setCurrentSession] = useState<ConsultationSession | null>(null)
+  const [currentSession, setCurrentSession] = useState<AnalysisSession | null>(null)
   const [showHistory, setShowHistory] = useState(false)
   const [preSelectedAgent, setPreSelectedAgent] = useState<string | null>(null)
   const [isExiting, setIsExiting] = useState(false)
 
-  // Navigation lock for active consultations
+  // Navigation lock for active analyses
   const {
     showDialog,
     handleConfirmExit,
@@ -33,7 +33,7 @@ export function ConsultationPortal() {
   } = useNavigationConfirmation({
     isActive: !!currentSession,
     onConfirmExit: () => {
-      handleEndConsultation()
+      handleEndAnalysis()
       setIsExiting(false)
     },
     onCancelExit: () => {
@@ -52,13 +52,13 @@ export function ConsultationPortal() {
   // Scroll to top when component mounts or when session changes
   useScrollToTop([currentSession, showHistory])
 
-  const handleDoctorSelect = (doctor: Doctor) => {
-    // Auto-start consultation immediately when doctor is selected
-    const session: ConsultationSession = {
+  const handleSpecialistSelect = (specialist: AIAnalysisSpecialist) => {
+    // Auto-start analysis immediately when specialist is selected
+    const session: AnalysisSession = {
       id: `session-${Date.now()}`,
-      doctorId: doctor.id,
-      doctorName: doctor.name,
-      doctorSpecialty: doctor.specialty,
+      specialistId: specialist.id,
+      specialistName: specialist.name,
+      specialistSpecialty: specialist.specialty,
       startTime: new Date(),
       messages: [],
       status: 'active'
@@ -71,12 +71,12 @@ export function ConsultationPortal() {
   }
 
 
-  const handleEndConsultation = () => {
+  const handleEndAnalysis = () => {
     // Complete the session before ending
     if (currentSession) {
       ConsultationHistoryService.completeSession(
         currentSession.id,
-        `Consultation completed with ${currentSession.doctorName}`,
+        `Analysis completed with ${currentSession.specialistName}`,
         ['Follow up as needed', 'Monitor symptoms', 'Contact healthcare provider if concerns arise']
       )
     }
@@ -204,10 +204,10 @@ export function ConsultationPortal() {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className="max-w-6xl mx-auto w-full px-4 py-8"
               >
-                <DoctorSelection 
-                  onDoctorSelect={handleDoctorSelect} 
-                  preSelectedAgent={preSelectedAgent}
-                />
+            <DoctorSelection 
+              onSpecialistSelect={handleSpecialistSelect}
+              preSelectedAgent={preSelectedAgent}
+            />
               </motion.div>
             )}
 
@@ -220,10 +220,10 @@ export function ConsultationPortal() {
                 transition={{ duration: 0.4, ease: "easeOut" }}
                 className="h-full"
               >
-                <ChatConsultation
-                  session={currentSession}
-                  onEndConsultation={handleEndConsultation}
-                />
+            <ChatConsultation 
+              session={currentSession}
+              onEndConsultation={handleEndAnalysis}
+            />
               </motion.div>
             )}
 
@@ -237,7 +237,7 @@ export function ConsultationPortal() {
                 className="max-w-6xl mx-auto w-full px-4 py-8"
               >
                 <ConsultationHistory
-                  onStartConsultation={(session) => {
+                  onStartAnalysis={(session) => {
                     ConsultationHistoryService.saveSession(session)
                     setCurrentSession(session)
                     setShowHistory(false)

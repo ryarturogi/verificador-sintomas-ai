@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 /**
  * Healthcare Professional User Types and Roles
- * Defines the different types of healthcare professionals who will use the system
+ * Defines the different types of healthcare professionals who will use the symptom analysis system
  */
 
 // User roles in the healthcare system
@@ -93,14 +93,14 @@ export const PermissionLevel = z.enum([
   'view_analytics',
   'manage_system_settings',
   'access_ai_tools',
-  'create_consultations',
+  'create_analysis',
   'review_cases',
   'approve_treatments'
 ])
 
 export type PermissionLevel = z.infer<typeof PermissionLevel>
 
-// Role-based permissions mapping
+// Role-based permissions mapping for symptom analysis system
 export const ROLE_PERMISSIONS: Record<HealthcareRole, PermissionLevel[]> = {
   doctor: [
     'read_patients',
@@ -111,7 +111,7 @@ export const ROLE_PERMISSIONS: Record<HealthcareRole, PermissionLevel[]> = {
     'order_tests',
     'access_emergency_cases',
     'access_ai_tools',
-    'create_consultations',
+    'create_analysis',
     'review_cases',
     'approve_treatments'
   ],
@@ -123,7 +123,7 @@ export const ROLE_PERMISSIONS: Record<HealthcareRole, PermissionLevel[]> = {
     'order_tests',
     'access_emergency_cases',
     'access_ai_tools',
-    'create_consultations'
+    'create_analysis'
   ],
   medical_staff: [
     'read_patients',
@@ -139,7 +139,7 @@ export const ROLE_PERMISSIONS: Record<HealthcareRole, PermissionLevel[]> = {
     'order_tests',
     'access_emergency_cases',
     'access_ai_tools',
-    'create_consultations',
+    'create_analysis',
     'review_cases',
     'approve_treatments'
   ],

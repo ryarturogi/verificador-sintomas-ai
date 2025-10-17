@@ -44,8 +44,8 @@ export function ConsultationHistory({
     // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(consultation =>
-        consultation.doctorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        consultation.doctorSpecialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        consultation.specialistName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        consultation.specialistSpecialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
         consultation.summary?.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
@@ -61,7 +61,7 @@ export function ConsultationHistory({
         case 'date':
           return new Date(b.startTime).getTime() - new Date(a.startTime).getTime()
         case 'doctor':
-          return a.doctorName.localeCompare(b.doctorName)
+          return a.specialistName.localeCompare(b.specialistName)
         case 'status':
           return a.status.localeCompare(b.status)
         default:
@@ -281,12 +281,12 @@ export function ConsultationHistory({
                         <div className="flex items-center space-x-3 mb-2">
                           <div className="w-10 h-10 bg-cyan-100 rounded-full flex items-center justify-center">
                             <span className="text-sm font-bold text-cyan-600">
-                              {consultation.doctorName.charAt(0)}
+                              {consultation.specialistName.charAt(0)}
                             </span>
                           </div>
                           <div>
-                            <h3 className="font-semibold text-gray-900">{consultation.doctorName}</h3>
-                            <p className="text-sm text-gray-600">{consultation.doctorSpecialty}</p>
+                            <h3 className="font-semibold text-gray-900">{consultation.specialistName}</h3>
+                            <p className="text-sm text-gray-600">{consultation.specialistSpecialty}</p>
                           </div>
                         </div>
 

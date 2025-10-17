@@ -4,8 +4,8 @@ import { ChatLayout } from '@/components/layout/chat-layout'
 import { ConsultationPageClient } from './consultation-page-client'
 
 export const metadata: Metadata = {
-  title: 'Free Doctor Consultation | Consulta Gratuita con Doctor',
-  description: 'Get free consultation with doctors specializing in different medical fields | Obtén consulta gratuita con doctores especializados',
+  title: 'AI-Powered Symptom Analysis | Análisis de Síntomas con IA',
+  description: 'Get intelligent diagnostic analysis with AI specialists in different medical fields | Obtén análisis diagnóstico inteligente con especialistas de IA',
 }
 
 export default function ConsultationPage() {

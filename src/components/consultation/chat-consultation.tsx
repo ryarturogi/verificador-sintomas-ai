@@ -86,7 +86,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
     // Complete the session before ending
     ConsultationHistoryService.completeSession(
       session.id,
-      `Consultation completed with ${session.doctorName}`,
+      `Analysis completed with ${session.specialistName}`,
       ['Follow up as needed', 'Monitor symptoms', 'Contact healthcare provider if concerns arise']
     )
     onEndConsultation()
@@ -138,14 +138,14 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
     if (messages.length === 0) {
       const welcomeMessage: ConsultationMessage = {
         id: `welcome-${Date.now()}`,
-        content: getWelcomeMessage(session.doctorSpecialty),
-        sender: 'doctor',
+        content: getWelcomeMessage(session.specialistSpecialty),
+        sender: 'ai_specialist',
         timestamp: new Date(),
         isTyping: false
       }
       setMessages([welcomeMessage])
     }
-  }, [session.doctorSpecialty, messages.length, getWelcomeMessage])
+  }, [session.specialistSpecialty, messages.length, getWelcomeMessage])
 
   const getQuickActions = (specialty: string): string[] => {
     const quickActions = {
@@ -206,7 +206,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          doctorId: session.doctorId,
+          specialistId: session.specialistId,
           initialMessage: currentMessage,
           urgency: 'medium',
           medicalHistory: '',
@@ -239,7 +239,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
       const doctorMessage: ConsultationMessage = {
         id: `msg-${Date.now() + 1}`,
         content: messageContent,
-        sender: 'doctor',
+        sender: 'ai_specialist',
         timestamp: new Date(),
         isTyping: false
       }
@@ -260,8 +260,8 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
       
       const doctorMessage: ConsultationMessage = {
         id: `msg-${Date.now() + 1}`,
-        content: generateDoctorResponse(currentMessage, session.doctorSpecialty),
-        sender: 'doctor',
+        content: generateDoctorResponse(currentMessage, session.specialistSpecialty),
+        sender: 'ai_specialist',
         timestamp: new Date(),
         isTyping: false
       }
@@ -340,7 +340,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
         const newTranslations: {[key: string]: string} = {}
         
         for (const message of messages) {
-          if (message.sender === 'doctor') {
+          if (message.sender === 'ai_specialist') {
             // Check if translation already exists
             const cachedTranslation = chatTranslationService.getCachedTranslation(
               message.content,
@@ -410,8 +410,8 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-cyan-300 relative">
                 <Image 
-                  src={getDoctorAvatar(session.doctorId)} 
-                  alt={session.doctorName}
+                  src={getDoctorAvatar(session.specialistId)}
+                  alt={session.specialistName}
                   width={40}
                   height={40}
                   className="object-cover w-full h-full"
@@ -419,9 +419,9 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
                 />
               </div>
               <div>
-                <h3 className="font-semibold">{session.doctorName}</h3>
+                <h3 className="font-semibold">{session.specialistName}</h3>
                 <p className="text-sm text-cyan-100">
-                  {session.doctorSpecialty.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())} AI Agent
+                  {session.specialistSpecialty.replace('_', ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())} AI Agent
                 </p>
               </div>
             </div>
@@ -468,7 +468,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
               className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} mb-4`}
             >
               <div className={`flex items-start space-x-2 max-w-xs lg:max-w-md ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                {message.sender === 'doctor' && (
+                {message.sender === 'ai_specialist' && (
                   <motion.div 
                     className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-cyan-200 flex-shrink-0 relative"
                     initial={{ scale: 0 }}
@@ -476,8 +476,8 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
                     transition={{ duration: 0.2, delay: index * 0.1 + 0.1 }}
                   >
                     <Image 
-                      src={getDoctorAvatar(session.doctorId)} 
-                      alt={session.doctorName}
+                  src={getDoctorAvatar(session.specialistId)}
+                  alt={session.specialistName}
                       width={32}
                       height={32}
                       className="object-cover w-full h-full"
@@ -495,7 +495,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.2, delay: index * 0.1 + 0.2 }}
                 >
-                  {message.sender === 'doctor' ? (
+                  {message.sender === 'ai_specialist' ? (
                     <MarkdownRenderer 
                       content={translatedMessages[message.id] || message.content} 
                       className="text-sm leading-relaxed"
@@ -532,8 +532,8 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
                   transition={{ duration: 0.2 }}
                 >
                   <Image 
-                    src={getDoctorAvatar(session.doctorId)} 
-                    alt={session.doctorName}
+                  src={getDoctorAvatar(session.specialistId)}
+                  alt={session.specialistName}
                     width={32}
                     height={32}
                     className="object-cover w-full h-full"
@@ -597,7 +597,7 @@ export function ChatConsultation({ session, onEndConsultation }: ChatConsultatio
               {t.doctorSelection.quickActions}
             </motion.p>
             <div className="flex flex-wrap gap-2">
-              {getQuickActions(session.doctorSpecialty).map((action, index) => (
+              {getQuickActions(session.specialistSpecialty).map((action, index) => (
                 <motion.button
                   key={index}
                   initial={{ opacity: 0, scale: 0.8 }}

@@ -81,129 +81,129 @@ export function ModernHomepage() {
     }
   }, [searchQuery, selectedSymptom]);
 
-  // Agent data with specialties and personalized benefits
+  // AI Analysis data with specialties and personalized benefits
   const agentData = [
     {
-      name: "Agente General",
+      name: "Análisis General",
       specialty: language === "es" ? "Medicina General" : "General Medicine",
       description:
         language === "es"
-          ? "VitalCheck te da las herramientas e información que necesitas para cuidar tu salud con nuestro agente especializado."
-          : "VitalCheck gives you the tools and information you need to take care of your health with our specialized agent.",
+          ? "VitalCheck te proporciona análisis inteligente de síntomas y evaluación diagnóstica con nuestra IA especializada."
+          : "VitalCheck provides intelligent symptom analysis and diagnostic evaluation with our specialized AI.",
       benefits: [
         language === "es"
-          ? "Acceso 24/7 - comunícate cuando lo necesites"
-          : "24/7 access - reach out whenever you need",
+          ? "Análisis 24/7 - evalúa tus síntomas cuando lo necesites"
+          : "24/7 analysis - evaluate your symptoms whenever you need",
         language === "es"
-          ? "Elimina tiempo de viaje y problemas de programación"
-          : "Eliminate commute time and scheduling hassles",
+          ? "Elimina la incertidumbre sobre tus síntomas"
+          : "Eliminate uncertainty about your symptoms",
         language === "es"
-          ? "Planes flexibles para satisfacer tus necesidades"
-          : "Flexible plans to meet your needs and lifestyle",
+          ? "Análisis personalizado para tus necesidades específicas"
+          : "Personalized analysis for your specific needs",
         language === "es"
-          ? "Diagnósticos precisos con tecnología avanzada"
-          : "Accurate diagnostics with advanced technology",
+          ? "Diagnósticos precisos con tecnología de IA avanzada"
+          : "Accurate diagnostics with advanced AI technology",
         language === "es"
-          ? "Ahorra dinero mientras recibes atención de alta calidad"
-          : "Save money while receiving high-quality care",
+          ? "Obtén información de salud instantánea y confiable"
+          : "Get instant and reliable health insights",
       ],
     },
     {
-      name: "Agente Cardiología",
+      name: "Análisis Cardiológico",
       specialty: language === "es" ? "Cardiología" : "Cardiology",
       description:
         language === "es"
-          ? "Especialista en salud cardiovascular con tecnología de punta para el cuidado de tu corazón."
-          : "Cardiovascular health specialist with cutting-edge technology for your heart care.",
+          ? "Especialista en análisis de síntomas cardiovasculares con IA avanzada para evaluar la salud de tu corazón."
+          : "Cardiovascular symptom analysis specialist with advanced AI for evaluating your heart health.",
       benefits: [
         language === "es"
-          ? "Monitoreo cardíaco 24/7 con tecnología avanzada"
-          : "24/7 cardiac monitoring with advanced technology",
+          ? "Análisis cardíaco 24/7 con IA avanzada"
+          : "24/7 cardiac analysis with advanced AI",
         language === "es"
-          ? "Consultas virtuales especializadas"
-          : "Specialized virtual consultations",
+          ? "Análisis especializado de síntomas cardíacos"
+          : "Specialized cardiac symptom analysis",
         language === "es"
-          ? "Planes de prevención personalizados"
-          : "Personalized prevention plans",
+          ? "Evaluación de riesgo cardiovascular personalizada"
+          : "Personalized cardiovascular risk assessment",
         language === "es"
-          ? "Acceso directo a estudios cardiológicos"
-          : "Direct access to cardiac studies",
+          ? "Análisis directo de síntomas cardíacos"
+          : "Direct analysis of cardiac symptoms",
         language === "es"
-          ? "Seguimiento continuo de tu salud cardíaca"
-          : "Continuous monitoring of your cardiac health",
+          ? "Seguimiento continuo de síntomas cardíacos"
+          : "Continuous monitoring of cardiac symptoms",
       ],
     },
     {
-      name: "Agente Neurología",
+      name: "Análisis Neurológico",
       specialty: language === "es" ? "Neurología" : "Neurology",
       description:
         language === "es"
-          ? "Experto en neurología con técnicas avanzadas de diagnóstico y tratamiento neurológico."
-          : "Neurology expert with advanced neurological diagnosis and treatment techniques.",
+          ? "Experto en análisis de síntomas neurológicos con IA avanzada para evaluar el sistema nervioso."
+          : "Neurological symptom analysis expert with advanced AI for evaluating the nervous system.",
       benefits: [
         language === "es"
-          ? "Evaluaciones neurológicas con tecnología avanzada"
-          : "Advanced technology neurological evaluations",
+          ? "Análisis neurológico con IA avanzada"
+          : "Advanced AI neurological analysis",
         language === "es"
-          ? "Detección temprana de condiciones neurológicas"
-          : "Early detection of neurological conditions",
+          ? "Detección temprana de síntomas neurológicos"
+          : "Early detection of neurological symptoms",
         language === "es"
-          ? "Planes de rehabilitación personalizados"
-          : "Personalized rehabilitation plans",
+          ? "Evaluación personalizada de síntomas neurológicos"
+          : "Personalized neurological symptom evaluation",
         language === "es"
-          ? "Monitoreo cognitivo continuo"
-          : "Continuous cognitive monitoring",
+          ? "Análisis cognitivo continuo"
+          : "Continuous cognitive analysis",
         language === "es"
-          ? "Terapias neurológicas innovadoras"
-          : "Innovative neurological therapies",
+          ? "Análisis innovador de síntomas neurológicos"
+          : "Innovative neurological symptom analysis",
       ],
     },
     {
-      name: "Agente Pediatría",
+      name: "Análisis Pediátrico",
       specialty: language === "es" ? "Pediatría" : "Pediatrics",
       description:
         language === "es"
-          ? "Especialista en salud infantil con enfoque en cuidado preventivo y desarrollo saludable."
-          : "Child health specialist with focus on preventive care and healthy development.",
+          ? "Especialista en análisis de síntomas pediátricos con IA especializada para la salud infantil."
+          : "Pediatric symptom analysis specialist with AI specialized for children's health.",
       benefits: [
         language === "es"
-          ? "Seguimiento del desarrollo infantil"
-          : "Child development tracking",
+          ? "Análisis de síntomas pediátricos especializado"
+          : "Specialized pediatric symptom analysis",
         language === "es"
-          ? "Vacunación y cuidado preventivo"
-          : "Vaccination and preventive care",
+          ? "Evaluación de síntomas infantiles con IA"
+          : "AI-powered children's symptom evaluation",
         language === "es"
-          ? "Consultas familiares virtuales"
-          : "Virtual family consultations",
+          ? "Análisis familiar de síntomas"
+          : "Family symptom analysis",
         language === "es"
-          ? "Planes de crecimiento personalizados"
-          : "Personalized growth plans",
-        language === "es" ? "Apoyo para padres 24/7" : "24/7 parental support",
+          ? "Evaluación de crecimiento personalizada"
+          : "Personalized growth evaluation",
+        language === "es" ? "Análisis pediátrico 24/7" : "24/7 pediatric analysis",
       ],
     },
     {
-      name: "Agente Medicina Interna",
+      name: "Análisis de Medicina Interna",
       specialty: language === "es" ? "Medicina Interna" : "Internal Medicine",
       description:
         language === "es"
-          ? "Internista experimentado en el manejo integral de enfermedades complejas y crónicas."
-          : "Experienced internist in comprehensive management of complex and chronic diseases.",
+          ? "Especialista en análisis de síntomas complejos y crónicos con IA avanzada para medicina interna."
+          : "Complex and chronic symptom analysis specialist with advanced AI for internal medicine.",
       benefits: [
         language === "es"
-          ? "Manejo integral de enfermedades crónicas"
-          : "Comprehensive chronic disease management",
+          ? "Análisis integral de síntomas crónicos"
+          : "Comprehensive chronic symptom analysis",
         language === "es"
-          ? "Coordinación de cuidados especializados"
-          : "Specialized care coordination",
+          ? "Análisis especializado de síntomas complejos"
+          : "Specialized complex symptom analysis",
         language === "es"
-          ? "Medicina preventiva avanzada"
-          : "Advanced preventive medicine",
+          ? "Evaluación preventiva avanzada con IA"
+          : "Advanced AI preventive evaluation",
         language === "es"
-          ? "Análisis predictivo de salud"
-          : "Predictive health analytics",
+          ? "Análisis predictivo de síntomas"
+          : "Predictive symptom analytics",
         language === "es"
-          ? "Atención médica personalizada"
-          : "Personalized medical care",
+          ? "Análisis médico personalizado"
+          : "Personalized medical analysis",
       ],
     },
   ];
@@ -265,7 +265,7 @@ export function ModernHomepage() {
     setAppState("questionnaire");
   };
 
-  const handleNavigateToConsultation = (agentType?: string) => {
+  const handleNavigateToAnalysis = (agentType?: string) => {
     if (agentType) {
       router.push(`/consultation?agent=${agentType}`);
     } else {
@@ -1097,7 +1097,7 @@ export function ModernHomepage() {
                               onClick={() => {
                                 const currentAgent = agentData[selectedDoctorIndex];
                                 const agentType = currentAgent.name.toLowerCase().replace(/\s+/g, '-');
-                                handleNavigateToConsultation(agentType);
+                                handleNavigateToAnalysis(agentType);
                               }}
                               className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2.5 rounded-lg font-semibold text-sm"
                             >
@@ -1197,9 +1197,9 @@ export function ModernHomepage() {
                                     className="bg-white rounded-lg lg:rounded-xl p-3 lg:p-4 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                                     whileHover={{ y: -3 }}
                                     onClick={() => {
-                                      // Navigate to consultation with selected agent
+                                      // Navigate to analysis with selected agent
                                       const agentType = agent.name.toLowerCase().replace(/\s+/g, '-');
-                                      handleNavigateToConsultation(agentType);
+                                      handleNavigateToAnalysis(agentType);
                                     }}
                                   >
                                     <div className={`w-full h-24 lg:h-32 rounded-md lg:rounded-lg mb-2 lg:mb-3 overflow-hidden bg-gradient-to-br ${agent.color} relative flex items-center justify-center`}>
